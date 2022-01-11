@@ -153,7 +153,7 @@ def get_iso_parcel(mode, lng, lat, time):
   LIMIT 1),%s, false
 ) AS pt JOIN %s_vertices_pgr rd ON pt.node = rd.id ))
 
-      ;""" %((mode, mode, lng, lat, mode, time, mode))
+      ;""" %((mode, mode, lng, lat, mode, time, mode)))
   user = cur.fetchall()[0][0]
 
   cur.close()
