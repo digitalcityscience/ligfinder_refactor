@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <script src="https://unpkg.com/deck.gl@^8.0.0/dist.min.js"></script>
+    <script src='https://unpkg.com/three@0.106.2/build/three.min.js'></script>
+
+
+    <script src="https://unpkg.com/three@0.106.2/examples/js/controls/OrbitControls"></script>
+    <script src="https://unpkg.com/three@0.106.2/examples/js/loaders/GLTFLoader"></script>
+    <script src="https://unpkg.com/three@0.106.2/examples/js/shaders/LuminosityHighPassShader"></script>
+    <script src="https://unpkg.com/three@0.106.2/examples/js/shaders/CopyShader"></script>
+    <script src="https://unpkg.com/three@0.106.2/examples/js/shaders/AfterimageShader"></script>
+    <script src="https://unpkg.com/three@0.106.2/examples/js/postprocessing/EffectComposer"></script>
+    <script src="https://unpkg.com/three@0.106.2/examples/js/postprocessing/ShaderPass"></script>
+
+    <script src="https://unpkg.com/three@0.106.2/examples/js/postprocessing/RenderPass"></script>
+    <script src="https://unpkg.com/three@0.106.2/examples/js/postprocessing/UnrealBloomPass"></script>
+    
+    <title><%= htmlWebpackPlugin.options.title %></title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
