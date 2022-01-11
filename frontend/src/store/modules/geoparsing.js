@@ -55,6 +55,31 @@ const geoparsing = {
             if(state.switch1== false) {
                 //rootState.map.map.setLayoutProperty('hexagon2D', 'visibility', 'none');
                 console.log(state, rootState)
+                const mapLayer = rootState.map.map.getLayer('geocoded');
+                const stylelayer = rootState.map.map.getLayer('stylelayer');
+                const hexagonlayer = rootState.map.map.getLayer('hexagon');
+                const hexagonlayer2D = rootState.map.map.getLayer('hexagon2D');
+                const clustercount = rootState.map.map.getLayer('clustercount');
+                if(typeof hexagonlayer !== 'undefined'){
+                    rootState.map.map.removeLayer('hexagon')
+                }
+                if(typeof hexagonlayer2D !== 'undefined'){
+                    rootState.map.map.removeLayer('hexagon2D')
+                }
+                if(typeof mapLayer !== 'undefined'){
+                    if(typeof stylelayer !== 'undefined'){
+                        rootState.map.map.removeLayer('stylelayer')
+                    }
+                   
+                    if(typeof clustercount !== 'undefined'){
+                        rootState.map.map.removeLayer('clustercount')
+                    }
+                    
+                    
+                    rootState.map.map.removeLayer('geocoded')
+                    rootState.map.map.removeSource('geocoded')
+ 
+                }
             }
             
         },

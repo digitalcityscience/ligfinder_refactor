@@ -22,7 +22,7 @@
             <v-switch
             :label="`Geocoded Point Address`"
             @click.once="getGeocodedPoints"
-            @change="toggleLayerVisibility"
+            @change="toggleLayerVisibility(), removeStyles()"
             id="geocodelayertoggle"
             v-model="$store.state.geoparsing.switch1"
             ></v-switch>
@@ -79,6 +79,9 @@ export default {
         toggleLayerVisibility(){
            this.$store.dispatch('geoparsing/toggleLayerVisibility')
         },
+        removeStyles(){
+            this.$store.dispatch('geoparsing/removeStyles')
+        }
         
     }
 }
