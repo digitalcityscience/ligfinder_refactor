@@ -96,8 +96,8 @@ def get_isochrone_aoi():
         center = data["payload"]["center"]["coordinates"]
         lng = float(center[0])
         lat = float(center[1])
-        print(jsonify(get_iso_aoi(lng, lat, time)))
-    return json.loads(json.dumps(get_iso_aoi(lng, lat, time)))
+        mode = data["payload"]["mode"]
+    return json.loads(json.dumps(get_iso_aoi(mode, lng, lat, time)))
 
 @app.route('/get-isochrone-parcel', methods=["GET", "POST"])
 def get_isochrone_parcel():
@@ -108,8 +108,8 @@ def get_isochrone_parcel():
         center = data["payload"]["center"]["coordinates"]
         lng = float(center[0])
         lat = float(center[1])
-        print(jsonify(get_iso_parcel(lng, lat, time)))
-    return json.loads(json.dumps(get_iso_parcel(lng, lat, time)))
+        mode = data["payload"]["mode"]
+    return json.loads(json.dumps(get_iso_parcel(mode,lng, lat, time)))
 
 @app.route('/get-area-filter', methods=["GET", "POST"])
 def get_area_filter():

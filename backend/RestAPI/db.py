@@ -112,7 +112,7 @@ def get_geom_aoi(geom):
   conn.close()
   return user
 
-def get_iso_aoi(lng, lat, time):
+def get_iso_aoi(mode, lng, lat, time):
   conn = connect()
   cur = conn.cursor()
   
@@ -122,21 +122,21 @@ def get_iso_aoi(lng, lat, time):
     'features', json_agg(ST_AsGeoJSON(iso.*)::json)
     )
   from (SELECT ST_ConcaveHull(ST_Collect(the_geom), 0.6) from pgr_drivingDistance(
-        'SELECT gid AS id, source, target, cost_time AS cost FROM drive_network',
+        'SELECT gid AS id, source, target, cost_time AS cost FROM %s',
        (SELECT id
-  FROM drive_network_vertices_pgr 
-  ORDER BY st_setSRID(ST_MakePoint( %s, %s), 4326) <-> drive_network_vertices_pgr.the_geom
+  FROM %s_vertices_pgr 
+  ORDER BY st_setSRID(ST_MakePoint( %s, %s), 4326) <-> %s_vertices_pgr.the_geom
   LIMIT 1),%s, false
-) AS pt JOIN drive_network_vertices_pgr rd ON pt.node = rd.id ) as iso
+) AS pt JOIN %s_vertices_pgr rd ON pt.node = rd.id ) as iso
 
-      ;""" %(lng, lat, time))
+      ;""" %(mode, mode, lng, lat, mode, time, mode))
   user = cur.fetchall()[0][0]
 
   cur.close()
   conn.close()
   return user
 
-def get_iso_parcel(lng, lat, time):
+def get_iso_parcel(mode, lng, lat, time):
   conn = connect()
   cur = conn.cursor()
   
@@ -146,14 +146,14 @@ def get_iso_parcel(lng, lat, time):
     'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
     )
   from parcel where ST_Intersects(parcel.geom, (SELECT ST_ConcaveHull(ST_Collect(the_geom), 0.6) from pgr_drivingDistance(
-        'SELECT gid AS id, source, target, cost_time AS cost FROM drive_network',
+        'SELECT gid AS id, source, target, cost_time AS cost FROM %s',
        (SELECT id
-  FROM drive_network_vertices_pgr 
-  ORDER BY st_setSRID(ST_MakePoint( %s, %s), 4326) <-> drive_network_vertices_pgr.the_geom
+  FROM %s_vertices_pgr 
+  ORDER BY st_setSRID(ST_MakePoint( %s, %s), 4326) <-> %s_vertices_pgr.the_geom
   LIMIT 1),%s, false
-) AS pt JOIN drive_network_vertices_pgr rd ON pt.node = rd.id ))
+) AS pt JOIN %s_vertices_pgr rd ON pt.node = rd.id ))
 
-      ;""" %(lng, lat, time))
+      ;""" %((mode, mode, lng, lat, mode, time, mode))
   user = cur.fetchall()[0][0]
 
   cur.close()
