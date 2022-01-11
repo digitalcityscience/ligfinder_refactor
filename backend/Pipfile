@@ -8,6 +8,7 @@ flask = "*"
 psycopg = "*"
 psycopg2 = "*"
 flask-cors = "*"
+mapclassify = "*"
 
 [dev-packages]
 
