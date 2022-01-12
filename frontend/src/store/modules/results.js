@@ -30,6 +30,25 @@ const results = {
                     ['match', ['get', 'gid'], payload, '#FFFF00' , '#00FF00']
                   );
             })
+        },
+        exporResultsJson({rootState}){
+            let foi = null
+            for(let i=0; i<rootState.layers.addedLayers.length; i++){
+                if (rootState.layers.addedLayers[i].name === "foi"){
+                    foi = rootState.layers.addedLayers[i]
+                }
+            }
+            const blob = new Blob([JSON.stringify(foi)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const filename = "results.json"
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename || 'download';
+            a.click();
+            a.remove();
+        },
+        exporResultsCSV(){
+            console.log("export")
         }
     },
     getters:{

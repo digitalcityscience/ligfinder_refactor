@@ -13,8 +13,18 @@
                         {{i.properties[j]}}
                     </td>
                 </tr>
+                
             </tbody>
         </table>
+        <div class = "export-result-table" >
+          <button type="button" class="btn btn-outline-secondary mt-4 mb-4" @click="exporResultsJson">Export JSON
+              <i class="fas fa-cloud-download-alt"></i>
+          </button>
+          <button type="button" class="btn btn-outline-secondary mt-4 mb-4 ml-2" @click="exporResultsCSV">Export CSV
+              <i class="fas fa-cloud-download-alt"></i>
+          </button>
+        </div>
+        
     </div>
     <div v-else class="table text-center">
         <p>No Feature Selected</p>
@@ -44,6 +54,12 @@ name: "Results",
     methods:{
         zoomToSelectedFeature(gid){
             this.$store.dispatch('results/zoomToSelectedFeature', gid)
+    },
+    exporResultsJson(){
+        this.$store.dispatch('results/exporResultsJson')
+    },
+    exporResultsCSV(){
+        this.$store.dispatch('results/exporResultsCSV')
     }
 }
 }
@@ -64,6 +80,7 @@ name: "Results",
 table.dataTable tbody td {
     border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
+
 
 
 

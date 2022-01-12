@@ -78,6 +78,7 @@ export default {
         left:1.9vw;
         width: 40vw;
         height: 100vh;
+        overflow-y: scroll;
     }
     .badge-notify{
         background:green;
