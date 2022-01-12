@@ -210,6 +210,12 @@ const classification = {
             }
             
             
+        },
+        resetClassification({state, rootState}){
+            rootState.map.map.setPaintProperty(state.selectedLayer,'fill-color', "#00FF00", 'fill-opacity', 1)
+            console.log(rootState.legend.univariateToggle)
+            rootState.legend.univariateToggle =false
+            
         }
 
     },

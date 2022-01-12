@@ -137,6 +137,7 @@
             </v-row>
             <div class="mt-4" >
                 <button style="font-size: 0.8vw" class="btn btn-success" @click="classify">Classify</button>
+                <button style="font-size: 0.8vw" class="btn btn-dark ml-4" @click="resetClassification">Reset</button>
             </div>
 
         </v-container>
@@ -159,8 +160,10 @@ export default {
         classify(){
             this.$store.dispatch('classification/classify')
         },
-       
-        
+        resetClassification(){
+            this.$store.dispatch('classification/resetClassification')
+        }
+
     },
     computed:{
         addedLayersNames(){
