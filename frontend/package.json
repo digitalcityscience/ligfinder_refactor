@@ -29,6 +29,7 @@
     "maplibre-gl": "^2.0.0-pre.1",
     "roboto-fontface": "^0.10.0",
     "sass-loader": "^10.1.1",
+    "shp-write": "^0.3.2",
     "turf": "^3.0.14",
     "vue": "^2.6.11",
     "vue-router": "^3.5.3",

@@ -1,4 +1,5 @@
 import axios from "axios"
+import shpwrite from "shp-write"
 
 const results = {
     namespaced: true,
@@ -47,8 +48,33 @@ const results = {
             a.click();
             a.remove();
         },
-        exporResultsCSV(){
-            console.log("export")
+        exporResultsSHP({rootState}){
+      
+
+            let foi = null
+            for(let i=0; i<rootState.layers.addedLayers.length; i++){
+                if (rootState.layers.addedLayers[i].name === "foi"){
+                    foi = rootState.layers.addedLayers[i]
+                }
+            }
+            /*
+            convrting geom type from MultiPolygon to polygon.
+            Because the "shp-write" library does not support MultiPolygon
+            */
+            for (let i=0; i< foi["features"].length; i++){
+                foi["features"][i]["geometry"]["type"] = "Polygon"
+            }
+            
+            var options = {
+                folder: 'results',
+                types: {
+                    point: 'results',
+                    polygon: 'results',
+                    line: 'results'
+                }
+            }
+            shpwrite.download(foi, options);
+            
         }
     },
     getters:{

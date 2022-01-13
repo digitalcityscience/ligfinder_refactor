@@ -20,7 +20,7 @@
           <button type="button" class="btn btn-outline-secondary mt-4 mb-4" @click="exporResultsJson">Export JSON
               <i class="fas fa-cloud-download-alt"></i>
           </button>
-          <button type="button" class="btn btn-outline-secondary mt-4 mb-4 ml-2" @click="exporResultsCSV">Export CSV
+          <button type="button" class="btn btn-outline-secondary mt-4 mb-4 ml-2" @click="exporResultsSHP">Export SHP
               <i class="fas fa-cloud-download-alt"></i>
           </button>
         </div>
@@ -58,8 +58,8 @@ name: "Results",
     exporResultsJson(){
         this.$store.dispatch('results/exporResultsJson')
     },
-    exporResultsCSV(){
-        this.$store.dispatch('results/exporResultsCSV')
+    exporResultsSHP(){
+        this.$store.dispatch('results/exporResultsSHP')
     }
 }
 }
