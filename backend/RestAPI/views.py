@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, json, Response
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification
+from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -211,6 +211,51 @@ def classify():
             breaks.append(i)
 
         lowerbound = min(attColumn)
-        print(classes)
         
         return {'layername': data['selectedLayer'], 'lowerbound': lowerbound, 'breaks': breaks, 'attribute':data['attribute1']}
+
+@app.route('/bivariate-classify', methods=["GET", "POST"])
+def bivariate_classify():
+    data = request.get_json()
+    if data["selectedChoroplethMethod"] == "Bivariate":
+        featureIds = data['gids']
+        featureid = []
+        for gid in featureIds:
+            featureid.append(int(gid))
+        featureid= tuple(featureid)
+
+        if data['selectedLayer'] == "foi":
+            data['selectedLayer'] = "parcel"
+        
+        jsonfile = bivariate_classification(data['selectedLayer'], data['attribute1'], data['attribute2'], featureid)
+        att1 = []
+        att2 = []
+        for f in jsonfile[0][0]["features"]:
+            att1.append(f["f1"])
+            att2.append(f["f2"])
+        
+        classificationMethod = data['selectedClassificationMethod']
+        breaks1 = []
+        classes1 = []
+        breaks2 = []
+        classes2 = []
+
+        if classificationMethod == "Quantiles":
+            classes1 = mapclassify.Quantiles(att1, k=3).bins
+            classes2 = mapclassify.Quantiles(att2, k=3).bins
+        elif classificationMethod == "NaturalBreaks":
+            classes1 = mapclassify.NaturalBreaks(att1, k=3).bins
+            classes2 = mapclassify.NaturalBreaks(att2, k=3).bins
+        elif classificationMethod == "JenksCaspall":
+            classes1 = mapclassify.JenksCaspall(att1, k=3).bins
+            classes2 = mapclassify.JenksCaspall(att2, k=3).bins
+        elif classificationMethod == "EqualInterval":
+            classes1 = mapclassify.EqualInterval(att1, k=3).bins
+            classes2 = mapclassify.EqualInterval(att2, k=3).bins
+
+        for i in classes1:
+            breaks1.append(i)
+
+        for i in classes2:
+            breaks2.append(i)
+        return {'layername': data['selectedLayer'],'breaks1': breaks1, 'breaks2': breaks2, 'attribute1':data['attribute1'], 'attribute2':data['attribute2']}

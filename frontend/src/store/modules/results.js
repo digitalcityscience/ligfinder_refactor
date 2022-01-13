@@ -27,9 +27,9 @@ const results = {
                 });
                 rootState.map.map.setPaintProperty(
                     'foi', 
-                    'fill-color', 
-                    ['match', ['get', 'gid'], payload, '#FFFF00' , '#00FF00']
-                  );
+                    'fill-outline-color', 
+                    ['match', ['get', 'gid'], payload, '#FFFF00' , '#000000']
+                );
             })
         },
         exporResultsJson({rootState}){

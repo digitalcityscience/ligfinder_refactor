@@ -78,21 +78,35 @@ const classification = {
             )
 
             if (state.selectedChoroplethMethod === "Bivariate"){
+                axios
+                .post('http://localhost:3000/bivariate-classify', {
+                    selectedLayer: state.selectedLayer,
+                    selectedChoroplethMethod: state.selectedChoroplethMethod,
+                    attribute1: state.attribute1,
+                    attribute2: state.attribute2,
+                    selectedClassificationMethod: state.selectedClassificationMethod,
+                    selectedClass: state.selectedClass,
+                    gids: state.gids
+                })
+                .then(response => {
+                    console.log(response.data)
+                    rootState.legend.bivariateToggle =true
+                    rootState.legend.univariateToggle =false
+                })
                 const palette1 = [colorMixer(hexToRgb(state.color1), [255,255,255], 0.33), colorMixer(hexToRgb(state.color1), [255,255,255], 0.66), colorMixer(hexToRgb(state.color1), [255,255,255], 1)]
                 const palette2 = [colorMixer(hexToRgb(state.color2), [255,255,255], 0.33), colorMixer(hexToRgb(state.color2), [255,255,255], 0.66), colorMixer(hexToRgb(state.color2), [255,255,255], 1)]
                 const bivariatePalette = {
                     'class00': colorMixer(palette1[0], palette2[0], 0.5),
-                    'class10': colorMixer(palette1[0], palette2[1], 0.5),
-                    'class20': colorMixer(palette1[0], palette2[2], 0.5),
-                    'class01': colorMixer(palette1[1], palette2[0], 0.5),
+                    'class10': colorMixer(palette1[1], palette2[0], 0.5),
+                    'class20': colorMixer(palette1[2], palette2[0], 0.5),
+                    'class01': colorMixer(palette1[0], palette2[1], 0.5),
                     'class11': colorMixer(palette1[1], palette2[1], 0.5),
-                    'class21': colorMixer(palette1[1], palette2[2], 0.5),
-                    'class02': colorMixer(palette1[2], palette2[0], 0.5),
-                    'class12': colorMixer(palette1[2], palette2[1], 0.5),
+                    'class21': colorMixer(palette1[2], palette2[1], 0.5),
+                    'class02': colorMixer(palette1[0], palette2[2], 0.5),
+                    'class12': colorMixer(palette1[1], palette2[2], 0.5),
                     'class22': colorMixer(palette1[2], palette2[2], 0.5),
                 }
                 rootState.legend.bivariatePalette = bivariatePalette
-                rootState.legend.bivariateToggle =true
                 
               
                 let legend = document.getElementsByClassName('bivariatelegend')
@@ -101,7 +115,6 @@ const classification = {
                     old_table.remove()
                 }
 
-                console.log('rgb('+ bivariatePalette['class00'][0].toString() + bivariatePalette['class00'][1].toString()+ bivariatePalette['class00'][2].toString()+')')
                 let table = document.createElement('table');
                 table.id = "bivariatetable";
                 let tbody = document.createElement('tbody');

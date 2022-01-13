@@ -77,7 +77,7 @@
         </v-card-text>
 
         <div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-success" @click="areaFilter">Suche Starten</button>
+                <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">Suche Starten</button>
         </div>
             
         </div>

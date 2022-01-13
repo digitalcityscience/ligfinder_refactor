@@ -136,8 +136,8 @@
                 
             </v-row>
             <div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-success" @click="classify">Classify</button>
-                <button style="font-size: 0.8vw" class="btn btn-dark ml-4" @click="resetClassification">Reset</button>
+                <button style="font-size: 0.8vw" class="btn btn-info" @click="classify">Classify</button>
+                <button style="font-size: 0.8vw" class="btn btn-secondary ml-4" @click="resetClassification">Reset</button>
             </div>
 
         </v-container>

@@ -305,3 +305,19 @@ def classification(table, att, table1, gid):
   cur.close()
   conn.close()
   return user
+
+def bivariate_classification(table, att1,  att2, gid):
+  conn = connect()
+  cur = conn.cursor()
+  
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg((%s.%s, %s.%s ))
+    )
+  from %s where gid in %s
+      ;""" %(table,att1,table, att2,table, gid))
+  user = cur.fetchall()
+  cur.close()
+  conn.close()
+  return user

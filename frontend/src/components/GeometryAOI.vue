@@ -8,8 +8,8 @@
          
             </select>
             <div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-success" @click="getSelectedFeatures">Suche Starten</button>
-                <button  style="font-size: 0.8vw" class="btn btn-danger mx-3" >Filter Zurücksetzen </button>
+                <button style="font-size: 0.8vw" class="btn btn-info" @click="getSelectedFeatures">Suche Starten</button>
+                <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" >Filter Zurücksetzen </button>
             </div>
             
         </div>
