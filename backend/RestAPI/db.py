@@ -297,7 +297,7 @@ def classification(table, att, table1, gid):
   cur.execute("""
   select json_build_object(
     'type', 'FeatureCollection',
-    'features', json_agg((%s.%s))
+    'features', json_agg((%s."%s"))
     )
   from %s where gid in %s
       ;""" %(table,att,table1,gid))

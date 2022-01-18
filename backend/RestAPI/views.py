@@ -195,6 +195,7 @@ def classify():
             data['selectedLayer'] = "parcel"
         jsonfile = classification(data['selectedLayer'], data['attribute1'], data['selectedLayer'], featureid)
         attColumn = jsonfile[0][0]['features']
+        attColumn = [i for i in attColumn if i != None]
         classificationMethod = data['selectedClassificationMethod']
         breaks = []
         classes = []

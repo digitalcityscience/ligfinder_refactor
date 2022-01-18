@@ -167,7 +167,8 @@ const classification = {
                     rootState.map.map.setPaintProperty(state.selectedLayer,'fill-color', {
                         property: response.data.attribute,
                         type: 'interval',
-                        stops:  automatedstyle()
+                        stops:  automatedstyle(),
+                        default: "#abaeb3" // for null values
     
                     })
                     rootState.legend.attribute = state.attribute1
