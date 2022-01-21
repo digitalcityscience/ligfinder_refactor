@@ -138,6 +138,7 @@ const administrativeAOI = {
         
         getSelectedFeatures({state, rootState}){
             state.selectedFeatures = [...new Map(state.selectedFeatures.map((x) => [x["id"], x])).values()]
+            rootState.map.isLoading = true
             axios
             .post('http://localhost:3000/get-selected-features', {
                 selectedFeatures : state.selectedFeatures,
@@ -175,6 +176,7 @@ const administrativeAOI = {
                 
                 // to remove the AOI Layer (area of interest)
                 rootState.map.map.addLayer(layerName)
+                rootState.map.isLoading = false
                 for(let i=0; i<state.selectedFeatures.length; i++){
                     const mapLayer = rootState.map.map.getLayer(state.selectedFeatures[i].id);
                     if(typeof mapLayer !== 'undefined'){

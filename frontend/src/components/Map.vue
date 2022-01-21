@@ -1,5 +1,8 @@
 <template>
   <div class="map-container" ref="myMap">
+    <div  class='spinner' v-if='$store.state.map.isLoading'>
+        <img src= '../assets/4.gif'  :disabled='$store.state.map.isLoading' style = "position: absolute; margin:0 auto; left:50%; top: 50%;margin-top: -32px; transform: translate(0, -50%); z-index: 999; width: 64px; height: 64px">
+    </div>
     <div class="placeholder"  id="map">
        <MouseCoordinate />
        <Panel />

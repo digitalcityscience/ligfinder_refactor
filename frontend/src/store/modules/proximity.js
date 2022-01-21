@@ -20,7 +20,8 @@ const proximity = {
             let parcelGid = []
             for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
                 parcelGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
-              }
+            }
+            rootState.map.isLoading = true
             axios
             .post('http://localhost:3000/get-proximity-analysis-result', {
                 foi: parcelGid
@@ -40,7 +41,6 @@ const proximity = {
                 rootState.layers.addedLayers.push(response.data.data)
                 console.log(rootState.layers.addedLayers)
 
-                //console.log(response.data.data, response.data.lowerbound)
                 const lowerbound = response.data.lowerbound
                 const breaks = response.data.breaks
                 rootState.ligfinder.FOI = response.data.data
@@ -63,7 +63,6 @@ const proximity = {
                     
                 };
                 
-                // to remove the AOI Layer (area of interest)
                 rootState.map.map.addLayer(layerName)
                 rootState.map.map.setPaintProperty('foi','fill-color', {
                     property: 'total_score',
@@ -78,7 +77,7 @@ const proximity = {
 
                 })
 
-
+                rootState.map.isLoading = false
             })
         }
     },

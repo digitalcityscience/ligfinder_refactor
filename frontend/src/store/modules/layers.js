@@ -28,12 +28,9 @@ const layers = {
                 style= Object.assign({},{'type': 'fill','fillColor': '#00FF00', 'fillOutlineColor': '#000000', "fillopacity": 1 })
 
             }
-            //for(let i=0; i<payload.length; i++){
                 
-                Vue.set(state,payload.name+"Style", style)
-            //}
-            //Vue.set(state,payload+"Style", style)
-            console.log(state, payload)
+            Vue.set(state,payload.name+"Style", style)
+           
         },
        
     },
@@ -52,13 +49,12 @@ const layers = {
         },
         addTable({state,  rootState, commit}, payload){
             const clickedTableName = payload.name;
+            rootState.map.isLoading = true
             axios
             .post('http://localhost:3000/add-table', {
                 tablename : clickedTableName
             })
             .then(response => {
-                //console.log(response.data.features[0].geometry.type)
-                console.log(response.data)
                 commit('initLayerStyle', response.data)
                 let layerName = response.data.name
                 rootState.map.map.addSource(response.data.name,{'type': 'geojson', 'data': response.data});
@@ -104,6 +100,7 @@ const layers = {
                 }
                 
                 rootState.map.map.addLayer(layerName)
+                rootState.map.isLoading = false
                 state.addedLayers.push(response.data)
                 console.log(state.addedLayers)
                 rootState.map.map.fitBounds([
@@ -114,8 +111,9 @@ const layers = {
                 });
                 
                 state.addedTableNames.push(layerName)
-               
+                
             })
+            
 
         },
         zoomToTable({rootState, state}, payload){

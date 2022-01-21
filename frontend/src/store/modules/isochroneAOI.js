@@ -35,8 +35,8 @@ const isochroneAOI = {
                 
             })
         },
-        getIsochrone({state, rootState}, payload){
-            console.log(state, payload)
+        getIsochrone({rootState}, payload){
+            rootState.map.isLoading = true
             axios
             .post('http://localhost:3000/get-isochrone-aoi', {
                 payload
@@ -62,6 +62,7 @@ const isochroneAOI = {
                     
                 };
                 rootState.map.map.addLayer(layerName)
+                rootState.map.isLoading = false
             })
         },
         getParcels({state, rootState}, payload){
@@ -72,7 +73,7 @@ const isochroneAOI = {
                 rootState.map.map.removeLayer("isochrone")
                 rootState.map.map.removeSource("isochrone")
             }
-            console.log(state, payload)
+            rootState.map.isLoading = true
             axios
             .post('http://localhost:3000/get-isochrone-parcel', {
                 payload
@@ -127,6 +128,7 @@ const isochroneAOI = {
                 
                 // to remove the AOI Layer (area of interest)
                 rootState.map.map.addLayer(layerName)
+                rootState.map.isLoading = false
             })
             .finally(() => {
                 rootState.ligfinder.FOIGid = []
