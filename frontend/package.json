@@ -19,6 +19,7 @@
     "@mdi/font": "^6.5.95",
     "@turf/transform-rotate": "^6.5.0",
     "axios": "^0.24.0",
+    "cache-loader": "^4.1.0",
     "colorbrewer": "^1.5.1",
     "core-js": "^3.6.4",
     "d3": "^7.2.1",
@@ -28,13 +29,13 @@
     "jquery-mobile": "^1.5.0-alpha.1",
     "maplibre-gl": "^2.0.0-pre.1",
     "roboto-fontface": "^0.10.0",
-    "sass-loader": "^12.4.0",
+    "sass-loader": "^10",
     "shp-write": "^0.3.2",
     "turf": "^3.0.14",
     "vue": "^2.6.14",
     "vue-router": "^3.5.3",
     "vuetify": "^2.6.2",
-    "vuetify-loader": "^1.7.3",
+    "vuetify-loader": "^1.6.0",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -42,12 +43,13 @@
     "@vue/cli-plugin-eslint": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.7.0",
-    "eslint-plugin-vue": "^8.3.0",
-    "node-sass": "^7.0.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.1.2",
+    "node-sass": "^6.0.0",
     "sass": "^1.44.0",
     "vue-cli-plugin-vuetify": "^2.4.5",
-    "vue-template-compiler": "^2.6.14"
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^4"
   },
   "eslintConfig": {
     "root": true,
