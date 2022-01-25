@@ -1,7 +1,7 @@
 import psycopg2
 
 def connect():
-  c = psycopg2.connect("host=database port=5433 dbname=ligfinder user=postgres password=1234")
+  c = psycopg2.connect("host=database port=5432 dbname=ligfinder user=postgres password=1234")
   return c
 
 def get_buildings(gid):
