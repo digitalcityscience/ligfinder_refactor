@@ -1,7 +1,7 @@
 //import maplibregl from 'maplibre-gl'
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 const geometryAOI = {
     namespaced: true,
     state: {
@@ -39,8 +39,8 @@ const geometryAOI = {
             state.draw= null
             //console.log(state.draw, "ff" )
             rootState.map.isLoading = true
-            axios
-            .post('http://localhost:3000/get-geometry-aoi', {
+            HTTP
+            .post('get-geometry-aoi', {
                 data : state.AOI
             })
             .then(response => {

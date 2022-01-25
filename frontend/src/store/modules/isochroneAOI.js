@@ -1,6 +1,6 @@
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 
 const isochroneAOI = {
     namespaced: true,
@@ -37,8 +37,8 @@ const isochroneAOI = {
         },
         getIsochrone({rootState}, payload){
             rootState.map.isLoading = true
-            axios
-            .post('http://localhost:3000/get-isochrone-aoi', {
+            HTTP
+            .post('get-isochrone-aoi', {
                 payload
             })
             .then(response => {
@@ -74,8 +74,8 @@ const isochroneAOI = {
                 rootState.map.map.removeSource("isochrone")
             }
             rootState.map.isLoading = true
-            axios
-            .post('http://localhost:3000/get-isochrone-parcel', {
+            HTTP
+            .post('get-isochrone-parcel', {
                 payload
             })
             .then(response => {

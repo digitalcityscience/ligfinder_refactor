@@ -1,5 +1,4 @@
-
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 import {HexagonLayer} from '@deck.gl/aggregation-layers';
 import {MapboxLayer} from '@deck.gl/mapbox';
 import maplibregl from 'maplibre-gl'
@@ -20,8 +19,8 @@ const geoparsing = {
     },
     actions:{
         getGeocodedPoints({state, rootState}){
-            axios
-            .get('http://localhost:3000/get-geocoded-points')
+            HTTP
+            .get('get-geocoded-points')
             .then(response => {
                 state.geocodedData = response.data
                 rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});

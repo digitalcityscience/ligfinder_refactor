@@ -1,5 +1,4 @@
-import axios from "axios"
-
+import { HTTP } from '../../utils/http-common';
 const area = {
     namespaced: true,
     state:{
@@ -14,8 +13,8 @@ const area = {
     actions:{
         areaFilter({state, rootState}){
             console.log(rootState.ligfinder.FOIGid)
-            axios
-            .post('http://localhost:3000/get-area-filter', {
+            HTTP
+            .post('get-area-filter', {
                 featureIds : rootState.ligfinder.FOIGid,
                 areaRange: state.areaRange,
                 grossFloorAreaRange: state.grossFloorAreaRange,

@@ -1,4 +1,4 @@
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 import colorbrewer from "colorbrewer"
 const proximity = {
     namespaced: true,
@@ -22,8 +22,8 @@ const proximity = {
                 parcelGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
             }
             rootState.map.isLoading = true
-            axios
-            .post('http://localhost:3000/get-proximity-analysis-result', {
+            HTTP
+            .post('get-proximity-analysis-result', {
                 foi: parcelGid
             })
             .then(response => {

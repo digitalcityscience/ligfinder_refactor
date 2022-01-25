@@ -1,4 +1,4 @@
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 import Vue from 'vue'
 const layers = {
     namespaced: true,
@@ -39,8 +39,8 @@ const layers = {
             if (state.toggle==true){   /* 
                                                     to avoid sending get request when closing the panel
                                                     */
-                axios
-                .get('http://localhost:3000/table-names')
+                HTTP
+                .get('table-names')
                 .then(response => {
                     commit('setTableNames', response.data)
                     
@@ -50,11 +50,12 @@ const layers = {
         addTable({state,  rootState, commit}, payload){
             const clickedTableName = payload.name;
             rootState.map.isLoading = true
-            axios
-            .post('http://localhost:3000/add-table', {
+            HTTP
+            .post('add-table', {
                 tablename : clickedTableName
             })
             .then(response => {
+                console.log(response.data)
                 commit('initLayerStyle', response.data)
                 let layerName = response.data.name
                 rootState.map.map.addSource(response.data.name,{'type': 'geojson', 'data': response.data});

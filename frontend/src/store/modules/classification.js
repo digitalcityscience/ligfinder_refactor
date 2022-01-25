@@ -1,4 +1,4 @@
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 import colorbrewer from "colorbrewer"
 import colorMixer from "../../utils/colorMixer.js"
 import hexToRgb from "../../utils/colorConversion.js"
@@ -78,8 +78,8 @@ const classification = {
             )
 
             if (state.selectedChoroplethMethod === "Bivariate"){
-                axios
-                .post('http://localhost:3000/bivariate-classify', {
+                HTTP
+                .post('bivariate-classify', {
                     selectedLayer: state.selectedLayer,
                     selectedChoroplethMethod: state.selectedChoroplethMethod,
                     attribute1: state.attribute1,
@@ -143,8 +143,8 @@ const classification = {
 
             }
             else if (state.selectedChoroplethMethod === "Univariate"){
-                axios
-                .post('http://localhost:3000/classify', {
+                HTTP
+                .post('classify', {
                     selectedLayer: state.selectedLayer,
                     selectedChoroplethMethod: state.selectedChoroplethMethod,
                     attribute1: state.attribute1,

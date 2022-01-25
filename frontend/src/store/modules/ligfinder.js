@@ -1,4 +1,4 @@
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 import maplibregl from 'maplibre-gl'
 import {MapboxLayer} from '@deck.gl/mapbox';
 //import {Deck} from '@deck.gl/core';
@@ -24,8 +24,8 @@ const ligfinder = {
             for(let i =0; i< state.FOI.features.length; i++){
                 parcelGid.push(state.FOI.features[i].properties.gid)
               }
-            axios
-            .post('http://localhost:3000/get-buildings', {
+            HTTP
+            .post('get-buildings', {
                 foi: parcelGid
             })
             .then(response => {
