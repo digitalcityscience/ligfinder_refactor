@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - 3000:3000
+  database:
+    image: pgrouting/pgrouting
+    container_name: db_ligfinder
+    volumes:
+      - ./database/dumps:/var/lib/postgresql/dumps
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=ligfinder
+  frontend:
+    container_name: frontend_ligfinder
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080

@@ -1,10 +1,13 @@
-FROM python:3.9.9-alpine
+FROM python:3.9
 
-WORKDIR /usr/src/app
+WORKDIR /backend
 
-COPY . .
+COPY requirements.txt .
 
-RUN pip install Pipfile
+RUN pip install -r requirements.txt
 
-EXPOSE 3000
-CMD [ "python", "./runserver.py"]
+COPY ./RestAPI ./RestAPI
+
+COPY runserver.py .
+
+CMD ["python", "./runserver.py"]

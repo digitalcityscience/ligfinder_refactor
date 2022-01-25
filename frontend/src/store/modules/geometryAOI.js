@@ -38,6 +38,7 @@ const geometryAOI = {
             rootState.map.map.removeControl(state.draw);
             state.draw= null
             //console.log(state.draw, "ff" )
+            rootState.map.isLoading = true
             axios
             .post('http://localhost:3000/get-geometry-aoi', {
                 data : state.AOI
@@ -74,6 +75,7 @@ const geometryAOI = {
                 
                 // to remove the AOI Layer (area of interest)
                 rootState.map.map.addLayer(layerName)
+                rootState.map.isLoading = false
             })
             .finally(() => {
                 rootState.ligfinder.FOIGid = []

@@ -7,7 +7,8 @@ const map=  {
         initialZoom:9,
         maxZoom: 19,
         minZoom: 1,
-        preserveDrawingBuffer: true
+        preserveDrawingBuffer: true,
+        isLoading: false
     },
     mutations:{
 

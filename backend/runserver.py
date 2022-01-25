@@ -3,7 +3,7 @@ from RestAPI import app    # Imports the code from RestAPI/__init__.py
 
 
 if __name__ == '__main__':
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
+    HOST = os.environ.get('SERVER_HOST', '0.0.0.0')
 
     try:
         PORT = int(os.environ.get('SERVER_PORT', '3000'))
