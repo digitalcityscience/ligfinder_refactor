@@ -64,19 +64,17 @@ export default {
       maxZoom: this.$store.state.map.maxZoom,
       minZoom: this.$store.state.map.minZoom
     });
-     
+
+    // Add zoom and rotation controls to the map.
+    const zoomControl = new maplibregl.NavigationControl()
+    this.$store.state.map.map.addControl(zoomControl);
+
     this.$store.state.map.map.on('load', () => {
       
         this.$store.state.map.map.on('click', 'geocoded', (e) => {
             this.$store.dispatch('geoparsing/showAttribute', e)
 
         })
-        /*const a = document.createElement('a');
-        a.href = this.$store.state.map.map.getCanvas().toDataURL();
-        a.download = 'map.pdf';
-        document.body.appendChild(a);
-        a.click();*/
-
       
     });
 

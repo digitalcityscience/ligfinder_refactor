@@ -1,4 +1,4 @@
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 //import maplibregl from 'maplibre-gl'
 const administrativeAOI = {
     namespaced: true,
@@ -14,8 +14,8 @@ const administrativeAOI = {
     },
     actions:{
         getAdminArea({state,  rootState}, payload){
-            axios
-            .post('http://localhost:3000/add-table', {
+            HTTP
+            .post('add-table', {
                 tablename : payload
             })
             .then(response => {
@@ -71,8 +71,8 @@ const administrativeAOI = {
                     
                     const tablename = e.features[0].layer.id
                     featureid = e.features[0].properties.gid
-                    axios
-                    .post('http://localhost:3000/add-feature', {
+                    HTTP
+                    .post('add-feature', {
                         tablename : tablename,
                         featureid: featureid
                     })
@@ -139,8 +139,8 @@ const administrativeAOI = {
         getSelectedFeatures({state, rootState}){
             state.selectedFeatures = [...new Map(state.selectedFeatures.map((x) => [x["id"], x])).values()]
             rootState.map.isLoading = true
-            axios
-            .post('http://localhost:3000/get-selected-features', {
+            HTTP
+            .post('get-selected-features', {
                 selectedFeatures : state.selectedFeatures,
             })
             .then(response => {
@@ -197,8 +197,8 @@ const administrativeAOI = {
         },
        
         getBuildings({rootState}){
-            axios
-            .post('http://localhost:3000/get-buildings', {
+            HTTP
+            .post('get-buildings', {
                 buildingtoggle : rootState.AOI.buildingSwitch,
                 foi: rootState.ligfinder.FOIGid
             })

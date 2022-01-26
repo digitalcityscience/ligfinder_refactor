@@ -1,4 +1,4 @@
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 import Vue from 'vue'
 const database = {
     namespaced: true,
@@ -32,16 +32,14 @@ const database = {
         setAddedTableName(state, payload){
             state.addedTableNames.push(payload);
         },
-        
-       
     },
     actions:{
         getTableNames({commit, state}){
             if (state.toggle==true){   /* 
                                                     to avoid sending get request when closing the panel
                                                     */
-                axios
-                .get('http://localhost:3000/table-names')
+                HTTP
+                .get('table-names')
                 .then(response => {
                     commit('setTableNames', response.data)
                 })
@@ -50,8 +48,8 @@ const database = {
         addTable({commit,state, rootState}, payload){
             const clickedTableName = payload.name;
             
-            axios
-            .post('http://localhost:3000/add-table', {
+            HTTP
+            .post('add-table', {
                 tablename : clickedTableName
             })
             

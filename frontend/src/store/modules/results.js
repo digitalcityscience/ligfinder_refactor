@@ -1,4 +1,4 @@
-import axios from "axios"
+import { HTTP } from '../../utils/http-common';
 import shpwrite from "shp-write"
 
 const results = {
@@ -13,8 +13,8 @@ const results = {
     actions:{
         zoomToSelectedFeature({rootState, state}, payload){
             console.log(state, payload)
-            axios
-            .post('http://localhost:3000/get-selected-feature-bound', {
+            HTTP
+            .post('get-selected-feature-bound', {
                 featureGid : payload
             })
             .then(response => {

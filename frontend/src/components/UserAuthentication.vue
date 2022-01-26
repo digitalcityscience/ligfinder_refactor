@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { HTTP } from '../utils/http-common';
 export default {
   name: "UserAuthentication",
   data(){
@@ -48,7 +48,7 @@ export default {
         username: this.loginForm.username,
         password: this.loginForm.password,
       };
-      axios.post('http://localhost:3000/login', payload)
+      HTTP.post('login', payload)
       
         .then((res) => {
           this.$store.commit('userAuthentication/userValidation', res.data.isUser)
