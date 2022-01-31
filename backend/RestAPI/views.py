@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, json, Response
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification
+from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -171,6 +171,28 @@ def get_proximity_analysis():
         featureid= tuple(featureid)
         scores =[]
         data = proximity_analysis(featureid)
+        for i in data['features']:
+            scores.append(i['properties']['total_score'])
+        #print(scores)
+        print(mapclassify.Quantiles(scores, k=5))
+        classes = mapclassify.Quantiles(scores , k=5).bins
+        breaks = []
+        for i in classes:
+            breaks.append(i)
+        lowerbound = min(scores)
+    return {'data': data, 'lowerbound': lowerbound, 'breaks': breaks}
+
+@app.route('/get-proximity-scoring-result', methods=["GET", "POST"])
+def get_proximity_score():
+    if request.method=='POST':
+        data = request.get_json()
+        featureIds = data['foi']
+        featureid = []
+        for gid in featureIds:
+            featureid.append(int(gid))
+        featureid= tuple(featureid)
+        scores =[]
+        data = proximity_scoring(featureid)
         for i in data['features']:
             scores.append(i['properties']['total_score'])
         #print(scores)
