@@ -3,11 +3,9 @@ FROM python:3.9
 WORKDIR /backend
 
 COPY requirements*.txt ./
-
 RUN pip install -r requirements.prod.txt
 
 COPY ./RestAPI ./RestAPI
-
 COPY runserver.py .
 
 EXPOSE 3000
