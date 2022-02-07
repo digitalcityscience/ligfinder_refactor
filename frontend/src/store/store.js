@@ -18,6 +18,7 @@ import geoparsing from './modules/geoparsing'
 import proximity from './modules/proximity'
 import classification from './modules/classification'
 import legend from './modules/legend'
+import criteria from './modules/criteria'
 
 Vue.use(Vuex);
 
@@ -40,7 +41,8 @@ const store = new Vuex.Store({
         geoparsing,
         proximity,
         classification,
-        legend
+        legend,
+        criteria
     }
 
 })

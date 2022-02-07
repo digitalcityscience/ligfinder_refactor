@@ -17,7 +17,7 @@
             <button id="area" class="btn" @click="setClickedMenu($event);">
                 FLÄCHE
             </button>
-            <button  class="btn ">
+            <button id="criteria" class="btn" @click="setClickedMenu($event)">
                 KRITERIEN
             </button>
             <button id="proximity" class="btn" @click="setClickedMenu($event)">
@@ -32,6 +32,7 @@
             <AOI v-if="clickedLigMenue==='aoi'" />
             <Results v-if="clickedLigMenue==='results'" />
             <Area v-if="clickedLigMenue==='area'" />
+            <Criteria v-if="clickedLigMenue==='criteria'" />
             <Proximity v-if="clickedLigMenue==='proximity'" />
            
         </div>
@@ -44,6 +45,7 @@
 import AOI from "./AOI"
 import Results from "./Results"
 import Area from "./Area"
+import Criteria from "./Criteria"
 import Proximity from "./Proximity"
 export default {
     name: "Ligfinder",
@@ -64,6 +66,7 @@ export default {
         AOI,
         Results,
         Area,
+        Criteria,
         Proximity
     }
 }
