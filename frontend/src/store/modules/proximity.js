@@ -23,7 +23,7 @@ const proximity = {
             }
             rootState.map.isLoading = true
             HTTP
-            .post('get-proximity-analysis-result', {
+            .post('get-proximity-scoring-result', {
                 foi: parcelGid
             })
             .then(response => {

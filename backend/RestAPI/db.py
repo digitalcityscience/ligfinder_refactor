@@ -290,6 +290,40 @@ def proximity_analysis(gid):
   conn.close()
   return points
 
+def proximity_scoring(gid):
+  conn = connect()
+  cur = conn.cursor()
+  
+  cur.execute("""
+     
+      UPDATE parcel w
+            SET total_score = ((1-(1.00 * (w.sm_dist - x.Min_sm_dist) / x.sm_dist_Range))*0.5) + ((1-(1.00 * (w.ms_dist - x.Min_ms_dist) / x.ms_dist_Range))*0.5),
+            sm_score = (1-(1.00 * (w.sm_dist - x.Min_sm_dist) / x.sm_dist_Range)),
+            ms_score = (1-(1.00 * (w.ms_dist - x.Min_ms_dist) / x.ms_dist_Range))
+        FROM
+            (
+                SELECT sm_dist, gid, ms_dist,
+                    min(sm_dist) OVER () AS Min_sm_dist,
+                    max(sm_dist) OVER () - min(sm_dist) OVER () AS sm_dist_Range,
+                    min(ms_dist) OVER () AS Min_ms_dist,
+                    max(ms_dist) OVER () - min(ms_dist) OVER () AS ms_dist_Range
+
+                FROM parcel where gid in %s
+            ) x 
+        where w.gid=x.gid;
+      select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
+    )
+  from parcel where gid in %s
+  ;""" %(gid,gid))
+  points = cur.fetchall()[0][0]
+
+  # apply changes to the database
+  conn.commit()
+  conn.close()
+  return points
+
 def classification(table, att, table1, gid):
   conn = connect()
   cur = conn.cursor()
