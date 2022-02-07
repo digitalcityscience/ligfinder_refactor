@@ -1,8 +1,22 @@
 import psycopg2
 
+from os import getenv
+
+dbConfig = {
+    'host': getenv('DB_HOST', 'database'),
+    'port': getenv('DB_PORT', 5432),
+    'dbname': getenv('DB_NAME', 'ligfinder'),
+    'user': getenv('DB_USER', 'postgres'),
+    'password': getenv('DB_PASSWORD', 'postgres')
+}
+
 def connect():
-  c = psycopg2.connect("host=database port=5432 dbname=ligfinder user=postgres password=1234")
-  return c
+  return psycopg2.connect(
+    host=dbConfig['host'],
+    port=dbConfig['port'], 
+    dbname=dbConfig['dbname'], 
+    user=dbConfig['user'], 
+    password=dbConfig['password'])
 
 def get_buildings(gid):
   conn = connect()

@@ -2,6 +2,10 @@ version: '3.0'
 services:
   backend:
     build: ./backend
+    environment:
+      - DB_PASSWORD=XXX_POSTGRES_PASSWORD_XXX
+      - DB_HOST=database
+      - DB_NAME=ligfinder
   database:
     image: pgrouting/pgrouting
     container_name: db_ligfinder
@@ -10,7 +14,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_PASSWORD=XXX_POSTGRES_PASSWORD_XXX
       - POSTGRES_DB=ligfinder
   frontend:
     container_name: frontend_ligfinder
