@@ -355,3 +355,19 @@ def bivariate_classification(table, att1,  att2, gid):
   cur.close()
   conn.close()
   return user
+
+def criterial_filter(gid,att):
+  conn = connect()
+  cur = conn.cursor()
+  
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
+    )
+  from parcel where gid in %s %s 
+      ;""" %(gid, att))
+  user = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return user

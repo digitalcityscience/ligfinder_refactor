@@ -26,13 +26,6 @@ const administrativeAOI = {
                     rootState.map.map.removeSource(state.currentAdminArea)
                     rootState.map.map.removeSource(state.currentAdminArea+"line")
                 }
-                // in order to just have one administrative layer in the map
-                /*if (state.currentAdminArea){
-                    rootState.map.map.removeLayer(state.currentAdminArea)
-                    rootState.map.map.removeLayer(state.currentAdminArea+"line")
-                    rootState.map.map.removeSource(state.currentAdminArea)
-                    rootState.map.map.removeSource(state.currentAdminArea+"line")
-                }*/
                
                 rootState.map.map.addSource(response.data.name,{'type': 'geojson', 'data': response.data});
                 rootState.map.map.addSource(response.data.name+"line",{'type': 'geojson', 'data': response.data});
@@ -105,7 +98,7 @@ const administrativeAOI = {
                             
                     })
                     .finally(() => {
-                       
+                                                    
                     })
                    
                 });

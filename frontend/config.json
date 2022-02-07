@@ -1,0 +1,890 @@
+{
+    "builtInFilters": [
+        {
+            "id": "flaeche",
+            "columns": "area_fme",
+            "filterType": "numeric_interval"
+        },
+        {
+            "id": "flaecheBGF",
+            "columns": "bgf_sum",
+            "filterType": "numeric_interval"
+        },
+        {
+            "id": "flaechealkisGrz",
+            "columns": "alkis_grz",
+            "filterType": "numeric_interval"
+        },
+        {
+            "id": "flaecheBruttoPotential",
+            "columns": "bgf_potent",
+            "filterType": "numeric_interval"
+        },
+        {
+            "id": "flaecheBruttoBPlan",
+            "columns": "BPlan_BGF",
+            "filterType": "numeric_interval"
+        },
+        {
+            "id": "flaecheUnbebauteFlaeche",
+            "columns": "FL_unbeb_A",
+            "filterType": "numeric_interval"
+        },
+        {
+            "id": "Statistische Gebiete",
+            "columns": "statgeb",
+            "filterType": "list"
+        },
+        {
+            "id": "Stadtteile",
+            "columns": "stadtteil",
+            "filterType": "list"
+        },
+        {
+            "id": "Bezirke",
+            "columns": "bezname",
+            "filterType": "list"
+        },
+        {
+            "id": "Gemarkungen",
+            "columns": "gemname",
+            "filterType": "list"
+        }
+    ],
+    "items": [
+        {
+            "id": 1000,
+            "name": "Sondergebiete",
+            "children": [
+                {
+                    "id": 1001,
+                    "name": "Naturschutzgebiet",
+                    "columns": "nsg_P",
+                    "filterType": "prozent"
+                },
+                {
+                    "id": 1002,
+                    "name": "Landschaftsschutzgebiet",
+                    "columns": "lsg_P",
+                    "filterType": "prozent"
+                },
+                {
+                    "id": 1003,
+                    "name": "Biotop",
+                    "columns": "bio_fl_P",
+                    "filterType": "prozent"
+                },
+                {
+                    "id": 1004,
+                    "name": "Hafengebiet",
+                    "columns": "hfn_ges_p",
+                    "filterType": "prozent"
+                }
+            ]
+        },
+        {
+            "id": 1005,
+            "name": "Eigentum",
+            "children": [
+                {
+                    "id": 1006,
+                    "name": "Landesgrundbesitz",
+                    "children": [
+                        {
+                            "id": 1,
+                            "name": "081 AGV",
+                            "children": [
+                                {
+                                    "id": 2,
+                                    "name": "081 AGV-alle",
+                                    "columns": ["art_1_47"],
+                                    "filterType": "value",
+                                    "value": "081"
+                                },
+                                {
+                                    "id": 3,
+                                    "name": "081_2901 AGV (ohne EBR)",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "081_2901"
+                                },
+                                {
+                                    "id": 4,
+                                    "name": "081_2902 AGV (belastet mit EBR)",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "081_2902"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 5,
+                            "name": "080 Verwaltungsvermögen",
+                            "children": [
+                                {
+                                    "id": 6,
+                                    "name": "080 VV - alle",
+                                    "columns": ["art_50_253"],
+                                    "filterType": "value",
+                                    "value": "080"
+                                },
+                                {
+                                    "id": 7,
+                                    "name": "080 Flächen des Bezirks",
+                                    "children": [
+                                        {
+                                            "id": 8,
+                                            "name": "080_2100 Flächen des Bezirks - sonstige Bereiche",
+                                            "columns": ["T_50_253_A", "T_50_253_B"],
+                                            "filterType": "value",
+                                            "value": "080_2100"
+                                        },
+                                        {
+                                            "id": 9,
+                                            "name": "080_2631 Flächen des Bezirks - Tiefbau",
+                                            "columns": ["T_50_253_A", "T_50_253_B", "T_50_253_C"],
+                                            "filterType": "value",
+                                            "value": "080_2631"
+                                        },
+                                        {
+                                            "id": 10,
+                                            "name": "080_2642 Flächen des Bezirks - Gewässer",
+                                            "columns": ["T_50_253_A", "T_50_253_B"],
+                                            "filterType": "value",
+                                            "value": "080_2642"
+                                        },
+                                        {
+                                            "id": 11,
+                                            "name": "080_2661 Flächen des Bezirks - Stadtgrün",
+                                            "columns": ["T_50_253_A", "T_50_253_B", "T_50_253_C"],
+                                            "filterType": "value",
+                                            "value": "080_2661"
+                                        },
+                                        {
+                                            "id": 12,
+                                            "name": "084_2009 Flächen des Bezirks - Stadtgrün (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2009"
+                                        },
+                                        {
+                                            "id": 13,
+                                            "name": "080_2741 Flächen des Bezirks - Forsten",
+                                            "columns": ["T_50_253_A", "T_50_253_B"],
+                                            "filterType": "value",
+                                            "value": "080_2741"
+                                        },
+                                        {
+                                            "id": 14,
+                                            "name": "080_2821 Flächen des Bezirks - Sportflächen",
+                                            "columns": ["T_50_253_A", "T_50_253_B"],
+                                            "filterType": "value",
+                                            "value": "080_2821"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 15,
+                                    "name": "080 Justizbehörde",
+                                    "children": [
+                                        {
+                                            "id": 16,
+                                            "name": "080_2200 Justizbehörde",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2200"
+                                        },
+                                        {
+                                            "id": 17,
+                                            "name": "084_2030 Justizbehörde (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2030"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 18,
+                                    "name": "080 Behörde für Arbeit, Soziales, Familie und Integration (BASFI)",
+                                    "children": [
+                                        {
+                                            "id": 19,
+                                            "name": "080_2300 BASFI",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2300"
+                                        },
+                                        {
+                                            "id": 20,
+                                            "name": "084_2001 BASFI (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2001"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 21,
+                                    "name": "080 Behörde für Wissenschaft, Forschung und Gleichstellung (BWFG)",
+                                    "children": [
+                                        {
+                                            "id": 22,
+                                            "name": "080_2340 BWFG",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2340"
+                                        },
+                                        {
+                                            "id": 23,
+                                            "name": "084_2025 BWFG (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2025"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 24,
+                                    "name": "080_2360 Senatsämter",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "080_2360"
+                                },
+                                {
+                                    "id": 25,
+                                    "name": "080 Behörde für Kultur und Medien (BKM)",
+                                    "children": [
+                                        {
+                                            "id": 26,
+                                            "name": "080_2370 BKM",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2370"
+                                        },
+                                        {
+                                            "id": 27,
+                                            "name": "084_2002 BKM (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2002"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 28,
+                                    "name": "080_2430 Behörde für Gesundheit und Verbraucherschutz (BGV)",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "080_2430"
+                                },
+                                {
+                                    "id": 29,
+                                    "name": "080_2500 Behörde für Stadtentwicklung und Wohnen (BSW)",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "080_2500"
+                                },
+                                {
+                                    "id": 30,
+                                    "name": "080 Behörde für Umwelt und Energie (BUE)",
+                                    "children": [
+                                        {
+                                            "id": 31,
+                                            "name": "080_2600 BUE - Sonstiges",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2600"
+                                        },
+                                        {
+                                            "id": 32,
+                                            "name": "080_2610 BUE - Gewässer (BUE-U1)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2610"
+                                        },
+                                        {
+                                            "id": 33,
+                                            "name": "080_2649 BUE - Hochwasserschutz",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2649"
+                                        },
+                                        {
+                                            "id": 34,
+                                            "name": "080_2680 BUE - Amt für Naturschutz, Grünplanung u.Energie",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2680"
+                                        },
+                                        {
+                                            "id": 35,
+                                            "name": "084_2004 BUE - Amt für Naturschutz, Grünplanung u.Energie (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2004"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 36,
+                                    "name": "080 Behörde für Wirtschaft, Verkehr und Innovation (BWVI)",
+                                    "children": [
+                                        {
+                                            "id": 37,
+                                            "name": "080_2700 BWVI - Sonstiges",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2700"
+                                        },
+                                        {
+                                            "id": 38,
+                                            "name": "084_2003 BWVI - Horner Rennbahn (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2003"
+                                        },
+                                        {
+                                            "id": 39,
+                                            "name": "080_2632 BWVI - Schnellbahnbau",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2632"
+                                        },
+                                        {
+                                            "id": 40,
+                                            "name": "080_2710 BWVI - Hauptverkehrsstraßen",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2710"
+                                        },
+                                        {
+                                            "id": 41,
+                                            "name": "080_2730 BWVI - P+R",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2730"
+                                        },
+                                        {
+                                            "id": 42,
+                                            "name": "080_2740 BWVI - Landwirtschaft",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2740"
+                                        },
+                                        {
+                                            "id": 43,
+                                            "name": "080_2745 BWVI - Forsten",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2745"
+                                        },
+                                        {
+                                            "id": 44,
+                                            "name": "080_2750 Hafennutzungsgebiet (HNG)- Sonstiges",
+                                            "columns": ["T_50_253_A", "T_50_253_B"],
+                                            "filterType": "value",
+                                            "value": "080_2750"
+                                        },
+                                        {
+                                            "id": 45,
+                                            "name": "080_2751 HNG - Wege",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2751"
+                                        },
+                                        {
+                                            "id": 46,
+                                            "name": "080_2752 HNG - Gleisanlagen",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2752"
+                                        },
+                                        {
+                                            "id": 47,
+                                            "name": "080_2753 HNG - Wasserflächen",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2753"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 48,
+                                    "name": "080_2800 Behörde für Inneres (BIS)",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "080_2800"
+                                },
+                                {
+                                    "id": 49,
+                                    "name": "080 Behörde für Schule und Berufsbildung (BSB)",
+                                    "children": [
+                                        {
+                                            "id": 50,
+                                            "name": "080_2901 BSB-Amt für Bildung (Schulen)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "080_2901"
+                                        },
+                                        {
+                                            "id": 51,
+                                            "name": "084_2020 BSB (VV belastet mit EBR)",
+                                            "columns": ["T_50_253_A"],
+                                            "filterType": "value",
+                                            "value": "084_2020"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "id": 52,
+                            "name": "085 Sondervermögen (SV)",
+                            "children": [
+                                {
+                                    "id": 53,
+                                    "name": "085 SV - alle",
+                                    "columns": ["art_1_47"],
+                                    "filterType": "value",
+                                    "value": "085"
+                                },
+                                {
+                                    "id": 54,
+                                    "name": "085_0945 SV - Schulimmobilien",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "085_0945"
+                                },
+                                {
+                                    "id": 55,
+                                    "name": "085_3000 SV - Stadt und Hafen, HafenCity",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "085_3000"
+                                },
+                                {
+                                    "id": 56,
+                                    "name": "085_3010 SV - Stiftung Borsteler Jäger",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "085_3010"
+                                },
+                                {
+                                    "id": 57,
+                                    "name": "085_3020 SV - Naturschutz u. Landschaftspflege (SVNL)",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "085_3020"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 58,
+                            "name": "082 Landesbetriebe gem. §26 LHO",
+                            "children": [
+                                {
+                                    "id": 59,
+                                    "name": "082 Landesbetriebe - alle",
+                                    "columns": ["art_1_47"],
+                                    "filterType": "value",
+                                    "value": "082"
+                                },
+                                {
+                                    "id": 60,
+                                    "name": "082_2480 Landesbetrieb Erziehung und Beratung (LEB)",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "082_2480"
+                                },
+                                {
+                                    "id": 61,
+                                    "name": "082_2520 Landesbetrieb Staatl. Krankenhäuser",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "082_2520"
+                                },
+                                {
+                                    "id": 62,
+                                    "name": "082_2644 Landesbetrieb Stadtreinigung",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "082_2644"
+                                },
+                                {
+                                    "id": 63,
+                                    "name": "082_2720 Landesbetrieb Hamburgische Münze",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "082_2720"
+                                },
+                                {
+                                    "id": 64,
+                                    "name": "082_2742 Landesbetrieb Großmarkt",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "082_2742"
+                                },
+                                {
+                                    "id": 65,
+                                    "name": "082_2743 Landesbetrieb Großmarkt (belastet mit EBR)",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "082_2743"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 66,
+                            "name": "083 Grundstücksgleiche Rechte",
+                            "children": [
+                                {
+                                    "id": 67,
+                                    "name": "083 Grundstücksgleiche Rechte - alle",
+                                    "columns": ["art_1_47"],
+                                    "filterType": "value",
+                                    "value": "083"
+                                },
+                                {
+                                    "id": 68,
+                                    "name": "083_2950 Grundstücke Dritter - Erbbaurecht/Wohnungserbbaurecht der FHH",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "083_2950"
+                                },
+                                {
+                                    "id": 69,
+                                    "name": "083_2951 Grundstücke Dritter - Miteigentumsanteile der FHH, MEA an Erbbaurechten",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "083_2951"
+                                },
+                                {
+                                    "id": 70,
+                                    "name": "083_2952 Grundstücke Dritter - Erbengemeinschaften",
+                                    "columns": ["T_1_47_A"],
+                                    "filterType": "value",
+                                    "value": "083_2952"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 71,
+                            "name": "086 Öffentliche Unternehmen",
+                            "children": [
+                                {
+                                    "id": 73,
+                                    "name": "Bäderland Hamburg",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "1"
+                                },
+                                {
+                                    "id": 74,
+                                    "name": "Berufsförderwerk Hamburg",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "10"
+                                },
+                                {
+                                    "id": 75,
+                                    "name": "Deichtorhallen Hamburg GmbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "20"
+                                },
+                                {
+                                    "id": 76,
+                                    "name": "Elbe-Werkstätten GmbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "30"
+                                },
+                                {
+                                    "id": 77,
+                                    "name": "Elbphilharmonie Hamburg Bau GmbH & Co. KG",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "40"
+                                },
+                                {
+                                    "id": 78,
+                                    "name": "Fördern & Wohnen A.ö.R.",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "50"
+                                },
+                                {
+                                    "id": 79,
+                                    "name": "FEG Fischereihafenentwicklungsges. mbH & Co. KG",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "60"
+                                },
+                                {
+                                    "id": 80,
+                                    "name": "Flughafen Hamburg GmbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "70"
+                                },
+                                {
+                                    "id": 81,
+                                    "name": "Hamburg Messe und Congress GmbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "80"
+                                },
+                                {
+                                    "id": 82,
+                                    "name": "Hamburg Port Authority",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "90"
+                                },
+                                {
+                                    "id": 83,
+                                    "name": "Hamburger Friedhöfe A.ö.R.",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "100"
+                                },
+                                {
+                                    "id": 84,
+                                    "name": "Hamburger Gesellschaft für Gewerbebauförderung mbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "110"
+                                },
+                                {
+                                    "id": 85,
+                                    "name": "Hamburger Hochbahn AG",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "120"
+                                },
+                                {
+                                    "id": 86,
+                                    "name": "Hamburger Stadtentwässerung - A.ö.R.",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "130"
+                                },
+                                {
+                                    "id": 87,
+                                    "name": "Hamburger Wasserwerke GmbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "140"
+                                },
+                                {
+                                    "id": 88,
+                                    "name": "Hamburgische Investitions- und Förderbank",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "150"
+                                },
+                                {
+                                    "id": 89,
+                                    "name": "Hamburgischer Versorgungsfonds A.ö.R.",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "160"
+                                },
+                                {
+                                    "id": 90,
+                                    "name": "HGV Hamburger Ges. für Vermögens- und Beteiligungsmanagement mbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "170"
+                                },
+                                {
+                                    "id": 91,
+                                    "name": "KG VHG Verwaltung Hamburgischer Gebäude GmbH & Co.KG",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "180"
+                                },
+                                {
+                                    "id": 92,
+                                    "name": "P+R Betriebsgesellschaft mbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "190"
+                                },
+                                {
+                                    "id": 93,
+                                    "name": "Projektierungsgesellschaft Finkenwerder mbH & Co.KG",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "200"
+                                },
+                                {
+                                    "id": 94,
+                                    "name": "SAGA - Siedlungsaktiengesellschaft Hamburg",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "210"
+                                },
+                                {
+                                    "id": 95,
+                                    "name": "SpriAG Sprinkenhof AG",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "220"
+                                },
+                                {
+                                    "id": 96,
+                                    "name": "Stadtreinigung Hamburg A.ö.R",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "230"
+                                },
+                                {
+                                    "id": 97,
+                                    "name": "Universitätsklinikum Hamburg-Eppendorf K.ö.R.",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "240"
+                                },
+                                {
+                                    "id": 98,
+                                    "name": "Elbkinder Vereinigung Hamburger Kindertagesstätten gGmbH",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "250"
+                                },
+                                {
+                                    "id": 99,
+                                    "name": "Verkehrsbetriebe Hamburg-Holstein AG",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "260"
+                                },
+                                {
+                                    "id": 100,
+                                    "name": "nicht zugeordnet",
+                                    "columns": ["oeff_Kat"],
+                                    "filterType": "value",
+                                    "value": "270"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 101,
+                            "name": "087 Treuhandvermögen",
+                            "children": [
+                                {
+                                    "id": 102,
+                                    "name": "087 Treuhandvermögen - alle",
+                                    "columns": ["art_50_253"],
+                                    "filterType": "value",
+                                    "value": "087"
+                                },
+                                {
+                                    "id": 103,
+                                    "name": "087_5000 Altonaer Spar- und Bauverein Eg",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "087_5000"
+                                },
+                                {
+                                    "id": 104,
+                                    "name": "087_5010 Johann Daniel Laweatz-Stiftung",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "087_5010"
+                                },
+                                {
+                                    "id": 105,
+                                    "name": "087_5020 mgF Gartenstadt Farmsen eG Mieter- und Wohnungsbaugenossenschaft",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "087_5020"
+                                },
+                                {
+                                    "id": 106,
+                                    "name": "087_5030 STEG Stadterneuerungs und Stadtentwicklungsgesellschaft Hamburg mbH",
+                                    "columns": ["T_50_253_A"],
+                                    "filterType": "value",
+                                    "value": "087_5030"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 107,
+            "name": "Nutzungsart",
+            "children": [
+                {
+                    "id": 108,
+                    "name": "Nutzungsart aktuell",
+                    "children": [
+                        {
+                            "id": 109,
+                            "name": "Wohnen",
+                            "columns": "tN_wbfl_P",
+                            "filterType": "prozent"
+                        },
+                        {
+                            "id": 110,
+                            "name": "Industrie und Gewerbe",
+                            "columns": "tN_Igew_P",
+                            "filterType": "prozent"
+                        },
+                        {
+                            "id": 111,
+                            "name": "Landwirtschaft",
+                            "columns": "tN_Land_P",
+                            "filterType": "prozent"
+                        },
+                        {
+                            "id": 112,
+                            "name": "Sport, Freizeit und Erholung",
+                            "children": [
+                                {
+                                    "id": 113,
+                                    "name": "SFE - alle",
+                                    "columns": "tN_Sport_P",
+                                    "filterType": "prozent"
+                                },
+                                {
+                                    "id": 114,
+                                    "name": "SFE - Kleingarten",
+                                    "columns": "tN_Kleing_",
+                                    "filterType": "prozent"
+                                },
+                                {
+                                    "id": 115,
+                                    "name": "SFE - Sportanlagen",
+                                    "columns": "tN_SpAnl_P",
+                                    "filterType": "prozent"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 116,
+                            "name": "Straßen, Wege, Plätze",
+                            "columns": "tN_StrWP_P",
+                            "filterType": "prozent"
+                        },
+                        {
+                            "id": 117,
+                            "name": "besondere funktionale Prägung",
+                            "columns": "tN_besFu_P",
+                            "filterType": "prozent"
+                        },
+                        {
+                            "id": 118,
+                            "name": "gemischte Nutzung",
+                            "columns": "tN_gemNu_P",
+                            "filterType": "prozent"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

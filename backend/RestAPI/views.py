@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify, json, Response
 import mapclassify
+from sqlalchemy import null
 from RestAPI import app
-from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring
+from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -282,3 +283,30 @@ def bivariate_classify():
         for i in classes2:
             breaks2.append(i)
         return {'layername': data['selectedLayer'],'breaks1': breaks1, 'breaks2': breaks2, 'attribute1':data['attribute1'], 'attribute2':data['attribute2']}
+
+@app.route('/set-criteria-filter', methods=["GET", "POST"])
+def set_criteria_filter():
+    data = request.get_json()
+    excludeTags = data["excludeTags"]
+    includeTags = data["includeTags"]
+    queryString = ""
+    for i in includeTags:
+        if i["filterType"] == "prozent":
+            queryString += "and" + " " + i["columns"] + ">" + "0" + " "
+        else:
+           queryString += "and" + " " + i["columns"] + "=" + i["value"] + " " 
+    for i in excludeTags:
+        if i["filterType"] == "prozent":
+            queryString += "and" + " " + i["columns"] + " " "in" + " " + "(0, null)" + " "
+        else:
+            queryString += "and" + " " + i["columns"] + " " "in" + " " + "(null)" + " "
+    print(queryString)
+    featureIds = data['featureIds']
+    featureid = []
+    for gid in featureIds:
+        featureid.append(int(gid))
+    featureid= tuple(featureid)
+
+    print("excludeTags", excludeTags)
+    print("includeTags", includeTags)
+    return criterial_filter(featureid,queryString)
