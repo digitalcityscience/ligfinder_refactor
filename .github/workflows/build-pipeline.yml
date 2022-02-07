@@ -76,3 +76,14 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs:
+      - backend-build-and-push-image
+      - frontend-build-and-push-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: "☁️ deploy"
+        run: gh workflow run ligfinder --repo github.com/digitalcityscience/continuous-deployment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
