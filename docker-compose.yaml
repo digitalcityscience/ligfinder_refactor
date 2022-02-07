@@ -1,22 +1,27 @@
+version: '3.0'
 services:
   backend:
     build: ./backend
-    ports:
-      - 3000:3000
+    environment:
+      - DB_PASSWORD=XXX_POSTGRES_PASSWORD_XXX
+      - DB_HOST=database
+      - DB_NAME=ligfinder
   database:
     image: pgrouting/pgrouting
     container_name: db_ligfinder
     volumes:
       - ./database/dumps:/var/lib/postgresql/dumps
     ports:
-      - 5433:5432
+      - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_PASSWORD=XXX_POSTGRES_PASSWORD_XXX
       - POSTGRES_DB=ligfinder
   frontend:
     container_name: frontend_ligfinder
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      - VUE_APP_API_BASE_URL="/api"
     ports:
       - 8080:80
