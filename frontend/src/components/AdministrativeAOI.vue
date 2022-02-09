@@ -25,7 +25,7 @@
                     <template >
                         <v-list-item v-for="item in $store.state.administrativeAOI.adminStates"  :key="item.name" class="items">
                             
-                            <v-checkbox :input-value="$store.state.criteria.active" :id="(item.name).toString()" @change="getcheckedAdmin(item)"></v-checkbox>
+                            <v-checkbox :input-value="$store.state.criteria.active" :id="String(item.name)" @change="getcheckedAdmin(item)"></v-checkbox>
                             <v-list-item-title v-text="item.name">
                             </v-list-item-title>
                             
