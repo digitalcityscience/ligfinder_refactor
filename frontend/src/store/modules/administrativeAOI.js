@@ -4,10 +4,13 @@ const administrativeAOI = {
     namespaced: true,
     state: {
         toggle: false,
+        isDisabled: true,
         currentAdminArea : null,
         selectedFeatures: [],
         selectedLyers: [],
-        administrativeLayerName: null
+        administrativeLayerName: null,
+        adminStates: [],
+        selectedAdminStates: []
     },
     mutations:{
 
@@ -19,6 +22,7 @@ const administrativeAOI = {
                 tablename : payload
             })
             .then(response => {
+                console.log(response.data)
                 const mapLayer = rootState.map.map.getLayer(state.currentAdminArea);
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer(state.currentAdminArea)
@@ -59,6 +63,13 @@ const administrativeAOI = {
                   ],{
                     padding: 40
                 });
+
+                state.adminStates = []
+                state.selectedAdminStates= []
+                for (let i of response.data.features){
+                    state.adminStates.push({'id': String(i.properties.gid), 'table': response.data.name, 'name':i.properties.name})
+                }
+                console.log(state.adminStates)
                 let featureid = null
                 rootState.map.map.on('click', response.data.name, function (e) {
                     
@@ -123,10 +134,10 @@ const administrativeAOI = {
 
             // delete FOI if the user click on reset filter button
             const foi = rootState.map.map.getLayer("foi");
-                if(typeof foi !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
+            if(typeof foi !== 'undefined'){
+                rootState.map.map.removeLayer("foi")
+                rootState.map.map.removeSource("foi")
+            }
         },
         
         getSelectedFeatures({state, rootState}){
@@ -197,15 +208,66 @@ const administrativeAOI = {
             })
         },
         resetAdminLayers({state, rootState}){
-                const mapLayer = rootState.map.map.getLayer(state.administrativeLayerName);
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer(state.administrativeLayerName)
-                    rootState.map.map.removeSource(state.administrativeLayerName)
-                    rootState.map.map.removeLayer(state.administrativeLayerName+"line")
-                    rootState.map.map.removeSource(state.administrativeLayerName+"line")
+            const mapLayer = rootState.map.map.getLayer(state.administrativeLayerName);
+            if(typeof mapLayer !== 'undefined'){
+                rootState.map.map.removeLayer(state.administrativeLayerName)
+                rootState.map.map.removeSource(state.administrativeLayerName)
+                rootState.map.map.removeLayer(state.administrativeLayerName+"line")
+                rootState.map.map.removeSource(state.administrativeLayerName+"line")
 
-                }
+            }
         },
+        addCheckedAdmin({state, rootState},item){
+            //console.log(document.getElementById(item.name).checked)
+            //let checkval = document.getElementById(item.name).checked
+            //document.getElementById(item.name).checked =! checkval
+            
+            HTTP
+            .post('add-feature', {
+                tablename : item.table,
+                featureid: item.id
+            })
+            .then(response => {
+                console.log(response.data)
+                state.selectedFeatures.push({'id': String(response.data.features[0].properties.gid), 'table': response.data.tablename, 'name': response.data.features[0].properties.name})
+                   
+                        
+                let layerName = String(response.data.features[0].properties.gid)
+                
+                //if(countInArray(state.selectedFeatures,String(response.data.features[0].properties.gid))===1){
+                const mapLayer = rootState.map.map.getLayer(String(response.data.features[0].properties.gid));
+                if(typeof mapLayer === 'undefined'){
+                    rootState.map.map.addSource(String(response.data.features[0].properties.gid),{'type': 'geojson', 'data': response.data});
+                    layerName = {
+                        'id': String(response.data.features[0].properties.gid),
+                        'type': 'fill',
+                        'source': String(response.data.features[0].properties.gid), // reference the data source
+                        'layout': {},
+                        'paint': {
+                            'fill-color': '#6a0dad', 
+                            'fill-opacity':0.5,
+                        }
+                        
+                    };
+                    
+                    rootState.map.map.addLayer(layerName)
+                }
+            })
+        },
+        removeCheckedAdmin({state, rootState}, item){
+            
+            const mapLayer = rootState.map.map.getLayer(item.id);
+            if(typeof mapLayer !== 'undefined'){
+                rootState.map.map.removeLayer(item.id)
+                rootState.map.map.removeSource(item.id)
+            }
+            for (let i=0; i<state.selectedFeatures.length; i++){
+                if(state.selectedFeatures[i].name ===item.name){
+                    state.selectedFeatures.splice(i, 1);
+                }
+            }
+            console.log(state.selectedFeatures)
+        }
     },
     getters:{
 
