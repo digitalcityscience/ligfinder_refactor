@@ -6,8 +6,8 @@
     <div class="placeholder"  id="map">
        <MouseCoordinate />
        <Panel />
-       <Database />
-       <Layer />
+       <!--<Database />
+       <Layer />-->
        <Layers />
        <Tools />
        <Ligfinder />
@@ -32,8 +32,8 @@ import maplibregl from 'maplibre-gl'
 //import * as turf from "turf";
 import MouseCoordinate from "./MouseCoordinate";
 import Panel from './Panel'
-import Database from './Database'
-import Layer from './Layer'
+//import Database from './Database'
+//import Layer from './Layer'
 import Layers from './Layers'
 import Tools from './Tools'
 import Ligfinder from './Ligfinder'
@@ -46,8 +46,8 @@ export default {
   components:{
     Panel,
     MouseCoordinate,
-    Database,
-    Layer,
+    //Database,
+    //Layer,
     Layers,
     Tools,
     Ligfinder,

@@ -34,7 +34,7 @@
                 </span>
             </div>
             
-            <div>
+            <!--<div>
                 <span>
                     <i
                         class="fas fa-database  mt-3" 
@@ -64,7 +64,7 @@
                     >
                     </i>
                 </span>
-            </div>
+            </div>-->
             
         </div>
         
