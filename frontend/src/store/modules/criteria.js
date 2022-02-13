@@ -8,7 +8,9 @@ const criteria = {
         checkedCriteria: [],
         checkedTags: [],
         includeTags:[],
-        excludeTags:[]
+        excludeTags:[],
+        operators: ['AND', 'OR'],
+        selectedOperator: 'AND'
     },
     mutations:{
         
@@ -16,11 +18,13 @@ const criteria = {
     actions:{
         applyCriteria({rootState, state}){
             console.log(rootState.ligfinder.FOIGid, this.excludeTags)
+            rootState.map.isLoading = true
             HTTP
             .post('set-criteria-filter', {
                 featureIds : rootState.ligfinder.FOIGid,
                 excludeTags: state.excludeTags,
-                includeTags: state.includeTags
+                includeTags: state.includeTags,
+                operator: state.selectedOperator
             })
             .then(response => {
                 console.log(response.data)
@@ -55,6 +59,7 @@ const criteria = {
                 };
                 
                 rootState.map.map.addLayer(layerName)
+                rootState.map.isLoading = false
             
             })
             .finally(() => {

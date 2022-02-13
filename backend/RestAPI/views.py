@@ -289,17 +289,45 @@ def set_criteria_filter():
     data = request.get_json()
     excludeTags = data["excludeTags"]
     includeTags = data["includeTags"]
+    operator = data["operator"]
+    print(data)
     queryString = ""
-    for i in includeTags:
-        if i["filterType"] == "prozent":
-            queryString += "and" + " " + i["columns"] + ">" + "0" + " "
-        else:
-           queryString += "and" + " " + i["columns"] + "=" + i["value"] + " " 
-    for i in excludeTags:
-        if i["filterType"] == "prozent":
-            queryString += "and" + " " + i["columns"] + " " "in" + " " + "(0, null)" + " "
-        else:
-            queryString += "and" + " " + i["columns"] + " " "in" + " " + "(null)" + " "
+    orquery = ""
+    if (operator=="AND"):
+        for i in includeTags:
+            if i["filterType"] == "prozent":
+                queryString += "and" + " " + i["columns"] + ">" + "0" + " "
+            else:
+                i["columns"] = i["columns"].split(',')
+                for j in i["columns"]:
+                    queryString += "and" + " " + j + "=" + "'"+ i["value"]+ "'" + " " 
+        for i in excludeTags:
+            if i["filterType"] == "prozent":
+                queryString += "and" + " " + i["columns"] + " " "in" + " " + "(0, null)" + " "
+            else:
+                i["columns"] = i["columns"].split(',')
+                for j in i["columns"]:
+                    queryString += "and" + " " + j + " " + "is" + " " + "null" + " "
+    elif (operator=="OR"):
+        
+        for i in includeTags:
+            if i["filterType"] == "prozent":
+                orquery += i["columns"] + ">" + "0" +  " " + "or" + " "
+            else:
+                i["columns"] = i["columns"].split(',')
+                for j in i["columns"]:
+                    orquery += j + " " + "in" + "(" + "'" + i["value"] + "'" + ")" + " " + "or" + " " 
+        for i in excludeTags:
+            if i["filterType"] == "prozent":
+                queryString += "and" + " " + i["columns"] + " " "in" + " " + "(0, null)" + " "
+            else:
+                i["columns"] = i["columns"].split(',')
+                for j in i["columns"]:
+                    queryString += "and" + " " + j + " " + "is" + " " + "null" + " "
+        
+        if orquery:
+            orquery = orquery[:-3]
+            queryString += "and" + " " +"("+orquery+")"
     print(queryString)
     featureIds = data['featureIds']
     featureid = []
@@ -309,4 +337,5 @@ def set_criteria_filter():
 
     print("excludeTags", excludeTags)
     print("includeTags", includeTags)
+    print("operator", operator)
     return criterial_filter(featureid,queryString)

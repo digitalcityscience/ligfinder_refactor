@@ -1,6 +1,7 @@
 <template>
 
 <div>
+    
     <v-card
     class="mx-auto"
     max-height="50vh"
@@ -193,20 +194,26 @@
            
             <div @drop="onDrop($event)"  @dragenter.prevent @dragover.prevent>
                 <p class="mt-1 ml-1">Included Criteria</p>
+                <v-select
+                    :items="$store.state.criteria.operators"
+                    v-model="$store.state.criteria.selectedOperator"
+                    label="logical operator"
+                    solo
+                ></v-select>
                 <template v-for="tag in $store.state.criteria.includeTags">
-                <v-chip :key="tag.name"
-                    @dragstart="startDrag($event, tag)"
-                    :draggable="true"
-                    class="ma-1"
-                    color="green"
-                    outlined
-                    close
-                    @click:close="removeTagFromIncludedTags(tag)"
+                    <v-chip :key="tag.name"
+                        @dragstart="startDrag($event, tag)"
+                        :draggable="true"
+                        class="ma-1"
+                        color="green"
+                        outlined
+                        close
+                        @click:close="removeTagFromIncludedTags(tag)"
 
-                >
-                    {{tag.name}}
-                </v-chip>
-            </template>
+                    >
+                        {{tag.name}}
+                    </v-chip>
+                </template>
 
             </div>
         </v-container>
@@ -307,7 +314,7 @@ export default {
             if(includeTagsName.includes(itemName)==false){
                 this.$store.state.criteria.includeTags.push({"name":itemName, "columns":itemColumn, "filterType":filterType, "value":value})
             }
-            
+            console.log(this.$store.state.criteria.includeTags)
             // to avoid having same tags in excluded and included parts
             for (let i of this.$store.state.criteria.excludeTags){
                 if(i.name === itemName){
@@ -404,4 +411,5 @@ export default {
     max-height:20vh;
     overflow-y: scroll;
 }
+
 </style>

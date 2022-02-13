@@ -853,7 +853,7 @@
                                 {
                                     "id": 114,
                                     "name": "SFE - Kleingarten",
-                                    "columns": "tN_Kleing_",
+                                    "columns": "tn_klein_p",
                                     "filterType": "prozent"
                                 },
                                 {
