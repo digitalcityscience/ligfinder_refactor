@@ -242,7 +242,14 @@
         </v-container>
     </v-card>
     <div class="mt-4 mb-4" >
-        <button style="font-size: 0.8vw" class="btn btn-info" @click="applyCriteria()">Suche Starten</button>
+        <button
+            style="font-size: 0.8vw"
+            class="btn btn-info" 
+            @click="applyCriteria()" 
+            :disabled='$store.state.criteria.includeTags.length==0 && $store.state.criteria.excludeTags.length==0'
+        >
+        Suche Starten
+        </button>
     </div>
 </div>
 <div v-else class="text-center">
