@@ -1,6 +1,6 @@
 <template>
 
-<div>
+<div v-if="$store.state.ligfinder.FOI.features[0]">
     
     <v-card
     class="mx-auto"
@@ -244,6 +244,10 @@
     <div class="mt-4 mb-4" >
         <button style="font-size: 0.8vw" class="btn btn-info" @click="applyCriteria()">Suche Starten</button>
     </div>
+</div>
+<div v-else class="text-center">
+    <p>No Feature Selected</p>
+
 </div>
 </template>
 

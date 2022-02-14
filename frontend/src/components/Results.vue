@@ -26,7 +26,7 @@
         </div>
         
     </div>
-    <div v-else class="table text-center">
+    <div v-else class="text-center">
         <p>No Feature Selected</p>
     </div>
 
