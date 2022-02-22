@@ -59,3 +59,9 @@ Then, the backend Flak application is being run at the following address:
 http://localhost:8080/
 
 In the next step, you can create a local database named "ligfinder" with postgis extension. As mentioned above, to populate database, the database dump can be provided over request.
+
+You can specify your database configuration by modifying the following line:
+
+``
+backend/RestAPI/db.py#L5
+``
