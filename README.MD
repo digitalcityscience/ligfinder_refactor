@@ -4,7 +4,12 @@ Interactive and multi-criteria web-GIS application for finding parcels inside th
 
 ## Setup
 
+Please make sure you have installed docker desktop in your system. 
+To install the app, clone the project and navigate to the root directory. Then execute the following command:
 
+```
+ docker-compose up
+```
 ### Database
 To initially load the dabase dump into the dockerized databse run:
 ```
