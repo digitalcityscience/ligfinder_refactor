@@ -1,4 +1,9 @@
 ﻿# LIGFinder
+ 
+Interactive and multi-criteria web-GIS application for finding parcels inside the city of Hamburg, Germany.
+
+## Setup
+
 
 ### Database
 To initially load the dabase dump into the dockerized databse run:
