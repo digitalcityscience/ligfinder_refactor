@@ -4,6 +4,8 @@ Interactive and multi-criteria web-GIS application for finding parcels inside th
 
 ## Setup
 
+### For users
+
 Please make sure you have installed docker desktop in your system. 
 To install the app, clone the project and navigate to the root directory. Then execute the following command:
 
@@ -20,3 +22,40 @@ To initially load the dabase dump into the dockerized databse run:
 ```
 
 The database dump can be provided over request.
+
+### For Developers
+
+After cloning the project, navigate to the root directory.
+To install the required packages and start the frontend, navigate to the "frontend" directory and run the following commands:
+
+``
+ 	npm install
+``
+and then, 
+``
+ 	npm run serve
+``
+
+Then frontend app is runned and can be accessed at the following address:
+
+
+ http://localhost:8080/
+
+
+Navigate to the "backend" directory and install the packages inside the requirements.txt file:
+
+``
+pip install -r requirements.txt
+``
+
+To run the backend, execute the following command:
+
+``
+ python runserver.py
+``
+
+Then, the backend Flak application is being run at the following address:
+
+http://localhost:8080/
+
+In the next step, you can create a local database named "ligfinder" with postgis extension. As mentioned above, to populate database, the database dump can be provided over request.
