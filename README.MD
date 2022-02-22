@@ -10,13 +10,13 @@ To install the app, clone the project and navigate to the root directory. Then e
 ```
  docker-compose up
 ```
-### Database
+
+This command builds a container with images from frontend, backend and database.
+
+
 To initially load the dabase dump into the dockerized databse run:
 ```
  docker exec db_ligfinder pg_restore -U postgres -d ligfinder /var/lib/postgresql/dumps/ligbackup.dump
 ```
 
-To access to psql shell and manipulate the database tables:
-```
- decker exec -ti db_ligfinder psql -U postgres -d ligfinder -v /var/lib/postgresql/dumps
-```
+The database dump can be provided over request.
