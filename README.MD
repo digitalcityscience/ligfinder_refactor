@@ -1,3 +1,5 @@
+﻿# LIGFinder
+
 ### Database
 To initially load the dabase dump into the dockerized databse run:
 ```
