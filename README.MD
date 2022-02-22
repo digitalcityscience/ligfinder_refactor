@@ -11,7 +11,7 @@ To install the app, clone the project and navigate to the root directory. Then e
  docker-compose up
 ```
 
-This command builds a container with images from frontend, backend and database.
+This command builds a container with  frontend, backend and database images.
 
 
 To initially load the dabase dump into the dockerized databse run:
