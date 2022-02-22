@@ -13,6 +13,7 @@
             v-if="$store.state.AOI.selected !=='default'"
             v-model="$store.state.AOI.buildingSwitch"
             @click.once="getBuildings"
+            @change="toggle3DBuilding"
             :label="`Gebäude: ${$store.state.AOI.buildingSwitch.toString()}`"
         ></v-switch>
     </div>
@@ -51,6 +52,9 @@ export default {
         },
         getBuildings(){
             this.$store.dispatch("ligfinder/getBuildings")
+        },
+        toggle3DBuilding(){
+            this.$store.dispatch("ligfinder/toggle3DBuilding")
         }
     }
 }

@@ -7,7 +7,7 @@ const ligfinder = {
     namespaced: true,
     state:{
         toggle: false,
-        
+        building3DToggle: false,
         FOI: {'features':[]},
         FOIGid: []
     },
@@ -19,6 +19,7 @@ const ligfinder = {
     },
     actions:{
         getBuildings({rootState, state}){
+            state.building3DToggle = true
             let parcelGid = []
 
             for(let i =0; i< state.FOI.features.length; i++){
@@ -181,6 +182,18 @@ const ligfinder = {
             })
            
             
+        },
+        toggle3DBuilding({rootState, state}){
+            state.building3DToggle =! state.building3DToggle
+            if (state.building3DToggle == true){
+                rootState.map.map.setLayoutProperty('hexagon2DD', 'visibility', 'visible');
+                rootState.map.map.setLayoutProperty('hexagon2DDD', 'visibility', 'visible');
+            }
+            else {
+                rootState.map.map.setLayoutProperty('hexagon2DD', 'visibility', 'none');
+                rootState.map.map.setLayoutProperty('hexagon2DDD', 'visibility', 'none');
+            }
+                
         }
     },
     getters:{
