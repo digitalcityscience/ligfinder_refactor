@@ -199,6 +199,7 @@
                     v-model="$store.state.criteria.selectedOperator"
                     label="logical operator"
                     solo
+                    class="select-operator"
                 ></v-select>
                 <template v-for="tag in $store.state.criteria.includeTags">
                     <v-chip :key="tag.name"
@@ -434,6 +435,10 @@ export default {
 .addedcriteria{
     max-height:20vh;
     overflow-y: scroll;
+}
+.select-operator{
+    width: 5vw;
+    font-size: 0.8vw;
 }
 
 </style>
