@@ -329,12 +329,20 @@ export default {
             // to avoid having same tags in excluded and included parts
             for (let i of this.$store.state.criteria.excludeTags){
                 if(i.name === itemName){
-                    console.log(i)
                     let index = this.$store.state.criteria.excludeTags.indexOf(i);
                     this.$store.state.criteria.excludeTags.splice(index, 1);
                 }
             }
 
+            // to exclude tags from marked criteria if they are moved
+            for (let i of this.$store.state.criteria.checkedTags){
+                if(i.name === itemName){
+                    console.log(i, itemName)
+                    let index = this.$store.state.criteria.checkedTags.indexOf(i);
+                    console.log(index, "index")
+                    this.$store.state.criteria.checkedTags.splice(index,1);
+                }
+            }
 
         },
         onDropExcluded(event){
@@ -363,15 +371,20 @@ export default {
             // to avoid having same tags in excluded and included parts
             for (let i of this.$store.state.criteria.includeTags){
                 if(i.name === itemName){
-                    console.log(i)
                     let index = this.$store.state.criteria.includeTags.indexOf(i);
                     this.$store.state.criteria.includeTags.splice(index, 1);
                 }
             }
             
-            
-            
-
+            // to exclude tags from marked criteria if they are moved
+            for (let i of this.$store.state.criteria.checkedTags){
+                if(i.name === itemName){
+                    console.log(i, itemName)
+                    let index = this.$store.state.criteria.checkedTags.indexOf(i);
+                    console.log(index, "index")
+                    this.$store.state.criteria.checkedTags.splice(index,1);
+                }
+            }
         },
         removeTagFromIncludedTags(tagname){
             let tag = this.$store.state.criteria.includeTags.indexOf(tagname);
