@@ -11,7 +11,7 @@ const area = {
 
     },
     actions:{
-        areaFilter({state, rootState}){
+        areaFilter({state, rootState, dispatch}){
             console.log(rootState.ligfinder.FOIGid)
             HTTP
             .post('get-area-filter', {
@@ -54,6 +54,7 @@ const area = {
                     rootState.map.map.addLayer(layerName)
                 }
                 else{
+                    dispatch('alert/openCloseAlarm', null, { root:true })
                     const mapLayer = rootState.map.map.getLayer("foi");
                     if(typeof mapLayer !== 'undefined'){
                         rootState.map.map.removeLayer("foi")

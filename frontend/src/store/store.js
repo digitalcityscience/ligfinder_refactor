@@ -20,6 +20,7 @@ import classification from './modules/classification'
 import legend from './modules/legend'
 import criteria from './modules/criteria'
 import building3D from './modules/building3D'
+import alert from './modules/alert'
 
 Vue.use(Vuex);
 
@@ -44,7 +45,8 @@ const store = new Vuex.Store({
         classification,
         legend,
         criteria,
-        building3D
+        building3D,
+        alert
     }
 
 })

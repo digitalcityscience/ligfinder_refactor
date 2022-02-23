@@ -16,7 +16,7 @@ const criteria = {
         
     },
     actions:{
-        applyCriteria({rootState, state}){
+        applyCriteria({rootState, state, dispatch}){
             console.log(rootState.ligfinder.FOIGid, this.excludeTags)
             rootState.map.isLoading = true
             HTTP
@@ -63,6 +63,7 @@ const criteria = {
 
                 }
                 else{
+                    dispatch('alert/openCloseAlarm', null, { root:true })
                     const mapLayer = rootState.map.map.getLayer("foi");
                     if(typeof mapLayer !== 'undefined'){
                         rootState.map.map.removeLayer("foi")
