@@ -28,38 +28,51 @@ const criteria = {
             })
             .then(response => {
                 console.log(response.data)
-                
-                rootState.ligfinder.FOI = response.data
+                if (response.data.features!=null){
+                    rootState.ligfinder.FOI = response.data
 
-                response.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
+                    response.data.name = "foi"
+                    for (let i=0; i<rootState.layers.addedLayers.length; i++){
+                        if(rootState.layers.addedLayers[i].name === "foi"){
+                            rootState.layers.addedLayers.splice(i, 1);
+                        }
                     }
-                }
-                rootState.layers.addedLayers.push(response.data)
+                    rootState.layers.addedLayers.push(response.data)
                 
-                const mapLayer = rootState.map.map.getLayer("foi");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi", // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#00FF00', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
+                    const mapLayer = rootState.map.map.getLayer("foi");
+                    if(typeof mapLayer !== 'undefined'){
+                        rootState.map.map.removeLayer("foi")
+                        rootState.map.map.removeSource("foi")
                     }
-                    
-                };
+                    rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
+                    let layerName = {
+                        'id': "foi",
+                        'type': 'fill',
+                        'source': "foi", // reference the data source
+                        'layout': {},
+                        'paint': {
+                            'fill-color': '#00FF00', 
+                            'fill-opacity':0.7,
+                            'fill-outline-color': '#000000',
+                        }
+                        
+                    };
                 
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
+                    rootState.map.map.addLayer(layerName)
+                    rootState.map.isLoading = false
+
+                }
+                else{
+                    const mapLayer = rootState.map.map.getLayer("foi");
+                    if(typeof mapLayer !== 'undefined'){
+                        rootState.map.map.removeLayer("foi")
+                        rootState.map.map.removeSource("foi")
+                    }
+                    rootState.map.isLoading = false
+
+                    rootState.ligfinder.FOI = {'features':[]}
+                    console.log("no feature found")
+                }
             
             })
             .finally(() => {
@@ -67,7 +80,7 @@ const criteria = {
                 for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
                     rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
                   }
-                  console.log(rootState.ligfinder.FOIGid)
+                console.log(rootState.ligfinder.FOIGid)
             })
         }
     },
