@@ -85,6 +85,16 @@ const geometryAOI = {
                 console.log(rootState.ligfinder.FOIGid)
             })
         },
+        resetSelectedLayers({rootState}){
+            
+            // delete FOI if the user click on reset filter button
+            const foi = rootState.map.map.getLayer("foi");
+            if(typeof foi !== 'undefined'){
+                rootState.ligfinder.FOI = {'features':[]}
+                rootState.map.map.removeLayer("foi")
+                rootState.map.map.removeSource("foi")
+            }
+        },
         removeDrawControl({state, rootState}){
             if (state.draw!==null){
                 rootState.map.map.removeControl(state.draw);

@@ -35,7 +35,7 @@
             </v-card>
             <div class="mt-4" >
                 <button style="font-size: 0.8vw" class="btn btn-info" @click="getSelectedFeatures(); resetAdminLayers() " :disabled='$store.state.administrativeAOI.selectedFeatures.length==0'>Suche Starten</button>
-                <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" @click="resetSelectedFeatures()" :disabled='$store.state.administrativeAOI.selectedFeatures.length==0'>Filter Zurücksetzen </button>
+                <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" @click="resetSelectedFeatures()" :disabled="$store.state.ligfinder.FOI.features.length==0">Filter Zurücksetzen </button>
             </div>
         </div>
     </div>

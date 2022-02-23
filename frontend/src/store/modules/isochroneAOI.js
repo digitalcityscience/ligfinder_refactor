@@ -139,16 +139,12 @@ const isochroneAOI = {
             })
         },
         reset({rootState}){
-            const isochrone = rootState.map.map.getLayer("isochrone");
-            if(typeof isochrone !== 'undefined'){
-                rootState.map.map.removeLayer("isochrone")
-                rootState.map.map.removeSource("isochrone")
-            }
-
-            const isochroneParcel = rootState.map.map.getLayer("isochrone-parcel");
-            if(typeof isochroneParcel !== 'undefined'){
-                rootState.map.map.removeLayer("isochrone-parcel")
-                rootState.map.map.removeSource("isochrone-parcel")
+            // delete FOI if the user click on reset filter button
+            const foi = rootState.map.map.getLayer("foi");
+            if(typeof foi !== 'undefined'){
+                rootState.ligfinder.FOI = {'features':[]}
+                rootState.map.map.removeLayer("foi")
+                rootState.map.map.removeSource("foi")
             }
         }
     },
