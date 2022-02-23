@@ -19,6 +19,7 @@ import proximity from './modules/proximity'
 import classification from './modules/classification'
 import legend from './modules/legend'
 import criteria from './modules/criteria'
+import building3D from './modules/building3D'
 
 Vue.use(Vuex);
 
@@ -42,7 +43,8 @@ const store = new Vuex.Store({
         proximity,
         classification,
         legend,
-        criteria
+        criteria,
+        building3D
     }
 
 })

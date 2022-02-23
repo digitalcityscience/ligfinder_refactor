@@ -9,13 +9,7 @@
         <AdministrativeAOI v-if="$store.state.AOI.selected==='administrative'" />
         <GeometryAOI v-if="$store.state.AOI.selected==='geometry'" />
         <IsochroneAOI v-if="$store.state.AOI.selected==='isochrone'" />
-        <v-switch
-            v-if="$store.state.AOI.selected !=='default'"
-            v-model="$store.state.AOI.buildingSwitch"
-            @click.once="getBuildings"
-            @change="toggle3DBuilding"
-            :label="`Gebäude: ${$store.state.AOI.buildingSwitch.toString()}`"
-        ></v-switch>
+        <Building3D/>
     </div>
 </template>
 
@@ -23,12 +17,15 @@
 import AdministrativeAOI from "./AdministrativeAOI"
 import GeometryAOI from "./GeometryAOI"
 import IsochroneAOI from "./IsochroneAOI"
+import Building3D from "./Building3D"
+
 export default {
     name: "AOI",
     components: {
         AdministrativeAOI,
         GeometryAOI,
-        IsochroneAOI
+        IsochroneAOI,
+        Building3D
     },
     data(){
         return{
@@ -50,12 +47,6 @@ export default {
                 this.$store.dispatch("geometryAOI/removeDrawControl")
             }
         },
-        getBuildings(){
-            this.$store.dispatch("ligfinder/getBuildings")
-        },
-        toggle3DBuilding(){
-            this.$store.dispatch("ligfinder/toggle3DBuilding")
-        }
     }
 }
 </script>
