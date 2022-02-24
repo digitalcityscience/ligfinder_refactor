@@ -16,7 +16,7 @@ export default {
 <style scoped>
 .alerts{
     max-width: 40vw;
-    max-height: 50px;
+    height: 50px;
     position: absolute;
     z-index: 999;
     right: 5px;
