@@ -10,7 +10,15 @@ const administrativeAOI = {
         selectedLyers: [],
         administrativeLayerName: null,
         adminStates: [],
-        selectedAdminStates: []
+        selectedAdminStates: [],
+        selectMode: null,
+        items: [
+            { name: 'Bezirke', value: 'bezirke' },
+            { name: 'Stadtteile', value: 'stadtteile' },
+            { name: 'GemarKungen', value: 'gemarkungen' },
+            { name: 'Statistische Gebiete', value: 'statistischegebiete' },
+            
+          ],
     },
     mutations:{
 

@@ -1,16 +1,19 @@
 <template>
     <div  class="administrative-select">
-        <div style="width:60%; margin-top: 10%">
-            <label for="">Verwaltungsebene</label>
-            <select @change="getAdminArea($event); resetSelectedFeatures()"  name="administrative"  class="form-select form-control">
-                <option value="" disabled selected hidden>Bitte Verwaltungsebene auswählen</option>
-                <option value="bezirke" >Bezirke</option>
-                <option value="stadtteile">Stadtteile</option>
-                <option value="gemarkungen">GemarKungen</option>  
-                <option value="statistischegebiete">Statistische Gebiete</option>  
-            </select>
+        <div style="width:60%; margin-top: 5%">
+            
+            <v-select
+                :items="$store.state.administrativeAOI.items"
+                label="Verwaltungsebene"
+                solo
+                item-text="name"
+                item-value="value"
+                
+                v-model="$store.state.administrativeAOI.selectMode"
+                @change="getAdminArea"
+            ></v-select>
             <v-card
-                class="mx-auto mt-4"
+                class="mx-auto mt-2"
                 max-height="30vh"
     
             >
@@ -50,7 +53,7 @@ export default {
     },
     methods:{
         getAdminArea(event){
-                this.$store.dispatch("administrativeAOI/getAdminArea", event.target.value)
+                this.$store.dispatch("administrativeAOI/getAdminArea", event)
         },
         resetSelectedFeatures(){
             this.$store.dispatch("administrativeAOI/resetSelectedLayers")

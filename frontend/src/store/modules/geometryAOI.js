@@ -6,7 +6,11 @@ const geometryAOI = {
     namespaced: true,
     state: {
         AOI: null,
-        draw: null
+        draw: null,
+        selectMode: null,
+        items: [
+            { name: 'Polygon', value: 'polygon' },
+          ],
     },
     mutations:{
 

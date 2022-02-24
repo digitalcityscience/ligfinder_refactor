@@ -1,14 +1,16 @@
 <template>
     <div  class="isochrone-select">
-        <div style="width:60%; margin-top: 10%">
-            <label for="">Reisemethode</label>
-            <select name="geometry" class="form-select form-control" v-model="mode" >
-                <option value="" disabled selected hidden>Bitte Reisemethode auswählen</option>
-                <option value="walk_network" >gehen </option>
-                <option value="bike_network" >Radfahren</option>
-                <option value="drive_network" >Fahren</option>
-        
-            </select>
+        <div style="width:60%; margin-top: 5%">
+           
+            <v-select
+                :items="$store.state.isochroneAOI.items"
+                label="Reisemethode"
+                solo
+                item-text="name"
+                item-value="value"
+                v-model="mode"
+                
+            ></v-select>
             <div class="isochrone-setting mt-4">
                 <button @click="showPointDraw" class="btn btn-secondary" id="draw-point"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> &nbsp; Mitte auswählen</button>
                 <span v-if="$store.state.isochroneAOI.center.coordinates!==''" class="text-success mx-3">

@@ -6,7 +6,14 @@ const isochroneAOI = {
     namespaced: true,
     state:{
         center: {"coordinates": ""},
-        draw: null
+        draw: null,
+        mode: null,
+        items: [
+            { name: 'Gehen', value: 'walk_network' },
+            { name: 'Radfahren', value: 'bike_network' },
+            { name: 'Fahren', value: 'drive_network' },
+            
+        ],
     },
     mutations:{
       

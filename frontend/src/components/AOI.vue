@@ -1,14 +1,18 @@
 <template>
     <div>
-        <select @change="test($event.target.value)"  v-model="$store.state.AOI.selected" name="aoi" style="width:80%; margin-left: auto; margin-right: auto" class="form-select form-control">
-            <option value="default" disabled selected hidden>Bitte Bereichssuchmethode auswählen</option>
-            <option value="administrative" >Verwaltungsgebiet</option>
-            <option value="geometry">Geometrie</option>
-            <option value="isochrone">Umkreis/Isochrone</option>  
-        </select>
-        <AdministrativeAOI v-if="$store.state.AOI.selected==='administrative'" />
-        <GeometryAOI v-if="$store.state.AOI.selected==='geometry'" />
-        <IsochroneAOI v-if="$store.state.AOI.selected==='isochrone'" />
+        <v-select
+          :items="$store.state.AOI.items"
+          label="AoI Mode"
+          outlined
+          item-text="name"
+          item-value="value"
+          
+          v-model="$store.state.AOI.selectMode"
+          @change="test"
+        ></v-select>
+        <AdministrativeAOI v-if="$store.state.AOI.selectMode==='administrative'" />
+        <GeometryAOI v-if="$store.state.AOI.selectMode==='geometry'" />
+        <IsochroneAOI v-if="$store.state.AOI.selectMode==='isochrone'" />
         <Building3D/>
     </div>
 </template>
@@ -29,7 +33,6 @@ export default {
     },
     data(){
         return{
-            selected : "default",
             buildingSwitch: false,
         }
     },

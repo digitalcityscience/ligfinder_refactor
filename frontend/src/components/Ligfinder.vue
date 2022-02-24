@@ -1,17 +1,6 @@
 <template>
     <div v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
-       <v-card>
-    
-  </v-card>
-        <div>
-            <i
-                class="fas fa-times mt-1 " 
-                style="cursor: pointer; position: absolute; right: 1%"
-                @click="setLigfinderToggle"   
-            >
-            </i>
-        </div>
-           
+
         <!--<div class="ligfinder-ui-header mt-4" id="ligfinder-ui-header">
             <button id="aoi" class="btn" @click="setClickedMenu($event);">
                 SUCHGEBIET
@@ -43,7 +32,6 @@
                 dark
                 show-arrows
             >
-
                 <v-tab id="aoi" class="" @click="setClickedMenu($event);" >SUCHGEBIET</v-tab>
                 <v-tab id="area" class="" @click="setClickedMenu($event);">FLÄCHE</v-tab>
                 <v-tab id="criteria" class="" @click="setClickedMenu($event)">KRITERIEN</v-tab>
