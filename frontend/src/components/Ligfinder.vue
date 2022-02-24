@@ -1,6 +1,8 @@
 <template>
     <div v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
-       
+       <v-card>
+    
+  </v-card>
         <div>
             <i
                 class="fas fa-times mt-1 " 
@@ -10,7 +12,7 @@
             </i>
         </div>
            
-        <div class="ligfinder-ui-header mt-4" id="ligfinder-ui-header">
+        <!--<div class="ligfinder-ui-header mt-4" id="ligfinder-ui-header">
             <button id="aoi" class="btn" @click="setClickedMenu($event);">
                 SUCHGEBIET
             </button>
@@ -27,7 +29,30 @@
                 ERGEBNISSE
                 <span class="badge circle circle-md bg-dar badge-notify mt-4 ">{{$store.state.ligfinder.FOI.features.length}}</span>
             </button>
-        </div>
+        </div>-->
+        
+        <template >
+                  <i
+                class="fas fa-times mt-1 " 
+                style="cursor: pointer; position: absolute; right: 1%; top:0; z-index:999"
+                @click="setLigfinderToggle"   
+            >
+            </i>
+            <v-tabs background-color="cyan accent-4"
+                center-active
+                dark
+                show-arrows
+            >
+
+                <v-tab id="aoi" class="" @click="setClickedMenu($event);" >SUCHGEBIET</v-tab>
+                <v-tab id="area" class="" @click="setClickedMenu($event);">FLÄCHE</v-tab>
+                <v-tab id="criteria" class="" @click="setClickedMenu($event)">KRITERIEN</v-tab>
+                <v-tab id="proximity" class="" @click="setClickedMenu($event)">INFRASTRUKTUR</v-tab>
+                <v-tab id="results" class="" @click="setClickedMenu($event)">ERGEBNISSE
+                    <v-chip color="green"> {{$store.state.ligfinder.FOI.features.length}} </v-chip>
+                </v-tab>
+            </v-tabs>
+        </template>
         <div class="mx-4 mt-4">
             <AOI v-if="clickedLigMenue==='aoi'" />
             <Results v-if="clickedLigMenue==='results'" />
@@ -94,4 +119,5 @@ export default {
         width:20%;
         font-size: 0.8vw
     }
+    
 </style>
