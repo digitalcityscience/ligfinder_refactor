@@ -74,6 +74,7 @@ export default {
         setClickedMenu(e){
             this.clickedLigMenue= e.srcElement.id
         },
+        
     },
     components: {
         AOI,

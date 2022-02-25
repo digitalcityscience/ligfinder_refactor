@@ -8,9 +8,10 @@ const area = {
         grossFloorAreaRange: [0,4073828]
     },
     mutations:{
-
+        
     },
     actions:{
+        
         areaFilter({state, rootState, dispatch}){
             console.log(rootState.ligfinder.FOIGid)
             HTTP
@@ -76,7 +77,23 @@ const area = {
         }
     },
     getters:{
-
+        getParams (state, getters, rootState) {
+            console.log(rootState.ligfinder.FOI.features)
+            const area_fme = []
+            for (let i of rootState.ligfinder.FOI.features){
+                area_fme.push(i.properties.area_fme)
+            }
+            const bgf_sum = []
+            for (let i of rootState.ligfinder.FOI.features){
+                bgf_sum.push(i.properties.bgf_sum)
+            }
+            const minAreaFme = Math.min(...area_fme)
+            const maxAreaFme = Math.max(...area_fme)
+            const minBgfSum = Math.min(...bgf_sum)
+            const maxBgfSum = Math.max(...bgf_sum)
+            const areaRange = [minAreaFme, maxAreaFme, minBgfSum, maxBgfSum]
+            return areaRange
+        }
     }
 }
 

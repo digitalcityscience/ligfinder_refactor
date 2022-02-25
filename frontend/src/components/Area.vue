@@ -6,12 +6,12 @@
                 <v-col class="px-4">
                     <v-range-slider
                     v-model="$store.state.area.areaRange"
-                    :max="4073828"
-                    :min="0"
+                    :max="getParams[1]"
+                    :min="getParams[0]"
                     hide-details
                     class="align-center"
                     >
-                    <template v-slot:prepend>
+                    <template v-slot:prepend >
                         <v-text-field
                         :value="$store.state.area.areaRange[0]"
                         @change="$set($store.state.area.areaRange, 0, $event)"
@@ -44,8 +44,8 @@
                 <v-col class="px-4">
                     <v-range-slider
                     v-model="$store.state.area.grossFloorAreaRange"
-                    :max="4073828"
-                    :min="0"
+                    :max="getParams[3]"
+                    :min="getParams[2]"
                     hide-details
                     class="align-center"
                     >
@@ -89,13 +89,15 @@
 
 <script>
 //import $ from 'jquery'
+import { mapGetters } from 'vuex'
 export default {
     name: "Area",
     data() {
         return {
             areaRange: [1, 9],
             landAreaMin: 0,
-            landAreaMax: 100
+            landAreaMax: 100,
+            example: null
         }
     },
     components: {
@@ -103,8 +105,16 @@ export default {
     created() {
         
     },
-    mounted: function (){
    
+    computed: {
+        doneTodos () {
+            return this.$store.getters.getParams
+        },
+        // mix the getters into computed with object spread operator
+        ...mapGetters(
+            'area', {
+            getParams: 'getParams',
+            })
     },
     methods:{
         areaFilter(){
