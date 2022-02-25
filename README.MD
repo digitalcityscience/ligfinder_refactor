@@ -54,9 +54,9 @@ To run the backend, execute the following command:
  python runserver.py
 ``
 
-Then, the backend Flak application is being run at the following address:
+Then, the backend Flak application will be run at the following address:
 
-http://localhost:8080/
+http://localhost:3000/
 
 In the next step, you can create a local database named "ligfinder" with postgis extension. As mentioned above, to populate database, the database dump can be provided over request.
 
