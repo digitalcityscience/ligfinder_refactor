@@ -1,6 +1,5 @@
 import { HTTP } from '../../utils/http-common';
 import { createHtmlAttributes } from '../../utils/createHtmlAttributes';
-createHtmlAttributes
 import Vue from 'vue'
 import maplibregl from 'maplibre-gl'
 const layers = {
@@ -117,31 +116,12 @@ const layers = {
                 state.addedTableNames.push(layerName)
                 rootState.map.map.on('click', response.data.name, (e) => {
                     const coordinates = [e.lngLat.lng, e.lngLat.lat]
-                    console.log(e.features[0], coordinates)
-                    /*const keys = []
-                    const value = []
-                    for (let i of Object.keys(e.features[0].properties)){
-                        keys.push(i)
-                        
-                    }
-                    for (let i of keys){
-                        value.push(e.features[0].properties[i])
-                    }
-                    
-                    console.log(keys, value)*/
                     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
                     let popup = new maplibregl.Popup()
                     popup.setLngLat(coordinates)
-                    
-                    /*let response = "<div style='max-height: 25vh;overflow: scroll;'><table class = 'table table-hover '> <tbody>";
-                    for (let prop in e.features[0].properties) {
-                        response += "<tr> <th>" + prop + "</th> " + "<th>" + e.features[0].properties[prop] + "<th> <tr>";
-                    }
-                    response += "</tbody></table></div>";
-                    popup.setHTML(response)*/
-                    popup.setHTML(createHtmlAttributes(e.features[0].properties))
+                    popup.setDOMContent(createHtmlAttributes(rootState, e.lngLat.lng, e.lngLat.lat, e.features[0].properties))
                     
                     popup.addTo(rootState.map.map);
         

@@ -1,5 +1,7 @@
 import { HTTP } from '../../utils/http-common';
 import colorbrewer from "colorbrewer"
+import { createHtmlAttributes } from '../../utils/createHtmlAttributes';
+import maplibregl from 'maplibre-gl'
 const proximity = {
     namespaced: true,
     state: {
@@ -78,6 +80,20 @@ const proximity = {
                 })
 
                 rootState.map.isLoading = false
+                rootState.map.map.on('click', 'foi', (e) => {
+                    const coordinates = [e.lngLat.lng, e.lngLat.lat]
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+                    let popup = new maplibregl.Popup()
+                    popup.setLngLat(coordinates)
+                    //popup.setHTML(createHtmlAttributes(e.features[0].properties))
+                    popup.setDOMContent(createHtmlAttributes(rootState, e.lngLat.lng, e.lngLat.lat, e.features[0].properties))
+                    
+                    popup.addTo(rootState.map.map);
+                    
+        
+                })
             })
         }
     },
