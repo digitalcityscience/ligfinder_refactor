@@ -33,6 +33,21 @@
                     </i>
                 </span>
             </div>
+            <div>
+                <span>
+                    <i
+                        class="fas fa-plus mt-2" 
+                        @click="dropAreaToggle"
+                        :style="{
+                            color: $store.state.addData.iconColor,
+                            fontSize:'1.2vw',
+                            marginLeft:'0.3vw',
+                            marginRight: '0.3vw' 
+                        }"
+                    >
+                    </i>
+                </span>
+            </div>
             
             <!--<div>
                 <span>
@@ -110,6 +125,9 @@ export default {
         },
         toolsToggle(){
             this.$store.commit('tools/setToolsToggle')
+        },
+        dropAreaToggle(){
+            this.$store.commit('addData/dropAreaToggle')
         }
 
     },

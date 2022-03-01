@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, json, Response
 import mapclassify
-from sqlalchemy import null
 from RestAPI import app
 from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter
 
@@ -214,7 +213,7 @@ def classify():
         for gid in featureIds:
             featureid.append(int(gid))
         featureid= tuple(featureid)
-        if data['selectedLayer'] == "foi":
+        if data['selectedLayer'] == "foi" or data['selectedLayer'] == "results":
             data['selectedLayer'] = "parcel"
         jsonfile = classification(data['selectedLayer'], data['attribute1'], data['selectedLayer'], featureid)
         attColumn = jsonfile[0][0]['features']

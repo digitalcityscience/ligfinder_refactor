@@ -21,6 +21,7 @@ import legend from './modules/legend'
 import criteria from './modules/criteria'
 import building3D from './modules/building3D'
 import alert from './modules/alert'
+import addData from './modules/addData'
 
 Vue.use(Vuex);
 
@@ -46,7 +47,8 @@ const store = new Vuex.Store({
         legend,
         criteria,
         building3D,
-        alert
+        alert,
+        addData
     }
 
 })

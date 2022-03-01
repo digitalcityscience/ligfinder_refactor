@@ -15,6 +15,7 @@
        <Classification />
        <Legend />
        <Alert />
+       <AddData />
     </div>
    
   </div>
@@ -42,6 +43,7 @@ import Geoparsing from './Geoparsing'
 import Classification from './Classification'
 import Legend from './Legend'
 import Alert from './Alert'
+import AddData from './AddData'
 
 export default {
   name: "Map",
@@ -56,7 +58,8 @@ export default {
     Geoparsing,
     Classification,
     Legend,
-    Alert
+    Alert,
+    AddData
   },
   mounted: function() {
     this.$store.state.map.map = new maplibregl.Map({
