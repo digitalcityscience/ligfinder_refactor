@@ -1,7 +1,7 @@
 <template>
 <div class="alerts" id="alerts" v-if="$store.state.alert.toggle">
     <i class='fas fa-exclamation-circle'></i> &nbsp;
-    No feature found. Please restart your search
+    {{$store.state.alert.alertText}}
 </div>
 </template>
 

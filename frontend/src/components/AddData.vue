@@ -30,7 +30,6 @@ export default {
             if (validFileTypes.includes(fileType)){
                 let reader = new FileReader()
                 reader.onload = (e) => {
-                    
                     let json = JSON.parse(e.target.result);
                     document.querySelector(".drag-area").classList.remove("active")
                     let toBeRemove = ".json";
@@ -44,6 +43,7 @@ export default {
             }
             
             else {
+                this.$store.dispatch('alert/openCloseAlarm', {text: "The uploaded file is not valid!"})
                 console.log("file type not supported")
                 document.querySelector(".drag-area").classList.remove("active")
             }

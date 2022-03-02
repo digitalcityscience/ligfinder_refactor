@@ -55,7 +55,7 @@ const area = {
                     rootState.map.map.addLayer(layerName)
                 }
                 else{
-                    dispatch('alert/openCloseAlarm', null, { root:true })
+                    dispatch('alert/openCloseAlarm', {text: "No feature found for the selected area. Please restart your search"}, { root:true })
                     const mapLayer = rootState.map.map.getLayer("foi");
                     if(typeof mapLayer !== 'undefined'){
                         rootState.map.map.removeLayer("foi")
