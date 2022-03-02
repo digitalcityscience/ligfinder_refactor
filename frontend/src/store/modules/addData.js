@@ -21,15 +21,19 @@ const addData = {
     actions:{
         addDroppedData({rootState, state}, payload){
             console.log(state, payload)
-            let filenName = payload.fileName
-          
-            let layerName = filenName
-            rootState.map.map.addSource(payload.fileName,{'type': 'geojson', 'data': payload.data});
+            
+            const mapLayer = rootState.map.map.getLayer(payload.data.name)
+            if(typeof mapLayer !== 'undefined'){
+                rootState.map.map.removeLayer(payload.data.name)
+                rootState.map.map.removeSource(payload.data.name)
+            }
+            let layerName 
+            rootState.map.map.addSource(payload.data.name,{'type': 'geojson', 'data': payload.data});
             if(payload.data.features[0].geometry.type==="MultiLineString" || payload.data.features[0].geometry.type==="LineString"){
                 layerName = {
-                    'id': payload.fileName,
+                    'id': payload.data.name,
                     'type': 'line',
-                    'source': payload.fileName, // reference the data source
+                    'source': payload.data.name, // reference the data source
                     'layout': {},
                     'paint': {
                         'line-color': '#888',
@@ -40,9 +44,9 @@ const addData = {
             }
             else if (payload.data.features[0].geometry.type==="Point"){
                 layerName = {
-                    'id': payload.fileName,
+                    'id': payload.data.name,
                     'type': 'circle',
-                    'source': payload.fileName, // reference the data source
+                    'source': payload.data.name, // reference the data source
                     'layout': {},
                     'paint': {
                         'circle-color': '#8931e0',
@@ -53,9 +57,9 @@ const addData = {
             }
             else {
                 layerName = {
-                    'id': payload.fileName,
+                    'id': payload.data.name,
                     'type': 'fill',
-                    'source': payload.fileName, // reference the data source
+                    'source': payload.data.name, // reference the data source
                     'layout': {},
                     'paint': {
                         'fill-color': '#00FF00', 
@@ -67,12 +71,20 @@ const addData = {
             }
             
             rootState.map.map.addLayer(layerName)
-            payload.data.name = filenName
+            //payload.data.name = filenName
+            //rootState.layers.addedLayers.push(payload.data)
+            rootState.ligfinder.FOI = payload.data
             rootState.layers.addedLayers.push(payload.data)
             rootState.map.isLoading = false
             
             let bounds = turf.bbox(payload.data);
             rootState.map.map.fitBounds(bounds);
+            
+            rootState.ligfinder.FOIGid = []
+            for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
+                rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
+            }
+            
         }
     },
     getters:{
