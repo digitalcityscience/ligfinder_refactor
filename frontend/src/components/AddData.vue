@@ -18,9 +18,11 @@ export default {
     methods: {
         onDragOver(){
             document.querySelector(".drag-area").classList.add("active")
+            document.querySelector(".drag-area").querySelector("header").textContent = "Release to Upload the File"
         },
         onDragLeave(){
             document.querySelector(".drag-area").classList.remove("active")
+            document.querySelector(".drag-area").querySelector("header").textContent = "Drag & Drop to Upload Files. Supported versions: JSON, GeoJSON"
         },
         onDrop(event){
             event.preventDefault()
@@ -36,6 +38,7 @@ export default {
                     let filenName = file.name.replace(toBeRemove,'');
                     this.$store.dispatch('addData/addDroppedData', {data: json, fileName: filenName});
                     this.$store.commit('addData/closeDropArea');
+                    document.querySelector(".drag-area").querySelector("header").textContent = "Drag & Drop to Upload Files. Supported versions: JSON, GeoJSON"
 
                 }
                 reader.readAsText(file)
