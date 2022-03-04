@@ -1,19 +1,14 @@
 <template>
   <v-app id="app">
-    <!--<UserAuthentication 
-    v-if="$store.state.userAuthentication.isUser===false || $store.state.userAuthentication.isUser===null "
-    />-->
     <Map/>
   </v-app>
 </template>
 
 <script>
-//import UserAuthentication from "./components/UserAuthentication"
 import Map from "./components/Map"
 export default {
   name: "App",
   components: {
-    //UserAuthentication,
     Map
   }
 };

@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import userAuthentication from './modules/userAuthentication'
 import map from './modules/map'
 import mouseCoordinate from './modules/mouseCoordinate'
 import database from './modules/database'
@@ -27,7 +26,6 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     modules:{
-        userAuthentication,
         map,
         mouseCoordinate,
         database,
