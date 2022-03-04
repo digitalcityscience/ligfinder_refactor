@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="$store.state.ligfinder.FOI.features[0]">
+<div v-if="$store.state.ligfinder.FOI.features[0]" class="criteria-container">
     
     <v-card
     class="mx-auto"
@@ -416,6 +416,9 @@ export default {
     overflow-y: scroll;
     
 }
+.mx-auto::-webkit-scrollbar {
+  display: none;
+}
 .child1{
     margin-left: 2vw;
    
@@ -435,6 +438,9 @@ export default {
 .addedcriteria{
     max-height:20vh;
     overflow-y: scroll;
+}
+.addedcriteria::-webkit-scrollbar {
+  display: none;
 }
 .select-operator{
     width: 5vw;

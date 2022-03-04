@@ -97,6 +97,9 @@ export default {
         height: 100vh;
         overflow-y: scroll;
     }
+    .ligfinder-ui::-webkit-scrollbar {
+        display: none;
+    }
     .badge-notify{
         background:green;
         position:absolute;

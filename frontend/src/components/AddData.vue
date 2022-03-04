@@ -61,11 +61,11 @@ export default {
     justify-content: center;
     align-items: center;
     position: absolute;
-    width:50vw;
+    width:40vw;
     z-index: 999;
     left: 50%;
-    transform: translate(-50%, 30%);
-    height: 60vh;
+    transform: translate(-50%, 50%);
+    height: 50vh;
     background: rgb(243, 239, 239);
     flex-direction: column  ;
     border: 1px dashed rgb(90, 88, 88);

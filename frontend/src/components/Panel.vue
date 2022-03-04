@@ -21,7 +21,7 @@
             <div>
                 <span>
                     <i
-                        class="fas fa-tools mt-3" 
+                        class="fas fa-tools mt-4" 
                          @click="toolsToggle"
                         :style="{
                             color: $store.state.tools.iconColor,
@@ -36,7 +36,7 @@
             <div>
                 <span>
                     <i
-                        class="fas fa-plus mt-2" 
+                        class="fas fa-plus mt-4" 
                         @click="dropAreaToggle"
                         :style="{
                             color: $store.state.addData.iconColor,

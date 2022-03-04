@@ -84,4 +84,7 @@ export default {
 .mx-auto{
     overflow-y: scroll ;
 }
+.mx-auto::-webkit-scrollbar {
+  display: none;
+}
 </style>

@@ -1,86 +1,87 @@
 <template>
     <div v-if="$store.state.ligfinder.FOI.features[0]">
-        <v-subheader>Grundstücksfläche in m²</v-subheader>
-        <v-card-text>
-            <v-row>
-                <v-col class="px-4">
-                    <v-range-slider
-                    v-model="$store.state.area.areaRange"
-                    :max="getParams[1]"
-                    :min="getParams[0]"
-                    hide-details
-                    class="align-center"
-                    >
-                    <template v-slot:prepend >
-                        <v-text-field
-                        :value="$store.state.area.areaRange[0]"
-                        @change="$set($store.state.area.areaRange, 0, $event)"
-                        class="mt-0 pt-0"
+        <v-card>
+            <v-subheader>Grundstücksfläche in m²</v-subheader>
+            <v-card-text>
+                <v-row>
+                    <v-col class="px-4">
+                        <v-range-slider
+                        v-model="$store.state.area.areaRange"
+                        :max="getParams[1]"
+                        :min="getParams[0]"
                         hide-details
-                        single-line
-                        type="number"
-                        style="font-size: 0.8vw; width: 5vw"
-                        ></v-text-field>
-                    </template>
-                    <template v-slot:append>
-                        <v-text-field
-                        :value="$store.state.area.areaRange[1]"
-                        @change="$set($store.state.area.areaRange, 1, $event)"
-                        class="mt-0 pt-0"
-                        hide-details
-                        single-line
-                        type="number"
-                        style="font-size: 0.8vw; width: 5vw"
-                        ></v-text-field>
-                    </template>
-                    </v-range-slider>
-                </v-col>
-            </v-row>
-        </v-card-text>
+                        class="align-center"
+                        >
+                        <template v-slot:prepend >
+                            <v-text-field
+                            :value="$store.state.area.areaRange[0]"
+                            @change="$set($store.state.area.areaRange, 0, $event)"
+                            class="mt-0 pt-0"
+                            hide-details
+                            single-line
+                            type="number"
+                            style="font-size: 0.8vw; width: 5vw"
+                            ></v-text-field>
+                        </template>
+                        <template v-slot:append>
+                            <v-text-field
+                            :value="$store.state.area.areaRange[1]"
+                            @change="$set($store.state.area.areaRange, 1, $event)"
+                            class="mt-0 pt-0"
+                            hide-details
+                            single-line
+                            type="number"
+                            style="font-size: 0.8vw; width: 5vw"
+                            ></v-text-field>
+                        </template>
+                        </v-range-slider>
+                    </v-col>
+                </v-row>
+            </v-card-text>
 
-        <v-subheader>Vorhandene Bruttogeschossfläche in m² </v-subheader>
-        <v-card-text>
-            <v-row>
-                <v-col class="px-4">
-                    <v-range-slider
-                    v-model="$store.state.area.grossFloorAreaRange"
-                    :max="getParams[3]"
-                    :min="getParams[2]"
-                    hide-details
-                    class="align-center"
-                    >
-                    <template v-slot:prepend>
-                        <v-text-field
-                        :value="$store.state.area.grossFloorAreaRange[0]"
-                        @change="$set($store.state.area.grossFloorAreaRange, 0, $event)"
-                        class="mt-0 pt-0"
+            <v-subheader>Vorhandene Bruttogeschossfläche in m² </v-subheader>
+            <v-card-text>
+                <v-row>
+                    <v-col class="px-4">
+                        <v-range-slider
+                        v-model="$store.state.area.grossFloorAreaRange"
+                        :max="getParams[3]"
+                        :min="getParams[2]"
                         hide-details
-                        single-line
-                        type="number"
-                        style="font-size: 0.8vw; width: 5vw"
-                        ></v-text-field>
-                    </template>
-                    <template v-slot:append>
-                        <v-text-field
-                        :value="$store.state.area.grossFloorAreaRange[1]"
-                        @change="$set($store.state.area.grossFloorAreaRange, 1, $event)"
-                        class="mt-0 pt-0"
-                        hide-details
-                        single-line
-                        type="number"
-                        style="font-size: 0.8vw; width: 5vw"
-                        ></v-text-field>
-                    </template>
-                    </v-range-slider>
-                </v-col>
-            </v-row>
-        </v-card-text>
+                        class="align-center"
+                        >
+                        <template v-slot:prepend>
+                            <v-text-field
+                            :value="$store.state.area.grossFloorAreaRange[0]"
+                            @change="$set($store.state.area.grossFloorAreaRange, 0, $event)"
+                            class="mt-0 pt-0"
+                            hide-details
+                            single-line
+                            type="number"
+                            style="font-size: 0.8vw; width: 5vw"
+                            ></v-text-field>
+                        </template>
+                        <template v-slot:append>
+                            <v-text-field
+                            :value="$store.state.area.grossFloorAreaRange[1]"
+                            @change="$set($store.state.area.grossFloorAreaRange, 1, $event)"
+                            class="mt-0 pt-0"
+                            hide-details
+                            single-line
+                            type="number"
+                            style="font-size: 0.8vw; width: 5vw"
+                            ></v-text-field>
+                        </template>
+                        </v-range-slider>
+                    </v-col>
+                </v-row>
+            </v-card-text>
 
-        <div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">Suche Starten</button>
-        </div>
-            
-        </div>
+            <v-col class="mt-4" >
+                    <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">Suche Starten</button>
+            </v-col>
+        </v-card>
+    </div>
     <div v-else class="table text-center">
         <p>No Feature Selected</p>
     

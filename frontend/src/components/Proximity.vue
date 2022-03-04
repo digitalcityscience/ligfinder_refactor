@@ -1,8 +1,7 @@
 <template>
 <div v-if="$store.state.ligfinder.FOI.features[0]">
     <v-card
-    flat
-    color="transparent"
+    
   >
     <v-subheader>Supermarkt</v-subheader>
 
@@ -61,9 +60,9 @@
       </v-row>
       
     </v-card-text>
-    <div class="mt-4" >
+    <v-col class="mt-4 " >
         <button style="font-size: 0.8vw" class="btn btn-info" @click="proximityAnalysis">Analyse durchführen</button>
-    </div>
+    </v-col>
   </v-card>
   </div>
   <div v-else class="table text-center">
