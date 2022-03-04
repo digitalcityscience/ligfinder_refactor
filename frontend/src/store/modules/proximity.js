@@ -12,6 +12,7 @@ const proximity = {
         metroMin: 0,
         metroMax: 1,
         metroWeight: 0.5,
+        selectedColorPalette: "Greens"
     },
     mutations:{
 
@@ -80,6 +81,12 @@ const proximity = {
                 })
 
                 rootState.map.isLoading = false
+                rootState.legend.attribute = 'total_score'
+                rootState.legend.lowerbound = response.data.lowerbound
+                rootState.legend.breaks = response.data.breaks
+                rootState.legend.colorPalette = state.selectedColorPalette
+                
+                rootState.legend.univariateToggle =true
                 rootState.map.map.on('click', 'foi', (e) => {
                     const coordinates = [e.lngLat.lng, e.lngLat.lat]
                     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -87,13 +94,50 @@ const proximity = {
                     }
                     let popup = new maplibregl.Popup()
                     popup.setLngLat(coordinates)
-                    //popup.setHTML(createHtmlAttributes(e.features[0].properties))
                     popup.setDOMContent(createHtmlAttributes(rootState, e.lngLat.lng, e.lngLat.lat, e.features[0].properties))
                     
                     popup.addTo(rootState.map.map);
                     
         
                 })
+            })
+            .finally(() =>{
+                    let legend = document.getElementsByClassName('legend')
+                    for(let i=0; i<8; i++){
+                        let old_div = document.getElementById("class"+i.toString());
+                        if(old_div){
+                            old_div.remove()
+                        }
+                    }
+                    for (let i= 0; i< rootState.legend.breaks.length; i++){
+                        
+                        let div = document.createElement('div');
+                        div.id = "class"+i.toString();
+    
+                        let span_obj = document.createElement("span");
+                        
+                        span_obj.style.backgroundColor = colorbrewer[state.selectedColorPalette][rootState.legend.breaks.length][i]
+                        span_obj.style.borderRadius = '50%';
+                        span_obj.style.display =  'inline-block';
+                        span_obj.style.height = "10px";
+                        span_obj.style.marginLeft = "5px";
+                        span_obj.style.width = "10px";
+                        let atag = document.createElement("a");
+                        atag.style.marginLeft = "5px";
+                        if (i==0){
+                            atag.innerHTML = (rootState.legend.lowerbound).toFixed(2) + " - " + (rootState.legend.breaks[0]).toFixed(2)
+                        }
+                        else{
+                            atag.innerHTML = (rootState.legend.breaks[i-1]).toFixed(2) + " - " + (rootState.legend.breaks[i]).toFixed(2)
+                        }
+                       
+                       
+                        div.appendChild(span_obj);
+                        div.appendChild(atag);
+                        legend[0].appendChild(div)
+                        
+                    }
+                
             })
         }
     },
