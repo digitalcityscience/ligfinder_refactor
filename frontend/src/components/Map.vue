@@ -16,6 +16,7 @@
        <Legend />
        <Alert />
        <AddData />
+       <User />
     </div>
    
   </div>
@@ -44,6 +45,7 @@ import Classification from './Classification'
 import Legend from './Legend'
 import Alert from './Alert'
 import AddData from './AddData'
+import User from './User'
 
 export default {
   name: "Map",
@@ -59,7 +61,8 @@ export default {
     Classification,
     Legend,
     Alert,
-    AddData
+    AddData,
+    User
   },
   mounted: function() {
     this.$store.state.map.map = new maplibregl.Map({

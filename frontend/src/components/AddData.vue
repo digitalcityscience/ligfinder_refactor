@@ -47,7 +47,6 @@ export default {
             
             else {
                 this.$store.dispatch('alert/openCloseAlarm', {text: "The uploaded file is not valid!"})
-                console.log("file type not supported")
                 document.querySelector(".drag-area").classList.remove("active")
             }
         }

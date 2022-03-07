@@ -385,3 +385,22 @@ def criterial_filter(gid,att):
   cur.close()
   conn.close()
   return user
+
+def register_user(firstname, lastname, email, password):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+    insert into public.users (firstname, lastname, email, password_hashed, created_on) VALUES (%s, %s,%s, %s, now());
+      """, (firstname, lastname, email, password))
+  conn.commit()
+  cur.close()
+  conn.close()
+
+def validate_email(email):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("SELECT * FROM users where email=%s", (email,))
+  mail = cur.fetchall()
+  cur.close()
+  conn.close()
+  return mail

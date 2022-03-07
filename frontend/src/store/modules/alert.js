@@ -2,7 +2,8 @@ const alert = {
     namespaced: true,
     state:{
         toggle: false,
-        alertText: null
+        alertText: null,
+        background: "#FFD700"
     },
     mutations:{
         
@@ -11,7 +12,7 @@ const alert = {
         openCloseAlarm({state}, payload){
             state.alertText = payload.text
             state.toggle=true
-            
+            state.background = payload.background
             state.setTimeoutObject = setTimeout(() => {
                 state.toggle = false
             }, 5000);

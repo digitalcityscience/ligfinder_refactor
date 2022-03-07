@@ -32,6 +32,7 @@
                 dark
                 show-arrows
             >
+                <v-tabs-slider color="purple darken-4"></v-tabs-slider>
                 <v-tab id="aoi" class="" @click="setClickedMenu($event);" >SUCHGEBIET</v-tab>
                 <v-tab id="area" class="" @click="setClickedMenu($event);">FLÄCHE</v-tab>
                 <v-tab id="criteria" class="" @click="setClickedMenu($event)">KRITERIEN</v-tab>

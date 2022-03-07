@@ -1,28 +1,14 @@
 from flask import Flask, request, jsonify, json, Response
+import bcrypt
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_users, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_email, register_user
 
 @app.route('/', methods=["GET", "POST"])
 def home():
     ggggid =2
     print(get_buildings(ggggid))
     return "welcome"
-
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    user_credentials=''
-    if request.method == 'POST':
-        user_credentials = request.get_json()
-        
-    username = user_credentials['username']
-    password = user_credentials['password']
-    if len(get_users(username,password)) == 1:
-        return {"isUser":True}
-    else:
-        print("Oops! Incorrect Username or Password!")
-        return {"isUser":False}
-
 
 @app.route('/table-names', methods=["GET", "POST"])
 def table_names():
@@ -338,3 +324,23 @@ def set_criteria_filter():
     print("includeTags", includeTags)
     print("operator", operator)
     return criterial_filter(featureid,queryString)
+
+@app.route('/register-user', methods=["GET", "POST"])
+def register():
+    if request.method=='POST':
+        data = request.get_json()
+        firstname= data['payload']['firstName']
+        lastName= data['payload']['lastName']
+        email= data['payload']['email']
+        password= data['payload']['password']
+        password= password.encode('utf-8')
+        salt = bcrypt.gensalt()
+        hashed = bcrypt.hashpw(password, salt)
+        print(validate_email(email))
+        if validate_email(email):
+            return jsonify({'text':"User with this email address already exists", 'status': 'failure'})
+            
+        else:
+            register_user(firstname, lastName, email, hashed)
+            return jsonify({'text':"Your account has been successfully created", 'status': 'success'})
+            

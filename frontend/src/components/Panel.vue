@@ -1,11 +1,26 @@
 <template>
     <div id="main-panel">
         <div>
-            
+            <div class="user-icon">
+                <span >
+                    <i
+                        class="fa fa-user fa-xs mt-2" 
+                        @click="userToggle"
+                        :style="{
+                            color: $store.state.user.iconColor,
+                            boxShadow: $store.state.user.boxShadow,
+                            fontSize:'0.8vw',
+                            
+                           
+                        }"
+                    >
+                    </i>
+                </span>
+            </div>
             <div>
                 <span>
                     <i
-                        class="fas fa-layer-group mt-2" 
+                        class="fas fa-layer-group mt-4" 
                         @click="layersToggle"
                         @click.once="tableNames"
                         :style="{
@@ -128,6 +143,9 @@ export default {
         },
         dropAreaToggle(){
             this.$store.commit('addData/dropAreaToggle')
+        },
+        userToggle(){
+            this.$store.commit('user/setUserToggle')
         }
 
     },
@@ -153,5 +171,17 @@ export default {
     span:hover{
         cursor:pointer
     }
+    i.fa {
+        display: inline-block;
+        border-radius: 60px;
+        padding: 0.5em 0.6em;
+
+    }
+    .user-icon{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+   
    
 </style>

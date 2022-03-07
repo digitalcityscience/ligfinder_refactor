@@ -1,5 +1,5 @@
 <template>
-<div class="alerts" id="alerts" v-if="$store.state.alert.toggle">
+<div class="alerts" id="alerts" :style="{backgroundColor: $store.state.alert.background}" v-if="$store.state.alert.toggle">
     <i class='fas fa-exclamation-circle'></i> &nbsp;
     {{$store.state.alert.alertText}}
 </div>
