@@ -396,7 +396,7 @@ def register_user(firstname, lastname, email, password):
   cur.close()
   conn.close()
 
-def validate_email(email):
+def validate_user(email):
   conn = connect()
   cur = conn.cursor()
   cur.execute("SELECT * FROM users where email=%s", (email,))

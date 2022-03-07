@@ -22,7 +22,7 @@
                                 </v-col>
                                 <v-spacer></v-spacer>
                                 <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                                    <v-btn block :disabled="!valid" color="success" @click="validate"> Login </v-btn>
+                                    <v-btn block :disabled="!valid" color="success" @click="login"> Login </v-btn>
                                 </v-col>
                             </v-row>
                         </v-form>
@@ -78,6 +78,9 @@ export default {
     },
     register(){
         this.$store.dispatch("user/register", {firstName: this.firstName, lastName: this.lastName, email: this.email, password: this.password})
+    },
+    login(){
+        this.$store.dispatch("user/login", {loginEmail: this.loginEmail, loginPassword: this.loginPassword})
     }
     
   },

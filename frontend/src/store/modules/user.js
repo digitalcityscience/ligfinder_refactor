@@ -31,6 +31,23 @@ const user = {
                 }
                 dispatch('alert/openCloseAlarm', {text: response.data.text, background: backgroundColor}, { root:true })
             })
+        },
+        login({state, dispatch}, payload){
+            console.log(state, payload)
+            HTTP
+            .post('login-user', {
+                payload: payload
+            })
+            .then(response => {
+                let backgroundColor = null
+                if (response.data.status=="success"){
+                    backgroundColor = "#00FF00"
+                }
+                else {
+                    backgroundColor = "#FFD700"
+                }
+                dispatch('alert/openCloseAlarm', {text: response.data.text, background: backgroundColor}, { root:true })
+            })
         }
 
     },

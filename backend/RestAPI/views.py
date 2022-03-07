@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, json, Response
 import bcrypt
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_email, register_user
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -336,11 +336,26 @@ def register():
         password= password.encode('utf-8')
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(password, salt)
-        print(validate_email(email))
-        if validate_email(email):
+        print(validate_user(email))
+        if validate_user(email):
             return jsonify({'text':"User with this email address already exists", 'status': 'failure'})
             
         else:
-            register_user(firstname, lastName, email, hashed)
+            register_user(firstname, lastName, email, hashed.decode('ascii'))
             return jsonify({'text':"Your account has been successfully created", 'status': 'success'})
+@app.route('/login-user', methods=["GET", "POST"])        
+def login_user():
+    if request.method=='POST':
+        data = request.get_json()
+        email= data['payload']['loginEmail']
+        user_password= data['payload']['loginPassword']
+        user_password= user_password.encode('utf-8')
+        print(validate_user(email))
+        if len(validate_user(email))>0:
+            if bcrypt.checkpw(user_password, validate_user(email)[0][4].encode('ascii')):
+                return jsonify({'text':"Your are successfully logged in ", 'status': 'success'})
+            else:
+                return jsonify({'text':"Incorrect email or password ", 'status': 'failure'})
+        else:
+            return jsonify({'text':"Incorrect email or password", 'status': 'failure'})
             
