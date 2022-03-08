@@ -22,7 +22,7 @@
                                     </v-col>
                                     <v-spacer></v-spacer>
                                     <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                                        <v-btn block :disabled="!valid" color="success" @click="login">
+                                        <v-btn block :disabled="!valid" outlined color="blue-grey darken-2" @click="login">
                                             <v-icon
                                                 dark
                                                 left
@@ -59,7 +59,7 @@
                                     </v-col>
                                     <v-spacer></v-spacer>
                                     <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                                        <v-btn block :disabled="!valid" color="success" @click="register">
+                                        <v-btn block :disabled="!valid" outlined color="blue-grey darken-2" @click="register">
                                             <v-icon
                                                 dark
                                                 left
@@ -103,7 +103,7 @@
                     <v-btn
                         class="ma-2"
                         color="blue-grey darken-2"
-                        dark
+                        outlined
                         @click="logout"
                     >
                         <v-icon
