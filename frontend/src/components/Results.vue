@@ -16,14 +16,22 @@
                 
             </tbody>
         </table>
-        <div class = "export-result-table" >
-          <button type="button" class="btn btn-outline-secondary mt-4 mb-4" @click="exporResultsJson">Export JSON
-              <i class="fas fa-cloud-download-alt"></i>
-          </button>
-          <button type="button" class="btn btn-outline-secondary mt-4 mb-4 ml-2" @click="exporResultsSHP">Export SHP
-              <i class="fas fa-cloud-download-alt"></i>
-          </button>
-        </div>
+        
+        <v-select
+                :items="$store.state.results.exportItems"
+                label="Export"
+                solo
+                item-text="name"
+                item-value="value"
+                style="width:40%"
+                v-model="$store.state.results.exportMode"
+                @change="exportResult"
+                class="mt-4"                
+        >
+        </v-select>
+        
+       
+        
         
     </div>
     <div v-else class="text-center">
@@ -55,11 +63,14 @@ name: "Results",
         zoomToSelectedFeature(gid){
             this.$store.dispatch('results/zoomToSelectedFeature', gid)
     },
-    exporResultsJson(){
-        this.$store.dispatch('results/exporResultsJson')
-    },
-    exporResultsSHP(){
-        this.$store.dispatch('results/exporResultsSHP')
+    exportResult(e){
+        console.log(e)
+        if (e=='json'){
+            this.$store.dispatch('results/exporResultsJson')
+        }
+        else {
+            this.$store.dispatch('results/exporResultsSHP')
+        }
     }
 }
 }
@@ -80,7 +91,6 @@ name: "Results",
 table.dataTable tbody td {
     border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
-
 
 
 

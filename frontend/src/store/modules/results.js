@@ -5,6 +5,12 @@ const results = {
     namespaced: true,
     state:{
         toggle: false,
+        exportMode: null,
+        exportItems: [
+            { name: 'Shapefile', value: 'shapefile' },
+            { name: 'Json', value: 'json' },
+            
+        ],
         
     },
     mutations:{
