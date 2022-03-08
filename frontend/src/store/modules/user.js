@@ -4,7 +4,12 @@ const user = {
     state:{
         toggle: false,
         iconColor: '#ababab',
-        boxShadow: '0 0 2px #888'
+        boxShadow: '0 0 2px #888',
+        loggedIn: false,
+        firstname: null,
+        lastname: null,
+        email: null,
+        nameAbbreviation: null
     },
     mutations:{
         setUserToggle(state){
@@ -12,6 +17,9 @@ const user = {
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';
             state.toggle ? state.boxShadow = '0 0 2px #FFFFFF' :  state.boxShadow = '0 0 2px #888';
         },
+        logout(state){
+            state.loggedIn=false
+        }
     },
     actions:{
         register({state, dispatch}, payload){
@@ -42,17 +50,30 @@ const user = {
                 let backgroundColor = null
                 if (response.data.status=="success"){
                     backgroundColor = "#00FF00"
+                    state.loggedIn = true
+                    state.firstname = response.data.firstname
+                    state.lastname = response.data.lastname
+                    state.email = response.data.email
+                    let firstname = state.firstname
+                    let lastname = state.lastname
+                    let firstnameLetter = firstname.charAt(0)
+                    let lastnameLetter = lastname.charAt(0) 
+                    state.nameAbbreviation = firstnameLetter+lastnameLetter
                 }
                 else {
                     backgroundColor = "#FFD700"
                 }
                 dispatch('alert/openCloseAlarm', {text: response.data.text, background: backgroundColor}, { root:true })
             })
+        },
+        logoutAlert({dispatch}){
+            dispatch('alert/openCloseAlarm', {text: "You are logged out", background: "#FFD700"}, { root:true })
+
         }
 
     },
     getters:{
-
+       
     }
 
 }

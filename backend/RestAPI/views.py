@@ -353,7 +353,7 @@ def login_user():
         print(validate_user(email))
         if len(validate_user(email))>0:
             if bcrypt.checkpw(user_password, validate_user(email)[0][4].encode('ascii')):
-                return jsonify({'text':"Your are successfully logged in ", 'status': 'success'})
+                return jsonify({'text':"Your are successfully logged in ", 'status': 'success', 'firstname':validate_user(email)[0][1], 'lastname':validate_user(email)[0][2], 'email':validate_user(email)[0][3]})
             else:
                 return jsonify({'text':"Incorrect email or password ", 'status': 'failure'})
         else:
