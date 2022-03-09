@@ -89,7 +89,7 @@ const results = {
             shpwrite.download(foi, options);
             
         },
-        saveData({state, rootState}){
+        saveData({state, rootState, dispatch}){
             let gids = []
             for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
                 gids.push(rootState.ligfinder.FOI.features[i].properties.gid)
@@ -105,6 +105,9 @@ const results = {
                 userId: userId,
                 description: description,
                 name: name
+            })
+            .then(response => {
+                dispatch('alert/openCloseAlarm', {text: response.data.text, background: "#00FF00"}, { root:true })
             })
         }
     },

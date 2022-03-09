@@ -364,4 +364,4 @@ def save_results():
     if request.method=='POST':
         data = request.get_json()
         save_results_json(json.dumps(data), data["userId"])
-    return "ok"
+    return jsonify({'text': 'The results have been successfully saved!'})
