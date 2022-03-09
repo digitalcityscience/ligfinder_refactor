@@ -11,6 +11,13 @@ const results = {
             { name: 'Json', value: 'json' },
             
         ],
+        saveReultsItems: [
+            { name: 'Export Locally', value: 'export' },
+            { name: 'Save in the Profile', value: 'save' },
+            
+        ],
+        saveReultsMode: null,
+        description: null,
         
     },
     mutations:{
@@ -81,6 +88,9 @@ const results = {
             }
             shpwrite.download(foi, options);
             
+        },
+        saveData({state}){
+            console.log(state.description)
         }
     },
     getters:{

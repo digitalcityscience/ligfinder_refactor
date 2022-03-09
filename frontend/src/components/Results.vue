@@ -16,23 +16,61 @@
                 
             </tbody>
         </table>
-        
+
+
         <v-select
-                :items="$store.state.results.exportItems"
-                label="Export"
+                :items="$store.state.results.saveReultsItems"
+                label="Save Results"
                 solo
                 item-text="name"
                 item-value="value"
                 style="width:40%"
-                v-model="$store.state.results.exportMode"
-                @change="exportResult"
-                class="mt-4"                
+                v-model="$store.state.results.saveReultsMode"
+                
+                :style="{marginTop:'8vh'}"   
         >
         </v-select>
-        
-       
-        
-        
+        <v-row>
+            <v-col cols="12">
+                <v-select
+                        v-if="$store.state.results.saveReultsMode=='export'"
+                        :items="$store.state.results.exportItems"
+                        label="Export"
+                        solo
+                        item-text="name"
+                        item-value="value"
+                        style="width:50%"
+                        v-model="$store.state.results.exportMode"
+                        @change="exportResult"
+                                  
+                >
+                </v-select>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" v-if="$store.state.results.saveReultsMode=='save'">
+                <v-text-field
+                    v-if="$store.state.user.loggedIn"
+                    v-model="$store.state.results.description"
+                    :append-outer-icon="'mdi-floppy' "
+                    filled
+                    clear-icon="mdi-close-circle"
+                    clearable
+                    label="Description"
+                    type="text"
+                    @click:append-outer="saveData"
+                    @click:clear="clearMessage"
+                ></v-text-field>
+                <v-alert
+                    v-else
+                    border="right"
+                    color="blue-grey"
+                    dark
+                >
+                    Please Login to enable this tool
+                </v-alert>
+            </v-col>
+        </v-row>        
     </div>
     <div v-else class="text-center">
         <p>No Feature Selected</p>
@@ -50,7 +88,8 @@ export default {
 name: "Results",
     data () {
         return {
-
+            marker: true,
+            iconIndex: 0,
         }
     },
     mounted(){
@@ -59,20 +98,36 @@ name: "Results",
         } );
         $('#datatable').DataTable();
     },
+    computed: {
+      
+    },
     methods:{
         zoomToSelectedFeature(gid){
             this.$store.dispatch('results/zoomToSelectedFeature', gid)
-    },
-    exportResult(e){
-        console.log(e)
-        if (e=='json'){
-            this.$store.dispatch('results/exporResultsJson')
-        }
-        else {
-            this.$store.dispatch('results/exporResultsSHP')
-        }
+        },
+        exportResult(e){
+            if (e=='json'){
+                this.$store.dispatch('results/exporResultsJson')
+            }
+            else {
+                this.$store.dispatch('results/exporResultsSHP')
+            }
+        },
+        
+        saveData () {
+            this.resetIcon()
+            this.$store.dispatch('results/saveData')
+            this.clearMessage()
+        },
+        clearMessage () {
+            this.$store.state.results.description = null
+        },
+        resetIcon () {
+            this.iconIndex = 0
+        },
+        
+
     }
-}
 }
 </script>
 
