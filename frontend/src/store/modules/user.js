@@ -6,6 +6,7 @@ const user = {
         iconColor: '#ababab',
         boxShadow: '0 0 2px #888',
         loggedIn: false,
+        id: null,
         firstname: null,
         lastname: null,
         email: null,
@@ -50,6 +51,7 @@ const user = {
                 let backgroundColor = null
                 if (response.data.status=="success"){
                     backgroundColor = "#00FF00"
+                    state.id = response.data.id
                     state.loggedIn = true
                     state.firstname = response.data.firstname
                     state.lastname = response.data.lastname

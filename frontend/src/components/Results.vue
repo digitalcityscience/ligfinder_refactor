@@ -63,11 +63,11 @@
                 ></v-text-field>
                 <v-alert
                     v-else
-                    border="right"
-                    color="blue-grey"
-                    dark
+                    dense
+                    outlined
+                    type="error"
                 >
-                    Please Login to enable this tool
+                    Please register or login to enable this tool
                 </v-alert>
             </v-col>
         </v-row>        

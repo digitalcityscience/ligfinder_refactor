@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, json, Response
 import bcrypt
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -353,9 +353,15 @@ def login_user():
         print(validate_user(email))
         if len(validate_user(email))>0:
             if bcrypt.checkpw(user_password, validate_user(email)[0][4].encode('ascii')):
-                return jsonify({'text':"Your are successfully logged in ", 'status': 'success', 'firstname':validate_user(email)[0][1], 'lastname':validate_user(email)[0][2], 'email':validate_user(email)[0][3]})
+                return jsonify({'text':"Your are successfully logged in ", 'status': 'success', 'id': validate_user(email)[0][0], 'firstname':validate_user(email)[0][1], 'lastname':validate_user(email)[0][2], 'email':validate_user(email)[0][3]})
             else:
                 return jsonify({'text':"Incorrect email or password ", 'status': 'failure'})
         else:
             return jsonify({'text':"Incorrect email or password", 'status': 'failure'})
-            
+
+@app.route('/save-results', methods=["GET", "POST"])
+def save_results():
+    if request.method=='POST':
+        data = request.get_json()
+        save_results_json(json.dumps(data), data["userId"])
+    return "ok"

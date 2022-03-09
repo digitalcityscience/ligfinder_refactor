@@ -1,5 +1,5 @@
 import psycopg2
-
+from psycopg2.extras import Json
 from os import getenv
 
 dbConfig = {
@@ -404,3 +404,14 @@ def validate_user(email):
   cur.close()
   conn.close()
   return mail
+
+def save_results_json(jsonfile, userid):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+    update users set results = COALESCE(results, '[]'::jsonb) || %s::jsonb
+ where id = %s;
+      """, (jsonfile, userid))
+  conn.commit()
+  cur.close()
+  conn.close()

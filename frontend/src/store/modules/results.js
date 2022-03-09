@@ -89,8 +89,23 @@ const results = {
             shpwrite.download(foi, options);
             
         },
-        saveData({state}){
-            console.log(state.description)
+        saveData({state, rootState}){
+            let gids = []
+            for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
+                gids.push(rootState.ligfinder.FOI.features[i].properties.gid)
+            }
+            let userId = rootState.user.id
+            let description = state.description
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+ '-' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let name = 'result'+'_'+date
+            HTTP
+            .post('save-results', {
+                gids : gids,
+                userId: userId,
+                description: description,
+                name: name
+            })
         }
     },
     getters:{
