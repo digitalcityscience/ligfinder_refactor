@@ -11,7 +11,7 @@ const user = {
         lastname: null,
         email: null,
         nameAbbreviation: null,
-        userSavedResults:{}
+        userSavedResults:null
     },
     mutations:{
         setUserToggle(state){

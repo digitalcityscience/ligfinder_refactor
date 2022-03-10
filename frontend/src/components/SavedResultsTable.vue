@@ -1,7 +1,7 @@
 <template>
 <div>
     
-  <table class="table table-hover " v-if="$store.state.user.userSavedResults[0]">
+  <table class="table table-hover " v-if="$store.state.user.userSavedResults">
       <thead>
         <tr >
             <th >name</th>
