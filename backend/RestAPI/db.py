@@ -415,3 +415,27 @@ def save_results_json(jsonfile, userid):
   conn.commit()
   cur.close()
   conn.close()
+
+def saved_user_results(id):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("SELECT results FROM users where id=%s", (id,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result
+
+def get_saved_parcels(gid):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
+    )
+  from parcel where gid in %s
+      ;""" %(gid,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result

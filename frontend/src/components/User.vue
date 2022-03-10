@@ -99,6 +99,19 @@
                             <v-list-item-subtitle style="font-size: 0.8rem !important;">{{$store.state.user.email}}</v-list-item-subtitle>
                         </v-list-item-content>
                 </v-list-item>
+                <v-col >
+                   
+                    <v-expansion-panels accordion>
+                    <v-expansion-panel 
+                       
+                    >
+                        <v-expansion-panel-header @click="loadSavedResults">History of the Saved Results</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <SavedResultsTable />
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                    </v-expansion-panels>
+                </v-col>
                 <v-col>
                     <v-btn
                         class="ma-2"
@@ -122,8 +135,12 @@
 </template>
 
 <script>
+import SavedResultsTable from "./SavedResultsTable.vue" 
 export default {
     name: "User",
+    components: {
+        SavedResultsTable
+    },
     computed: {
     passwordMatch() {
       return () => this.password === this.verify || "Password must match";
@@ -145,6 +162,9 @@ export default {
     logout(){
         this.$store.commit("user/logout")
         this.$store.dispatch("user/logoutAlert")
+    },
+    loadSavedResults(){
+        this.$store.dispatch("user/loadSavedResults")
     }
     
   },
@@ -191,6 +211,11 @@ export default {
         z-index: 999;
         left:1.9vw;
         width: 30vw;
+        max-height: 100vh;
+        overflow-y: scroll !important;
+    }
+    .user-ui::-webkit-scrollbar {
+        display: none;
     }
     .signout:hover{
         background: rgb(192, 186, 186);

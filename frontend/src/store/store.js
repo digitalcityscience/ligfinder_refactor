@@ -22,6 +22,7 @@ import building3D from './modules/building3D'
 import alert from './modules/alert'
 import addData from './modules/addData'
 import user from './modules/user'
+import savedResultsTable from './modules/savedResultsTable'
 
 Vue.use(Vuex);
 
@@ -48,7 +49,8 @@ const store = new Vuex.Store({
         building3D,
         alert,
         addData,
-        user
+        user,
+        savedResultsTable
     }
 
 })

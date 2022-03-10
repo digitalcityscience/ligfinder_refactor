@@ -10,7 +10,8 @@ const user = {
         firstname: null,
         lastname: null,
         email: null,
-        nameAbbreviation: null
+        nameAbbreviation: null,
+        userSavedResults:{}
     },
     mutations:{
         setUserToggle(state){
@@ -71,6 +72,18 @@ const user = {
         logoutAlert({dispatch}){
             dispatch('alert/openCloseAlarm', {text: "You are logged out", background: "#FFD700"}, { root:true })
 
+        },
+        loadSavedResults({state}){
+            console.log(state.id)
+            HTTP
+            .post('get-saved-user-resultss', {
+                id: state.id
+            })
+            .then(response => {
+                state.userSavedResults = response.data
+                console.log(state.userSavedResults)
+
+            })
         }
 
     },

@@ -21,7 +21,7 @@ const addData = {
     actions:{
         addDroppedData({rootState, state}, payload){
             console.log(state, payload)
-            
+            rootState.map.isLoading = true
             const mapLayer = rootState.map.map.getLayer(payload.data.name)
             if(typeof mapLayer !== 'undefined'){
                 rootState.map.map.removeLayer(payload.data.name)
