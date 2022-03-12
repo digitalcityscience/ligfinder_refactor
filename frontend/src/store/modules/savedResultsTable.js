@@ -47,6 +47,11 @@ const savedResultsTable = {
             
                 let bounds = turf.bbox(response.data);
                 rootState.map.map.fitBounds(bounds);
+                
+                rootState.criteria.checkedCriteria= []
+                rootState.criteria.checkedTags= []
+                rootState.criteria.includeTags= []
+                rootState.criteria.excludeTags= []
 
             })
             .finally(() => {
