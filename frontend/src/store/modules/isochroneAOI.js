@@ -153,6 +153,10 @@ const isochroneAOI = {
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }
+            rootState.criteria.checkedCriteria= []
+            rootState.criteria.checkedTags= []
+            rootState.criteria.includeTags= []
+            rootState.criteria.excludeTags= []
         }
     },
     getters:{

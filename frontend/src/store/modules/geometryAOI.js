@@ -98,6 +98,10 @@ const geometryAOI = {
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }
+            rootState.criteria.checkedCriteria= []
+            rootState.criteria.checkedTags= []
+            rootState.criteria.includeTags= []
+            rootState.criteria.excludeTags= []
         },
         removeDrawControl({state, rootState}){
             if (state.draw!==null){
