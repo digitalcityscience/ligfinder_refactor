@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="i in $store.state.ligfinder.FOI.features" :key="i.properties.gid" @click="zoomToSelectedFeature(i.properties.gid)">
+                <tr v-for="i in $store.state.ligfinder.FOI.features" :key="i.gid" @click="zoomToSelectedFeature(i.properties.gid)">
                     <td v-for="j in Object.keys($store.state.ligfinder.FOI.features[0].properties)" :key="j.afl">
                         {{i.properties[j]}}
                     </td>
