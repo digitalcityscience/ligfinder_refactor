@@ -1,4 +1,5 @@
 import { HTTP } from '../../utils/http-common';
+
 const user = {
     namespaced: true,
     state:{
@@ -79,6 +80,8 @@ const user = {
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }
+            // zoom to the extent of Hamburg
+            rootState.map.map.fitBounds(rootState.ligfinder.hamburgBbox)
         },
         loadSavedResults({state}){
             console.log(state.id)
