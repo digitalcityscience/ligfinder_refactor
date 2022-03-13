@@ -4,7 +4,7 @@
         <div v-show="$store.state.addData.toggle" class="drag-area" @dragover="onDragOver($event)" @dragleave="onDragLeave($event)" @drop="onDrop($event)"  @dragenter.prevent @dragover.prevent>
             
             <div class="icon"><i class="fas fa-cloud-upload-alt fa-4x"></i></div>
-            <header>Drag &amp; Drop to Upload Files. Supported versions: JSON, GeoJSON </header>
+            <header>Drag &amp; Drop Exported Parcels. Supported versions: JSON, GeoJSON </header>
             <span>OR</span>
             <button type="button" class="btn btn-outline-dark">Browse File</button>
         </div>
@@ -22,7 +22,7 @@ export default {
         },
         onDragLeave(){
             document.querySelector(".drag-area").classList.remove("active")
-            document.querySelector(".drag-area").querySelector("header").textContent = "Drag & Drop to Upload Files. Supported versions: JSON, GeoJSON"
+            document.querySelector(".drag-area").querySelector("header").textContent = "Drag & Drop Exported Parcels. Supported versions: JSON, GeoJSON"
         },
         onDrop(event){
             event.preventDefault()
@@ -38,7 +38,7 @@ export default {
                     let filenName = file.name.replace(toBeRemove,'');
                     this.$store.dispatch('addData/addDroppedData', {data: json, fileName: filenName});
                     this.$store.commit('addData/closeDropArea');
-                    document.querySelector(".drag-area").querySelector("header").textContent = "Drag & Drop to Upload Files. Supported versions: JSON, GeoJSON"
+                    document.querySelector(".drag-area").querySelector("header").textContent = "Drag & Drop Exported Parcels. Supported versions: JSON, GeoJSON"
 
                 }
                 reader.readAsText(file)
@@ -77,6 +77,7 @@ export default {
     font-size: 1rem;
     font-weight: 500;
     margin: 5vh 0 5vh 0;
+   
 }
 .drag-area span{
     font-size: 1rem;
