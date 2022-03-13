@@ -39,6 +39,7 @@ const geometryAOI = {
             }
         },
         getSelectedFeatures({state, rootState}){
+            state.selectMode=null
             rootState.map.map.removeControl(state.draw);
             state.draw= null
             //console.log(state.draw, "ff" )
