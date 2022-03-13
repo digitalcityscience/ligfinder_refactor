@@ -73,6 +73,13 @@ const user = {
             dispatch('alert/openCloseAlarm', {text: "You are logged out", background: "#FFD700"}, { root:true })
 
         },
+        clearSearchResult({rootState}){
+            const mapLayer = rootState.map.map.getLayer("foi")
+            if(typeof mapLayer !== 'undefined'){
+                rootState.map.map.removeLayer("foi")
+                rootState.map.map.removeSource("foi")
+            }
+        },
         loadSavedResults({state}){
             console.log(state.id)
             HTTP

@@ -162,6 +162,7 @@ export default {
     logout(){
         this.$store.commit("user/logout")
         this.$store.dispatch("user/logoutAlert")
+        this.$store.dispatch("user/clearSearchResult")
     },
     loadSavedResults(){
         this.$store.dispatch("user/loadSavedResults")
