@@ -78,14 +78,6 @@ export default {
     const zoomControl = new maplibregl.NavigationControl()
     this.$store.state.map.map.addControl(zoomControl);
 
-    this.$store.state.map.map.on('load', () => {
-      
-        this.$store.state.map.map.on('click', 'geocoded', (e) => {
-            this.$store.dispatch('geoparsing/showAttribute', e)
-
-        })
-      
-    });
 
     this.$store.state.map.map.on('mousemove', (e) => {
       //console.log(JSON.stringify(e.lngLat));

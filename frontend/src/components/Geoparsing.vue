@@ -16,41 +16,70 @@
         <v-container
             class="px-0"
             fluid
-            mt-10
+            mt-6
             ml-3
         >
-            <v-switch
-            :label="`Geocoded Point Address`"
-            @click.once="getGeocodedPoints"
-            @change="toggleLayerVisibility(), removeStyles()"
-            id="geocodelayertoggle"
-            v-model="$store.state.geoparsing.switch1"
-            ></v-switch>
-
+            <v-select
+                :items="$store.state.geoparsing.datasetOptions"
+                label="Geoparsing Results"
+                solo
+                item-text="name"
+                item-value="value"
+                style="width:50%"
+                v-model="$store.state.geoparsing.datasetMode"
+                @change="removeStyles(), getPoints()"
+                :style="{marginTop:'8vh'}"   
+            >
+            </v-select>
         </v-container>
+        
         <v-container
+            v-show="$store.state.geoparsing.datasetMode == 'parliament'"
+            
+            class="px-0"
             fluid
             ml-3
-            v-if="$store.state.geoparsing.switch1"
         >
-            <v-row align="center">
-
+           
             <v-col
                 class="px-0"
                 cols="20"
                 sm="6"
             >
                 <v-select
-                :items="$store.state.geoparsing.items"
-                label="Rendering Style"
-                v-on:change="changeStyle"
-                
-                
-                ></v-select>
+                    v-if="$store.state.geoparsing.datasetMode == 'parliament'"
+                    :items="$store.state.geoparsing.items"
+                    label="Rendering Style"
+                    v-on:change="changeStyle"
+                >
+                </v-select>
             </v-col>
 
-            </v-row>
         </v-container>
+
+        <v-container
+            v-show="$store.state.geoparsing.datasetMode == 'newspaper'"
+            class="px-0"
+            fluid
+            ml-3
+        >
+            <v-col
+                class="px-0"
+                cols="20"
+                sm="6"
+            >
+                <v-select
+                    v-if="$store.state.geoparsing.datasetMode == 'newspaper'"
+                    :items="$store.state.geoparsing.items"
+                    label="Rendering Style"
+                    v-on:change="changeStyle"
+                
+                >
+                </v-select>
+            </v-col>
+
+        </v-container>
+        
     </div>
 </template>
 
@@ -73,15 +102,24 @@ export default {
         getGeocodedPoints(){
             this.$store.dispatch('geoparsing/getGeocodedPoints')
         },
+        getNewspaperPoints(){
+            this.$store.dispatch('geoparsing/getNewspaperPoints')
+        },
+        getPoints(){
+            if(this.$store.state.geoparsing.datasetMode == 'parliament'){
+                this.$store.dispatch('geoparsing/getGeocodedPoints')
+            }
+            else if (this.$store.state.geoparsing.datasetMode == 'newspaper'){
+                this.$store.dispatch('geoparsing/getNewspaperPoints')
+            }
+        },
         changeStyle(e){
             this.$store.dispatch('geoparsing/changeStyle', e)
         },
-        toggleLayerVisibility(){
-           this.$store.dispatch('geoparsing/toggleLayerVisibility')
-        },
+        
         removeStyles(){
             this.$store.dispatch('geoparsing/removeStyles')
-        }
+        },
         
     }
 }

@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, json, Response
 import bcrypt
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, get_saved_parcels
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, get_saved_parcels
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -145,6 +145,12 @@ def get_geocode_points():
     if request.method=='GET':
         
         return get_geocoded_points()
+
+@app.route('/get-geocoded-newspaper-points', methods=["GET", "POST"])
+def get_geocode_newspaper_points():
+    if request.method=='GET':
+        
+        return get_geocoded_newspaper_points()
 
 @app.route('/get-proximity-analysis-result', methods=["GET", "POST"])
 def get_proximity_analysis():

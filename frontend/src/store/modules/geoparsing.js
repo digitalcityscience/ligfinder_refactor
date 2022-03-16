@@ -2,14 +2,26 @@ import { HTTP } from '../../utils/http-common';
 import {HexagonLayer} from '@deck.gl/aggregation-layers';
 import {MapboxLayer} from '@deck.gl/mapbox';
 import maplibregl from 'maplibre-gl'
+import * as turf from 'turf'
+import { createHtmlAttributes } from '../../utils/createHtmlAttributes';
+
+
 const geoparsing = {
     namespaced: true,
     state:{
         toggle: false,
-        items: ['Heat Map', 'Point Cluster', '2D Hexagon', '3D Hexagon'],
+        items: ['Circle', 'Heat Map', 'Point Cluster', '2D Hexagon', '3D Hexagon'],
         switch1: false,
+        switch2: false,
         geocodedData: null,
-        hexagonVisible: true
+        newspaperData: null,
+        hexagonVisible: true,
+        datasetOptions: [
+            { name: 'Parliament Database', value: 'parliament' },
+            { name: 'News Paper', value: 'newspaper' },
+            
+        ],
+        datasetMode: null
     },
     mutations:{
         setGeoparsingToggle(state){
@@ -19,41 +31,87 @@ const geoparsing = {
     },
     actions:{
         getGeocodedPoints({state, rootState}){
-            HTTP
-            .get('get-geocoded-points')
-            .then(response => {
-                state.geocodedData = response.data
-                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
-                rootState.map.map.addLayer({
-                    'id': 'geocoded',
-                    'type': 'circle',
-                    'source': 'geocoded',
-                    'paint': {
-                        'circle-color': '#8931e0'
-                    }
-                });
-                
-            })
-        },
-        toggleLayerVisibility({state, rootState}){
+            if (state.geocodedData == null){
+                HTTP
+                .get('get-geocoded-points')
+                .then(response => {
+                    state.geocodedData = response.data
+                    rootState.map.map.on('click', 'geocoded', (e) => {
+                        console.log(e.features[0].geometry.coordinates[0])
+                        const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                        }
+                        let popup = new maplibregl.Popup()
+                        popup.setLngLat(coordinates)
+                        popup.setDOMContent(createHtmlAttributes(rootState, coordinates[0], coordinates[1], e.features[0].properties))
+                        
+                        popup.addTo(rootState.map.map);
             
-            const mapLayer = rootState.map.map.getLayer('geocoded');
-            if(typeof mapLayer !== 'undefined'){
-                if(state.switch1== true) {
-                    rootState.map.map.setLayoutProperty('geocoded', 'visibility', 'visible');
-                }
-                else {
-                    rootState.map.map.setLayoutProperty('geocoded', 'visibility', 'none')
+                    })
                     
+                })
+            }
+        },
+        getNewspaperPoints({state, rootState}){
+            if (state.newspaperData == null){
+                HTTP
+                .get('get-geocoded-newspaper-points')
+                .then(response => {
+                    state.newspaperData = response.data
+                    rootState.map.map.on('click', 'geocoded', (e) => {
+                        const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                        
+                        let popup = new maplibregl.Popup()
+                        popup.setLngLat(coordinates)
+                        popup.setDOMContent(createHtmlAttributes(rootState, coordinates[0], coordinates[1], e.features[0].properties))
+                        
+                        popup.addTo(rootState.map.map);
+            
+                    })
+                
+                })
+            }
+        },
+        
+        removeStyles({rootState}){
+
+            const mapLayer = rootState.map.map.getLayer('geocoded');
+            const stylelayer = rootState.map.map.getLayer('stylelayer');
+            const hexagonlayer = rootState.map.map.getLayer('hexagon');
+            const hexagonlayer2D = rootState.map.map.getLayer('hexagon2D');
+            const clustercount = rootState.map.map.getLayer('clustercount');
+            if(typeof hexagonlayer !== 'undefined'){
+                rootState.map.map.removeLayer('hexagon')
+            }
+            if(typeof hexagonlayer2D !== 'undefined'){
+                rootState.map.map.removeLayer('hexagon2D')
+            }
+            if(typeof mapLayer !== 'undefined'){
+                if(typeof stylelayer !== 'undefined'){
+                    rootState.map.map.removeLayer('stylelayer')
                 }
+                
+                if(typeof clustercount !== 'undefined'){
+                    rootState.map.map.removeLayer('clustercount')
+                }
+                
+                rootState.map.map.removeLayer('geocoded')
+                rootState.map.map.removeSource('geocoded')
+
             }
             
-         
         },
-        removeStyles({state, rootState}){
-            if(state.switch1== false) {
-                //rootState.map.map.setLayoutProperty('hexagon2D', 'visibility', 'none');
-                console.log(state, rootState)
+                
+        changeStyle({state, rootState}, payload){
+            let points =null
+            if (state.datasetMode=='parliament'){
+                points = state.geocodedData
+            }
+            else{
+                points = state.newspaperData
+            }
+            if (payload === "Circle"){
                 const mapLayer = rootState.map.map.getLayer('geocoded');
                 const stylelayer = rootState.map.map.getLayer('stylelayer');
                 const hexagonlayer = rootState.map.map.getLayer('hexagon');
@@ -74,45 +132,24 @@ const geoparsing = {
                         rootState.map.map.removeLayer('clustercount')
                     }
                     
-                    
                     rootState.map.map.removeLayer('geocoded')
                     rootState.map.map.removeSource('geocoded')
  
                 }
-            }
-            
-        },
-        showAttribute({rootState}, e){
-            const coordinates = [e.features[0].properties.lon, e.features[0].properties.lat]
-            const word = e.features[0].properties.word;
-            const description = e.features[0].properties.doc_num;
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-            }
+                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': points});
+                rootState.map.map.addLayer({
+                    'id': 'geocoded',
+                    'type': 'circle',
+                    'source': 'geocoded',
+                    'paint': {
+                        'circle-color': '#8931e0'
+                    }
+                });
+                let bounds = turf.bbox(points);
+                rootState.map.map.fitBounds(bounds);
 
-            let popup = new maplibregl.Popup()
-            popup.setLngLat(coordinates)
-            popup.setHTML(`<table class="table  table-hover "> 
-                        <tbody>
-                            <tr>
-                                <td>Document Number: </td>
-                                <td>${description}</td>
-                            </tr>
-                            <tr>
-                                <td>Address: </td>
-                                <td>${word}</td>
-                            </tr>
-                        </tbody>
-                            </table>
-                            <button class = "btn btn-secondary btn-sm" >Zoom To</button>
-                            <button class = "btn btn-info btn-sm">Read Doc</button>
-                            `)
-            popup.addTo(rootState.map.map);
-        },
-        
-        changeStyle({state, rootState}, payload){
-                        
-            if (payload === "Heat Map"){
+            }
+            else if (payload === "Heat Map"){
                 const hexagonlayer = rootState.map.map.getLayer('hexagon');
                 if(typeof hexagonlayer !== 'undefined'){
                     rootState.map.map.setLayoutProperty('hexagon', 'visibility', 'none');
@@ -139,7 +176,7 @@ const geoparsing = {
  
                 }
                 
-                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': state.geocodedData});
+                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': points});
                 rootState.map.map.addLayer({
                     id: 'stylelayer',
                     type: 'heatmap',
@@ -214,6 +251,8 @@ const geoparsing = {
                       }
                     }
                 );
+                let bounds = turf.bbox(points);
+                rootState.map.map.fitBounds(bounds);
             }
             else if (payload === "Point Cluster"){
                 const hexagonlayer = rootState.map.map.getLayer('hexagon');
@@ -247,7 +286,7 @@ const geoparsing = {
                     type: 'geojson',
                     // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
                     // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-                    data:state.geocodedData,
+                    data:points,
                     cluster: true,
                     clusterMaxZoom: 19, // Max zoom to cluster points on
                     clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
@@ -307,6 +346,8 @@ const geoparsing = {
                     'circle-stroke-color': '#fff'
                     }
                 });
+                let bounds = turf.bbox(points);
+                rootState.map.map.fitBounds(bounds);
                     
 
             }
@@ -340,7 +381,7 @@ const geoparsing = {
                 const myDeckLayer = new MapboxLayer({
                     id: 'hexagon2D',
                     type: HexagonLayer,
-                    data: state.geocodedData.features,
+                    data: points.features,
                     getPosition: f => f.geometry.coordinates,
                     pickable: true,
                     visible: state.hexagonVisible,
@@ -354,7 +395,9 @@ const geoparsing = {
                     //getRadius: d => d.size,
                     getColor: [255, 0, 0]
                 });
-                  rootState.map.map.addLayer(myDeckLayer);
+                rootState.map.map.addLayer(myDeckLayer);
+                let bounds = turf.bbox(points);
+                rootState.map.map.fitBounds(bounds);
             }
             else if (payload === "3D Hexagon"){
                 
@@ -385,7 +428,7 @@ const geoparsing = {
                 const myDeckLayer = new MapboxLayer({
                     id: 'hexagon',
                     type: HexagonLayer,
-                    data: state.geocodedData.features,
+                    data: points.features,
                     getPosition: f => f.geometry.coordinates,
                     pickable: true,
                     visible: state.hexagonVisible,
@@ -399,7 +442,9 @@ const geoparsing = {
                     //getRadius: d => d.size,
                     getColor: [255, 0, 0]
                 });
-                  rootState.map.map.addLayer(myDeckLayer);
+                rootState.map.map.addLayer(myDeckLayer);
+                let bounds = turf.bbox(points);
+                rootState.map.map.fitBounds(bounds);
             }
         
         }

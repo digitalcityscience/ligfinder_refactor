@@ -225,6 +225,22 @@ def get_geocoded_points():
   conn.close()
   return points
 
+def get_geocoded_newspaper_points():
+  conn = connect()
+  cur = conn.cursor()
+  
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(elbvertiefung.*)::json)
+    )
+  from elbvertiefung
+      ;""" )
+  points = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return points
+
 def get_building(gid):
   conn = connect()
   cur = conn.cursor()
