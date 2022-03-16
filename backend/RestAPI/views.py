@@ -376,7 +376,7 @@ def save_results():
 def delete_item_from_user_history():
     if request.method=='POST':
         data = request.get_json()
-        delete_item_user_history(data["deleteItemName"])
+        delete_item_user_history(data["id"], data["deleteItemName"])
     return "ok"
 
 @app.route('/get-saved-user-resultss', methods=["GET", "POST"])

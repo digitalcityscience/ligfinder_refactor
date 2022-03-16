@@ -441,7 +441,7 @@ def saved_user_results(id):
   conn.close()
   return result
 
-def delete_item_user_history(deleteItemName):
+def delete_item_user_history(id, deleteItemName):
   conn = connect()
   cur = conn.cursor()
   cur.execute("""
@@ -454,11 +454,11 @@ def delete_item_user_history(deleteItemName):
     FROM
         users,
         jsonb_array_elements(results) AS elements
-    WHERE elements.value ->> 'name' != %s
+    WHERE id= %s AND elements.value ->> 'name' != %s
     GROUP BY id
     ) s
     WHERE u.id = s.id;
-      """, (deleteItemName,))
+      """, (id, deleteItemName,))
   conn.commit()
   cur.close()
   conn.close()
