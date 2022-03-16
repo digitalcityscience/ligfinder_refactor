@@ -61,6 +61,16 @@ const savedResultsTable = {
                   }
                   console.log(rootState.ligfinder.FOIGid)
             })
+        },
+        deleteItemConfirm({state, dispatch}, payload){
+            console.log(state)
+            HTTP
+            .post('delete-item-user-history', {
+                deleteItemName: payload
+            })
+            .finally(() => {
+                dispatch('user/loadSavedResults', null, { root:true })
+            })
         }
     },
     getters:{

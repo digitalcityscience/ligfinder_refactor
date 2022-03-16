@@ -441,6 +441,28 @@ def saved_user_results(id):
   conn.close()
   return result
 
+def delete_item_user_history(deleteItemName):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+    UPDATE users u
+    SET results = s.new_results
+    FROM (
+    SELECT
+        id,
+        jsonb_agg(elements.value) AS new_results
+    FROM
+        users,
+        jsonb_array_elements(results) AS elements
+    WHERE elements.value ->> 'name' != %s
+    GROUP BY id
+    ) s
+    WHERE u.id = s.id;
+      """, (deleteItemName,))
+  conn.commit()
+  cur.close()
+  conn.close()
+
 def get_saved_parcels(gid):
   conn = connect()
   cur = conn.cursor()
