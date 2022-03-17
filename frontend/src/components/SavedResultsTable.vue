@@ -90,9 +90,7 @@
 </script>
 
 <style scoped>
-tbody tr:hover{
-  cursor: pointer;
-}
+
 .table{
     display: block !important;
     overflow-x: auto !important;
