@@ -109,6 +109,9 @@ const results = {
             .then(response => {
                 dispatch('alert/openCloseAlarm', {text: response.data.text, background: "#00FF00"}, { root:true })
             })
+            .finally(() => {
+                dispatch('user/loadSavedResults', null, { root:true })
+            })
         }
     },
     getters:{
