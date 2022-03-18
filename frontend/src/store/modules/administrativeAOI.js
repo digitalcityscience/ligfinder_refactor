@@ -1,4 +1,5 @@
 import { HTTP } from '../../utils/http-common';
+import * as turf from 'turf'
 //import maplibregl from 'maplibre-gl'
 const administrativeAOI = {
     namespaced: true,
@@ -31,6 +32,23 @@ const administrativeAOI = {
             })
             .then(response => {
                 console.log(response.data)
+                // delete AOI if the user click on reset filter button
+                for(let i=0; i<state.selectedFeatures.length; i++){
+                    const mapLayer = rootState.map.map.getLayer(state.selectedFeatures[i].id);
+                    if(typeof mapLayer !== 'undefined'){
+                        rootState.map.map.removeLayer(state.selectedFeatures[i].id)
+                        rootState.map.map.removeSource(state.selectedFeatures[i].id)
+                    }
+                }
+                state.selectedFeatures =[]
+
+                // delete FOI if the user click on reset filter button
+                const foi = rootState.map.map.getLayer("foi");
+                if(typeof foi !== 'undefined'){
+                    rootState.ligfinder.FOI = {'features':[]}
+                    rootState.map.map.removeLayer("foi")
+                    rootState.map.map.removeSource("foi")
+                }
                 const mapLayer = rootState.map.map.getLayer(state.currentAdminArea);
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer(state.currentAdminArea)
@@ -201,6 +219,8 @@ const administrativeAOI = {
                         rootState.map.map.removeSource(state.selectedFeatures[i].id)
                     }
                 }
+                let bounds = turf.bbox(response.data);
+                rootState.map.map.fitBounds(bounds);
 
             })
             .finally(() => {

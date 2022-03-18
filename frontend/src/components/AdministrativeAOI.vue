@@ -53,7 +53,7 @@ export default {
     },
     methods:{
         getAdminArea(event){
-                this.$store.dispatch("administrativeAOI/getAdminArea", event)
+            this.$store.dispatch("administrativeAOI/getAdminArea", event)
         },
         resetSelectedFeatures(){
             this.$store.dispatch("administrativeAOI/resetSelectedLayers")
