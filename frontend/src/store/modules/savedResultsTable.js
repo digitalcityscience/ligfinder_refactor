@@ -72,6 +72,16 @@ const savedResultsTable = {
             .finally(() => {
                 dispatch('user/loadSavedResults', null, { root:true })
             })
+        },
+        editItemConfirm({state, dispatch}, payload){
+            console.log(state, payload)
+            HTTP
+            .post('edit-item-user-history', {
+               payload
+            })
+            .finally(() => {
+                dispatch('user/loadSavedResults', null, { root:true })
+            })
         }
     },
     getters:{

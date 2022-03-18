@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, json, Response
 import bcrypt
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, get_saved_parcels
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -379,6 +379,16 @@ def delete_item_from_user_history():
         delete_item_user_history(data["id"], data["deleteItemName"])
     return "ok"
 
+@app.route('/edit-item-user-history', methods=["GET", "POST"])
+def edit_item_from_user_history():
+    if request.method=='POST':
+        data = request.get_json()
+        print(data["payload"]["name"])
+        desc = data["payload"]["description"]
+        desc = f'"{desc}"'
+        update_user_history_item_description(data["payload"]["name"], desc, data["payload"]["id"])
+    return "ok"
+
 @app.route('/get-saved-user-resultss', methods=["GET", "POST"])
 def get_saved_user_results():
     if request.method=='POST':
@@ -396,3 +406,4 @@ def get_saved_parcel():
             featureid.append(int(gid))
         featureid= tuple(featureid)
     return get_saved_parcels(featureid)
+

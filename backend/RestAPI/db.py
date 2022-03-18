@@ -477,3 +477,21 @@ def get_saved_parcels(gid):
   cur.close()
   conn.close()
   return result
+
+def update_user_history_item_description(name, modifiedDescription, id):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+    with result_description as (
+    select ('{'||index-1||',description}')::text[] as path
+      from users, jsonb_array_elements (results) with ordinality arr(item, index)
+      where item->>'name'=%s
+    )
+
+    update users set results = jsonb_set(results, result_description.path, %s, false)
+    from result_description
+    where id=%s
+      ;""", (name,modifiedDescription,id,))
+  conn.commit()
+  cur.close()
+  conn.close()
