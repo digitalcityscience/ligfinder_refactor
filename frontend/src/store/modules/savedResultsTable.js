@@ -52,6 +52,15 @@ const savedResultsTable = {
                 rootState.criteria.checkedTags= []
                 rootState.criteria.includeTags= []
                 rootState.criteria.excludeTags= []
+                
+                response.data.name = "foi"
+                for (let i=0; i<rootState.layers.addedLayers.length; i++){
+                    if(rootState.layers.addedLayers[i].name === "foi"){
+                        rootState.layers.addedLayers.splice(i, 1);
+                    }
+                }
+
+                rootState.layers.addedLayers.push(response.data)
 
             })
             .finally(() => {
