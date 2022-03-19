@@ -81,6 +81,8 @@ const user = {
                 rootState.map.map.removeSource("foi")
             }
             rootState.ligfinder.FOI= {'features':[]}
+            rootState.criteria.includeTags= []
+            rootState.criteria.excludeTags= []
             // zoom to the extent of Hamburg
             rootState.map.map.fitBounds(rootState.ligfinder.hamburgBbox)
         },
