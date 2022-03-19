@@ -4,9 +4,9 @@
         <div v-show="$store.state.addData.toggle" class="drag-area" @dragover="onDragOver($event)" @dragleave="onDragLeave($event)" @drop="onDrop($event)"  @dragenter.prevent @dragover.prevent>
             
             <div class="icon"><i class="fas fa-cloud-upload-alt fa-4x"></i></div>
-            <header>Drag &amp; Drop Exported Parcels. Supported versions: JSON, GeoJSON </header>
-            <span>OR</span>
-            <button type="button" class="btn btn-outline-dark">Browse File</button>
+            <header>Drag &amp; Drop Exported Parcels</header>
+            <header>Supported versions: JSON, GeoJSON </header>
+           
         </div>
         
     
