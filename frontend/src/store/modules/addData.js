@@ -62,8 +62,8 @@ const addData = {
                     'source': payload.data.name, // reference the data source
                     'layout': {},
                     'paint': {
-                        'fill-color': '#00FF00', 
-                        'fill-opacity': 1,
+                        'fill-color': '#d99ec4', 
+                        'fill-opacity': 0.7,
                         'fill-outline-color': '#000000',
                     }
                     

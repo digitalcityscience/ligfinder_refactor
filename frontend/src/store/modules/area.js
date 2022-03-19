@@ -45,7 +45,7 @@ const area = {
                         'source': "foi", // reference the data source
                         'layout': {},
                         'paint': {
-                            'fill-color': '#00FF00', 
+                            'fill-color': '#d99ec4', 
                             'fill-opacity':0.7,
                             'fill-outline-color': '#000000',
                         }

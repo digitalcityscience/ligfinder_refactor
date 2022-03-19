@@ -202,8 +202,8 @@ const administrativeAOI = {
                     'source': "foi", // reference the data source
                     'layout': {},
                     'paint': {
-                        'fill-color': '#FC44D7', 
-                        'fill-opacity':0.5,
+                        'fill-color': '#d99ec4', 
+                        'fill-opacity':0.7,
                         'fill-outline-color': '#000000',
                     }
                     
