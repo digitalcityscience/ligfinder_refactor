@@ -45,7 +45,7 @@
           <td >
             <v-icon
                 small
-                @click="getSavedParcelInstances(result.gids)"
+                @click="getSavedParcelInstances(result)"
             >
               mdi-restore
             </v-icon>
@@ -93,8 +93,10 @@
     },
    
     methods:{
-      getSavedParcelInstances(gids){
-        this.$store.dispatch("savedResultsTable/getSavedParcelInstances", gids)
+      getSavedParcelInstances(result){
+        this.$store.state.criteria.includeTags= result.includeTags
+        this.$store.state.criteria.excludeTags= result.excludeTags
+        this.$store.dispatch("savedResultsTable/getSavedParcelInstances", result.gids)
       },
       deleteItem(name){
         this.deleteItemName = name

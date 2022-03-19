@@ -104,7 +104,9 @@ const results = {
                 gids : gids,
                 userId: userId,
                 description: description,
-                name: name
+                name: name,
+                includeTags: rootState.criteria.includeTags,
+                excludeTags: rootState.criteria.excludeTags
             })
             .then(response => {
                 dispatch('alert/openCloseAlarm', {text: response.data.text, background: "#00FF00"}, { root:true })

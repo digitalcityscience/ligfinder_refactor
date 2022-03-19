@@ -48,10 +48,10 @@ const savedResultsTable = {
                 let bounds = turf.bbox(response.data);
                 rootState.map.map.fitBounds(bounds);
                 
-                rootState.criteria.checkedCriteria= []
+                /*rootState.criteria.checkedCriteria= []
                 rootState.criteria.checkedTags= []
                 rootState.criteria.includeTags= []
-                rootState.criteria.excludeTags= []
+                rootState.criteria.excludeTags= []*/
                 
                 response.data.name = "foi"
                 for (let i=0; i<rootState.layers.addedLayers.length; i++){
