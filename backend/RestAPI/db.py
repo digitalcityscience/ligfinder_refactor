@@ -441,24 +441,34 @@ def saved_user_results(id):
   conn.close()
   return result
 
-def delete_item_user_history(id, deleteItemName):
+def delete_item_user_history(id, id2, id3, deleteItemName):
   conn = connect()
   cur = conn.cursor()
   cur.execute("""
-    UPDATE users u
-    SET results = s.new_results
-    FROM (
-    SELECT
-        id,
-        jsonb_agg(elements.value) AS new_results
-    FROM
-        users,
-        jsonb_array_elements(results) AS elements
-    WHERE id= %s AND elements.value ->> 'name' != %s
-    GROUP BY id
-    ) s
-    WHERE u.id = s.id;
-      """, (id, deleteItemName,))
+    do $$
+   
+      BEGIN
+        IF (select jsonb_array_length(results) from users where id = %s) =1
+        THEN
+          update users set results = null where id = %s;
+      ELSE 
+        UPDATE users u
+          SET results = s.new_results
+          FROM (
+          SELECT
+              id,
+              jsonb_agg(elements.value) AS new_results
+          FROM
+              users,
+              jsonb_array_elements(results) AS elements
+          WHERE id= %s AND elements.value ->> 'name' != %s
+          GROUP BY id
+          ) s
+          WHERE u.id = s.id;
+      END IF;
+      END
+    $$
+      """, (id, id2, id3, deleteItemName,))
   conn.commit()
   cur.close()
   conn.close()
