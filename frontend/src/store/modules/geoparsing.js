@@ -2,7 +2,6 @@ import { HTTP } from '../../utils/http-common';
 import {HexagonLayer} from '@deck.gl/aggregation-layers';
 import {MapboxLayer} from '@deck.gl/mapbox';
 import maplibregl from 'maplibre-gl'
-import * as turf from 'turf'
 import { createHtmlAttributes } from '../../utils/createHtmlAttributes';
 
 
@@ -145,8 +144,6 @@ const geoparsing = {
                         'circle-color': '#8931e0'
                     }
                 });
-                let bounds = turf.bbox(points);
-                rootState.map.map.fitBounds(bounds);
 
             }
             else if (payload === "Heat Map"){
@@ -251,8 +248,6 @@ const geoparsing = {
                       }
                     }
                 );
-                let bounds = turf.bbox(points);
-                rootState.map.map.fitBounds(bounds);
             }
             else if (payload === "Point Cluster"){
                 const hexagonlayer = rootState.map.map.getLayer('hexagon');
@@ -346,10 +341,6 @@ const geoparsing = {
                     'circle-stroke-color': '#fff'
                     }
                 });
-                let bounds = turf.bbox(points);
-                rootState.map.map.fitBounds(bounds);
-                    
-
             }
             else if (payload === "2D Hexagon"){
                 
@@ -396,8 +387,6 @@ const geoparsing = {
                     getColor: [255, 0, 0]
                 });
                 rootState.map.map.addLayer(myDeckLayer);
-                let bounds = turf.bbox(points);
-                rootState.map.map.fitBounds(bounds);
             }
             else if (payload === "3D Hexagon"){
                 
@@ -443,8 +432,6 @@ const geoparsing = {
                     getColor: [255, 0, 0]
                 });
                 rootState.map.map.addLayer(myDeckLayer);
-                let bounds = turf.bbox(points);
-                rootState.map.map.fitBounds(bounds);
             }
         
         }
