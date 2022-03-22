@@ -351,6 +351,7 @@ def proximity_scoring(gid):
 
   # apply changes to the database
   conn.commit()
+  cur.close()
   conn.close()
   return points
 
