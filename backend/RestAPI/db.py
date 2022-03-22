@@ -39,7 +39,8 @@ def get_users(username, password):
 def get_table_names():
   conn = connect()
   cur = conn.cursor()
-  cur.execute("""select table_name from information_schema.columns where column_name = 'geom' """)
+  cur.execute("""select table_name from information_schema.columns where column_name = 'geom'
+    AND table_name NOT in ('bike_network', 'counties_daily', 'drive_network', 'parcel', 'building', 'walk_network', 'geocoded_address', 'counties', 'pop', 'elbvertiefung')  """)
   user = cur.fetchall()
   cur.close()
   conn.close()
