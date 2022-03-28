@@ -28,7 +28,10 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
 
 
     const tableDiv = document.createElement('div');
-    tableDiv.style.cssText = 'max-height: 25vh;overflow: scroll;'
+    tableDiv.style.cssText = 'max-height: 25vh;overflow: scroll'
+    const style = document.createElement('style');
+    style.innerHTML = `::-webkit-scrollbar {display: none;}`;
+    tableDiv.appendChild(style);
     const table = document.createElement('table');
     table.setAttribute('class', 'table table-hover');
     const tbody = document.createElement('tbody');
