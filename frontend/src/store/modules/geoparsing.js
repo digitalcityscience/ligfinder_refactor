@@ -39,6 +39,7 @@ const geoparsing = {
                     state.geocodedData = response.data
                     rootState.map.map.on('click', 'geocoded', (e) => {
                         if (state.datasetMode == 'parliament'){
+                            console.log(e.features[0].properties, "e.features[0].properties")
                             
                             let pdflink = e.features[0].properties.hyperlink
                             let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
@@ -49,6 +50,7 @@ const geoparsing = {
                             }
                             let popup = new maplibregl.Popup()
                             popup.setLngLat(coordinates)
+                            delete e.features[0].properties['hyperlink'];
                             popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties))
                             
                             popup.addTo(rootState.map.map);
