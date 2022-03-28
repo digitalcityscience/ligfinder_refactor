@@ -9,7 +9,7 @@ const geoparsing = {
     namespaced: true,
     state:{
         toggle: false,
-        items: ['Circle', 'Heat Map', 'Point Cluster', '2D Hexagon', '3D Hexagon'],
+        items: ['Circle', 'Heat Map', 'Point Cluster', '2D Hexagon', '3D Hexagon', 'No Style'],
         switch1: false,
         switch2: false,
         geocodedData: null,

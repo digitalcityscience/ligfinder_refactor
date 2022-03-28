@@ -114,7 +114,13 @@ export default {
             }
         },
         changeStyle(e){
-            this.$store.dispatch('geoparsing/changeStyle', e)
+            if (e=='No Style'){
+                this.$store.dispatch('geoparsing/removeStyles')
+            }
+            else{
+                this.$store.dispatch('geoparsing/changeStyle', e)
+            }
+            
         },
         
         removeStyles(){
