@@ -2,7 +2,6 @@ import WordCloud from "wordcloud";
 
 export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat, listt, wordlist) =>{
     const parentDiv = document.createElement('div');
-    parentDiv.style.cssText = 'max-width:300px; max-height:300px'
 
     const navDiv = document.createElement('div');
 
