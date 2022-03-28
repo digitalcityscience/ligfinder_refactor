@@ -3,7 +3,7 @@ import {HexagonLayer} from '@deck.gl/aggregation-layers';
 import {MapboxLayer} from '@deck.gl/mapbox';
 import maplibregl from 'maplibre-gl'
 import { createHtmlAttributesParliamentDataset } from '../../utils/createHtmlAttributesParliamentDataset';
-import { createHtmlAttributes } from '../../utils/createHtmlAttributes';
+import { createHtmlAttributesNewspaperDataset } from '../../utils/createHtmlAttributesNewspaperDataset';
 
 const geoparsing = {
     namespaced: true,
@@ -21,7 +21,8 @@ const geoparsing = {
             
         ],
         datasetMode: null,
-        parliamentPdfLink: null
+        parliamentPdfLink: null,
+        wordFrequency: []
     },
     mutations:{
         setGeoparsingToggle(state){
@@ -38,6 +39,7 @@ const geoparsing = {
                     state.geocodedData = response.data
                     rootState.map.map.on('click', 'geocoded', (e) => {
                         if (state.datasetMode == 'parliament'){
+                            
                             let pdflink = e.features[0].properties.hyperlink
                             let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
                             state.parliamentPdfLink= matches[0]
@@ -64,11 +66,25 @@ const geoparsing = {
                     state.newspaperData = response.data
                     rootState.map.map.on('click', 'geocoded', (e) => {
                         if (state.datasetMode == 'newspaper'){
+                            state.wordFrequency = []
                             const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
-                        
+                            let clickedPointDate = e.features[0].properties.doc_num
+                            HTTP
+                            .post('get-word-frequency',{
+                                date: clickedPointDate
+                            })
+                            .then(response => {
+                                
+                                for (let i in response.data) {
+                                    state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                                }
+                                //state.wordFrequency= response.data
+                                console.log(response.data)
+                            })
+                            
                             let popup = new maplibregl.Popup()
                             popup.setLngLat(coordinates)
-                            popup.setDOMContent(createHtmlAttributes(rootState, coordinates[0], coordinates[1], e.features[0].properties))
+                            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
                             
                             popup.addTo(rootState.map.map);
                         }
@@ -77,7 +93,6 @@ const geoparsing = {
                 })
             }
         },
-        
         removeStyles({rootState}){
 
             const mapLayer = rootState.map.map.getLayer('geocoded');

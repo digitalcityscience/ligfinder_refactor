@@ -507,3 +507,20 @@ def update_user_history_item_description(name, modifiedDescription, id):
   conn.commit()
   cur.close()
   conn.close()
+
+
+def get_word_cloud(date):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  SELECT json_agg(json_build_object(
+					'word', word,
+					'frequency', frequency::INTEGER
+					)
+			   	)
+  from elb_top20_keywords where date = %s;
+  """ ,(date,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result
