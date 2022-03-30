@@ -89,6 +89,9 @@ const addData = {
             rootState.criteria.checkedTags= []
             rootState.criteria.includeTags= []
             rootState.criteria.excludeTags= []
+
+            rootState.compareLikedParcels.likedParcels= []
+            rootState.compareLikedParcels.likedParcelsJsonResponse= null
             
         }
     },

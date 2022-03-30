@@ -11,6 +11,8 @@ const savedResultsTable = {
     },
     actions:{
         getSavedParcelInstances({state, rootState}, payload){
+            rootState.compareLikedParcels.likedParcels= []
+            rootState.compareLikedParcels.likedParcelsJsonResponse= null
             console.log(state)
             HTTP
             .post('get-saved-parcels', {
