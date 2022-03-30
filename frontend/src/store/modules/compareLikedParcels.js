@@ -27,7 +27,7 @@ const compareLikedParcels = {
                 state.toggle=true;
             })
         },
-        addLikedParcel({state}, payload){
+        addLikedParcel({state, rootState}, payload){
             
             if(state.likedParcels.indexOf(payload) == -1){
                 state.likedParcels.push(payload)
@@ -36,7 +36,20 @@ const compareLikedParcels = {
                 let parcelIndex = state.likedParcels.indexOf(payload)
                 state.likedParcels.splice(parcelIndex, 1);
             }
-
+            if (state.likedParcels.length==0){
+                rootState.map.map.setPaintProperty(
+                    'foi', 
+                    'fill-color', '#d99ec4'
+                )
+            }
+            else{
+                rootState.map.map.setPaintProperty(
+                    'foi', 
+                    'fill-color', 
+                    ['match', ['get', 'gid'], state.likedParcels, '#FFD700' , '#d99ec4']
+                )
+            }
+            
             console.log(state.likedParcels)
         },
         zoomToLikedParcel({rootState, state}, payload){
