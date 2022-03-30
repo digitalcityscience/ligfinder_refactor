@@ -3,7 +3,7 @@ import bcrypt
 import mapclassify
 from RestAPI import app
 
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_liked_parcels, get_single_liked_parcel
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -412,4 +412,18 @@ def get_word_cloudd():
     if request.method=='POST':
         data = request.get_json()
     return jsonify(get_word_cloud(data["date"]))
+
+@app.route('/get-liked-parcels', methods=["GET", "POST"])
+def get_liked_parcel():
+    if request.method=='POST':
+        data = request.get_json()
+        featureIds = data['gids']
+        featureid = []
+        for gid in featureIds:
+            featureid.append(int(gid))
+        featureid= tuple(featureid)
+        if(len(featureid)==1):
+            return jsonify(get_single_liked_parcel(featureid[0]))
+        else:
+            return jsonify(get_liked_parcels(featureid))
 

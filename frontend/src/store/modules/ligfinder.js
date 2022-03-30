@@ -13,7 +13,7 @@ const ligfinder = {
         
     },
     actions:{
-
+        
     },
     getters:{
 

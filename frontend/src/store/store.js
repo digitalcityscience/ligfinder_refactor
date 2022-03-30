@@ -23,6 +23,7 @@ import alert from './modules/alert'
 import addData from './modules/addData'
 import user from './modules/user'
 import savedResultsTable from './modules/savedResultsTable'
+import compareLikedParcels from './modules/compareLikedParcels'
 
 Vue.use(Vuex);
 
@@ -50,7 +51,8 @@ const store = new Vuex.Store({
         alert,
         addData,
         user,
-        savedResultsTable
+        savedResultsTable,
+        compareLikedParcels
     }
 
 })

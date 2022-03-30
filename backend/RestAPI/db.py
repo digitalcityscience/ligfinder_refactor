@@ -524,3 +524,33 @@ def get_word_cloud(date):
   cur.close()
   conn.close()
   return result
+
+def get_liked_parcels(gid):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
+    )
+  from parcel where gid in %s
+      ;""" %(gid,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result
+
+def get_single_liked_parcel(gid):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
+    )
+  from parcel where gid = %s
+      ;""" %(gid,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result

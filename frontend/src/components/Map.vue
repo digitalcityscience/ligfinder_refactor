@@ -17,6 +17,7 @@
        <Alert />
        <AddData />
        <User />
+      <CompareLikedParcels />
     </div>
    
   </div>
@@ -46,6 +47,9 @@ import Legend from './Legend'
 import Alert from './Alert'
 import AddData from './AddData'
 import User from './User'
+import CompareLikedParcels from './CompareLikedParcels'
+import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
+
 
 export default {
   name: "Map",
@@ -62,7 +66,8 @@ export default {
     Legend,
     Alert,
     AddData,
-    User
+    User,
+    CompareLikedParcels
   },
   mounted: function() {
     this.$store.state.map.map = new maplibregl.Map({
@@ -84,6 +89,29 @@ export default {
       let coords = e.lngLat
       this.$store.commit('mouseCoordinate/setMouseCoordinate', coords);
     });
+
+    this.$store.state.map.map.on('click', 'foi', (e) => {
+      let clickedParcel = e.features[0].properties.gid
+      console.log(clickedParcel)
+      const coordinates = [e.lngLat.lng, e.lngLat.lat]
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      let popup = new maplibregl.Popup()
+      popup.setLngLat(coordinates)
+      popup.setDOMContent(
+        createHtmlAttributesFOI(
+          this.$store.state,
+          this.$store,
+          clickedParcel,
+          e.lngLat.lng,
+          e.lngLat.lat,
+          e.features[0].properties
+        )
+      )
+      
+      popup.addTo(this.$store.state.map.map);
+    })
 
   }
    
