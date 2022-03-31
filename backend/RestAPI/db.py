@@ -175,7 +175,7 @@ def get_iso_parcel(mode, lng, lat, time):
   conn.close()
   return user
 
-def area_filter(gid, areamin, areamax,grossmin, grossmax):
+def area_filter(gid, areamin, areamax,grossmin, grossmax, unbuiltmin, unbuiltmax):
   conn = connect()
   cur = conn.cursor()
   
@@ -184,8 +184,8 @@ def area_filter(gid, areamin, areamax,grossmin, grossmax):
     'type', 'FeatureCollection',
     'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
     )
-  from parcel where gid in %s AND area_fme BETWEEN %s and %s AND bgf_sum BETWEEN %s and %s
-      ;""" %(gid,areamin, areamax, grossmin, grossmax, ))
+  from parcel where gid in %s AND area_fme BETWEEN %s and %s AND bgf_sum BETWEEN %s and %s AND  fl_unbeb_a BETWEEN %s and %s
+      ;""" %(gid,areamin, areamax, grossmin, grossmax, unbuiltmin, unbuiltmax,))
   user = cur.fetchall()[0][0]
   cur.close()
   conn.close()

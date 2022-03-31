@@ -106,8 +106,7 @@ def get_area_filter():
         featureIds = data['featureIds']
         area_range = data['areaRange']
         grossFloorAreaRange = data['grossFloorAreaRange']
-        print(grossFloorAreaRange)
-        print(area_range)
+        unbuiltAreaRange = data['unbuiltAreaRange']
         featureid = []
         for gid in featureIds:
             featureid.append(int(gid))
@@ -118,7 +117,9 @@ def get_area_filter():
             area_range[0],
             area_range[1],
             grossFloorAreaRange[0],
-            grossFloorAreaRange[1] ))
+            grossFloorAreaRange[1],
+            unbuiltAreaRange[0],
+            unbuiltAreaRange[1] ))
 
 @app.route('/get-buildings', methods=["GET", "POST"])
 def get_building_inside_foi():

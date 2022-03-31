@@ -5,7 +5,8 @@ const area = {
         landAreaMin:0,
         landAreaMax:100,
         areaRange: [0,4073828],
-        grossFloorAreaRange: [0,4073828]
+        grossFloorAreaRange: [0,4073828],
+        unbuiltAreaRange: [0,4073828],
     },
     mutations:{
         
@@ -20,6 +21,7 @@ const area = {
                 featureIds : rootState.ligfinder.FOIGid,
                 areaRange: state.areaRange,
                 grossFloorAreaRange: state.grossFloorAreaRange,
+                unbuiltAreaRange: state.unbuiltAreaRange
             })
             .then(response => {
                 if (response.data.features!=null){
@@ -88,11 +90,18 @@ const area = {
             for (let i of rootState.ligfinder.FOI.features){
                 bgf_sum.push(i.properties.bgf_sum)
             }
+            const fl_unbeb_a = []
+            for (let i of rootState.ligfinder.FOI.features){
+                fl_unbeb_a.push(i.properties.fl_unbeb_a)
+            }
+
             const minAreaFme = Math.min(...area_fme)
             const maxAreaFme = Math.max(...area_fme)
             const minBgfSum = Math.min(...bgf_sum)
             const maxBgfSum = Math.max(...bgf_sum)
-            const areaRange = [minAreaFme, maxAreaFme, minBgfSum, maxBgfSum]
+            const minfl_unbeb_a = Math.min(...fl_unbeb_a)
+            const maxfl_unbeb_a = Math.max(...fl_unbeb_a)
+            const areaRange = [minAreaFme, maxAreaFme, minBgfSum, maxBgfSum, minfl_unbeb_a, maxfl_unbeb_a]
             return areaRange
         }
     }

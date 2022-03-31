@@ -77,6 +77,44 @@
                 </v-row>
             </v-card-text>
 
+            <v-subheader>Verfügbare Unbebaute</v-subheader>
+            <v-card-text>
+                <v-row>
+                    <v-col class="px-4">
+                        <v-range-slider
+                        v-model="$store.state.area.unbuiltAreaRange"
+                        :max="getParams[5]"
+                        :min="getParams[4]"
+                        hide-details
+                        class="align-center"
+                        >
+                        <template v-slot:prepend>
+                            <v-text-field
+                            :value="$store.state.area.unbuiltAreaRange[0]"
+                            @change="$set($store.state.area.unbuiltAreaRange, 0, $event)"
+                            class="mt-0 pt-0"
+                            hide-details
+                            single-line
+                            type="number"
+                            style="font-size: 0.8vw; width: 5vw"
+                            ></v-text-field>
+                        </template>
+                        <template v-slot:append>
+                            <v-text-field
+                            :value="$store.state.area.unbuiltAreaRange[1]"
+                            @change="$set($store.state.area.unbuiltAreaRange, 1, $event)"
+                            class="mt-0 pt-0"
+                            hide-details
+                            single-line
+                            type="number"
+                            style="font-size: 0.8vw; width: 5vw"
+                            ></v-text-field>
+                        </template>
+                        </v-range-slider>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+
             <v-col class="mt-4" >
                     <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">Suche Starten</button>
             </v-col>
