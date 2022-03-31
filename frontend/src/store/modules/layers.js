@@ -22,7 +22,7 @@ const layers = {
         initLayerStyle(state, payload){
            
             let style 
-            if (payload.features[0].geometry.type==="Point"){
+            if (payload.features[0].geometry.type==="Point" || payload.features[0].geometry.type==="MultiPoint"){
                 style= Object.assign({},{'type': 'circle', 'circle-color': '#8931e0', 'circle-opacity': 1})
 
             }
@@ -74,7 +74,7 @@ const layers = {
                         
                     };
                 }
-                else if (response.data.features[0].geometry.type==="Point"){
+                else if (response.data.features[0].geometry.type==="Point" || response.data.features[0].geometry.type==="MultiPoint"){
                     layerName = {
                         'id': response.data.name,
                         'type': 'circle',
