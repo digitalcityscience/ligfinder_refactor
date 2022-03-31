@@ -172,6 +172,8 @@ const administrativeAOI = {
         },
         
         getSelectedFeatures({state, rootState}){
+            rootState.compareLikedParcels.likedParcels= []
+            rootState.compareLikedParcels.likedParcelsJsonResponse= null
             state.selectedFeatures = [...new Map(state.selectedFeatures.map((x) => [x["id"], x])).values()]
             rootState.map.isLoading = true
             HTTP

@@ -39,6 +39,8 @@ const geometryAOI = {
             }
         },
         getSelectedFeatures({state, rootState}){
+            rootState.compareLikedParcels.likedParcels= []
+            rootState.compareLikedParcels.likedParcelsJsonResponse= null
             state.selectMode=null
             rootState.map.map.removeControl(state.draw);
             state.draw= null

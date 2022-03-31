@@ -73,6 +73,8 @@ const isochroneAOI = {
             })
         },
         getParcels({state, rootState}, payload){
+            rootState.compareLikedParcels.likedParcels= []
+            rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.map.removeControl(state.draw);
             state.draw= null
             const mapLayer = rootState.map.map.getLayer("isochrone");

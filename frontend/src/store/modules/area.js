@@ -13,7 +13,8 @@ const area = {
     actions:{
         
         areaFilter({state, rootState, dispatch}){
-            console.log(rootState.ligfinder.FOIGid)
+            rootState.compareLikedParcels.likedParcels= []
+            rootState.compareLikedParcels.likedParcelsJsonResponse= null
             HTTP
             .post('get-area-filter', {
                 featureIds : rootState.ligfinder.FOIGid,

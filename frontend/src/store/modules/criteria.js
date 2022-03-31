@@ -17,7 +17,8 @@ const criteria = {
     },
     actions:{
         applyCriteria({rootState, state, dispatch}){
-            console.log(rootState.ligfinder.FOIGid, this.excludeTags)
+            rootState.compareLikedParcels.likedParcels= []
+            rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.isLoading = true
             HTTP
             .post('set-criteria-filter', {
