@@ -1,6 +1,6 @@
 <template>
     <div id="main-panel">
-        <div>
+        <div class="panel-icons">
             <div class="user-icon">
                 <span >
                     <i
@@ -181,6 +181,9 @@ export default {
         justify-content: center;
         align-items: center;
         display: flex;
+    }
+    .panel-icons i:hover{
+        transform: scale(1.15);
     }
    
    
