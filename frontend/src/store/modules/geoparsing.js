@@ -39,7 +39,6 @@ const geoparsing = {
                     state.geocodedData = response.data
                     rootState.map.map.on('click', 'geocoded', (e) => {
                         if (state.datasetMode == 'parliament'){
-                            console.log(e.features[0].properties, "e.features[0].properties")
                             
                             let pdflink = e.features[0].properties.hyperlink
                             let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
