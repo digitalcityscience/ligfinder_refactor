@@ -92,8 +92,8 @@ const geometryAOI = {
                 console.log(rootState.ligfinder.FOIGid)
             })
         },
-        resetSelectedLayers({rootState}){
-            
+        resetSelectedLayers({state, rootState}){
+            state.selectMode=null
             // delete FOI if the user click on reset filter button
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
