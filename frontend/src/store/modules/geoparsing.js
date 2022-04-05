@@ -32,85 +32,81 @@ const geoparsing = {
     },
     actions:{
         getGeocodedPoints({state, rootState}){
-            if (state.geocodedData == null){
-                HTTP
-                .get('get-geocoded-points')
-                .then(response => {
-                    state.geocodedData = response.data
-                    rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
-                    rootState.map.map.addLayer({
-                        'id': 'geocoded',
-                        'type': 'circle',
-                        'source': 'geocoded',
-                        'paint': {
-                            'circle-color': '#8931e0'
+            HTTP
+            .get('get-geocoded-points')
+            .then(response => {
+                state.geocodedData = response.data
+                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                rootState.map.map.addLayer({
+                    'id': 'geocoded',
+                    'type': 'circle',
+                    'source': 'geocoded',
+                    'paint': {
+                        'circle-color': '#8931e0'
+                    }
+                });
+                rootState.map.map.on('click', 'geocoded', (e) => {
+                    if (state.datasetMode == 'parliament'){
+                        
+                        let pdflink = e.features[0].properties.hyperlink
+                        let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
+                        state.parliamentPdfLink= matches[0]
+                        const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                         }
-                    });
-                    rootState.map.map.on('click', 'geocoded', (e) => {
-                        if (state.datasetMode == 'parliament'){
-                            
-                            let pdflink = e.features[0].properties.hyperlink
-                            let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
-                            state.parliamentPdfLink= matches[0]
-                            const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
-                            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                            }
-                            let popup = new maplibregl.Popup()
-                            popup.setLngLat(coordinates)
-                            delete e.features[0].properties['hyperlink'];
-                            popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties))
-                            
-                            popup.addTo(rootState.map.map);
-                        }            
-                    })
-
+                        let popup = new maplibregl.Popup()
+                        popup.setLngLat(coordinates)
+                        delete e.features[0].properties['hyperlink'];
+                        popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties))
+                        
+                        popup.addTo(rootState.map.map);
+                    }            
                 })
-            }
+
+            })
         },
         getNewspaperPoints({state, rootState}){
-            if (state.newspaperData == null){
-                HTTP
-                .get('get-geocoded-newspaper-points')
-                .then(response => {
-                    state.newspaperData = response.data
-                    rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
-                    rootState.map.map.addLayer({
-                        'id': 'geocoded',
-                        'type': 'circle',
-                        'source': 'geocoded',
-                        'paint': {
-                            'circle-color': '#8931e0'
-                        }
-                    });
-                    rootState.map.map.on('click', 'geocoded', (e) => {
-                        if (state.datasetMode == 'newspaper'){
-                            state.wordFrequency = []
-                            const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
-                            let clickedPointDate = e.features[0].properties.doc_num
-                            HTTP
-                            .post('get-word-frequency',{
-                                date: clickedPointDate
-                            })
-                            .then(response => {
-                                
-                                for (let i in response.data) {
-                                    state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
-                                }
-                                //state.wordFrequency= response.data
-                                console.log(response.data)
-                            })
+            HTTP
+            .get('get-geocoded-newspaper-points')
+            .then(response => {
+                state.newspaperData = response.data
+                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                rootState.map.map.addLayer({
+                    'id': 'geocoded',
+                    'type': 'circle',
+                    'source': 'geocoded',
+                    'paint': {
+                        'circle-color': '#8931e0'
+                    }
+                });
+                rootState.map.map.on('click', 'geocoded', (e) => {
+                    if (state.datasetMode == 'newspaper'){
+                        state.wordFrequency = []
+                        const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                        let clickedPointDate = e.features[0].properties.doc_num
+                        HTTP
+                        .post('get-word-frequency',{
+                            date: clickedPointDate
+                        })
+                        .then(response => {
                             
-                            let popup = new maplibregl.Popup()
-                            popup.setLngLat(coordinates)
-                            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
-                            
-                            popup.addTo(rootState.map.map);
-                        }
-                    })
-                
+                            for (let i in response.data) {
+                                state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                            }
+                            //state.wordFrequency= response.data
+                            console.log(response.data)
+                        })
+                        
+                        let popup = new maplibregl.Popup()
+                        popup.setLngLat(coordinates)
+                        popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
+                        
+                        popup.addTo(rootState.map.map);
+                    }
                 })
-            }
+            
+            })
         },
         removeStyles({rootState}){
 
