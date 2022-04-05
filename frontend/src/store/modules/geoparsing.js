@@ -37,6 +37,15 @@ const geoparsing = {
                 .get('get-geocoded-points')
                 .then(response => {
                     state.geocodedData = response.data
+                    rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                    rootState.map.map.addLayer({
+                        'id': 'geocoded',
+                        'type': 'circle',
+                        'source': 'geocoded',
+                        'paint': {
+                            'circle-color': '#8931e0'
+                        }
+                    });
                     rootState.map.map.on('click', 'geocoded', (e) => {
                         if (state.datasetMode == 'parliament'){
                             
@@ -65,6 +74,15 @@ const geoparsing = {
                 .get('get-geocoded-newspaper-points')
                 .then(response => {
                     state.newspaperData = response.data
+                    rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                    rootState.map.map.addLayer({
+                        'id': 'geocoded',
+                        'type': 'circle',
+                        'source': 'geocoded',
+                        'paint': {
+                            'circle-color': '#8931e0'
+                        }
+                    });
                     rootState.map.map.on('click', 'geocoded', (e) => {
                         if (state.datasetMode == 'newspaper'){
                             state.wordFrequency = []
