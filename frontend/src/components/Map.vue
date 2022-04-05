@@ -26,14 +26,6 @@
 <script>
 
 import maplibregl from 'maplibre-gl'
-//import {MapboxLayer} from '@deck.gl/mapbox';
-//import {Deck} from '@deck.gl/core';
-//import {PolygonLayer} from '@deck.gl/layers';
-//import transformRotate from "@turf/transform-rotate";
-//import { SimpleMeshLayer } from "@deck.gl/mesh-layers";
-//import { PlaneGeometry } from "@luma.gl/engine";
-
-//import * as turf from "turf";
 import MouseCoordinate from "./MouseCoordinate";
 import Panel from './Panel'
 //import Database from './Database'
@@ -49,7 +41,9 @@ import AddData from './AddData'
 import User from './User'
 import CompareLikedParcels from './CompareLikedParcels'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
-
+import { createHtmlAttributesNewspaperDataset } from '../utils/createHtmlAttributesNewspaperDataset';
+import { createHtmlAttributesParliamentDataset } from '../utils/createHtmlAttributesParliamentDataset';
+import { HTTP } from '../utils/http-common';
 
 export default {
   name: "Map",
@@ -72,13 +66,13 @@ export default {
   mounted: function() {
     this.$store.state.map.map = new maplibregl.Map({
       container: this.$refs.myMap,
-      style: 'https://api.maptiler.com/maps/basic/style.json?key=XgdreUwN4V3uEHHZHsWO',
+      style: 'https://api.maptiler.com/maps/a2eb63ba-7d0e-4b25-9cfc-9ef74d786ec4/style.json?key=XgdreUwN4V3uEHHZHsWO',
       center: [this.$store.state.map.initialLongitude,  this.$store.state.map.initialLatitude],
       zoom: this.$store.state.map.initialZoom,
       maxZoom: this.$store.state.map.maxZoom,
       minZoom: this.$store.state.map.minZoom
     });
-
+         
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibregl.NavigationControl()
     this.$store.state.map.map.addControl(zoomControl);
@@ -90,6 +84,8 @@ export default {
       this.$store.commit('mouseCoordinate/setMouseCoordinate', coords);
     });
 
+    
+    let _this = this
     this.$store.state.map.map.on('click', 'foi', (e) => {
       let clickedParcel = e.features[0].properties.gid
       console.log(clickedParcel)
@@ -111,6 +107,46 @@ export default {
       )
       
       popup.addTo(this.$store.state.map.map);
+    })
+    this.$store.state.map.map.on('click', 'geocoded', (e) => {
+      if (_this.$store.state.geoparsing.datasetMode == 'newspaper'){
+          _this.$store.state.geoparsing.wordFrequency = []
+          const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+          let clickedPointDate = e.features[0].properties.doc_num
+          HTTP
+          .post('get-word-frequency',{
+              date: clickedPointDate
+          })
+          .then(response => {
+              for (let i in response.data) {
+                  _this.$store.state.geoparsing.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+              }
+              //state.wordFrequency= response.data
+              console.log(response.data)
+          })
+          
+          let popup = new maplibregl.Popup()
+          popup.setLngLat(coordinates)
+          popup.setDOMContent(createHtmlAttributesNewspaperDataset(_this.$store.state, coordinates[0], coordinates[1], e.features[0].properties, _this.$store.state.geoparsing.wordFrequency))
+          
+          popup.addTo(_this.$store.state.map.map);
+      }
+      else if (_this.$store.state.geoparsing.datasetMode == 'parliament'){
+          
+          let pdflink = e.features[0].properties.hyperlink
+          let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
+          _this.$store.state.geoparsing.parliamentPdfLink= matches[0]
+          const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+          }
+          let popup = new maplibregl.Popup()
+          popup.setLngLat(coordinates)
+          delete e.features[0].properties['hyperlink'];
+          popup.setDOMContent(createHtmlAttributesParliamentDataset(_this.$store.state, coordinates[0], coordinates[1], e.features[0].properties))
+          
+          popup.addTo(_this.$store.state.map.map);
+      }            
     })
 
   }
