@@ -123,7 +123,7 @@ const geoparsing = {
             
         },
                 
-        changeStyle({state, rootState}, payload){
+        changeStyle({state, rootState, dispatch}, payload){
             let points =null
             if (state.datasetMode=='parliament'){
                 points = state.geocodedData
@@ -132,30 +132,7 @@ const geoparsing = {
                 points = state.newspaperData
             }
             if (payload === "Circle"){
-                const mapLayer = rootState.map.map.getLayer('geocoded');
-                const stylelayer = rootState.map.map.getLayer('stylelayer');
-                const hexagonlayer = rootState.map.map.getLayer('hexagon');
-                const hexagonlayer2D = rootState.map.map.getLayer('hexagon2D');
-                const clustercount = rootState.map.map.getLayer('clustercount');
-                if(typeof hexagonlayer !== 'undefined'){
-                    rootState.map.map.removeLayer('hexagon')
-                }
-                if(typeof hexagonlayer2D !== 'undefined'){
-                    rootState.map.map.removeLayer('hexagon2D')
-                }
-                if(typeof mapLayer !== 'undefined'){
-                    if(typeof stylelayer !== 'undefined'){
-                        rootState.map.map.removeLayer('stylelayer')
-                    }
-                   
-                    if(typeof clustercount !== 'undefined'){
-                        rootState.map.map.removeLayer('clustercount')
-                    }
-                    
-                    rootState.map.map.removeLayer('geocoded')
-                    rootState.map.map.removeSource('geocoded')
- 
-                }
+                dispatch('removeStyles');
                 rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': points});
                 rootState.map.map.addLayer({
                     'id': 'geocoded',
@@ -165,35 +142,10 @@ const geoparsing = {
                         'circle-color': '#8931e0'
                     }
                 });
-
             }
             else if (payload === "Heat Map"){
-                const hexagonlayer = rootState.map.map.getLayer('hexagon');
-                if(typeof hexagonlayer !== 'undefined'){
-                    rootState.map.map.setLayoutProperty('hexagon', 'visibility', 'none');
-                }
-                const hexagonlayer2D = rootState.map.map.getLayer('hexagon2D');
-                if(typeof hexagonlayer2D !== 'undefined'){
-                    rootState.map.map.setLayoutProperty('hexagon2D', 'visibility', 'none');
-                }
                 
-                const mapLayer = rootState.map.map.getLayer('geocoded');
-                const stylelayer = rootState.map.map.getLayer('stylelayer');
-                //const hexagonlayer = rootState.map.map.getLayer('hexagon');
-                const clustercount = rootState.map.map.getLayer('clustercount');
-                if(typeof mapLayer !== 'undefined'){
-                    if(typeof stylelayer !== 'undefined'){
-                        rootState.map.map.removeLayer('stylelayer')
-                    }
-                   
-                    if(typeof clustercount !== 'undefined'){
-                        rootState.map.map.removeLayer('clustercount')
-                    }
-                    rootState.map.map.removeLayer('geocoded')
-                    rootState.map.map.removeSource('geocoded')
- 
-                }
-                
+                dispatch('removeStyles');
                 rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': points});
                 rootState.map.map.addLayer({
                     id: 'stylelayer',
@@ -271,33 +223,8 @@ const geoparsing = {
                 );
             }
             else if (payload === "Point Cluster"){
-                const hexagonlayer = rootState.map.map.getLayer('hexagon');
-                if(typeof hexagonlayer !== 'undefined'){
-                    rootState.map.map.setLayoutProperty('hexagon', 'visibility', 'none');
-                }
-                const hexagonlayer2D = rootState.map.map.getLayer('hexagon2D');
-                if(typeof hexagonlayer2D !== 'undefined'){
-                    rootState.map.map.setLayoutProperty('hexagon2D', 'visibility', 'none');
-                }
-                const mapLayer = rootState.map.map.getLayer('geocoded');
-                const stylelayer = rootState.map.map.getLayer('stylelayer');
+                dispatch('removeStyles');
                 
-                const clustercount = rootState.map.map.getLayer('clustercount');
-                //const hexagonlayer = rootState.map.map.getLayer('hexagon');
-                if(typeof mapLayer !== 'undefined'){
-                    if(typeof stylelayer !== 'undefined'){
-                        rootState.map.map.removeLayer('stylelayer')
-                    }
-                    if(typeof clustercount !== 'undefined'){
-                        rootState.map.map.removeLayer('clustercount')
-                    }
-                    /*if(typeof hexagonlayer !== 'undefined'){
-                        rootState.map.map.removeLayer('hexagon')
-                    }*/
-                    rootState.map.map.removeLayer('geocoded')
-                    rootState.map.map.removeSource('geocoded')
- 
-                }
                 rootState.map.map.addSource('geocoded', {
                     type: 'geojson',
                     // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
@@ -313,11 +240,6 @@ const geoparsing = {
                     source: 'geocoded',
                     filter: ['has', 'point_count'],
                     paint: {
-                    // Use step expressions (https://maplibre.org/maplibre-gl-js-docs/style-spec/#expressions-step)
-                    // with three steps to implement three types of circles:
-                    //   * Blue, 20px circles when point count is less than 100
-                    //   * Yellow, 30px circles when point count is between 100 and 750
-                    //   * Pink, 40px circles when point count is greater than or equal to 750
                     'circle-color': [
                     'step',
                     ['get', 'point_count'],
@@ -365,31 +287,7 @@ const geoparsing = {
             }
             else if (payload === "2D Hexagon"){
                 
-                const mapLayer = rootState.map.map.getLayer('geocoded');
-                const stylelayer = rootState.map.map.getLayer('stylelayer');
-                const hexagonlayer = rootState.map.map.getLayer('hexagon');
-                const hexagonlayer2D = rootState.map.map.getLayer('hexagon2D');
-                const clustercount = rootState.map.map.getLayer('clustercount');
-                if(typeof hexagonlayer !== 'undefined'){
-                    rootState.map.map.removeLayer('hexagon')
-                }
-                if(typeof hexagonlayer2D !== 'undefined'){
-                    rootState.map.map.removeLayer('hexagon2D')
-                }
-                if(typeof mapLayer !== 'undefined'){
-                    if(typeof stylelayer !== 'undefined'){
-                        rootState.map.map.removeLayer('stylelayer')
-                    }
-                   
-                    if(typeof clustercount !== 'undefined'){
-                        rootState.map.map.removeLayer('clustercount')
-                    }
-                    
-                    
-                    rootState.map.map.removeLayer('geocoded')
-                    rootState.map.map.removeSource('geocoded')
- 
-                }
+                dispatch('removeStyles');
                 const myDeckLayer = new MapboxLayer({
                     id: 'hexagon2D',
                     type: HexagonLayer,
@@ -411,30 +309,7 @@ const geoparsing = {
             }
             else if (payload === "3D Hexagon"){
                 
-                const mapLayer = rootState.map.map.getLayer('geocoded');
-                const stylelayer = rootState.map.map.getLayer('stylelayer');
-                const hexagonlayer = rootState.map.map.getLayer('hexagon');
-                const hexagonlayer2D = rootState.map.map.getLayer('hexagon2D');
-                const clustercount = rootState.map.map.getLayer('clustercount');
-                if(typeof hexagonlayer !== 'undefined'){
-                    rootState.map.map.removeLayer('hexagon')
-                }
-                if(typeof hexagonlayer2D !== 'undefined'){
-                    rootState.map.map.removeLayer('hexagon2D')
-                }
-                if(typeof mapLayer !== 'undefined'){
-                    if(typeof stylelayer !== 'undefined'){
-                        rootState.map.map.removeLayer('stylelayer')
-                    }
-                   
-                    if(typeof clustercount !== 'undefined'){
-                        rootState.map.map.removeLayer('clustercount')
-                    }
-                    
-                    rootState.map.map.removeLayer('geocoded')
-                    rootState.map.map.removeSource('geocoded')
- 
-                }
+                dispatch('removeStyles');
                 const myDeckLayer = new MapboxLayer({
                     id: 'hexagon',
                     type: HexagonLayer,
