@@ -8,11 +8,16 @@ const proximity = {
         supermarketMin: 0,
         supermarketMax: 1,
         supermarketWeight: 0.5,
-
+        apothekeWeight: 0.5,
+        apothekeMin: 0,
+        apothekeMax:1,
         metroMin: 0,
         metroMax: 1,
         metroWeight: 0.5,
-        selectedColorPalette: "Greens"
+        selectedColorPalette: "Greens",
+        supermarketCheckbox: true,
+        metroCheckbox: true,
+        apothekenCHeckbox: true,
     },
     mutations:{
 
