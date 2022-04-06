@@ -6,6 +6,7 @@
     <v-card-text class="mt-0">
       <v-checkbox
         v-model="$store.state.proximity.supermarketCheckbox"
+        @click="disableSupermarketWeight"
         label="Supermarkt"
       ></v-checkbox>
       <v-row>
@@ -38,6 +39,7 @@
     <v-card-text class="mt-0">
       <v-checkbox
         v-model="$store.state.proximity.metroCheckbox"
+        @click="disableMetroWeight"
         label="U-Bahn, S-Bahn Station"
       ></v-checkbox>
       <v-row>
@@ -71,6 +73,7 @@
     <v-card-text class="mt-0">
       <v-checkbox
         v-model="$store.state.proximity.apothekenCHeckbox"
+        @click="disableApothekenWeight"
         label="Apotheken"
       ></v-checkbox>
       <v-row>
@@ -121,9 +124,18 @@ export default {
         }
     },
     methods:{
-        proximityAnalysis(){
-            this.$store.dispatch("proximity/proximityAnalysis")
-        }
+      disableMetroWeight(){
+        this.$store.commit("proximity/disableMetroWeight")
+      },
+      disableSupermarketWeight(){
+        this.$store.commit("proximity/disableSupermarketWeight")
+      },
+      disableApothekenWeight(){
+        this.$store.commit("proximity/disableApothekenWeight")
+      },
+      proximityAnalysis(){
+        this.$store.dispatch("proximity/proximityAnalysis")
+      }
     }
 }
 </script>

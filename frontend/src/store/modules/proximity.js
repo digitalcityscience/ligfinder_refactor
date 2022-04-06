@@ -20,7 +20,21 @@ const proximity = {
         apothekenCHeckbox: true,
     },
     mutations:{
-
+        disableSupermarketWeight(state){
+            if (state.supermarketCheckbox==false){
+                state.supermarketWeight=0
+            }
+        },
+        disableMetroWeight(state){
+            if (state.metroCheckbox==false){
+                state.metroWeight=0
+            }
+        },
+        disableApothekenWeight(state){
+            if (state.apothekenCHeckbox==false){
+                state.apothekeWeight=0
+            }
+        }
     },
     actions:{
         proximityAnalysis({rootState, state}){
