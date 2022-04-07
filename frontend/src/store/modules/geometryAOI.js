@@ -108,6 +108,7 @@ const geometryAOI = {
         },
         removeDrawControl({state, rootState}){
             if (state.draw!==null){
+                state.selectMode=null
                 rootState.map.map.removeControl(state.draw);
                 state.draw= null
 
