@@ -180,13 +180,16 @@ def get_proximity_analysis():
 def get_proximity_score():
     if request.method=='POST':
         data = request.get_json()
+        supermarketWeight = data['parameters'][0]['weight']
+        metroWeight = data['parameters'][1]['weight']
+        apothekeWeight = data['parameters'][2]['weight']
         featureIds = data['foi']
         featureid = []
         for gid in featureIds:
             featureid.append(int(gid))
         featureid= tuple(featureid)
         scores =[]
-        data = proximity_scoring(featureid)
+        data = proximity_scoring(supermarketWeight, metroWeight, apothekeWeight, featureid)
         for i in data['features']:
             scores.append(i['properties']['total_score'])
         #print(scores)

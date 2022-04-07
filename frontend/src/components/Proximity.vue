@@ -3,113 +3,43 @@
     <v-card
     
   >
-    <v-card-text class="mt-0">
-      <v-checkbox
-        v-model="$store.state.proximity.supermarketCheckbox"
-        @click="disableSupermarketWeight"
-        label="Supermarkt"
-      ></v-checkbox>
+    <div v-for="item in $store.state.proximity.parameters"  :key="item.value">
+      <v-card-text class="mt-0">
+      <!--<v-checkbox
+        v-model="item.checked"
+        @click="disableWeight(item.value)"
+        :label="item.name"
+      ></v-checkbox>-->
+      <span>{{item.name}}</span>
       <v-row>
         <v-col class="pr-4">
           <v-slider
-            :disabled="$store.state.proximity.supermarketCheckbox==false"
-            v-model="$store.state.proximity.supermarketWeight"
-            class="align-center"
-            :max="$store.state.proximity.supermarketMax"
-            :min="$store.state.proximity.supermarketMin"
-            step= "0.1"
-            hide-details
-          >
-            <template v-slot:append>
-              <v-text-field
-                v-model="$store.state.proximity.supermarketWeight"
-                class="mt-0 pt-0"
-                hide-details
-                single-line
-                type="number"
-                style="font-size: 0.8vw; width: 5vw"
-              ></v-text-field>
-            </template>
-          </v-slider>
-        </v-col>
-      </v-row>
-      
-    </v-card-text>
-    
-    <v-card-text class="mt-0">
-      <v-checkbox
-        v-model="$store.state.proximity.metroCheckbox"
-        @click="disableMetroWeight"
-        label="U-Bahn, S-Bahn Station"
-      ></v-checkbox>
-      <v-row>
-        <v-col class="pr-4">
-          <v-slider
-            :disabled="$store.state.proximity.metroCheckbox==false"
-            v-model="$store.state.proximity.metroWeight"
-            class="align-center"
-            :max="$store.state.proximity.metroMax"
-            :min="$store.state.proximity.metroMin"
-            step= "0.1"
-            hide-details
-          >
-            <template v-slot:append>
-              <v-text-field
-                v-model="$store.state.proximity.metroWeight"
-                class="mt-0 pt-0"
-                hide-details
-                single-line
-                type="number"
-                style="font-size: 0.8vw; width: 5vw"
-              ></v-text-field>
-            </template>
-          </v-slider>
-        </v-col>
-      </v-row>
-      
-    </v-card-text>
-
-
-    <v-card-text class="mt-0">
-      <v-checkbox
-        v-model="$store.state.proximity.apothekenCHeckbox"
-        @click="disableApothekenWeight"
-        label="Apotheken"
-      ></v-checkbox>
-      <v-row>
-        <v-col class="pr-4">
-          <v-slider
-            :disabled="$store.state.proximity.apothekenCHeckbox==false"
-            v-model="$store.state.proximity.apothekeWeight"
+            :disabled="item.checked==false"
+            v-model="item.weight"
+            @change="changeSlider(item.value)"
             class="align-center"
             :max="$store.state.proximity.apothekeMax"
             :min="$store.state.proximity.apothekeMin"
-            step= "0.1"
+            step= "0.01"
             hide-details
           >
             <template v-slot:append>
-              <v-text-field
-                v-model="$store.state.proximity.apothekeWeight"
-                class="mt-0 pt-0"
-                hide-details
-                single-line
-                type="number"
-                style="font-size: 0.8vw; width: 5vw"
-              ></v-text-field>
+              <span style="font-size: 0.8vw">{{(item.weight).toFixed(2)}}</span>
             </template>
           </v-slider>
         </v-col>
       </v-row>
       
     </v-card-text>
+    </div>
+    
     <v-col class="mt-4 " >
         <button style="font-size: 0.8vw" class="btn btn-info" @click="proximityAnalysis">Analyse durchführen</button>
     </v-col>
   </v-card>
   </div>
   <div v-else class="table text-center">
-        <p>No Feature Selected</p>
-    
+    <p>No Feature Selected</p>
   </div>
   
 </template>
@@ -120,18 +50,17 @@ export default {
     data () {
         return {
 
-
         }
     },
+    computed: {
+      
+    },
     methods:{
-      disableMetroWeight(){
-        this.$store.commit("proximity/disableMetroWeight")
+      disableWeight(item){
+        this.$store.commit("proximity/disableWeight", item)
       },
-      disableSupermarketWeight(){
-        this.$store.commit("proximity/disableSupermarketWeight")
-      },
-      disableApothekenWeight(){
-        this.$store.commit("proximity/disableApothekenWeight")
+      changeSlider(item){
+        this.$store.commit("proximity/changeSlider", item)
       },
       proximityAnalysis(){
         this.$store.dispatch("proximity/proximityAnalysis")

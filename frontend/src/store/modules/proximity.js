@@ -18,23 +18,59 @@ const proximity = {
         supermarketCheckbox: true,
         metroCheckbox: true,
         apothekenCHeckbox: true,
+        numberOfCheckedItems:3,
+        parameters: [
+            { name: 'Supermarket', value: 'supermarket', weight: 0.33, checked: true },
+            { name: 'Metro Station', value: 'metro', weight: 0.33, checked: true },
+            { name: 'Apotheken', value: 'apotheken', weight: 0.33, checked: true },
+            
+        ],
     },
     mutations:{
-        disableSupermarketWeight(state){
-            if (state.supermarketCheckbox==false){
-                state.supermarketWeight=0
+        disableWeight(state, payload){
+            for (let i of state.parameters){
+                if (i.value==payload){
+                    i.weight=0
+                }
             }
         },
-        disableMetroWeight(state){
-            if (state.metroCheckbox==false){
-                state.metroWeight=0
+        changeSlider(state, payload){
+            console.log(payload)
+            let sum=0
+            let diff=0
+            for (let i of state.parameters){
+                sum+=i.weight
             }
+            diff = Number((sum-1).toFixed(2))
+            console.log(sum,diff)
+            let remainder =0
+            for (let i of state.parameters){
+                if (i.value!=payload){
+                    let val = i.weight - diff / (2)
+                    if(i.weight - (diff / (2)) < 0){
+                        remainder += val
+                        val = 0
+                    }
+                    
+                    i.weight = val
+                
+                }
+                
+            }
+            for (let i of state.parameters){
+                if(i.value!=payload && i.weight > 0){
+                    console.log(remainder, 'inside')
+                    i.weight +=remainder 
+                }
+            }
+            
+            console.log(remainder, "reminc")
+            for (let i of state.parameters){
+                console.log((i.weight).toFixed(2))
+            }
+           
         },
-        disableApothekenWeight(state){
-            if (state.apothekenCHeckbox==false){
-                state.apothekeWeight=0
-            }
-        }
+        
     },
     actions:{
         proximityAnalysis({rootState, state}){
@@ -46,7 +82,8 @@ const proximity = {
             rootState.map.isLoading = true
             HTTP
             .post('get-proximity-scoring-result', {
-                foi: parcelGid
+                foi: parcelGid,
+                parameters: state.parameters
             })
             .then(response => {
                 console.log(colorbrewer.Greens[5][0])
@@ -108,47 +145,47 @@ const proximity = {
                 rootState.legend.univariateToggle =true
             })
             .finally(() =>{
-                    let legend = document.getElementsByClassName('legend')
-                    for(let i=0; i<8; i++){
-                        let old_div = document.getElementById("class"+i.toString());
-                        if(old_div){
-                            old_div.remove()
-                        }
+                let legend = document.getElementsByClassName('legend')
+                for(let i=0; i<8; i++){
+                    let old_div = document.getElementById("class"+i.toString());
+                    if(old_div){
+                        old_div.remove()
                     }
-                    for (let i= 0; i< rootState.legend.breaks.length; i++){
-                        
-                        let div = document.createElement('div');
-                        div.id = "class"+i.toString();
-    
-                        let span_obj = document.createElement("span");
-                        
-                        span_obj.style.backgroundColor = colorbrewer[state.selectedColorPalette][rootState.legend.breaks.length][i]
-                        span_obj.style.borderRadius = '50%';
-                        span_obj.style.display =  'inline-block';
-                        span_obj.style.height = "10px";
-                        span_obj.style.marginLeft = "5px";
-                        span_obj.style.width = "10px";
-                        let atag = document.createElement("a");
-                        atag.style.marginLeft = "5px";
-                        if (i==0){
-                            atag.innerHTML = (rootState.legend.lowerbound).toFixed(2) + " - " + (rootState.legend.breaks[0]).toFixed(2)
-                        }
-                        else{
-                            atag.innerHTML = (rootState.legend.breaks[i-1]).toFixed(2) + " - " + (rootState.legend.breaks[i]).toFixed(2)
-                        }
-                       
-                       
-                        div.appendChild(span_obj);
-                        div.appendChild(atag);
-                        legend[0].appendChild(div)
-                        
+                }
+                for (let i= 0; i< rootState.legend.breaks.length; i++){
+                    
+                    let div = document.createElement('div');
+                    div.id = "class"+i.toString();
+
+                    let span_obj = document.createElement("span");
+                    
+                    span_obj.style.backgroundColor = colorbrewer[state.selectedColorPalette][rootState.legend.breaks.length][i]
+                    span_obj.style.borderRadius = '50%';
+                    span_obj.style.display =  'inline-block';
+                    span_obj.style.height = "10px";
+                    span_obj.style.marginLeft = "5px";
+                    span_obj.style.width = "10px";
+                    let atag = document.createElement("a");
+                    atag.style.marginLeft = "5px";
+                    if (i==0){
+                        atag.innerHTML = (rootState.legend.lowerbound).toFixed(2) + " - " + (rootState.legend.breaks[0]).toFixed(2)
                     }
+                    else{
+                        atag.innerHTML = (rootState.legend.breaks[i-1]).toFixed(2) + " - " + (rootState.legend.breaks[i]).toFixed(2)
+                    }
+                    
+                    
+                    div.appendChild(span_obj);
+                    div.appendChild(atag);
+                    legend[0].appendChild(div)
+                    
+                }
                 
             })
-        }
+        },
     },
     getters:{
-
+        
     }
 }
 export default proximity
