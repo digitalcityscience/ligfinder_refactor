@@ -92,9 +92,9 @@ def get_isochrone_parcel():
     if request.method=='POST':
         data = request.get_json()
         time = float(data["payload"]["time"])*60
-        center = data["payload"]["center"]["coordinates"]
-        lng = float(center[0])
-        lat = float(center[1])
+        center = data["payload"]["center"]
+        lng = float(center["lng"])
+        lat = float(center["lat"])
         mode = data["payload"]["mode"]
     return json.loads(json.dumps(get_iso_parcel(mode,lng, lat, time)))
 
