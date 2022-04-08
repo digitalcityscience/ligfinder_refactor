@@ -25,80 +25,60 @@ const isochroneAOI = {
             //console.log(state.center)
             rootState.map.map.getCanvas().style.cursor = "pointer";
             
-                state.activatePoint=true
-                
-                rootState.map.map.on('click', function(e) {
-                    if (state.activatePoint==true){
-                        state.center= e.lngLat
-                        console.log(e)
-                        //console.log(state.center, 'center')
-                        
-                        const mapLayer = rootState.map.map.getLayer('travel-center');
-                        if(typeof mapLayer !== 'undefined'){
-                            rootState.map.map.removeLayer('travel-center')
-                            rootState.map.map.removeSource('travel-center')
-                        }
-                        rootState.map.map.addSource('travel-center', {
-                            'type': 'geojson',
-                            'data': {
-                            'type': 'FeatureCollection',
-                                'features': [
-                                    {
-                                        'type': 'Feature',
-                                        'geometry': {
-                                            'type': 'Point',
-                                            'coordinates': [e.lngLat['lng'], e.lngLat['lat']]
-                                        }
-                                    },
-                                ]
-                            }
-                        });
-                        rootState.map.map.addLayer({
-                            'id': 'travel-center',
-                            'type': 'circle',
-                            'source': 'travel-center',
-                            'paint': {
-                            'circle-radius': 6,
-                            'circle-color': '#B42222'
-                            },
-                        });
-                        state.activatePoint=false
-                        rootState.map.map.getCanvas().style.cursor = '';
-
-                                                     
-
-                    }
-                    
-                    
-                })
-                //state.activatePoint=false
-           
+            state.activatePoint=true
             
-            /*doSome.then(function(){
-                state.activatePoint=false
-            });*/
-            /*state.draw = new MapboxDraw({
-                displayControlsDefault: false,
-                controls: {
-                    point: true,
-                    trash: true
-                },
-                defaultMode: 'draw_point'
-            });
+            rootState.map.map.on('click', function(e) {
+                if (state.activatePoint==true){
+                    state.center= e.lngLat
+                    console.log(e)
+                    //console.log(state.center, 'center')
+                    
+                    const mapLayer = rootState.map.map.getLayer('travel-center');
+                    if(typeof mapLayer !== 'undefined'){
+                        rootState.map.map.removeLayer('travel-center')
+                        rootState.map.map.removeSource('travel-center')
+                    }
+                    rootState.map.map.addSource('travel-center', {
+                        'type': 'geojson',
+                        'data': {
+                        'type': 'FeatureCollection',
+                            'features': [
+                                {
+                                    'type': 'Feature',
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [e.lngLat['lng'], e.lngLat['lat']]
+                                    }
+                                },
+                            ]
+                        }
+                    });
+                    rootState.map.map.addLayer({
+                        'id': 'travel-center',
+                        'type': 'circle',
+                        'source': 'travel-center',
+                        'paint': {
+                        'circle-radius': 6,
+                        'circle-color': '#B42222'
+                        },
+                    });
+                    state.activatePoint=false
+                    rootState.map.map.getCanvas().style.cursor = '';
 
-            rootState.map.map.addControl(state.draw);
-            console.log(state.draw)
-            rootState.map.map.on('draw.create', function() {
-                if(state.draw!==null){
-                    const marker = state.draw.getAll()
-                    console.log(marker.features[(marker.features).length-1])
-                
-                    state.center = marker.features[(marker.features).length-1].geometry
+                                                    
+
                 }
                 
-            })*/
+                
+            })
+               
         },
         getIsochrone({rootState}, payload){
+            const mapLayer = rootState.map.map.getLayer('travel-center');
+            if(typeof mapLayer !== 'undefined'){
+                rootState.map.map.removeLayer('travel-center')
+                rootState.map.map.removeSource('travel-center')
+            }
             rootState.map.isLoading = true
             HTTP
             .post('get-isochrone-aoi', {
