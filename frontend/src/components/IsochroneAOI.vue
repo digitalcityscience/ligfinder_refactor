@@ -13,11 +13,7 @@
             ></v-select>
             <div class="isochrone-setting mt-4">
                 <button @click="showPointDraw" class="btn btn-secondary" id="draw-point"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> &nbsp; Mitte auswählen</button>
-                <span v-if="$store.state.isochroneAOI.center.coordinates!==''" class="text-success mx-3">
-                    
-                    lng: {{($store.state.isochroneAOI.center.coordinates[0]).toFixed(4)}} &nbsp;
-                    lat: {{($store.state.isochroneAOI.center.coordinates[1]).toFixed(4)}}
-                </span>
+                
                 <div class="input-group mt-3">
                     <span class="input-group-text"><i class="far fa-clock"></i></span>
                     <input type="text" id="time" name="time" v-model="time" class="form-control" aria-label="Amount (to the nearest dollar)">
@@ -47,8 +43,8 @@ export default {
     methods: {
         showPointDraw(){
               this.$store.dispatch('isochroneAOI/showPointDraw');
-              const button = document.getElementById('draw-point')
-              button.disabled = true
+              //const button = document.getElementById('draw-point')
+              //button.disabled = true
         },
         getIsochrone(){
             this.$store.dispatch('isochroneAOI/getIsochrone', {time: this.time, center: this.$store.state.isochroneAOI.center, mode: this.mode });

@@ -1,5 +1,5 @@
-import MapboxDraw from "@mapbox/mapbox-gl-draw";
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+//import MapboxDraw from "@mapbox/mapbox-gl-draw";
+//import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import { HTTP } from '../../utils/http-common';
 
 const isochroneAOI = {
@@ -8,6 +8,7 @@ const isochroneAOI = {
         center: {"coordinates": ""},
         draw: null,
         mode: null,
+        activatePoint: false,
         items: [
             { name: 'Gehen', value: 'walk_network' },
             { name: 'Radfahren', value: 'bike_network' },
@@ -20,8 +21,63 @@ const isochroneAOI = {
     },
     actions:{
         showPointDraw({state, rootState}){
+            
+            //console.log(state.center)
+            rootState.map.map.getCanvas().style.cursor = "pointer";
+            
+                state.activatePoint=true
+                
+                rootState.map.map.on('click', function(e) {
+                    if (state.activatePoint==true){
+                        state.center= e.lngLat
+                        console.log(e)
+                        //console.log(state.center, 'center')
+                        
+                        const mapLayer = rootState.map.map.getLayer('travel-center');
+                        if(typeof mapLayer !== 'undefined'){
+                            rootState.map.map.removeLayer('travel-center')
+                            rootState.map.map.removeSource('travel-center')
+                        }
+                        rootState.map.map.addSource('travel-center', {
+                            'type': 'geojson',
+                            'data': {
+                            'type': 'FeatureCollection',
+                                'features': [
+                                    {
+                                        'type': 'Feature',
+                                        'geometry': {
+                                            'type': 'Point',
+                                            'coordinates': [e.lngLat['lng'], e.lngLat['lat']]
+                                        }
+                                    },
+                                ]
+                            }
+                        });
+                        rootState.map.map.addLayer({
+                            'id': 'travel-center',
+                            'type': 'circle',
+                            'source': 'travel-center',
+                            'paint': {
+                            'circle-radius': 6,
+                            'circle-color': '#B42222'
+                            },
+                        });
+                        state.activatePoint=false
+                        rootState.map.map.getCanvas().style.cursor = '';
+
+                                                     
+
+                    }
+                    
+                    
+                })
+                //state.activatePoint=false
            
-            state.draw = new MapboxDraw({
+            
+            /*doSome.then(function(){
+                state.activatePoint=false
+            });*/
+            /*state.draw = new MapboxDraw({
                 displayControlsDefault: false,
                 controls: {
                     point: true,
@@ -40,7 +96,7 @@ const isochroneAOI = {
                     state.center = marker.features[(marker.features).length-1].geometry
                 }
                 
-            })
+            })*/
         },
         getIsochrone({rootState}, payload){
             rootState.map.isLoading = true
