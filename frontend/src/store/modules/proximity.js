@@ -20,9 +20,10 @@ const proximity = {
         apothekenCHeckbox: true,
         numberOfCheckedItems:3,
         parameters: [
-            { name: 'Supermarket', value: 'supermarket', weight: 0.33, checked: true },
-            { name: 'Metro Station', value: 'metro', weight: 0.33, checked: true },
-            { name: 'Apotheken', value: 'apotheken', weight: 0.33, checked: true },
+            { name: 'Supermarket', value: 'supermarket', weight: 0.25, checked: true },
+            { name: 'Metro Station', value: 'metro', weight: 0.25, checked: true },
+            { name: 'Apotheken', value: 'apotheken', weight: 0.25, checked: true },
+            { name: 'Krankenhaus', value: 'krankenhaus', weight: 0.25, checked: true },
             
         ],
     },
@@ -46,8 +47,8 @@ const proximity = {
             let remainder =0
             for (let i of state.parameters){
                 if (i.value!=payload){
-                    let val = i.weight - diff / (2)
-                    if(i.weight - (diff / (2)) < 0){
+                    let val = i.weight - diff / (3)
+                    if(i.weight - (diff / (3)) < 0){
                         remainder += val
                         val = 0
                     }
@@ -57,10 +58,20 @@ const proximity = {
                 }
                 
             }
+            let count =0
             for (let i of state.parameters){
                 if(i.value!=payload && i.weight > 0){
+                    if (i){
+                        count++
+                    }
+                }
+            }
+            for (let i of state.parameters){
+                if(i.value!=payload && i.weight > 0){
+                    
+                    console.log( count)
                     console.log(remainder, 'inside')
-                    i.weight +=remainder 
+                    i.weight +=remainder /count
                 }
             }
             
