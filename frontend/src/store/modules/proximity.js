@@ -35,6 +35,13 @@ const proximity = {
                 }
             }
         },
+        equalizeWeight(state){
+            const criteriaLength = Object.keys(state.parameters).length;
+            console.log(criteriaLength);
+            for (let i of state.parameters){
+                i.weight = 1/criteriaLength
+            }
+        },
         changeSlider(state, payload){
             console.log(payload)
             let sum=0

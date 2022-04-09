@@ -34,6 +34,8 @@
     </div>
     
     <v-col class="mt-4 " >
+        <button style="font-size: 0.8vw" class="btn btn-success mr-2" @click="equalizeWeight">Equal Weight</button>
+
         <button style="font-size: 0.8vw" class="btn btn-info" @click="proximityAnalysis">Analyse durchführen</button>
     </v-col>
   </v-card>
@@ -64,6 +66,9 @@ export default {
       },
       proximityAnalysis(){
         this.$store.dispatch("proximity/proximityAnalysis")
+      },
+      equalizeWeight(){
+        this.$store.commit("proximity/equalizeWeight")
       }
     }
 }
