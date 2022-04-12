@@ -13,7 +13,6 @@
         <AdministrativeAOI v-if="$store.state.AOI.selectMode==='administrative'" />
         <GeometryAOI v-if="$store.state.AOI.selectMode==='geometry'" />
         <IsochroneAOI v-if="$store.state.AOI.selectMode==='isochrone'" />
-        <Building3D/>
     </div>
 </template>
 
@@ -21,7 +20,6 @@
 import AdministrativeAOI from "./AdministrativeAOI"
 import GeometryAOI from "./GeometryAOI"
 import IsochroneAOI from "./IsochroneAOI"
-import Building3D from "./Building3D"
 
 export default {
     name: "AOI",
@@ -29,7 +27,6 @@ export default {
         AdministrativeAOI,
         GeometryAOI,
         IsochroneAOI,
-        Building3D
     },
     data(){
         return{
