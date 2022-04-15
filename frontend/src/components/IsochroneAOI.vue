@@ -22,10 +22,24 @@
                 <button style="font-size: 0.8vw" class="btn btn-info mt-3" @click="getIsochrone()">Isochrone bekommen</button>
             </div>
             
-            <div class="mt-4" >
+            <!--<div class="mt-4" >
                 <button style="font-size: 0.8vw" class="btn btn-info" @click="getParcels()">Suche Starten</button>
                 <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" @click="reset()" :disabled="$store.state.ligfinder.FOI.features.length==0">Filter Zurücksetzen </button>
-            </div>
+            </div>-->
+            <v-btn
+                class="mx-2 mt-3"
+                fab
+                dark
+                x-small
+                outlined
+                color="green"
+                @click="addToAOIList"
+                :disabled="$store.state.isochroneAOI.AOI==null"
+            >
+                <v-icon dark>
+                    mdi-plus
+                </v-icon>
+            </v-btn>
             
         </div>
     </div>
@@ -57,6 +71,9 @@ export default {
         reset(){
             this.$store.dispatch('isochroneAOI/reset')
             
+        },
+        addToAOIList(){
+            this.$store.dispatch("AOI/addIsochroneAreaToAOIList")
         }
     }
 }

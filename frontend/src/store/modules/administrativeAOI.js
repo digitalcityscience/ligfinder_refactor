@@ -43,12 +43,12 @@ const administrativeAOI = {
                 state.selectedFeatures =[]
 
                 // delete FOI if the user click on reset filter button
-                const foi = rootState.map.map.getLayer("foi");
+                /*const foi = rootState.map.map.getLayer("foi");
                 if(typeof foi !== 'undefined'){
                     rootState.ligfinder.FOI = {'features':[]}
                     rootState.map.map.removeLayer("foi")
                     rootState.map.map.removeSource("foi")
-                }
+                }*/
                 const mapLayer = rootState.map.map.getLayer(state.currentAdminArea);
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer(state.currentAdminArea)
@@ -109,7 +109,6 @@ const administrativeAOI = {
                     .then(response => {
                        
                         state.selectedFeatures.push({'id': String(response.data.features[0].properties.gid), 'table': response.data.tablename})
-                   
                         
                         let layerName = String(response.data.features[0].properties.gid)
                         

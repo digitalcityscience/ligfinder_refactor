@@ -12,10 +12,24 @@
                 v-model="$store.state.geometryAOI.selectMode"
                 @change="getGeomArea"
             ></v-select>
-            <div class="mt-4" >
+            <!--<div class="mt-4" >
                 <button style="font-size: 0.8vw" class="btn btn-info" @click="getSelectedFeatures" :disabled="$store.state.geometryAOI.AOI==null">Suche Starten</button>
                 <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" @click="resetSelectedFeatures()" :disabled="$store.state.ligfinder.FOI.features.length==0">Filter Zurücksetzen </button>
-            </div>
+            </div>-->
+            <v-btn
+                class="mx-2 mt-3"
+                fab
+                dark
+                x-small
+                outlined
+                color="green"
+                @click="addToAOIList"
+                :disabled="$store.state.geometryAOI.AOI==null"
+            >
+                <v-icon dark>
+                    mdi-plus
+                </v-icon>
+            </v-btn>
             
         </div>
     </div>
@@ -38,6 +52,12 @@ export default {
        resetSelectedFeatures(){
             this.$store.dispatch("geometryAOI/resetSelectedLayers")
         },
+        addToAOIList(){
+            this.$store.dispatch("AOI/addGeomDrawAreaToAOIList")
+        },
+        removeFromAOIList(){
+            this.$store.dispatch("AOI/removeGeomDrawAreaFromAOIList")
+        }
     }
 }
 </script>

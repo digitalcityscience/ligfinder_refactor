@@ -78,6 +78,17 @@ from %s as t where gid = %s
   conn.close()
   return user
 
+def get_union_features(tableName, featureid):
+  conn = connect()
+  cur = conn.cursor()
+  
+  cur.execute("""select st_asgeojson(st_union(geom)) from %s where gid in %s
+      ;""" %(tableName, featureid))
+  user = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return user
+
 def get_selected_featuress(tableName, featureid):
   conn = connect()
   cur = conn.cursor()
@@ -150,6 +161,24 @@ def get_iso_aoi(mode, lng, lat, time):
   cur.close()
   conn.close()
   return user
+
+def spatial_union(geom1, geom2):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(merged.*)::json)
+    )
+
+  from (select ST_Union(ST_GeomFromGeoJSON('%s'), ST_GeomFromGeoJSON('%s'))) AS merged
+      ;""" %(geom1, geom2))
+  user = cur.fetchall()[0][0]
+
+  cur.close()
+  conn.close()
+  return user
+
 
 def get_iso_parcel(mode, lng, lat, time):
   conn = connect()

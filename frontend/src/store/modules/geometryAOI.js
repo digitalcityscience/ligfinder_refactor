@@ -32,6 +32,7 @@ const geometryAOI = {
                     rootState.map.map.on('draw.create', function() {
                         if(state.draw!==null){
                             state.AOI= state.draw.getAll()
+                            
                         }
                         
                     })
@@ -113,8 +114,7 @@ const geometryAOI = {
                 state.draw= null
 
             }
-            
-        }
+        },
     },
     getters:{
 

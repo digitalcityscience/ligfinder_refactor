@@ -15,6 +15,7 @@ const isochroneAOI = {
             { name: 'Fahren', value: 'drive_network' },
             
         ],
+        AOI: null
     },
     mutations:{
       
@@ -65,15 +66,13 @@ const isochroneAOI = {
                     state.activatePoint=false
                     rootState.map.map.getCanvas().style.cursor = '';
 
-                                                    
-
                 }
                 
                 
             })
                
         },
-        getIsochrone({rootState}, payload){
+        getIsochrone({state, rootState}, payload){
             const mapLayer = rootState.map.map.getLayer('travel-center');
             if(typeof mapLayer !== 'undefined'){
                 rootState.map.map.removeLayer('travel-center')
@@ -86,6 +85,7 @@ const isochroneAOI = {
             })
             .then(response => {
                 console.log(response.data)
+                state.AOI= response.data
                 const mapLayer = rootState.map.map.getLayer("isochrone");
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer("isochrone")

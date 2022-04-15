@@ -2,8 +2,7 @@ from flask import Flask, request, jsonify, json, Response
 import bcrypt
 import mapclassify
 from RestAPI import app
-
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_liked_parcels, get_single_liked_parcel
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_liked_parcels, get_single_liked_parcel, spatial_union, get_union_features
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -85,6 +84,64 @@ def get_isochrone_aoi():
         lat = float(center["lat"])
         mode = data["payload"]["mode"]
     return json.loads(json.dumps(get_iso_aoi(mode, lng, lat, time)))
+
+@app.route('/get-aois', methods=["GET", "POST"])
+def get_aois():
+    
+    data = request.get_json()
+    nonEmptyData=[]
+    for i in range(len(data["AOIs"])):
+        if (data["AOIs"][i]["data"] is not None):
+            nonEmptyData.append(i)
+    
+    print(nonEmptyData)
+    
+    adminLayer = None
+    adminUnionLayer= None
+    if data["AOIs"][0]["data"] is not None:
+        featureid = []
+        tablename= data["AOIs"][0]["data"][0]['table']
+        for i in data["AOIs"][0]["data"]:
+            featureid.append(int(i['id']))
+        featureid= tuple(featureid)
+        if(len(featureid)==1):
+
+            adminLayer= get_feature(tablename, featureid[0] )
+        else:
+            adminUnionLayer= get_union_features(tablename, featureid )
+
+    print(adminLayer, "adminLayer")
+    print(adminUnionLayer, "adminLayer")
+
+
+    if len(nonEmptyData)==3:
+        if adminLayer is not None:
+            union= spatial_union(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(data["AOIs"][2]["data"]["features"][0]["geometry"]))
+            final_union = spatial_union(json.dumps(union["features"][0]["geometry"]), json.dumps(adminLayer["features"][0]["geometry"]))
+            return jsonify(get_geom_aoi(json.dumps(final_union["features"][0]["geometry"])))
+        elif adminUnionLayer is not None:
+            union= spatial_union(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(data["AOIs"][2]["data"]["features"][0]["geometry"]))
+            final_union = spatial_union(json.dumps(union["features"][0]["geometry"]), adminUnionLayer)
+            return jsonify(get_geom_aoi(json.dumps(final_union["features"][0]["geometry"])))
+
+    elif len(nonEmptyData)==2:
+        if adminLayer is not None:
+            union = spatial_union(json.dumps(adminLayer["features"][0]["geometry"]), json.dumps(data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+            return jsonify(get_geom_aoi(json.dumps(union["features"][0]["geometry"])))
+        elif adminUnionLayer is not None:
+            union = spatial_union(adminUnionLayer, json.dumps(data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+            return jsonify(get_geom_aoi(json.dumps(union["features"][0]["geometry"])))
+        else:
+            union= spatial_union(json.dumps(data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"]), json.dumps(data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+            return jsonify(get_geom_aoi(json.dumps(union["features"][0]["geometry"])))
+    elif len(nonEmptyData)==1:
+        if adminLayer is not None:
+           return jsonify(get_geom_aoi(json.dumps(adminLayer["features"][0]["geometry"])))
+        elif adminUnionLayer is not None:
+            return jsonify(get_geom_aoi(adminUnionLayer))
+        else:
+            return jsonify(get_geom_aoi(json.dumps(data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"])))
+
 
 @app.route('/get-isochrone-parcel', methods=["GET", "POST"])
 def get_isochrone_parcel():

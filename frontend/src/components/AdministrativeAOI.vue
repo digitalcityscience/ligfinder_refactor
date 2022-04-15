@@ -36,10 +36,25 @@
                     </template>
                 </v-list-group>
             </v-card>
-            <div class="mt-4" >
+            <!--<div class="mt-4" >
                 <button style="font-size: 0.8vw" class="btn btn-info" @click="getSelectedFeatures(); resetAdminLayers() " :disabled='$store.state.administrativeAOI.selectedFeatures.length==0'>Suche Starten</button>
                 <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" @click="resetSelectedFeatures()" :disabled="$store.state.ligfinder.FOI.features.length==0">Filter Zurücksetzen </button>
-            </div>
+            </div>-->
+            
+            <v-btn
+                class="mx-2 mt-3"
+                fab
+                dark
+                x-small
+                outlined
+                color="green"
+                @click="addToAOIList"
+                :disabled="$store.state.administrativeAOI.selectedFeatures.length==0"
+            >
+                <v-icon dark>
+                    mdi-plus
+                </v-icon>
+            </v-btn>
         </div>
     </div>
 </template>
@@ -74,6 +89,9 @@ export default {
             else if (document.getElementById(item.name).checked==false){
                 this.$store.dispatch("administrativeAOI/removeCheckedAdmin", item)
             }
+        },
+        addToAOIList(){
+            this.$store.dispatch("AOI/addAdminAreaToAOIList")
         }
        
     }
