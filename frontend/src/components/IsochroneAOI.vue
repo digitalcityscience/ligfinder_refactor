@@ -19,7 +19,7 @@
                     <input type="text" id="time" name="time" v-model="time" class="form-control" aria-label="Amount (to the nearest dollar)">
                     <span class="input-group-text">min.</span>
                 </div>
-                <button style="font-size: 0.8vw" class="btn btn-info mt-3" @click="getIsochrone()">Isochrone bekommen</button>
+                <button style="font-size: 0.8vw" class="btn btn-info mt-3" @click="getIsochrone()" :disabled="mode==null || time==null || $store.state.isochroneAOI.center==null">Isochrone bekommen</button>
             </div>
             
             <!--<div class="mt-4" >

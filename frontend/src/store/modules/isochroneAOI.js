@@ -5,7 +5,7 @@ import { HTTP } from '../../utils/http-common';
 const isochroneAOI = {
     namespaced: true,
     state:{
-        center: {"coordinates": ""},
+        center: null,
         draw: null,
         mode: null,
         activatePoint: false,
