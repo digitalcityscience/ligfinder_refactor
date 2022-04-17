@@ -175,13 +175,7 @@ const isochroneAOI = {
                 rootState.map.map.addLayer(layerName)
                 rootState.map.isLoading = false
             })
-            .finally(() => {
-                rootState.ligfinder.FOIGid = []
-                for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
-                    rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
-                  }
-                  console.log(rootState.ligfinder.FOIGid)
-            })
+           
         },
         reset({rootState}){
             // delete FOI if the user click on reset filter button

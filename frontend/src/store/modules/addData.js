@@ -81,11 +81,6 @@ const addData = {
             
             let bounds = turf.bbox(payload.data);
             rootState.map.map.fitBounds(bounds);
-            
-            rootState.ligfinder.FOIGid = []
-            for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
-                rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
-            }
 
             rootState.criteria.checkedCriteria= []
             rootState.criteria.checkedTags= []

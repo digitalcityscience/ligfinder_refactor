@@ -85,13 +85,7 @@ const geometryAOI = {
                 rootState.map.map.addLayer(layerName)
                 rootState.map.isLoading = false
             })
-            .finally(() => {
-                rootState.ligfinder.FOIGid = []
-              for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
-                rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
-                }
-                console.log(rootState.ligfinder.FOIGid)
-            })
+            
         },
         resetSelectedLayers({state, rootState}){
             state.selectMode=null
@@ -115,6 +109,7 @@ const geometryAOI = {
 
             }
         },
+        
     },
     getters:{
 

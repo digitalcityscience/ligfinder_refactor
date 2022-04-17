@@ -224,21 +224,14 @@ const administrativeAOI = {
                 rootState.map.map.fitBounds(bounds);
 
             })
-            .finally(() => {
-                rootState.ligfinder.FOIGid = []
-                for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
-                    rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
-                  }
-                  console.log(rootState.ligfinder.FOIGid)
-            })
             
         },
        
-        getBuildings({rootState}){
+        getBuildings({rootState, rootGetters}){
             HTTP
             .post('get-buildings', {
                 buildingtoggle : rootState.AOI.buildingSwitch,
-                foi: rootState.ligfinder.FOIGid
+                foi: rootGetters['ligfinder/getFOIGid'],
             })
         },
         resetAdminLayers({state, rootState}){
