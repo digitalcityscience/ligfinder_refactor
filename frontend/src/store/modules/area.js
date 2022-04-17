@@ -13,12 +13,12 @@ const area = {
     },
     actions:{
         
-        areaFilter({state, rootState, dispatch}){
+        areaFilter({state, rootState, rootGetters, dispatch}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             HTTP
             .post('get-area-filter', {
-                featureIds : rootState.ligfinder.FOIGid,
+                featureIds : rootGetters['ligfinder/getFOIGid'],
                 areaRange: state.areaRange,
                 grossFloorAreaRange: state.grossFloorAreaRange,
                 unbuiltAreaRange: state.unbuiltAreaRange
@@ -70,13 +70,7 @@ const area = {
                     console.log("no feature found")
                 }
             })
-            .finally(() => {
-                rootState.ligfinder.FOIGid = []
-                for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
-                    rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
-                  }
-                  console.log(rootState.ligfinder.FOIGid)
-            })
+            
         }
     },
     getters:{

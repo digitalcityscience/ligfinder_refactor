@@ -77,13 +77,7 @@ const criteria = {
                 }
             
             })
-            .finally(() => {
-                rootState.ligfinder.FOIGid = []
-                for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
-                    rootState.ligfinder.FOIGid.push(rootState.ligfinder.FOI.features[i].properties.gid)
-                  }
-                console.log(rootState.ligfinder.FOIGid)
-            })
+            
         }
     },
     getters:{
