@@ -147,7 +147,7 @@ def get_iso_aoi(mode, lng, lat, time):
     'type', 'FeatureCollection',
     'features', json_agg(ST_AsGeoJSON(iso.*)::json)
     )
-  from (SELECT ST_ConcaveHull(ST_Collect(the_geom), 0.6) from pgr_drivingDistance(
+  from (SELECT ST_ConcaveHull(ST_Collect(the_geom), 0.9) from pgr_drivingDistance(
         'SELECT gid AS id, source, target, cost_time AS cost FROM %s',
        (SELECT id
   FROM %s_vertices_pgr 
