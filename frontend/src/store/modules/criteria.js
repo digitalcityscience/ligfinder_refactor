@@ -16,13 +16,13 @@ const criteria = {
         
     },
     actions:{
-        applyCriteria({rootState, state, dispatch}){
+        applyCriteria({rootState, rootGetters, state, dispatch}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.isLoading = true
             HTTP
             .post('set-criteria-filter', {
-                featureIds : rootState.ligfinder.FOIGid,
+                featureIds : rootGetters['ligfinder/getFOIGid'],
                 excludeTags: state.excludeTags,
                 includeTags: state.includeTags,
                 operator: state.selectedOperator
