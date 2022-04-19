@@ -169,6 +169,17 @@ const administrativeAOI = {
             rootState.criteria.includeTags= []
             rootState.criteria.excludeTags= []
         },
+        deleteSelectedFeatures({state,  rootState}){
+            // delete AOI if the user click on reset filter button
+            for(let i=0; i<state.selectedFeatures.length; i++){
+                const mapLayer = rootState.map.map.getLayer(state.selectedFeatures[i].id);
+                if(typeof mapLayer !== 'undefined'){
+                    rootState.map.map.removeLayer(state.selectedFeatures[i].id)
+                    rootState.map.map.removeSource(state.selectedFeatures[i].id)
+                }
+            }
+            state.selectedFeatures =[]
+        },
         
         getSelectedFeatures({state, rootState}){
             rootState.compareLikedParcels.likedParcels= []

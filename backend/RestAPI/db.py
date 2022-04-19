@@ -179,6 +179,23 @@ def spatial_union(geom1, geom2):
   conn.close()
   return user
 
+def spatial_intersection(geom1, geom2):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(intersected.*)::json)
+    )
+
+  from (select ST_Intersection(ST_GeomFromGeoJSON('%s'), ST_GeomFromGeoJSON('%s'))) AS intersected
+      ;""" %(geom1, geom2))
+  user = cur.fetchall()[0][0]
+
+  cur.close()
+  conn.close()
+  return user
+
 
 def get_iso_parcel(mode, lng, lat, time):
   conn = connect()

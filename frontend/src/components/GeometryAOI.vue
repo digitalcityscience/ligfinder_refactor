@@ -26,8 +26,23 @@
                 @click="addToAOIList"
                 :disabled="$store.state.geometryAOI.AOI==null"
             >
+            
                 <v-icon dark>
-                    mdi-plus
+                  mdi-plus
+                </v-icon>
+            </v-btn>
+            <v-btn
+                class="mx-2 mt-3"
+                fab
+                dark
+                x-small
+                outlined
+                color="red"
+                @click="deleteDrawnGeom"
+                :disabled="$store.state.geometryAOI.AOI==null"
+            >
+                <v-icon dark>
+                    mdi-minus
                 </v-icon>
             </v-btn>
             
@@ -42,6 +57,7 @@ export default {
         return{
         }
     },
+
     methods:{
        getGeomArea(event){
             this.$store.dispatch("geometryAOI/getGeomArea", event)
@@ -57,6 +73,9 @@ export default {
         },
         removeFromAOIList(){
             this.$store.dispatch("AOI/removeGeomDrawAreaFromAOIList")
+        },
+        deleteDrawnGeom(){
+            this.$store.dispatch("AOI/deleteDrawnGeom")
         }
     }
 }

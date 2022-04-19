@@ -189,6 +189,15 @@ const isochroneAOI = {
             rootState.criteria.checkedTags= []
             rootState.criteria.includeTags= []
             rootState.criteria.excludeTags= []
+        },
+        deleteIsochroneAOI({state, rootState}){
+            state.AOI = null
+            const mapLayer = rootState.map.map.getLayer("isochrone");
+            if(typeof mapLayer !== 'undefined'){
+                rootState.map.map.removeLayer("isochrone")
+                rootState.map.map.removeSource("isochrone")
+            }
+
         }
     },
     getters:{

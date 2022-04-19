@@ -31,9 +31,7 @@
                     <th class="text-left">
                         Name
                     </th>
-                    <th class="text-left">
-                        Area
-                    </th>
+                    
                     <th class="text-left">
                         Action
                     </th>
@@ -45,7 +43,6 @@
                 :key="item.name"
                 >
                     <td v-if="item.data!=null">{{ item.name }}</td>
-                    <td v-if="item.data!=null">{{ item.area }} &#13217;</td>
                     <td v-if="item.data!=null">
                         
                         <v-icon
@@ -59,8 +56,19 @@
             </tbody>
             </template>
         </v-simple-table>
-        <button v-if="$store.state.AOI.AOIs[0].data!=null || $store.state.AOI.AOIs[1].data!=null || $store.state.AOI.AOIs[2].data!=null" style="font-size: 0.8vw" class="btn btn-info mb-4 mt-4" @click="getParcels()">Suche Starten</button>
+        <div v-if="$store.state.AOI.AOIs[0].data!=null || $store.state.AOI.AOIs[1].data!=null || $store.state.AOI.AOIs[2].data!=null">
 
+            <v-select
+                :items="$store.state.AOI.operators"
+                v-model="$store.state.AOI.selectedOperator"
+                label="operation"
+                solo
+                class="select-operator"
+            >
+            </v-select>
+            <button style="font-size: 0.8vw" class="btn btn-info mb-4 mt-4" @click="getParcels()">Suche Starten</button>
+            <v-expand-transition><span v-show="$store.state.AOI.expand">total Area</span></v-expand-transition>
+        </div>
     </div>
 </template>
 
@@ -80,7 +88,7 @@ export default {
         return{
             buildingSwitch: false,
             deleteDialog: false,
-            deleteItemValue: null
+            deleteItemValue: null,
         }
     },
   
@@ -98,7 +106,13 @@ export default {
             }
         },
         getParcels(){
-            this.$store.dispatch("AOI/getParcels")
+            if (this.$store.state.AOI.selectedOperator== "Union"){
+                this.$store.dispatch("AOI/getUnionParcels")
+            }
+            else{
+                this.$store.dispatch("AOI/getIntersectParcels")
+            }
+            
         },
         deleteItem(value){
             this.deleteItemValue= value

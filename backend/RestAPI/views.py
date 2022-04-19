@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, json, Response
 import bcrypt
 import mapclassify
 from RestAPI import app
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_liked_parcels, get_single_liked_parcel, spatial_union, get_union_features
+from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_liked_parcels, get_single_liked_parcel, spatial_union, get_union_features, spatial_intersection
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -141,6 +141,71 @@ def get_aois():
             return jsonify(get_geom_aoi(adminUnionLayer))
         else:
             return jsonify(get_geom_aoi(json.dumps(data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"])))
+
+@app.route('/get-intersect_aois', methods=["GET", "POST"])
+def get_intersect_aois():
+    data = request.get_json()
+    nonEmptyData=[]
+    for i in range(len(data["AOIs"])):
+        if (data["AOIs"][i]["data"] is not None):
+            nonEmptyData.append(i)
+    
+    print(nonEmptyData)
+
+    adminLayer = None
+    adminUnionLayer= None
+    if data["AOIs"][0]["data"] is not None:
+        featureid = []
+        tablename= data["AOIs"][0]["data"][0]['table']
+        for i in data["AOIs"][0]["data"]:
+            featureid.append(int(i['id']))
+        featureid= tuple(featureid)
+        if(len(featureid)==1):
+
+            adminLayer= get_feature(tablename, featureid[0] )
+        else:
+            adminUnionLayer= get_union_features(tablename, featureid )
+
+    if len(nonEmptyData)==1:
+        if adminLayer is not None:
+           return jsonify(get_geom_aoi(json.dumps(adminLayer["features"][0]["geometry"])))
+        elif adminUnionLayer is not None:
+            return jsonify(get_geom_aoi(adminUnionLayer))
+        else:
+            return jsonify(get_geom_aoi(json.dumps(data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"])))
+    elif len(nonEmptyData)==2:
+        if adminLayer is not None:
+
+            intersection = spatial_intersection(json.dumps(adminLayer["features"][0]["geometry"]), json.dumps(data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+            return jsonify(get_geom_aoi(json.dumps(intersection["features"][0]["geometry"])))
+            
+        elif adminUnionLayer is not None:
+            intersection = spatial_intersection(adminUnionLayer, json.dumps(data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+            return jsonify(get_geom_aoi(json.dumps(intersection["features"][0]["geometry"])))
+        else:
+            intersection= spatial_intersection(json.dumps(data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"]), json.dumps(data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+            return jsonify(get_geom_aoi(json.dumps(intersection["features"][0]["geometry"])))
+
+    if len(nonEmptyData)==3:
+        if adminLayer is not None:
+            intersection1= spatial_intersection(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(data["AOIs"][2]["data"]["features"][0]["geometry"]))
+            intersection2 = spatial_intersection(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(adminLayer["features"][0]["geometry"]))
+            intersection3 = spatial_intersection(json.dumps(data["AOIs"][2]["data"]["features"][0]["geometry"]), json.dumps(adminLayer["features"][0]["geometry"]))
+
+            if len(intersection1['features'])!=0 and  len(intersection2['features'])!=0 and len(intersection3['features'])!=0:
+                final_intersection = spatial_intersection(json.dumps(intersection1["features"][0]["geometry"]), json.dumps(adminLayer["features"][0]["geometry"]))
+                return jsonify(get_geom_aoi(json.dumps(final_intersection["features"][0]["geometry"])))
+            
+
+        elif adminUnionLayer is not None:
+            intersection1= spatial_intersection(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(data["AOIs"][2]["data"]["features"][0]["geometry"]))
+            intersection2 = spatial_intersection(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), adminUnionLayer)
+            intersection3 = spatial_intersection(json.dumps(data["AOIs"][2]["data"]["features"][0]["geometry"]), adminUnionLayer)
+
+            if len(intersection1['features'])!=0 and  len(intersection2['features'])!=0 and len(intersection3['features'])!=0:
+                final_intersection = spatial_intersection(json.dumps(intersection1["features"][0]["geometry"]), adminUnionLayer)
+                return jsonify(get_geom_aoi(json.dumps(final_intersection["features"][0]["geometry"])))
+            
 
 
 @app.route('/get-isochrone-parcel', methods=["GET", "POST"])

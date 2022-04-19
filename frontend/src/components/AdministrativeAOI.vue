@@ -55,6 +55,20 @@
                     mdi-plus
                 </v-icon>
             </v-btn>
+            <v-btn
+                class="mx-2 mt-3"
+                fab
+                dark
+                x-small
+                outlined
+                color="red"
+                @click="deleteSelectedFeatures"
+                :disabled="$store.state.administrativeAOI.selectedFeatures.length==0"
+            >
+                <v-icon dark>
+                    mdi-minus
+                </v-icon>
+            </v-btn>
         </div>
     </div>
 </template>
@@ -92,6 +106,9 @@ export default {
         },
         addToAOIList(){
             this.$store.dispatch("AOI/addAdminAreaToAOIList")
+        },
+        deleteSelectedFeatures(){
+            this.$store.dispatch("administrativeAOI/deleteSelectedFeatures")
         }
        
     }

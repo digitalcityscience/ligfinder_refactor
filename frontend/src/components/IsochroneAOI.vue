@@ -40,6 +40,20 @@
                     mdi-plus
                 </v-icon>
             </v-btn>
+            <v-btn
+                class="mx-2 mt-3"
+                fab
+                dark
+                x-small
+                outlined
+                color="red"
+                @click="deleteIsochroneAOI"
+                :disabled="$store.state.isochroneAOI.AOI==null"
+            >
+                <v-icon dark>
+                    mdi-minus
+                </v-icon>
+            </v-btn>
             
         </div>
     </div>
@@ -74,6 +88,9 @@ export default {
         },
         addToAOIList(){
             this.$store.dispatch("AOI/addIsochroneAreaToAOIList")
+        },
+        deleteIsochroneAOI(){
+            this.$store.dispatch("isochroneAOI/deleteIsochroneAOI")
         }
     }
 }
