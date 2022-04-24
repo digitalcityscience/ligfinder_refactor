@@ -97,7 +97,7 @@ const area = {
             const maxfl_unbeb_a = Math.max(...fl_unbeb_a)
             const areaRange = [minAreaFme, maxAreaFme, minBgfSum, maxBgfSum, minfl_unbeb_a, maxfl_unbeb_a]
             state.areaRange = [minAreaFme, maxAreaFme]
-            state.grossFloorAreaRange=[minBgfSum, maxBgfSum]
+            state.grossFloorAreaRange= [minBgfSum, maxBgfSum]
             state.unbuiltAreaRange=[minfl_unbeb_a, maxfl_unbeb_a]
             return areaRange
         }
