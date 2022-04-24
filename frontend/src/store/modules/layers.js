@@ -16,12 +16,6 @@ const layers = {
             state.toggle=!state.toggle;
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';
         },
-        hideLayersPanel(state){
-            if (state.toggle==true){
-                state.toggle=false
-                state.iconColor = '#ababab'
-            }
-        },
         setTableNames(state, payload){
             state.tableNames = payload
         },

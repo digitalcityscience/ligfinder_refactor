@@ -1,7 +1,7 @@
 <template>
     <div id="main-panel">
         <div class="panel-icons">
-            <div class="user-icon" v-click-outside="hideUserPanel">
+            <div class="user-icon" >
                 <span >
                     <i
                         class="fa fa-user fa-xs mt-2" 
@@ -17,7 +17,7 @@
                     </i>
                 </span>
             </div>
-            <div v-click-outside="hideLayersPanel">
+            <div>
                 <span>
                     <i
                         class="fas fa-layer-group mt-4" 
@@ -33,7 +33,7 @@
                     </i>
                 </span>
             </div>
-            <div v-click-outside="hideToolsPanel">
+            <div>
                 <span>
                     <i
                         class="fas fa-tools mt-4" 
@@ -146,15 +146,6 @@ export default {
         },
         userToggle(){
             this.$store.commit('user/setUserToggle')
-        },
-        hideUserPanel(){
-            this.$store.commit('user/hideUserPanel')
-        },
-        hideLayersPanel(){
-            this.$store.commit('layers/hideLayersPanel')
-        },
-        hideToolsPanel(){
-            this.$store.commit('tools/hideToolsPanel')
         }
 
     },

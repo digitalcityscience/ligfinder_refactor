@@ -8,12 +8,6 @@ const tools = {
         setToolsToggle(state){
             state.toggle=!state.toggle;
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';
-        },
-        hideToolsPanel(state){
-            if (state.toggle==true){
-                state.toggle=false
-                state.iconColor = '#ababab'
-            }
         }
     },
     actions:{
