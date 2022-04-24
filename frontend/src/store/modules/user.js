@@ -20,6 +20,13 @@ const user = {
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';
             state.toggle ? state.boxShadow = '0 0 2px #FFFFFF' :  state.boxShadow = '0 0 2px #888';
         },
+        hideUserPanel(state){
+            if (state.toggle==true){
+                state.toggle=false
+                state.iconColor = '#ababab'
+                state.boxShadow = '0 0 2px #888'
+            }
+        },
         logout(state){
             state.loggedIn=false
         }
