@@ -57,7 +57,7 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
 
     const zoomDiv = document.createElement('div');
     const btn = document.createElement('button');
-    btn.setAttribute('class', 'btn btn-outline-primary btn-sm');
+    btn.setAttribute('class', 'btn btn-outline-primary btn-sm mt-2');
     btn.textContent = 'Zoom To';
     zoomDiv.appendChild(btn)
     parentDiv.appendChild(zoomDiv)
