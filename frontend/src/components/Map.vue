@@ -43,6 +43,8 @@ import CompareLikedParcels from './CompareLikedParcels'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
 import { createHtmlAttributesNewspaperDataset } from '../utils/createHtmlAttributesNewspaperDataset';
 import { createHtmlAttributesParliamentDataset } from '../utils/createHtmlAttributesParliamentDataset';
+import { createDuplicatePointAttributesNewspaper } from '../utils/createDuplicatePointAttributesNewspaper';
+
 import { HTTP } from '../utils/http-common';
 
 export default {
@@ -110,8 +112,10 @@ export default {
     })
     this.$store.state.map.map.on('click', 'geocoded', (e) => {
       if (_this.$store.state.geoparsing.datasetMode == 'newspaper'){
-          _this.$store.state.geoparsing.wordFrequency = []
-          const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+        _this.$store.state.geoparsing.wordFrequency = []
+        let coordinates
+        if (e.features.length==1){
+          coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
           let clickedPointDate = e.features[0].properties.doc_num
           HTTP
           .post('get-word-frequency',{
@@ -121,15 +125,26 @@ export default {
               for (let i in response.data) {
                   _this.$store.state.geoparsing.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
               }
-              //state.wordFrequency= response.data
-              console.log(response.data)
           })
-          
           let popup = new maplibregl.Popup()
           popup.setLngLat(coordinates)
           popup.setDOMContent(createHtmlAttributesNewspaperDataset(_this.$store.state, coordinates[0], coordinates[1], e.features[0].properties, _this.$store.state.geoparsing.wordFrequency))
           
           popup.addTo(_this.$store.state.map.map);
+          
+        }
+        else{
+          coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+
+          let list = e.features
+          console.log(list)
+          let popup = new maplibregl.Popup()
+          popup.setLngLat(coordinates)
+          popup.setDOMContent(createDuplicatePointAttributesNewspaper(_this.$store.state,_this.$store, popup, list))
+          
+          popup.addTo(_this.$store.state.map.map);
+          
+        }
       }
       else if (_this.$store.state.geoparsing.datasetMode == 'parliament'){
           

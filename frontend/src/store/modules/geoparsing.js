@@ -1,6 +1,9 @@
 import { HTTP } from '../../utils/http-common';
 import {HexagonLayer} from '@deck.gl/aggregation-layers';
 import {MapboxLayer} from '@deck.gl/mapbox';
+import maplibregl from 'maplibre-gl'
+import { createHtmlAttributesNewspaperDataset } from '../../utils/createHtmlAttributesNewspaperDataset';
+
 
 const geoparsing = {
     namespaced: true,
@@ -298,6 +301,28 @@ const geoparsing = {
                 rootState.map.map.addLayer(myDeckLayer);
             }
         
+        },
+        addSelectedDuplicatePoint({state, rootState}, payload){
+            console.log(state, payload)
+            var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
+            console.log(selectedfeature, "selectedfeature")
+            let clickedPointDate = selectedfeature[0].properties.doc_num
+            HTTP
+            .post('get-word-frequency',{
+                date: clickedPointDate
+            })
+            .then(response => {
+                for (let i in response.data) {
+                    rootState.geoparsing.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                }
+                //state.wordFrequency= response.data
+                console.log(response.data)
+            })
+            let popup = new maplibregl.Popup()
+            popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
+            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
+            
+            popup.addTo(rootState.map.map);
         }
        
     },
