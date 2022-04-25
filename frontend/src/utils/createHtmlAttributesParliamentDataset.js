@@ -26,12 +26,12 @@ export const createHtmlAttributesParliamentDataset = (rootState, zoomLng, zoomLa
     parentDiv.appendChild(tableDiv)
     const zoomDiv = document.createElement('div');
     const btn = document.createElement('button');
-    btn.setAttribute('class', 'btn btn-outline-primary btn-sm');
+    btn.setAttribute('class', 'btn btn-outline-primary btn-sm mt-2');
     btn.textContent = 'Zoom To';
     zoomDiv.appendChild(btn)
 
     const pdfBtn = document.createElement('button');
-    pdfBtn.setAttribute('class', 'btn btn-outline-success btn-sm');
+    pdfBtn.setAttribute('class', 'btn btn-outline-success btn-sm mt-2');
     pdfBtn.style.cssText = 'float:right'
     pdfBtn.textContent = 'Read pdf';
     zoomDiv.appendChild(pdfBtn)
