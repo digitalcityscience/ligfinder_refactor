@@ -1,5 +1,5 @@
 
-export const createDuplicatePointAttributesNewspaper = (rootState, store, popup, list) =>{
+export const createDuplicatePointAttributesNewspaper = (rootState, dispatch, popup, list) =>{
     
     const parentDiv = document.createElement('div');
     const tableDiv = document.createElement('div');
@@ -31,7 +31,7 @@ export const createDuplicatePointAttributesNewspaper = (rootState, store, popup,
         tbody.appendChild(tr)
         tr.onclick = function() {
             popup.remove();
-            store.dispatch('geoparsing/addSelectedDuplicatePoint', {'id': parseInt(tr.id), 'list': list});
+            dispatch('addSelectedDuplicatePointNewspaper', {'id': parseInt(tr.id), 'list': list});
 
         }
         

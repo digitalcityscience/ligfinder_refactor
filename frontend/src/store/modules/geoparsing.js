@@ -3,6 +3,7 @@ import {HexagonLayer} from '@deck.gl/aggregation-layers';
 import {MapboxLayer} from '@deck.gl/mapbox';
 import maplibregl from 'maplibre-gl'
 import { createHtmlAttributesNewspaperDataset } from '../../utils/createHtmlAttributesNewspaperDataset';
+import { createDuplicatePointAttributesNewspaper } from '../../utils/createDuplicatePointAttributesNewspaper';
 
 
 const geoparsing = {
@@ -302,7 +303,42 @@ const geoparsing = {
             }
         
         },
-        addSelectedDuplicatePoint({state, rootState}, payload){
+        newspaperPopup({state, rootState, dispatch}, e){
+            state.wordFrequency = []
+            let coordinates
+            if (e.features.length==1){
+                coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                let clickedPointDate = e.features[0].properties.doc_num
+                HTTP
+                .post('get-word-frequency',{
+                    date: clickedPointDate
+                })
+                .then(response => {
+                    for (let i in response.data) {
+                        state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                    }
+                })
+                let popup = new maplibregl.Popup()
+                popup.setLngLat(coordinates)
+                popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
+                
+                popup.addTo(rootState.map.map);
+            
+            }
+            else{
+                coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+
+                let list = e.features
+                console.log(list)
+                let popup = new maplibregl.Popup()
+                popup.setLngLat(coordinates)
+                popup.setDOMContent(createDuplicatePointAttributesNewspaper(rootState,dispatch, popup, list))
+                
+                popup.addTo(rootState.map.map);
+            
+            }
+        },
+        addSelectedDuplicatePointNewspaper({state, rootState}, payload){
             console.log(state, payload)
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
             console.log(selectedfeature, "selectedfeature")
