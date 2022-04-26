@@ -11,12 +11,11 @@
         <div class="text-center mt-4 geoparsing-title" >
 
             GeoParsing
-           
+
         </div>
         <v-container
             class="px-0"
             fluid
-            mt-6
             ml-3
         >
             <v-select
@@ -32,9 +31,30 @@
             >
             </v-select>
         </v-container>
-        
+       
+        <v-container v-show="$store.state.geoparsing.datasetMode">
+            <v-bottom-navigation
+                color="cyan"
+                grow
+            >
+                <v-btn @click="setToolModeStylization">
+                    <span>Stylization</span>
+
+                    <v-icon>mdi-palette-outline</v-icon>
+                </v-btn>
+
+                <v-btn @click="setToolModeFiltering">
+                    <span>Filtering</span>
+
+                    <v-icon>mdi-filter-outline</v-icon>
+                </v-btn>
+
+    
+            </v-bottom-navigation>
+        </v-container>
+
         <v-container
-            v-show="$store.state.geoparsing.datasetMode == 'parliament'"
+            v-show="$store.state.geoparsing.datasetMode == 'parliament' && $store.state.geoparsing.toolMode =='stylization'"
             
             class="px-0"
             fluid
@@ -58,7 +78,7 @@
         </v-container>
 
         <v-container
-            v-show="$store.state.geoparsing.datasetMode == 'newspaper'"
+            v-show="$store.state.geoparsing.datasetMode == 'newspaper' && $store.state.geoparsing.toolMode =='stylization'"
             class="px-0"
             fluid
             ml-3
@@ -84,6 +104,7 @@
 </template>
 
 <script>
+
 export default {
     name: "Geoparsing",
     data () {
@@ -91,10 +112,6 @@ export default {
           
       }
     },
-    mounted: function(){
-        
-    },
-    
     methods:{
         setGeoparsingToggle(){
             this.$store.commit('geoparsing/setGeoparsingToggle')
@@ -126,6 +143,12 @@ export default {
         removeStyles(){
             this.$store.dispatch('geoparsing/removeStyles')
         },
+        setToolModeStylization(){
+            this.$store.commit('geoparsing/setToolModeStylization')
+        },
+        setToolModeFiltering(){
+            this.$store.commit('geoparsing/setToolModeFiltering')
+        }
         
     }
 }

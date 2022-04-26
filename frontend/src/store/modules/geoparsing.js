@@ -25,12 +25,19 @@ const geoparsing = {
         ],
         datasetMode: null,
         parliamentPdfLink: null,
-        wordFrequency: []
+        wordFrequency: [],
+        toolMode:null
     },
     mutations:{
         setGeoparsingToggle(state){
             state.toggle=!state.toggle;
         },
+        setToolModeStylization(state){
+            state.toolMode= "stylization"
+        },
+        setToolModeFiltering(state){
+            state.toolMode= "filtering"
+        }
         
     },
     actions:{
