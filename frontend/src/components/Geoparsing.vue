@@ -99,6 +99,41 @@
             </v-col>
 
         </v-container>
+
+        <v-col
+            v-show="$store.state.geoparsing.toolMode =='filtering'"
+            cols="12"
+            lg="10"
+        >
+            <v-menu
+                ref="menu1"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                max-width="290px"
+                min-width="auto"
+            >
+                <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                        v-model="dateRangeText"
+                        label="Date"
+                        :hint="'available dates: ' + $store.state.geoparsing.minDate + '~' + $store.state.geoparsing.maxDate"
+                        persistent-hint
+                        prepend-icon="mdi-calendar"
+                        v-bind="attrs"
+                        v-on="on"
+                    ></v-text-field>
+                </template>
+                <v-date-picker
+                    v-model="$store.state.geoparsing.dates"
+                    no-title
+                    range
+                ></v-date-picker>
+            </v-menu>
+            <v-btn small outlined color="cyan" class="mt-6" @click="dateFilter">
+                apply
+            </v-btn>
+      </v-col>
         
     </div>
 </template>
@@ -111,6 +146,11 @@ export default {
       return {
           
       }
+    },
+    computed: {
+      dateRangeText () {
+        return this.$store.state.geoparsing.dates.join(' ~ ')
+      },
     },
     methods:{
         setGeoparsingToggle(){
@@ -148,6 +188,9 @@ export default {
         },
         setToolModeFiltering(){
             this.$store.commit('geoparsing/setToolModeFiltering')
+        },
+        dateFilter(){
+            this.$store.dispatch('geoparsing/dateFilter')
         }
         
     }

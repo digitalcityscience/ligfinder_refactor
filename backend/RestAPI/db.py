@@ -606,3 +606,18 @@ def get_single_liked_parcel(gid):
   cur.close()
   conn.close()
   return result
+
+def get_geoparsing_date_filter(table, fieldname, date1,date2):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(%s.*)::json)
+    )
+  from %s WHERE %s >= '%s' AND  %s < '%s'
+      ;""" %(table, table, fieldname, date1, fieldname, date2))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result

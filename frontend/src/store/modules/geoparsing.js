@@ -26,7 +26,10 @@ const geoparsing = {
         datasetMode: null,
         parliamentPdfLink: null,
         wordFrequency: [],
-        toolMode:null
+        toolMode:null,
+        dates: ['2022-01-05', '2022-01-20'],
+        maxDate: null,
+        minDate: null
     },
     mutations:{
         setGeoparsingToggle(state){
@@ -56,7 +59,21 @@ const geoparsing = {
                         'circle-color': '#8931e0'
                     }
                 });
+                dispatch('computeParliamentDateRange')
+                
             })
+        },
+        computeParliamentDateRange({state}){
+            let dateArray = []
+            for (let i=0; i<state.geocodedData.features.length; i++){
+                dateArray.push(state.geocodedData.features[i].properties.date)
+            }
+            let sorted = dateArray.slice()
+            .sort(function(a, b) {
+                return new Date(a) - new Date(b);
+            });
+            state.maxDate = sorted.pop()
+            state.minDate = sorted.shift()
         },
         getNewspaperPoints({state, rootState, dispatch}){
             dispatch('removeStyles');
@@ -73,7 +90,21 @@ const geoparsing = {
                         'circle-color': '#8931e0'
                     }
                 });
+                dispatch('computeNewspaperDateRange')
+                
             })
+        },
+        computeNewspaperDateRange({state}){
+            let dateArray = []
+            for (let i=0; i<state.newspaperData.features.length; i++){
+                dateArray.push(state.newspaperData.features[i].properties.doc_num)
+            }
+            let sorted = dateArray.slice()
+            .sort(function(a, b) {
+                return new Date(a) - new Date(b);
+            });
+            state.maxDate = sorted.pop()
+            state.minDate = sorted.shift()
         },
         removeStyles({rootState}){
 
@@ -412,6 +443,57 @@ const geoparsing = {
             popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
             
             popup.addTo(rootState.map.map);
+        },
+        dateFilter({state, rootState, dispatch}){
+            HTTP
+            .post('geoparsing-date-filter',{
+                dates: state.dates,
+                datasetMode: state.datasetMode
+            })
+            .then(response=>{
+                console.log(response.data)
+                if (state.datasetMode=='parliament'){
+                    if (response.data.features!=null){
+                        dispatch('removeStyles')
+                        state.geocodedData = response.data
+                        rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                        rootState.map.map.addLayer({
+                            'id': 'geocoded',
+                            'type': 'circle',
+                            'source': 'geocoded',
+                            'paint': {
+                                'circle-color': '#8931e0'
+                            }
+                        });
+                    }
+                    else{
+
+                        dispatch('alert/openCloseAlarm', {text: "No feature found for the selected dates", background: "#FFD700"}, { root:true })
+                    }
+                    
+                }
+                else if (state.datasetMode=='newspaper'){
+                    if (response.data.features!=null){
+                        dispatch('removeStyles')
+                        state.newspaperData = response.data
+                        rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                        rootState.map.map.addLayer({
+                            'id': 'geocoded',
+                            'type': 'circle',
+                            'source': 'geocoded',
+                            'paint': {
+                                'circle-color': '#8931e0'
+                            }
+                        });
+                    }
+                    else{
+
+                        dispatch('alert/openCloseAlarm', {text: "No feature found for the selected dates", background: "#FFD700"}, { root:true })
+
+                    }
+                    
+                }
+            })
         }
        
     },
