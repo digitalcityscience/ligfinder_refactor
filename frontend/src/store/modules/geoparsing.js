@@ -4,6 +4,8 @@ import {MapboxLayer} from '@deck.gl/mapbox';
 import maplibregl from 'maplibre-gl'
 import { createHtmlAttributesNewspaperDataset } from '../../utils/createHtmlAttributesNewspaperDataset';
 import { createDuplicatePointAttributesNewspaper } from '../../utils/createDuplicatePointAttributesNewspaper';
+import { createHtmlAttributesParliamentDataset } from '../../utils/createHtmlAttributesParliamentDataset';
+import { createDuplicatePointAttributesParliament } from '../../utils/createDuplicatePointAttributesParliament';
 
 
 const geoparsing = {
@@ -357,6 +359,50 @@ const geoparsing = {
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
             popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
+            
+            popup.addTo(rootState.map.map);
+        },
+        parliamentPopup({state, rootState, dispatch}, e){
+            let coordinates 
+            if (e.features.length==1){
+                coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                let pdflink = e.features[0].properties.hyperlink
+                let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
+                state.parliamentPdfLink= matches[0]
+
+                let popup = new maplibregl.Popup()
+                popup.setLngLat(coordinates)
+                delete e.features[0].properties['hyperlink'];
+                popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties))
+                
+                popup.addTo(rootState.map.map);
+
+            }
+            else{
+                coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+
+                let list = e.features
+                console.log(list)
+                let popup = new maplibregl.Popup()
+                popup.setLngLat(coordinates)
+                popup.setDOMContent(createDuplicatePointAttributesParliament(rootState,dispatch, popup, list))
+                
+                popup.addTo(rootState.map.map);
+            
+            }
+            
+        },
+        addSelectedDuplicatePointParliament({state,rootState}, payload){
+            var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
+            
+            let pdflink = selectedfeature[0].properties.hyperlink
+            let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
+            state.parliamentPdfLink= matches[0]
+
+            let popup = new maplibregl.Popup()
+            popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
+            delete selectedfeature[0].properties['hyperlink'];
+            popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
             
             popup.addTo(rootState.map.map);
         }

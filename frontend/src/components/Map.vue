@@ -41,11 +41,6 @@ import AddData from './AddData'
 import User from './User'
 import CompareLikedParcels from './CompareLikedParcels'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
-//import { createHtmlAttributesNewspaperDataset } from '../utils/createHtmlAttributesNewspaperDataset';
-import { createHtmlAttributesParliamentDataset } from '../utils/createHtmlAttributesParliamentDataset';
-//import { createDuplicatePointAttributesNewspaper } from '../utils/createDuplicatePointAttributesNewspaper';
-
-//import { HTTP } from '../utils/http-common';
 
 export default {
   name: "Map",
@@ -115,20 +110,7 @@ export default {
         this.$store.dispatch('geoparsing/newspaperPopup',e)
       }
       else if (_this.$store.state.geoparsing.datasetMode == 'parliament'){
-          
-          let pdflink = e.features[0].properties.hyperlink
-          let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
-          _this.$store.state.geoparsing.parliamentPdfLink= matches[0]
-          const coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
-          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-          }
-          let popup = new maplibregl.Popup()
-          popup.setLngLat(coordinates)
-          delete e.features[0].properties['hyperlink'];
-          popup.setDOMContent(createHtmlAttributesParliamentDataset(_this.$store.state, coordinates[0], coordinates[1], e.features[0].properties))
-          
-          popup.addTo(_this.$store.state.map.map);
+        this.$store.dispatch('geoparsing/parliamentPopup',e)
       }            
     })
 
