@@ -33,7 +33,7 @@ export default {
     animation-name:slidein-low;
    
 }
-@keyframes slidein-low  {
+@keyframes slidein-low{
    from {
       bottom:-100%;
    }
