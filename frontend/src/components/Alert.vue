@@ -28,5 +28,19 @@ export default {
     align-items: center;
     padding-right: 1vw;
     padding-left: 1vw;
+    opacity: 1;
+    animation-duration:1s;
+    animation-name:slidein-low;
+   
+}
+@keyframes slidein-low  {
+   from {
+      bottom:-100%;
+   }
+   
+   to {
+      bottom:0%;
+   }
+
 }
 </style>
