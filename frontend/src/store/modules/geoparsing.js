@@ -401,9 +401,21 @@ const geoparsing = {
             popup.addTo(rootState.map.map);
         },
         parliamentPopup({state, rootState, dispatch}, e){
+            state.wordFrequency = []
             let coordinates 
             if (e.features.length==1){
                 coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                let clickedDocNum = e.features[0].properties.doc_num
+                HTTP
+                .post('get-word-frequency-parliament',{
+                    docNum: clickedDocNum
+                })
+                .then((response)=>{
+                    console.log(response.data)
+                    for (let i in response.data) {
+                        state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                    }
+                })
                 let pdflink = e.features[0].properties.hyperlink
                 let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
                 state.parliamentPdfLink= matches[0]
@@ -411,7 +423,7 @@ const geoparsing = {
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
                 delete e.features[0].properties['hyperlink'];
-                popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties))
+                popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
                 
                 popup.addTo(rootState.map.map);
 
@@ -432,7 +444,18 @@ const geoparsing = {
         },
         addSelectedDuplicatePointParliament({state,rootState}, payload){
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
-            
+            state.wordFrequency = []
+            let clickedDocNum = selectedfeature[0].properties.doc_num
+            HTTP
+                .post('get-word-frequency-parliament',{
+                    docNum: clickedDocNum
+                })
+                .then((response)=>{
+                    console.log(response.data)
+                    for (let i in response.data) {
+                        state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                }
+            })
             let pdflink = selectedfeature[0].properties.hyperlink
             let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
             state.parliamentPdfLink= matches[0]

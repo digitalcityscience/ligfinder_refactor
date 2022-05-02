@@ -577,6 +577,22 @@ def get_word_cloud(date):
   conn.close()
   return result
 
+def get_word_cloud_parliament(doc_num):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  SELECT json_agg(json_build_object(
+					'word', word,
+					'frequency', frequency::INTEGER
+					)
+			   	)
+  from parlament_top20_keywords where file_number = %s;
+  """ ,(doc_num,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result
+
 def get_liked_parcels(gid):
   conn = connect()
   cur = conn.cursor()
