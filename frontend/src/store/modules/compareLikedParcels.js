@@ -49,8 +49,9 @@ const compareLikedParcels = {
                     ['match', ['get', 'gid'], state.likedParcels, '#FFD700' , '#d99ec4']
                 )
             }
-            
-            console.log(state.likedParcels)
+            if (state.likedParcels.length>1){
+                document.getElementById("compare-btn").disabled = false;
+            }
         },
         zoomToLikedParcel({rootState, state}, payload){
             for (let i = 0; i < state.likedParcelsJsonResponse.features.length; i++){
