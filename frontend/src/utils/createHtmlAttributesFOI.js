@@ -31,7 +31,13 @@ export const createHtmlAttributesFOI = (rootState, store, likedParcel, zoomLng, 
     const compareBtn = document.createElement('button');
     compareBtn.setAttribute('class', 'btn btn-outline-success btn-sm');
     compareBtn.setAttribute('id', 'compare-btn');
-    compareBtn.disabled = true;
+    //compareBtn.disabled = true;
+    if (rootState.compareLikedParcels.likedParcels.length>1){
+        compareBtn.disabled = false;
+    }
+    else{
+        compareBtn.disabled = true;
+    }
     
     compareBtn.style.cssText = 'float:right'
     compareBtn.textContent = 'compare';

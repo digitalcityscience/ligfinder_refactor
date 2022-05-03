@@ -52,6 +52,9 @@ const compareLikedParcels = {
             if (state.likedParcels.length>1){
                 document.getElementById("compare-btn").disabled = false;
             }
+            else{
+                document.getElementById("compare-btn").disabled = true;
+            }
         },
         zoomToLikedParcel({rootState, state}, payload){
             for (let i = 0; i < state.likedParcelsJsonResponse.features.length; i++){
