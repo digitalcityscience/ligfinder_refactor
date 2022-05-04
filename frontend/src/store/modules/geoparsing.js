@@ -360,6 +360,11 @@ const geoparsing = {
                 })
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
+
+                if (e.features[0].properties['eml_lists_URL']){
+                    delete e.features[0].properties['eml_lists_URL']
+                }
+                
                 popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
                 
                 popup.addTo(rootState.map.map);
@@ -396,6 +401,10 @@ const geoparsing = {
             })
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
+
+            if (selectedfeature[0].properties['eml_lists_URL']){
+                delete selectedfeature[0].properties['eml_lists_URL']
+            }
             popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
             
             popup.addTo(rootState.map.map);
