@@ -114,6 +114,11 @@ export default {
       }            
     })
 
+  },
+  watch: {
+    '$store.state.ligfinder.FOI': function() {
+      this.$store.dispatch('area/removeAreaFilterLayer')
+    }
   }
    
 };

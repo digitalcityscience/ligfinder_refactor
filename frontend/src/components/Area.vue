@@ -116,7 +116,8 @@
             </v-card-text>
 
             <v-col class="mt-4" >
-                    <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">Suche Starten</button>
+                <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">Suche Starten</button>
+                <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyAreaFilter">Änderungen übernehmen</button>
             </v-col>
         </v-card>
     </div>
@@ -158,6 +159,9 @@ export default {
     methods:{
         areaFilter(){
            this.$store.dispatch("area/areaFilter")
+       },
+       applyAreaFilter(){
+           this.$store.dispatch("area/applyAreaFilter")
        }
     }
 }

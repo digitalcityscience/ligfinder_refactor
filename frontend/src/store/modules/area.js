@@ -7,6 +7,7 @@ const area = {
         areaRange: [0,4073828],
         grossFloorAreaRange: [0,4073828],
         unbuiltAreaRange: [0,4073828],
+        areaFilterData: null
     },
     mutations:{
         
@@ -16,6 +17,7 @@ const area = {
         areaFilter({state, rootState, rootGetters, dispatch}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
+            rootState.map.isLoading = true
             HTTP
             .post('get-area-filter', {
                 featureIds : rootGetters['ligfinder/getFOIGid'],
@@ -25,27 +27,23 @@ const area = {
             })
             .then(response => {
                 if (response.data.features!=null){
-                    rootState.ligfinder.FOI = response.data
-
-                    console.log(rootState.ligfinder.FOI.features)
-                    response.data.name = "foi"
-                    for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                        if(rootState.layers.addedLayers[i].name === "foi"){
-                            rootState.layers.addedLayers.splice(i, 1);
-                        }
-                    }
-                    rootState.layers.addedLayers.push(response.data)
+                    state.areaFilterData=response.data
                     
-                    const mapLayer = rootState.map.map.getLayer("foi");
-                    if(typeof mapLayer !== 'undefined'){
+                    const foiLayer = rootState.map.map.getLayer("foi");
+                    if(typeof foiLayer !== 'undefined'){
                         rootState.map.map.removeLayer("foi")
                         rootState.map.map.removeSource("foi")
                     }
-                    rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
+                    const mapLayer = rootState.map.map.getLayer("areafilter");
+                    if(typeof mapLayer !== 'undefined'){
+                        rootState.map.map.removeLayer("areafilter")
+                        rootState.map.map.removeSource("areafilter")
+                    }
+                    rootState.map.map.addSource(("areafilter"),{'type': 'geojson', 'data': response.data});
                     let layerName = {
-                        'id': "foi",
+                        'id': "areafilter",
                         'type': 'fill',
-                        'source': "foi", // reference the data source
+                        'source': "areafilter", // reference the data source
                         'layout': {},
                         'paint': {
                             'fill-color': '#d99ec4', 
@@ -56,21 +54,58 @@ const area = {
                     };
                     
                     rootState.map.map.addLayer(layerName)
+                    rootState.map.isLoading = false
                 }
                 else{
                     dispatch('alert/openCloseAlarm', {text: "No feature found for the selected area. Please restart your search", background: "#FFD700"}, { root:true })
-                    const mapLayer = rootState.map.map.getLayer("foi");
-                    if(typeof mapLayer !== 'undefined'){
-                        rootState.map.map.removeLayer("foi")
-                        rootState.map.map.removeSource("foi")
-                    }
                     rootState.map.isLoading = false
-
-                    rootState.ligfinder.FOI = {'features':[]}
-                    console.log("no feature found")
                 }
             })
             
+        },
+        applyAreaFilter({state, rootState, dispatch}){
+            if (state.areaFilterData){
+                rootState.ligfinder.FOI = state.areaFilterData
+
+                state.areaFilterData.name = "foi"
+                for (let i=0; i<rootState.layers.addedLayers.length; i++){
+                    if(rootState.layers.addedLayers[i].name === "foi"){
+                        rootState.layers.addedLayers.splice(i, 1);
+                    }
+                }
+                rootState.layers.addedLayers.push(state.areaFilterData)
+                
+                const foiLayer = rootState.map.map.getLayer("foi");
+                if(typeof foiLayer !== 'undefined'){
+                    rootState.map.map.removeLayer("foi")
+                    rootState.map.map.removeSource("foi")
+                }
+                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
+                let layerName = {
+                    'id': "foi",
+                    'type': 'fill',
+                    'source': "foi", // reference the data source
+                    'layout': {},
+                    'paint': {
+                        'fill-color': '#d99ec4', 
+                        'fill-opacity':0.7,
+                        'fill-outline-color': '#000000',
+                    }
+                };
+                
+                rootState.map.map.addLayer(layerName)
+                
+                dispatch('alert/openCloseAlarm', {text: "The Area Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
+
+            }
+            
+        },
+        removeAreaFilterLayer({rootState}){
+            const mapLayer = rootState.map.map.getLayer("areafilter");
+            if(typeof mapLayer !== 'undefined'){
+                rootState.map.map.removeLayer("areafilter")
+                rootState.map.map.removeSource("areafilter")
+            }
         }
     },
     getters:{
