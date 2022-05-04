@@ -3,7 +3,7 @@
         <div class=" mb-2 mt-1 mr-2">
             <i
                 class="fas fa-times" 
-                style="cursor: pointer; position: absolute; right: 1%"
+                style="cursor: pointer; position: absolute; left: 1%"
                 @click="closeCompareTable"   
             >
             </i>
