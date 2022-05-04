@@ -23,9 +23,9 @@ export const createDuplicatePointAttributesNewspaper = (rootState, dispatch, pop
         let td1 = document.createElement('td');
         
         
-        td1.textContent = prop;
+        td1.textContent = list[prop]['properties']['doc_num'];
         let td2 = document.createElement('td');
-        td2.textContent = list[prop]['properties']['eml_lists_title'];
+        td2.textContent = list[prop]['properties']['word'];
         tr.appendChild(td1)
         tr.appendChild(td2)
         tbody.appendChild(tr)
