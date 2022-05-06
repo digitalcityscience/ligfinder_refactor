@@ -246,11 +246,13 @@
         <button
             style="font-size: 0.8vw"
             class="btn btn-info" 
-            @click="applyCriteria()" 
+            @click="criteriaFilter()" 
             :disabled='$store.state.criteria.includeTags.length==0 && $store.state.criteria.excludeTags.length==0'
         >
         Suche Starten
         </button>
+        <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyCriteriaFilter">Änderungen übernehmen</button>
+
     </div>
 </div>
 <div v-else class="text-center">
@@ -398,12 +400,16 @@ export default {
             console.log(this.$store.state.criteria.excludeTags)
 
         },
-        applyCriteria(){
-            this.$store.dispatch('criteria/applyCriteria')
+        criteriaFilter(){
+            this.$store.dispatch('criteria/criteriaFilter')
+
+        },
+        applyCriteriaFilter(){
+            this.$store.dispatch('criteria/applyCriteriaFilter')
 
         }
-        
-        
+
+
     }
     
 
