@@ -19,7 +19,7 @@
           item-value="value"
           
           v-model="$store.state.AOI.selectMode"
-          @change="test"
+          @change="toggleAOIModes"
         ></v-select>
         <AdministrativeAOI v-if="$store.state.AOI.selectMode==='administrative'" />
         <GeometryAOI v-if="$store.state.AOI.selectMode==='geometry'" />
@@ -66,8 +66,7 @@
                 class="select-operator"
             >
             </v-select>
-            <button style="font-size: 0.8vw" class="btn btn-info mb-4 mt-4" @click="getParcels()">Suche Starten</button>
-            <v-expand-transition><span v-show="$store.state.AOI.expand">total Area</span></v-expand-transition>
+            <button style="font-size: 0.8vw" class="btn btn-info mb-4 mt-4" @click="getParcels()">Suche Starten</button>            
         </div>
     </div>
 </template>
@@ -93,7 +92,7 @@ export default {
     },
   
     methods:{
-        test(v){
+        toggleAOIModes(v){
             if (v==="geometry"){
                 this.$store.dispatch("administrativeAOI/resetAdminLayers")
             }
@@ -124,7 +123,8 @@ export default {
         deleteItemConfirm(){
             this.deleteDialog=false
             this.$store.dispatch("AOI/deleteItemConfirm", this.deleteItemValue)
-      },
+        }
+        
     }
 }
 </script>
