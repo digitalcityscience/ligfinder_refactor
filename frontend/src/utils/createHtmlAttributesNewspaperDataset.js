@@ -61,6 +61,13 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
     btn.textContent = 'Zoom To';
     zoomDiv.appendChild(btn)
     parentDiv.appendChild(zoomDiv)
+
+    const pdfBtn = document.createElement('button');
+    pdfBtn.setAttribute('class', 'btn btn-outline-success btn-sm mt-2');
+    pdfBtn.style.cssText = 'float:right'
+    pdfBtn.textContent = 'Full Text';
+    zoomDiv.appendChild(pdfBtn)
+
     btn.onclick = function() {
         rootState.map.map.flyTo({
             center: [
@@ -74,6 +81,10 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
             essential: true 
         });
             
+    }
+
+    pdfBtn.onclick = function() {
+        window.open(rootState.geoparsing.newspaperMailLink, '_blank')
     }
     
     righarrowBtn.onclick = function (){

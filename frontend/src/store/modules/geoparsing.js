@@ -25,6 +25,7 @@ const geoparsing = {
         ],
         datasetMode: null,
         parliamentPdfLink: null,
+        newspaperMailLink: null,
         wordFrequency: [],
         toolMode:null,
         dates: ['2022-01-05', '2022-01-20'],
@@ -358,6 +359,11 @@ const geoparsing = {
                         state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
                     }
                 })
+
+                let pdflink = e.features[0].properties.eml_lists_URL
+                let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
+                state.newspaperMailLink= matches[0]
+
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
 
@@ -399,6 +405,11 @@ const geoparsing = {
                 //state.wordFrequency= response.data
                 console.log(response.data)
             })
+
+            let pdflink = selectedfeature[0].properties.eml_lists_URL
+            let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
+            state.newspaperMailLink= matches[0]
+
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
 
