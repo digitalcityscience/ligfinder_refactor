@@ -1,5 +1,6 @@
 <template>
   <div class="map-container" ref="myMap">
+    
     <div  class='spinner' v-if='$store.state.map.isLoading'>
         <img src= '../assets/4.gif'  :disabled='$store.state.map.isLoading' style = "position: absolute; margin:0 auto; left:50%; top: 50%;margin-top: -32px; transform: translate(0, -50%); z-index: 999; width: 64px; height: 64px">
     </div>
@@ -63,7 +64,7 @@ export default {
   mounted: function() {
     this.$store.state.map.map = new maplibregl.Map({
       container: this.$refs.myMap,
-      style: 'https://api.maptiler.com/maps/a2eb63ba-7d0e-4b25-9cfc-9ef74d786ec4/style.json?key=XgdreUwN4V3uEHHZHsWO',
+      style: this.$store.state.map.styles.lightOSM,
       center: [this.$store.state.map.initialLongitude,  this.$store.state.map.initialLatitude],
       zoom: this.$store.state.map.initialZoom,
       maxZoom: this.$store.state.map.maxZoom,
