@@ -58,6 +58,7 @@
                     clearable
                     label="Description"
                     type="text"
+                    @keyup.enter="saveData"
                     @click:append-outer="saveData"
                     @click:clear="clearMessage"
                 ></v-text-field>
