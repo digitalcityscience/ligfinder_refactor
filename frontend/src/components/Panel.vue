@@ -6,6 +6,7 @@
                     <i
                         class="fa fa-user fa-xs mt-2" 
                         @click="userToggle"
+                        v-click-outside="closeUserPanel"
                         :style="{
                             color: $store.state.user.iconColor,
                             boxShadow: $store.state.user.boxShadow,
@@ -23,6 +24,7 @@
                         class="fas fa-layer-group mt-4" 
                         @click="layersToggle"
                         @click.once="tableNames"
+                        v-click-outside="closeTablesPanel"
                         :style="{
                             color: $store.state.layers.iconColor,
                             fontSize:'1.2vw',
@@ -37,7 +39,8 @@
                 <span>
                     <i
                         class="fas fa-tools mt-4" 
-                         @click="toolsToggle"
+                        @click="toolsToggle"
+                        v-click-outside="closeToolsPanel"
                         :style="{
                             color: $store.state.tools.iconColor,
                             fontSize:'1.2vw',
@@ -53,6 +56,7 @@
                     <i
                         class="fas fa-plus mt-4" 
                         @click="dropAreaToggle"
+                        v-click-outside="closeDropPanel"
                         :style="{
                             color: $store.state.addData.iconColor,
                             fontSize:'1.2vw',
@@ -146,9 +150,61 @@ export default {
         },
         userToggle(){
             this.$store.commit('user/setUserToggle')
+        },
+        closeUserPanel() {
+            if (this.$store.state.user.toggle==true){
+                this.$store.commit('user/setUserToggle')
+            }
+        },
+        closeTablesPanel(){
+           if (this.$store.state.layers.toggle==true){
+                this.$store.commit('layers/setLayersToggle')
+            } 
+        },
+        closeToolsPanel(){
+            if (this.$store.state.tools.toggle==true){
+                this.$store.commit('tools/setToolsToggle')
+            } 
+        },
+        closeDropPanel(){
+            if (this.$store.state.addData.toggle==true){
+                this.$store.commit('addData/dropAreaToggle')
+            } 
         }
+        
 
     },
+    directives: {
+        'click-outside': {
+            bind: function(el, binding, vNode) {
+                // Provided expression must evaluate to a function.
+            if (typeof binding.value !== 'function') {
+                const compName = vNode.context.name
+                let warn = `[Vue-click-outside:] provided expression '${binding.expression}' is not a function, but has to be`
+                if (compName) { warn += `Found in component '${compName}'` }
+          
+                console.warn(warn)
+            }
+            // Define Handler and cache it on the element
+            const bubble = binding.modifiers.bubble
+            const handler = (e) => {
+            if (bubble || (!el.contains(e.target) && el !== e.target)) {
+                binding.value(e)
+            }
+            }
+            el.__vueClickOutside__ = handler
+
+            // add Event Listeners
+            document.addEventListener('click', handler)
+        },
+      
+        unbind: function(el) {
+            // Remove Event Listeners
+            document.removeEventListener('click', el.__vueClickOutside__)
+            el.__vueClickOutside__ = null
+        }
+    }
+  }
 }
 </script>
 
