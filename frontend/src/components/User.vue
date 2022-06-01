@@ -210,7 +210,7 @@ export default {
         font-weight:800;
         background-color: rgba(255, 255, 255, 1);
         z-index: 999;
-        left:1.9vw;
+        
         width: 30vw;
         max-height: 100vh;
         overflow-y: scroll !important;

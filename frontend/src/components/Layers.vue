@@ -153,7 +153,6 @@ export default {
         font-weight:800;
         background-color: rgba(255, 255, 255, 0.9);
         z-index: 999;
-        left:1.9vw;
         width: 20vw;
     }
 </style>

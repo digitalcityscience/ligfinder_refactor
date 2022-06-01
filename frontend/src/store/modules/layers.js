@@ -16,6 +16,9 @@ const layers = {
             state.toggle=!state.toggle;
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';
         },
+        layersToggle(state){
+            state.toggle=false
+        },
         setTableNames(state, payload){
             state.tableNames = payload
         },

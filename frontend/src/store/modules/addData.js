@@ -12,6 +12,9 @@ const addData = {
             state.toggle = false
             state.iconColor = '#ababab';
         },
+        addDataToggle(state){
+            state.toggle=!state.toggle;
+        },
         dropAreaToggle(state){
             state.toggle=!state.toggle;
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';

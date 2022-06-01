@@ -203,7 +203,6 @@ export default {
         font-family: 'Nunito', sans-serif;
         background-color: rgba(255, 255, 255, 1);
         z-index: 900;
-        left:1.9vw;
         width: 25vw;
         height: 100vh;
     }

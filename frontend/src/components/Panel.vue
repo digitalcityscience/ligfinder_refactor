@@ -1,109 +1,118 @@
 <template>
-    <div id="main-panel">
-        <div class="panel-icons">
-            <div class="user-icon" >
-                <span >
-                    <i
-                        class="fa fa-user fa-xs mt-2" 
-                        @click="userToggle"
-                        :style="{
-                            color: $store.state.user.iconColor,
-                            boxShadow: $store.state.user.boxShadow,
-                            fontSize:'0.8vw',
-                        }"
-                    >
-                    </i>
-                </span>
-            </div>
-            <div>
-                <span>
-                    <i
-                        class="fas fa-layer-group mt-4" 
-                        @click="layersToggle"
-                        @click.once="tableNames"
-                        :style="{
-                            color: $store.state.layers.iconColor,
-                            fontSize:'1.2vw',
-                            marginLeft:'0.3vw',
-                            marginRight: '0.3vw' 
-                        }"
-                    >
-                    </i>
-                </span>
-            </div>
-            <div>
-                <span>
-                    <i
-                        class="fas fa-tools mt-4" 
-                        @click="toolsToggle"
-                        :style="{
-                            color: $store.state.tools.iconColor,
-                            fontSize:'1.2vw',
-                            marginLeft:'0.3vw',
-                            marginRight: '0.3vw' 
-                        }"
-                    >
-                    </i>
-                </span>
-            </div>
-            <div>
-                <span>
-                    <i
-                        class="fas fa-plus mt-4" 
-                        @click="dropAreaToggle"
-                        :style="{
-                            color: $store.state.addData.iconColor,
-                            fontSize:'1.2vw',
-                            marginLeft:'0.3vw',
-                            marginRight: '0.3vw' 
-                        }"
-                    >
-                    </i>
-                </span>
-            </div>
-            
-            <!--<div>
-                <span>
-                    <i
-                        class="fas fa-database  mt-3" 
-                        @click="databaseToggle(); tableNames()"
-                        :style="{
-                            color: $store.state.database.iconColor,
-                            fontSize:'1.2vw',
-                            marginLeft:'0.3vw',
-                            marginRight: '0.3vw' 
-                        }"
-                    >
-                    </i>
-                </span>
-            </div>
-            <div>
-                <span>
-                    <i
-                        class="fas fa-layer-group  mt-3" 
-                        @click="layerToggle"
-                        :style="{
-                            color: $store.state.layer.iconColor,
-                            fontSize:'1.2vw',
-                            marginLeft:'0.3vw',
-                            marginRight: '0.3vw' 
-                        }"
-                        
-                    >
-                    </i>
-                </span>
-            </div>-->
-            
-        </div>
+
+    <div>
         
-        <span id="mouse-coordinate-icon" class="mouse-coordinate-icon" @click="MouseCoordinateToggle">
-            <i id="tgl-arrow" class="fas fa-angle-double-left" :style="{ color: $store.state.mouseCoordinate.iconColor,fontSize:'1.2vw' }"></i>
-        </span>
-                
-        
-    </div>
+    <v-app-bar
+      color="deep-purple"
+      dense
+      dark
+      style="z-index:999;"
+
+    >
+        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+
+        <v-toolbar-title>LIG-Finder</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-col>
+            <v-text-field
+                @focus="searchClosed = false"
+                @blur="searchClosed= true"
+                v-model="address"
+                v-on:keyup.enter="geocodeAddress"
+                placeholder="search address"
+                prepend-inner-icon="mdi-magnify"
+                class="expanding-search mt-6 "
+                :class="{ 'closed': searchClosed && !address }"
+                filled
+                dense
+                clearable
+                style="float:right; width: 300px"
+                @click:clear="clearGeocodedAddress"
+            >
+            </v-text-field>
+        </v-col>
+
+    </v-app-bar>
 
     
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+      style="z-index:9999"
+    >
+       
+        <v-list-item v-if="$store.state.user.loggedIn" class="px-2">
+            <v-list-item-avatar color="cyan" style="top: 0.2rem; ">
+                <span class="my-span white--text">
+                    {{$store.state.user.nameAbbreviation}}
+                </span>
+            </v-list-item-avatar>
+
+            <v-list-item-title style="top: 0.6rem; ">{{$store.state.user.firstname}} {{$store.state.user.lastname}}</v-list-item-title>
+
+            <v-btn
+            icon
+            @click.stop="drawer = !drawer"
+            >
+            <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+        </v-list-item>
+
+        <v-divider v-if="$store.state.user.loggedIn"></v-divider>
+
+      <v-list dense>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+          :id="item.id"
+           @click.stop="drawer = !drawer"
+           @click="getid(item.id); closeOtherPanels(item.id)"
+        >
+          <v-list-item-icon>
+            <v-icon  >{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <v-list-group
+          :value="false"
+          no-action
+          prepend-icon="mdi-cog-outline"
+        >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Modules</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="tool in tools"
+            :key="tool.id"
+            link
+            dense
+            @click.stop="drawer = !drawer"
+            @click="getid(tool.id); closeOtherPanels(tool.id)"
+          >
+            <v-list-item-title v-text="tool.title"></v-list-item-title>
+
+            <v-list-item-icon>
+              <v-icon dense v-text="tool.icon"></v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list-group>
+    </v-navigation-drawer>
+    </div>
+
+      
+
 </template>
 
 <script>
@@ -118,9 +127,62 @@ export default {
     components:{
         //MouseCoordinate
     },
+    data: () => ({
+      drawer: false,
+      group: null,
+        items: [
+            { title: 'My Account', icon: 'mdi-account-outline', id:'user' },
+            { title: 'Layers', icon: 'mdi-layers-outline', id:'layers' },
+            { title: 'Add Data', icon: 'mdi-plus', id:'addData' },
+        ],
+        mini: true,
+        tools: [
+            { title: 'Ligfinder', icon: 'mdi-map-check', id:'ligfinder' },
+            { title: 'Geoparsing', icon: 'mdi-nfc-search-variant', id:'geoparsing' },
+            { title: 'Classification', icon: 'mdi-sort-descending', id:'classification' }
+      ],
+      panels: ['user', 'layers', 'ligfinder', 'geoparsing', 'classification'],
+      searchClosed: true,
+      address: null
+    }),
     methods:{
-        MouseCoordinateToggle(){
+        clearGeocodedAddress(){
+            this.$store.dispatch('geocoder/clearGeocodedAddress')
+        },
+        getid(id){
+            if (id=="user"){
+                this.$store.commit('user/setUserToggle')
+            }
+            else if (id=="layers"){
+                this.$store.commit('layers/setLayersToggle')
+                this.$store.dispatch('layers/getTableNames')
+            }
+            else if (id=="addData"){
+                this.$store.commit('addData/dropAreaToggle')
+            }
+            else if (id=="ligfinder"){
+                this.$store.commit('ligfinder/setLigfinderToggle')
+            }
+            else if (id=="geoparsing"){
+                this.$store.commit('geoparsing/setGeoparsingToggle')
+            }
+            else if (id=="classification"){
+                this.$store.commit('classification/setClassificationToggle')
+            }
             
+            
+        },
+        closeOtherPanels(id){
+            for (let i=0; i<this.panels.length; i++){
+                if (this.panels[i]!==id){
+                    this.$store.commit(this.panels[i]+'/'+this.panels[i]+'Toggle')
+                }
+            }
+        },
+        geocodeAddress(){
+            this.$store.dispatch('geocoder/geocodeAddress', this.address)
+        },
+        MouseCoordinateToggle(){
             this.$store.commit('mouseCoordinate/setMouseCoordinateToggle')
         },
         databaseToggle(){
@@ -149,39 +211,31 @@ export default {
 }
 </script>
 
-<style scoped>
-    #main-panel{
-        position:absolute;
-        
-        display: inline-block;
-        height:100vh;
-        z-index:999;
-        background-color: rgb(34, 33, 33);
-        color:rgb(126, 122, 122);
-        
-    }
-    .mouse-coordinate-icon{
-        position: absolute;
-        bottom:0.5vh;
-        left:0.2vw
-    }
-    span:hover{
-        cursor:pointer
-    }
-    i.fa {
-        display: inline-block;
-        border-radius: 60px;
-        padding: 0.5em 0.6em;
+<style>
+#main {
 
-    }
-    .user-icon{
-        justify-content: center;
-        align-items: center;
-        display: flex;
-    }
-    .panel-icons i:hover{
-        transform: scale(1.15);
-    }
+    position: absolute;
+    z-index:999;
    
+}
+
+.expanding-search.v-text-field>.v-input__control>.v-input__slot:before { border-style: none; }
+.expanding-search.v-text-field>.v-input__control>.v-input__slot:after { border-style: none; }
+
+.v-input.expanding-search.closed{
+
+    max-width:23px
+}
+.v-input.expanding-search.closed .v-input__slot{
+
+    background: transparent !important;
+    cursor: pointer;
+
+}
+.v-input.expanding-search{
+    
+    transition: max-width 0.3s
+}
    
+
 </style>

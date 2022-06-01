@@ -24,6 +24,9 @@ const classification = {
         setClassificationToggle(state){
             state.toggle=!state.toggle;
         },
+        classificationToggle(state){
+            state.toggle=false
+        }
         
     },
     actions:{

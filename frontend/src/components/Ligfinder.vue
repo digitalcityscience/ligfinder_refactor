@@ -93,9 +93,8 @@ export default {
         font-family: 'Nunito', sans-serif;
         background-color: rgba(255, 255, 255, 1);
         z-index: 900;
-        left:1.9vw;
         width: 40vw;
-        height: 100vh;
+        height: 100%;
         overflow-y: scroll;
     }
     .ligfinder-ui::-webkit-scrollbar {

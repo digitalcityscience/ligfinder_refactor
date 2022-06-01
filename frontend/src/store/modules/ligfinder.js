@@ -10,6 +10,9 @@ const ligfinder = {
         setLigfinderToggle(state){
             state.toggle=!state.toggle;
         },
+        ligfinderToggle(state){
+            state.toggle=false
+        }
         
     },
     actions:{

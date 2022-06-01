@@ -1,15 +1,20 @@
 <template>
   <v-app id="app">
+    <Panel />
     <Map/>
   </v-app>
 </template>
 
 <script>
 import Map from "./components/Map"
+import Panel from './components/Panel'
+
 export default {
   name: "App",
   components: {
-    Map
+    Map,
+    Panel
+    
   }
 };
 </script>

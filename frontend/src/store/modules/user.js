@@ -20,6 +20,9 @@ const user = {
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';
             state.toggle ? state.boxShadow = '0 0 2px #FFFFFF' :  state.boxShadow = '0 0 2px #888';
         },
+        userToggle(state){
+            state.toggle=false
+        },
         logout(state){
             state.loggedIn=false
         }

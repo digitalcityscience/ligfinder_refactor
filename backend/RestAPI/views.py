@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, json, Response
 import bcrypt
+import base64
 import mapclassify
+from geopy.geocoders import Nominatim
 from RestAPI import app
 from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_word_cloud_parliament, get_liked_parcels, get_single_liked_parcel, spatial_union, get_union_features, spatial_intersection, get_geoparsing_date_filter
 
@@ -569,3 +571,14 @@ def geoparsing_date_filter():
         elif data["datasetMode"]== 'newspaper':
             return(get_geoparsing_date_filter('elbvertiefung', 'doc_num', data["dates"][0], data["dates"][1]))
 
+@app.route('/geocode-address', methods=["GET", "POST"])
+def geocode_address():
+    if request.method=='POST':
+        data = request.get_json()
+        geolocator = Nominatim(user_agent="ligfinder")
+        location = geolocator.geocode(data["address"])
+        if (location):
+
+            return({"location": [location.longitude, location.latitude], "address": location.address, 'status': 'success'})
+        else:
+            return jsonify({'text':"No location found for the address", 'status': 'failure'})

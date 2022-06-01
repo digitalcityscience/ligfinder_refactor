@@ -6,7 +6,7 @@
     </div>
     <div class="placeholder"  id="map">
        <MouseCoordinate />
-       <Panel />
+       
        <!--<Database />
        <Layer />-->
        <Layers />
@@ -28,7 +28,6 @@
 
 import maplibregl from 'maplibre-gl'
 import MouseCoordinate from "./MouseCoordinate";
-import Panel from './Panel'
 //import Database from './Database'
 //import Layer from './Layer'
 import Layers from './Layers'
@@ -42,11 +41,11 @@ import AddData from './AddData'
 import User from './User'
 import CompareLikedParcels from './CompareLikedParcels'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
+//import BoxCustomLayer from "../utils/BoxCustomLayer"; 
 
 export default {
   name: "Map",
   components:{
-    Panel,
     MouseCoordinate,
     //Database,
     //Layer,
@@ -70,7 +69,6 @@ export default {
       maxZoom: this.$store.state.map.maxZoom,
       minZoom: this.$store.state.map.minZoom
     });
-         
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibregl.NavigationControl()
     this.$store.state.map.map.addControl(zoomControl);
@@ -114,6 +112,27 @@ export default {
         this.$store.dispatch('geoparsing/parliamentPopup',e)
       }            
     })
+
+/*function makeid(length) {
+    var result           = [];
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result.push(characters.charAt(Math.floor(Math.random() * 
+ charactersLength)));
+   }
+   return result.join('');
+}
+
+
+this.$store.state.map.map.on('click',  (e) => {
+  let boxLayer = new BoxCustomLayer({
+    id: makeid(5),
+    geomcenter: [e.lngLat.lng, e.lngLat.lat]
+    
+  })
+  _this.$store.state.map.map.addLayer(boxLayer);
+})*/
 
   },
   watch: {
