@@ -3,7 +3,7 @@
     <div>
         
     <v-app-bar
-      color="deep-purple"
+      color="#4c5b6e"
       dense
       dark
       style="z-index:999;"
