@@ -1,7 +1,6 @@
 import { HTTP } from '../../utils/http-common';
 import colorbrewer from "colorbrewer"
-//import { createHtmlAttributes } from '../../utils/createHtmlAttributes';
-//import maplibregl from 'maplibre-gl'
+
 const proximity = {
     namespaced: true,
     state: {
@@ -20,10 +19,11 @@ const proximity = {
         apothekenCHeckbox: true,
         numberOfCheckedItems:3,
         parameters: [
-            { name: 'Supermarket', value: 'supermarket', weight: 0.25, checked: true },
-            { name: 'Metro Station', value: 'metro', weight: 0.25, checked: true },
-            { name: 'Apotheken', value: 'apotheken', weight: 0.25, checked: true },
-            { name: 'Krankenhaus', value: 'krankenhaus', weight: 0.25, checked: true },
+            { name: 'Supermarket', value: 'supermarket', weight: 0.2, checked: true },
+            { name: 'Metro Station', value: 'metro', weight: 0.2, checked: true },
+            { name: 'Apotheken', value: 'apotheken', weight: 0.2, checked: true },
+            { name: 'Krankenhaus', value: 'krankenhaus', weight: 0.2, checked: true },
+            { name: 'Kita', value: 'kita', weight: 0.2, checked: true },
             
         ],
     },
@@ -54,8 +54,8 @@ const proximity = {
             let remainder =0
             for (let i of state.parameters){
                 if (i.value!=payload){
-                    let val = i.weight - diff / (3)
-                    if(i.weight - (diff / (3)) < 0){
+                    let val = i.weight - diff / (4)
+                    if(i.weight - (diff / (4)) < 0){
                         remainder += val
                         val = 0
                     }

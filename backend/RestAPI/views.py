@@ -308,13 +308,14 @@ def get_proximity_score():
         metroWeight = data['parameters'][1]['weight']
         apothekeWeight = data['parameters'][2]['weight']
         krankenhausWeight=data['parameters'][3]['weight']
+        kitaWeight = data['parameters'][4]['weight']
         featureIds = data['foi']
         featureid = []
         for gid in featureIds:
             featureid.append(int(gid))
         featureid= tuple(featureid)
         scores =[]
-        data = proximity_scoring(supermarketWeight, metroWeight, apothekeWeight,krankenhausWeight, featureid)
+        data = proximity_scoring(supermarketWeight, metroWeight, apothekeWeight,krankenhausWeight, kitaWeight, featureid)
         for i in data['features']:
             scores.append(i['properties']['total_score'])
         #print(scores)

@@ -367,21 +367,22 @@ def proximity_analysis(gid):
   conn.close()
   return points
 
-def proximity_scoring(supermarketWeight, metroWeight, apothekeWeight, krankenhausWeight, gid):
+def proximity_scoring(supermarketWeight, metroWeight, apothekeWeight, krankenhausWeight, kitaWeight, gid):
   conn = connect()
   cur = conn.cursor()
   
   cur.execute("""
      
       UPDATE parcel w
-            SET total_score = ((1-(1.00 * (w.sm_dist - x.Min_sm_dist) / x.sm_dist_Range))*%s) + ((1-(1.00 * (w.ms_dist - x.Min_ms_dist) / x.ms_dist_Range))*%s) + ((1-(1.00 * (w.apotheke_dist - x.Min_apotheke_dist) / x.apotheke_dist_Range))*%s)+((1-(1.00 * (w.krankenhaus_dist - x.Min_krankenhaus_dist) / x.krankenhaus_dist_Range))*%s),
+            SET total_score = ((1-(1.00 * (w.sm_dist - x.Min_sm_dist) / x.sm_dist_Range))*%s) + ((1-(1.00 * (w.ms_dist - x.Min_ms_dist) / x.ms_dist_Range))*%s) + ((1-(1.00 * (w.apotheke_dist - x.Min_apotheke_dist) / x.apotheke_dist_Range))*%s)+((1-(1.00 * (w.krankenhaus_dist - x.Min_krankenhaus_dist) / x.krankenhaus_dist_Range))*%s) +((1-(1.00 * (w.kita_dist - x.Min_kita_dist) / x.kita_dist_Range))*%s),
             sm_score = (1-(1.00 * (w.sm_dist - x.Min_sm_dist) / x.sm_dist_Range)),
             ms_score = (1-(1.00 * (w.ms_dist - x.Min_ms_dist) / x.ms_dist_Range)),
             apotheke_score = (1-(1.00 * (w.apotheke_dist - x.Min_apotheke_dist) / x.apotheke_dist_Range)),
-            krankenhaus_score = (1-(1.00 * (w.krankenhaus_dist - x.Min_krankenhaus_dist) / x.krankenhaus_dist_Range))
+            krankenhaus_score = (1-(1.00 * (w.krankenhaus_dist - x.Min_krankenhaus_dist) / x.krankenhaus_dist_Range)),
+            kita_score = (1-(1.00 * (w.kita_dist - x.Min_kita_dist) / x.kita_dist_Range))
         FROM
             (
-                SELECT sm_dist, gid, ms_dist, apotheke_dist, krankenhaus_dist,
+                SELECT sm_dist, gid, ms_dist, apotheke_dist, krankenhaus_dist, kita_dist,
                     min(sm_dist) OVER () AS Min_sm_dist,
                     max(sm_dist) OVER () - min(sm_dist) OVER () AS sm_dist_Range,
                     min(ms_dist) OVER () AS Min_ms_dist,
@@ -389,7 +390,9 @@ def proximity_scoring(supermarketWeight, metroWeight, apothekeWeight, krankenhau
                     min(apotheke_dist) OVER () AS Min_apotheke_dist,
                     max(apotheke_dist) OVER () - min(apotheke_dist) OVER () AS apotheke_dist_Range,
                     min(krankenhaus_dist) OVER () AS Min_krankenhaus_dist,
-                    max(krankenhaus_dist) OVER () - min(krankenhaus_dist) OVER () AS krankenhaus_dist_Range
+                    max(krankenhaus_dist) OVER () - min(krankenhaus_dist) OVER () AS krankenhaus_dist_Range,
+                    min(kita_dist) OVER () AS Min_kita_dist,
+                    max(kita_dist) OVER () - min(kita_dist) OVER () AS kita_dist_Range
 
                 FROM parcel where gid in %s
             ) x 
@@ -399,7 +402,7 @@ def proximity_scoring(supermarketWeight, metroWeight, apothekeWeight, krankenhau
     'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
     )
   from parcel where gid in %s
-  ;""" %(supermarketWeight, metroWeight, apothekeWeight,krankenhausWeight, gid,gid))
+  ;""" %(supermarketWeight, metroWeight, apothekeWeight,krankenhausWeight, kitaWeight, gid,gid))
   points = cur.fetchall()[0][0]
 
   # apply changes to the database
