@@ -2,8 +2,10 @@
     <div  class="isochrone-select">
         <div style="width:60%; margin-top: 5%">
            
-                <p>Travelling Mode</p>
+                <p>Reisemodus</p>
+                <v-card>
 
+                
                 <v-btn-toggle
                     v-model="mode"
                     tile
@@ -42,9 +44,24 @@
 
        
                 </v-btn-toggle>
-                <div class="isochrone-setting mt-4">
-                <button @click="showPointDraw" class="btn btn-secondary" id="draw-point"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> &nbsp; Mitte auswählen</button>
+                </v-card>
                 
+                <div class="isochrone-setting mt-4">
+                <p>Mitte auswählen</p>
+                <v-btn id="draw-point" @click="showPointDraw"
+                    icon
+                    outlined
+                    color="indigo"
+                >
+                    <v-icon
+                            color="blue darken-2"
+                            small
+                        >
+                            mdi-map-marker-radius
+                        </v-icon>
+                </v-btn>
+
+                <p class=" mt-4">Reisezeit</p>
                 <div class="input-group mt-3">
                     <span class="input-group-text"><i class="far fa-clock"></i></span>
                     <input type="text" id="time" name="time" v-model="time" class="form-control" aria-label="Amount (to the nearest dollar)">

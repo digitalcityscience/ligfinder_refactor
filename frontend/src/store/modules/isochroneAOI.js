@@ -36,32 +36,47 @@ const isochroneAOI = {
                     
                     const mapLayer = rootState.map.map.getLayer('travel-center');
                     if(typeof mapLayer !== 'undefined'){
+                        rootState.map.map.removeImage('travel-marker')
                         rootState.map.map.removeLayer('travel-center')
                         rootState.map.map.removeSource('travel-center')
+                        
                     }
-                    rootState.map.map.addSource('travel-center', {
-                        'type': 'geojson',
-                        'data': {
-                        'type': 'FeatureCollection',
-                            'features': [
-                                {
-                                    'type': 'Feature',
-                                    'geometry': {
-                                        'type': 'Point',
-                                        'coordinates': [e.lngLat['lng'], e.lngLat['lat']]
-                                    }
-                                },
-                            ]
-                        }
-                    });
-                    rootState.map.map.addLayer({
-                        'id': 'travel-center',
-                        'type': 'circle',
-                        'source': 'travel-center',
-                        'paint': {
-                        'circle-radius': 6,
-                        'circle-color': '#B42222'
-                        },
+                
+                    rootState.map.map.loadImage(
+                        require('../../assets/marker.png'),
+                        (error, image) => {
+                        if (error) throw error;
+                        
+                        rootState.map.map.addImage('travel-marker', image);
+                        
+                        // Add a GeoJSON source with 2 points
+                        rootState.map.map.addSource('travel-center', {
+                            'type': 'geojson',
+                            'data': {
+                                'type': 'FeatureCollection',
+                                'features': 
+                                [
+                                    {
+                                        'type': 'Feature',
+                                        'geometry': {
+                                            'type': 'Point',
+                                            'coordinates': [e.lngLat.lng, e.lngLat.lat]
+                                        },
+                                        
+                                    },
+                        
+                                ]
+                            }
+                        });
+                        
+                        rootState.map.map.addLayer({
+                            'id': 'travel-center',
+                            'type': 'symbol',
+                            'source': 'travel-center',
+                            'layout': {
+                                'icon-image': 'travel-marker',
+                            }
+                        });
                     });
                     state.activatePoint=false
                     rootState.map.map.getCanvas().style.cursor = '';
