@@ -2,16 +2,47 @@
     <div  class="isochrone-select">
         <div style="width:60%; margin-top: 5%">
            
-            <v-select
-                :items="$store.state.isochroneAOI.items"
-                label="Reisemethode"
-                solo
-                item-text="name"
-                item-value="value"
-                v-model="mode"
-                
-            ></v-select>
-            <div class="isochrone-setting mt-4">
+                <p>Travelling Mode</p>
+
+                <v-btn-toggle
+                    v-model="mode"
+                    tile
+                    color="blue accent-3"
+                    group
+                >
+                    <v-btn value="walk_network" >
+                        <v-icon
+                            large
+                            color="blue darken-2"
+                            small
+                        >
+                            mdi-walk
+                        </v-icon>
+                    </v-btn>
+
+                    <v-btn value="bike_network">
+                    <v-icon
+                            large
+                            color="blue darken-2"
+                            small
+                        >
+                            mdi-bike
+                        </v-icon>
+                    </v-btn>
+
+                    <v-btn value="drive_network">
+                    <v-icon
+                            large
+                            color="blue darken-2"
+                            small
+                        >
+                            mdi-car
+                        </v-icon>
+                    </v-btn>
+
+       
+                </v-btn-toggle>
+                <div class="isochrone-setting mt-4">
                 <button @click="showPointDraw" class="btn btn-secondary" id="draw-point"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> &nbsp; Mitte auswählen</button>
                 
                 <div class="input-group mt-3">
@@ -21,6 +52,7 @@
                 </div>
                 <button style="font-size: 0.8vw" class="btn btn-info mt-3" @click="getIsochrone()" :disabled="mode==null || time==null || $store.state.isochroneAOI.center==null">Isochrone bekommen</button>
             </div>
+            
             
             <!--<div class="mt-4" >
                 <button style="font-size: 0.8vw" class="btn btn-info" @click="getParcels()">Suche Starten</button>
