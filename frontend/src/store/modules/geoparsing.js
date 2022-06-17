@@ -30,7 +30,25 @@ const geoparsing = {
         toolMode:null,
         dates: ['2022-01-05', '2022-01-20'],
         maxDate: null,
-        minDate: null
+        minDate: null,
+        topics: [
+            'BauGB',
+            'Erbbaurechts',
+            'Grundvermogen',
+            'Hochwasser',
+            'Immo',
+            'Verkaufsrecht'
+        ],
+        topicItems: [
+            'BauGB',
+            'Erbbaurechts',
+            'Grundvermogen',
+            'Hochwasser',
+            'Immo',
+            'Verkaufsrecht'
+        ],
+        topicQueryModes:["AND", "OR"],
+        selectedTopicQueryMode: "OR"
     },
     mutations:{
         setGeoparsingToggle(state){
@@ -44,6 +62,9 @@ const geoparsing = {
         },
         setToolModeFiltering(state){
             state.toolMode= "filtering"
+        },
+        setToolModeTopic(state){
+            state.toolMode= "topic"
         }
         
     },
@@ -539,6 +560,35 @@ const geoparsing = {
                     }
                     
                 }
+            })
+        },
+        topicFilter({state, rootState, dispatch}){
+            HTTP
+            .post('geoparsing-topic-filter',{
+                topics: state.topics,
+                topicQueryMode: state.selectedTopicQueryMode
+            })
+            .then((response)=>{
+                console.log(response.data)
+                if (response.data.features!=null){
+                    dispatch('removeStyles')
+                    state.geocodedData = response.data
+                    rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                    rootState.map.map.addLayer({
+                        'id': 'geocoded',
+                        'type': 'circle',
+                        'source': 'geocoded',
+                        'paint': {
+                            'circle-color': '#8931e0'
+                        }
+                    });
+                }
+                else{
+
+                    dispatch('alert/openCloseAlarm', {text: "No feature found for the selected topics", background: "#FFD700"}, { root:true })
+
+                }
+
             })
         }
        

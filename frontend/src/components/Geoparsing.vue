@@ -37,7 +37,7 @@
                 color="cyan"
                 grow
             >
-                <v-btn @click="setToolModeStylization">
+                <v-btn @click="setToolModeStylization" >
                     <span>Stylization</span>
 
                     <v-icon>mdi-palette-outline</v-icon>
@@ -48,8 +48,12 @@
 
                     <v-icon>mdi-filter-outline</v-icon>
                 </v-btn>
+                <v-btn @click="setToolModeTopic">
+                    <span>Topics</span>
 
-    
+                    <v-icon>mdi-order-bool-ascending-variant</v-icon>
+                </v-btn>
+
             </v-bottom-navigation>
         </v-container>
 
@@ -133,6 +137,28 @@
             <v-btn small outlined color="cyan" class="mt-6" @click="dateFilter">
                 apply
             </v-btn>
+        </v-col>
+
+        <v-col 
+            cols="12"
+            v-show="$store.state.geoparsing.toolMode =='topic' && $store.state.geoparsing.datasetMode == 'parliament'"
+        >
+        <v-combobox
+          v-model="$store.state.geoparsing.topics"
+          :items="$store.state.geoparsing.topicItems"
+          label="topics"
+          multiple
+          small-chips
+        ></v-combobox>
+        <v-select
+          :items="$store.state.geoparsing.topicQueryModes"
+          v-model="$store.state.geoparsing.selectedTopicQueryMode"
+          dense
+          label="selection operator"
+        ></v-select>
+        <v-btn small outlined color="cyan" class="mt-6" @click="topicFilter">
+                apply
+        </v-btn>
       </v-col>
         
     </div>
@@ -144,7 +170,7 @@ export default {
     name: "Geoparsing",
     data () {
       return {
-          
+        
       }
     },
     computed: {
@@ -189,8 +215,14 @@ export default {
         setToolModeFiltering(){
             this.$store.commit('geoparsing/setToolModeFiltering')
         },
+        setToolModeTopic(){
+            this.$store.commit('geoparsing/setToolModeTopic')
+        },
         dateFilter(){
             this.$store.dispatch('geoparsing/dateFilter')
+        },
+        topicFilter(){
+            this.$store.dispatch('geoparsing/topicFilter')
         }
         
     }

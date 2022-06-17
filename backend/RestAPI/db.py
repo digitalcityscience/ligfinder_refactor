@@ -640,3 +640,18 @@ def get_geoparsing_date_filter(table, fieldname, date1,date2):
   cur.close()
   conn.close()
   return result
+
+def geoparsing_topic_filter(query):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  select json_build_object(
+    'type', 'FeatureCollection',
+    'features', json_agg(ST_AsGeoJSON(geocoded_address.*)::json)
+    )
+  from geocoded_address WHERE %s 
+      ;""" %(query))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result
