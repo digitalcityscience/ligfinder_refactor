@@ -55,6 +55,7 @@ const geoparsing = {
             state.toggle=!state.toggle;
         },
         geoparsingToggle(state){
+            console.log(state.toggle)
             state.toggle=false
         },
         setToolModeStylization(state){
