@@ -52,6 +52,7 @@ const geoparsing = {
     },
     mutations:{
         setGeoparsingToggle(state){
+            console.log(state.toggle)
             state.toggle=!state.toggle;
         },
         geoparsingToggle(state){
