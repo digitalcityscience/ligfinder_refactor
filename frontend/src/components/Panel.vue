@@ -22,13 +22,13 @@
                 v-model="address"
                 v-on:keyup.enter="geocodeAddress"
                 placeholder="search address"
-                prepend-inner-icon="mdi-magnify"
-                class="expanding-search mt-6 "
+                prepend-inner-icon="mdi-magnify mt-6 "
+                class="expanding-search "
                 :class="{ 'closed': searchClosed && !address }"
                 filled
                 dense
                 clearable
-                style="float:right; width: 300px"
+                style="float:right; width: 300px;"
                 @click:clear="clearGeocodedAddress"
             >
             </v-text-field>
