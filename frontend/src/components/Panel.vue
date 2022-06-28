@@ -22,8 +22,8 @@
                 v-model="address"
                 v-on:keyup.enter="geocodeAddress"
                 placeholder="search address"
-                prepend-inner-icon="mdi-magnify mt-6 "
-                class="expanding-search "
+                prepend-inner-icon="mdi-magnify "
+                class="expanding-search mt-6 "
                 :class="{ 'closed': searchClosed && !address }"
                 filled
                 dense
