@@ -37,7 +37,7 @@ const geoparsing = {
             'Grundvermogen',
             'Hochwasser',
             'Immo',
-            'Verkaufsrecht'
+            'Vorkaufsrecht'
         ],
         topicItems: [
             'BauGB',
@@ -45,7 +45,7 @@ const geoparsing = {
             'Grundvermogen',
             'Hochwasser',
             'Immo',
-            'Verkaufsrecht'
+            'Vorkaufsrecht'
         ],
         topicQueryModes:["AND", "OR"],
         selectedTopicQueryMode: "OR"
