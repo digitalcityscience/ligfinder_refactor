@@ -564,9 +564,10 @@ const geoparsing = {
             })
         },
         topicFilter({state, rootState, dispatch}){
+
             HTTP
             .post('geoparsing-topic-filter',{
-                topics: state.topics,
+                topics: state.topics.map(topic => topic.toLowerCase()),
                 topicQueryMode: state.selectedTopicQueryMode
             })
             .then((response)=>{
