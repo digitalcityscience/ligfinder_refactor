@@ -369,6 +369,36 @@ const geoparsing = {
             }
         
         },
+        clusterpopup({state, rootState, dispatch}, e){
+            let clusterRadius = 55;
+            let clickedMouseCoordinate = e.lngLat
+            var cluster = rootState.map.map.queryRenderedFeatures(e.point, { layers: ["stylelayer"] });
+            let clusterDataset
+            if (state.datasetMode == 'parliament') {
+                clusterDataset = state.geocodedData
+            }
+            else {
+                clusterDataset = state.newspaperData
+            }
+			if (cluster[0]) {
+                var pointsInCluster = clusterDataset.features.filter(function(f){
+                    var pointPixels = rootState.map.map.project(f.geometry.coordinates)
+                    var pixelDistance = Math.sqrt(
+                        Math.pow(e.point.x - pointPixels.x, 2) + 
+                        Math.pow(e.point.y - pointPixels.y, 2) 
+                    )
+                    return Math.abs(pixelDistance) <= clusterRadius
+                })
+                if (state.datasetMode == 'parliament') {
+                    dispatch('parliamentPopup', {features: pointsInCluster, clusterCenterCoordinate: clickedMouseCoordinate})
+                }
+                else {
+                    dispatch('newspaperPopup', {features: pointsInCluster, clusterCenterCoordinate: clickedMouseCoordinate})
+                }
+                
+        
+            }
+        },
         newspaperPopup({state, rootState, dispatch}, e){
             state.wordFrequency = []
             let coordinates
@@ -438,9 +468,9 @@ const geoparsing = {
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
 
-            if (selectedfeature[0].properties['URL']){
+            /*if (selectedfeature[0].properties['URL']){
                 delete selectedfeature[0].properties['URL']
-            }
+            }*/
             popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
             
             popup.addTo(rootState.map.map);
@@ -474,7 +504,12 @@ const geoparsing = {
 
             }
             else{
-                coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                if (e.clusterCenterCoordinate){
+                    coordinates = [e.clusterCenterCoordinate.lng, e.clusterCenterCoordinate.lat]
+                }
+                else {
+                    coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                }
 
                 let list = e.features
                 console.log(list)
@@ -496,7 +531,7 @@ const geoparsing = {
                     docNum: clickedDocNum
                 })
                 .then((response)=>{
-                    console.log(response.data)
+                    console.log(response.data , 'response')
                     for (let i in response.data) {
                         state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
                 }
@@ -507,7 +542,7 @@ const geoparsing = {
 
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
-            delete selectedfeature[0].properties['hyperlink'];
+            //delete selectedfeature[0].properties['hyperlink'];
             popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
             
             popup.addTo(rootState.map.map);

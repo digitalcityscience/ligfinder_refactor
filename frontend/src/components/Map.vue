@@ -73,7 +73,7 @@ export default {
     const zoomControl = new maplibregl.NavigationControl()
     this.$store.state.map.map.addControl(zoomControl);
 
-
+    
     this.$store.state.map.map.on('mousemove', (e) => {
       //console.log(JSON.stringify(e.lngLat));
       let coords = e.lngLat
@@ -82,6 +82,12 @@ export default {
 
     
     let _this = this
+    
+    this.$store.state.map.map.on('click', 'stylelayer', (e) => {
+
+      this.$store.dispatch('geoparsing/clusterpopup',e)
+      
+    })
     this.$store.state.map.map.on('click', 'foi', (e) => {
       let clickedParcel = e.features[0].properties.gid
       console.log(clickedParcel)
