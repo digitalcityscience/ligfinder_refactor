@@ -415,15 +415,15 @@ const geoparsing = {
                     }
                 })
 
-                let pdflink = e.features[0].properties.URL
+                let pdflink = e.features[0].properties.url
                 let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
                 state.newspaperMailLink= matches[0]
 
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
 
-                if (e.features[0].properties['URL']){
-                    delete e.features[0].properties['URL']
+                if (e.features[0].properties['url']){
+                    delete e.features[0].properties['url']
                 }
                 
                 popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
@@ -461,7 +461,7 @@ const geoparsing = {
                 console.log(response.data)
             })
 
-            let pdflink = selectedfeature[0].properties.URL
+            let pdflink = selectedfeature[0].properties.url
             let matches = pdflink.match(/\bhttps?:\/\/\S+/gi);
             state.newspaperMailLink= matches[0]
 
