@@ -26,7 +26,7 @@
                 item-value="value"
                 style="width:50%"
                 v-model="$store.state.geoparsing.datasetMode"
-                @change="removeStyles(), getPoints()"
+                @change="removeStyles(), getPoints(), resetDate()"
                 :style="{marginTop:'8vh'}"   
             >
             </v-select>
@@ -220,6 +220,9 @@ export default {
         },
         dateFilter(){
             this.$store.dispatch('geoparsing/dateFilter')
+        },
+        resetDate(){
+            this.$store.commit('geoparsing/resetDate')
         },
         topicFilter(){
             this.$store.dispatch('geoparsing/topicFilter')

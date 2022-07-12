@@ -66,6 +66,9 @@ const geoparsing = {
         },
         setToolModeTopic(state){
             state.toolMode= "topic"
+        },
+        resetDate(state){
+            state.dates= ['2022-01-05', '2022-01-20']
         }
         
     },
@@ -487,6 +490,7 @@ const geoparsing = {
                 })
                 .then((response)=>{
                     console.log(response.data)
+                    
                     for (let i in response.data) {
                         state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
                     }
@@ -548,13 +552,18 @@ const geoparsing = {
             popup.addTo(rootState.map.map);
         },
         dateFilter({state, rootState, dispatch}){
+            /*let result = state.geocodedData.features.filter(function (item) {
+                var itemTime = new Date(item.properties.date).getTime()
+                return itemTime > new Date(state.dates[0]) && itemTime < new Date(state.dates[1]); 
+            })
+            console.log(result, "date json filter")*/
             HTTP
             .post('geoparsing-date-filter',{
                 dates: state.dates,
                 datasetMode: state.datasetMode
             })
             .then(response=>{
-                console.log(response.data)
+                console.log(response.data, "date SQL filter")
                 if (state.datasetMode=='parliament'){
                     if (response.data.features!=null){
                         dispatch('removeStyles')
