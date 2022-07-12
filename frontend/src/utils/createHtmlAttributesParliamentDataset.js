@@ -54,8 +54,8 @@ export const createHtmlAttributesParliamentDataset = (rootState, zoomLng, zoomLa
 
     const canvas = document.createElement("canvas");
     canvas.setAttribute('id', 'canvas');
-    canvas.height= "200"
-    canvas.width= "200"
+    canvas.height= "250"
+    canvas.width= "250"
 
 
     const zoomDiv = document.createElement('div');
@@ -100,8 +100,8 @@ export const createHtmlAttributesParliamentDataset = (rootState, zoomLng, zoomLa
             //fontWeight: 3000,
             //size: 2,
             fontFamily: 'Times, serif',
-            gridSize: 1,
-            weightFactor: 1.2,
+            gridSize: 2,
+            weightFactor: 1.5,
             backgroundColor:'#fff',
             shuffle: true,
             

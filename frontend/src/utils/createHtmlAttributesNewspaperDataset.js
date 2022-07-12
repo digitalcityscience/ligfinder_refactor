@@ -52,8 +52,8 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
 
     const canvas = document.createElement("canvas");
     canvas.setAttribute('id', 'canvas');
-    canvas.height= "200"
-    canvas.width= "200"
+    canvas.height= "250"
+    canvas.width= "250"
 
     const zoomDiv = document.createElement('div');
     const btn = document.createElement('button');
