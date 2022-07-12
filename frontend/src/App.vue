@@ -32,6 +32,7 @@ html, body {
   height: 100%;
 }
 .mapboxgl-popup-content, .maplibregl-popup-content {
-  width:25vw;
+  width:300px;
+  
 }
 </style>
