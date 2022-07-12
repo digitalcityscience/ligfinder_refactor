@@ -1,9 +1,10 @@
 import WordCloud from "wordcloud";
 
-export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat, listt, wordlist) =>{
+export const createHtmlAttributesNewspaperDataset = (rootState,dispatch, zoomLng, zoomLat, listt, wordlist, duplicated, popup) =>{
     const parentDiv = document.createElement('div');
 
     const navDiv = document.createElement('div');
+    navDiv.setAttribute('class', 'mb-2');
 
     const righarrowBtn = document.createElement('button');
     righarrowBtn.setAttribute('id', 'righarrowBtn');
@@ -11,7 +12,12 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
     righarrowIcon.setAttribute('class', 'fas fa-angle-right fa-lg');
     navDiv.style.cssText = 'display: inline-block; text-align:center; width: 100%'
     righarrowBtn.style.cssText = 'float: right; color: blue'
-    
+
+    const listbtn = document.createElement('button');
+    listbtn.setAttribute('id', 'listBtn');
+    const listIcon = document.createElement('i');
+    listIcon.setAttribute('class', 'fas fa-list  fa-lg');
+    listbtn.style.cssText = 'display: inline-block;color: green'
 
     const leftarrowBtn = document.createElement('button');
     leftarrowBtn.setAttribute('id', 'leftarrowBtn');
@@ -21,8 +27,13 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
     leftarrowBtn.disabled = true
 
     navDiv.appendChild(righarrowBtn)
+    if (duplicated){
+        navDiv.appendChild(listbtn)
+    }
+    
     navDiv.appendChild(leftarrowBtn)
     righarrowBtn.appendChild(righarrowIcon)
+    listbtn.appendChild(listIcon)
     leftarrowBtn.appendChild(leftarrowIcon)
     parentDiv.appendChild(navDiv)
 
@@ -81,6 +92,11 @@ export const createHtmlAttributesNewspaperDataset = (rootState, zoomLng, zoomLat
             essential: true 
         });
             
+    }
+
+    listbtn.onclick = function(){
+        popup.remove()
+        dispatch('geoparsing/backtoDuplicatedList',null , { root:true });
     }
 
     pdfBtn.onclick = function() {

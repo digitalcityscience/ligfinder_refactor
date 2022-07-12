@@ -48,7 +48,12 @@ const geoparsing = {
             'Vorkaufsrecht'
         ],
         topicQueryModes:["AND", "OR"],
-        selectedTopicQueryMode: "OR"
+        selectedTopicQueryMode: "OR",
+        duplicated:false,
+        duplicateData:{
+            coordiates: null,
+            list:null
+        }
     },
     mutations:{
         setGeoparsingToggle(state){
@@ -429,7 +434,7 @@ const geoparsing = {
                     delete e.features[0].properties['url']
                 }
                 
-                popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
+                popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState,dispatch, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
                 
                 popup.addTo(rootState.map.map);
             
@@ -438,6 +443,9 @@ const geoparsing = {
                 coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
 
                 let list = e.features
+                state.duplicateData.coordiates=coordinates
+                state.duplicateData.list=list
+
                 console.log(list)
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
@@ -447,8 +455,22 @@ const geoparsing = {
             
             }
         },
-        addSelectedDuplicatePointNewspaper({state, rootState}, payload){
+        backtoDuplicatedList({state, rootState, dispatch}){
+            console.log(state)
+            let coordinatess = state.duplicateData.coordiates
+
+            let listtt = state.duplicateData.list
+            
+            let popup = new maplibregl.Popup()
+            popup.setLngLat(coordinatess)
+            popup.setDOMContent(createDuplicatePointAttributesNewspaper(rootState,dispatch, popup, listtt))
+            
+            popup.addTo(rootState.map.map);
+            
+        },
+        addSelectedDuplicatePointNewspaper({state, rootState, dispatch}, payload){
             console.log(state, payload)
+            state.duplicated = true
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
             console.log(selectedfeature, "selectedfeature")
             let clickedPointDate = selectedfeature[0].properties.doc_num
@@ -474,7 +496,7 @@ const geoparsing = {
             /*if (selectedfeature[0].properties['URL']){
                 delete selectedfeature[0].properties['URL']
             }*/
-            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
+            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState,dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicated, popup))
             
             popup.addTo(rootState.map.map);
         },
