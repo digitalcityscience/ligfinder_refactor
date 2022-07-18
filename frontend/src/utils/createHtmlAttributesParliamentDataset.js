@@ -5,6 +5,7 @@ export const createHtmlAttributesParliamentDataset = (rootState, dispatch, zoomL
     const parentDiv = document.createElement('div');
 
     const navDiv = document.createElement('div');
+    navDiv.setAttribute('class', 'mb-2');
 
     const righarrowBtn = document.createElement('button');
     righarrowBtn.setAttribute('id', 'righarrowBtn');
