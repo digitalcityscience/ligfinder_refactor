@@ -49,8 +49,8 @@ const geoparsing = {
         ],
         topicQueryModes:["AND", "OR"],
         selectedTopicQueryMode: "OR",
-        duplicated:false,
-        duplicateData:{
+        duplicatedNewspaper:false,
+        duplicatedNewspaperData:{
             coordiates: null,
             list:null
         }
@@ -443,8 +443,8 @@ const geoparsing = {
                 coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
 
                 let list = e.features
-                state.duplicateData.coordiates=coordinates
-                state.duplicateData.list=list
+                state.duplicatedNewspaperData.coordiates=coordinates
+                state.duplicatedNewspaperData.list=list
 
                 console.log(list)
                 let popup = new maplibregl.Popup()
@@ -457,20 +457,20 @@ const geoparsing = {
         },
         backtoDuplicatedList({state, rootState, dispatch}){
             console.log(state)
-            let coordinatess = state.duplicateData.coordiates
+            let coordinates = state.duplicatedNewspaperData.coordiates
 
-            let listtt = state.duplicateData.list
+            let list = state.duplicatedNewspaperData.list
             
             let popup = new maplibregl.Popup()
-            popup.setLngLat(coordinatess)
-            popup.setDOMContent(createDuplicatePointAttributesNewspaper(rootState,dispatch, popup, listtt))
+            popup.setLngLat(coordinates)
+            popup.setDOMContent(createDuplicatePointAttributesNewspaper(rootState,dispatch, popup, list))
             
             popup.addTo(rootState.map.map);
             
         },
         addSelectedDuplicatePointNewspaper({state, rootState, dispatch}, payload){
             console.log(state, payload)
-            state.duplicated = true
+            state.duplicatedNewspaper = true
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
             console.log(selectedfeature, "selectedfeature")
             let clickedPointDate = selectedfeature[0].properties.doc_num
@@ -496,7 +496,7 @@ const geoparsing = {
             /*if (selectedfeature[0].properties['URL']){
                 delete selectedfeature[0].properties['URL']
             }*/
-            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState,dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicated, popup))
+            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState,dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicatedNewspaper, popup))
             
             popup.addTo(rootState.map.map);
         },
