@@ -1,6 +1,6 @@
 import WordCloud from "wordcloud";
 
-export const createHtmlAttributesParliamentDataset = (rootState, zoomLng, zoomLat, list, wordlist) =>{
+export const createHtmlAttributesParliamentDataset = (rootState, dispatch, zoomLng, zoomLat, list, wordlist, duplicated, popup) =>{
    
     const parentDiv = document.createElement('div');
 
@@ -13,6 +13,11 @@ export const createHtmlAttributesParliamentDataset = (rootState, zoomLng, zoomLa
     navDiv.style.cssText = 'display: inline-block; text-align:center; width: 100%'
     righarrowBtn.style.cssText = 'float: right; color: blue'
     
+    const listbtn = document.createElement('button');
+    listbtn.setAttribute('id', 'listBtn');
+    const listIcon = document.createElement('i');
+    listIcon.setAttribute('class', 'fas fa-list  fa-lg');
+    listbtn.style.cssText = 'display: inline-block;color: green'
 
     const leftarrowBtn = document.createElement('button');
     leftarrowBtn.setAttribute('id', 'leftarrowBtn');
@@ -22,8 +27,13 @@ export const createHtmlAttributesParliamentDataset = (rootState, zoomLng, zoomLa
     leftarrowBtn.disabled = true
 
     navDiv.appendChild(righarrowBtn)
+
+    if (duplicated){
+        navDiv.appendChild(listbtn)
+    }
     navDiv.appendChild(leftarrowBtn)
     righarrowBtn.appendChild(righarrowIcon)
+    listbtn.appendChild(listIcon)
     leftarrowBtn.appendChild(leftarrowIcon)
     parentDiv.appendChild(navDiv)
 
@@ -84,6 +94,11 @@ export const createHtmlAttributesParliamentDataset = (rootState, zoomLng, zoomLa
             essential: true 
         });
             
+    }
+
+    listbtn.onclick = function(){
+        popup.remove()
+        dispatch('geoparsing/backtoDuplicatedListParliament',null , { root:true });
     }
 
     pdfBtn.onclick = function() {

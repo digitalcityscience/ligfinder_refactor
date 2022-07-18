@@ -53,6 +53,11 @@ const geoparsing = {
         duplicatedNewspaperData:{
             coordiates: null,
             list:null
+        },
+        duplicatedParliament:false,
+        duplicatedParliamentData:{
+            coordiates: null,
+            list:null
         }
     },
     mutations:{
@@ -446,7 +451,6 @@ const geoparsing = {
                 state.duplicatedNewspaperData.coordiates=coordinates
                 state.duplicatedNewspaperData.list=list
 
-                console.log(list)
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
                 popup.setDOMContent(createDuplicatePointAttributesNewspaper(rootState,dispatch, popup, list))
@@ -455,8 +459,7 @@ const geoparsing = {
             
             }
         },
-        backtoDuplicatedList({state, rootState, dispatch}){
-            console.log(state)
+        backtoDuplicatedListNewspaper({state, rootState, dispatch}){
             let coordinates = state.duplicatedNewspaperData.coordiates
 
             let list = state.duplicatedNewspaperData.list
@@ -469,7 +472,7 @@ const geoparsing = {
             
         },
         addSelectedDuplicatePointNewspaper({state, rootState, dispatch}, payload){
-            console.log(state, payload)
+
             state.duplicatedNewspaper = true
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
             console.log(selectedfeature, "selectedfeature")
@@ -524,7 +527,7 @@ const geoparsing = {
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
                 delete e.features[0].properties['hyperlink'];
-                popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency))
+                popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, dispatch, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency, state.duplicatedParliament, popup))
                 
                 popup.addTo(rootState.map.map);
 
@@ -538,7 +541,8 @@ const geoparsing = {
                 }
 
                 let list = e.features
-                console.log(list)
+                state.duplicatedParliamentData.coordiates=coordinates
+                state.duplicatedParliamentData.list=list
                 let popup = new maplibregl.Popup()
                 popup.setLngLat(coordinates)
                 popup.setDOMContent(createDuplicatePointAttributesParliament(rootState,dispatch, popup, list))
@@ -548,7 +552,20 @@ const geoparsing = {
             }
             
         },
-        addSelectedDuplicatePointParliament({state,rootState}, payload){
+        backtoDuplicatedListParliament({state, rootState, dispatch}){
+            let coordinates = state.duplicatedParliamentData.coordiates
+
+            let list = state.duplicatedParliamentData.list
+            
+            let popup = new maplibregl.Popup()
+            popup.setLngLat(coordinates)
+            popup.setDOMContent(createDuplicatePointAttributesParliament(rootState,dispatch, popup, list))
+            
+            popup.addTo(rootState.map.map);
+            
+        },
+        addSelectedDuplicatePointParliament({state,rootState, dispatch}, payload){
+            state.duplicatedParliament = true
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
             state.wordFrequency = []
             let clickedDocNum = selectedfeature[0].properties.doc_num
@@ -569,7 +586,7 @@ const geoparsing = {
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
             //delete selectedfeature[0].properties['hyperlink'];
-            popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency))
+            popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicatedParliament, popup))
             
             popup.addTo(rootState.map.map);
         },

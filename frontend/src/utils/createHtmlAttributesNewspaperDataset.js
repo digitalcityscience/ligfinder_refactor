@@ -96,7 +96,7 @@ export const createHtmlAttributesNewspaperDataset = (rootState,dispatch, zoomLng
 
     listbtn.onclick = function(){
         popup.remove()
-        dispatch('geoparsing/backtoDuplicatedList',null , { root:true });
+        dispatch('geoparsing/backtoDuplicatedListNewspaper',null , { root:true });
     }
 
     pdfBtn.onclick = function() {
