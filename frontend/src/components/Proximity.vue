@@ -20,6 +20,10 @@
             class="align-center"
             :max="$store.state.proximity.apothekeMax"
             :min="$store.state.proximity.apothekeMin"
+            track-color="blue lighten-4"
+            thumb-label="always"
+            :thumb-size="27"
+            thumb-color="cyan"
             step= "0.01"
             hide-details
           >
