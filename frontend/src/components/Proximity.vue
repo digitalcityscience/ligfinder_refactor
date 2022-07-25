@@ -10,9 +10,17 @@
         @click="disableWeight(item.value)"
         :label="item.name"
       ></v-checkbox>-->
-      <span>{{item.name}}</span>
+      <v-checkbox
+        color="cyan"
+        v-model="item.checked"
+        :label="item.name"
+        :dense="false"
+        hide-details
+        @mousedown="disableWeight(item.value); changeSlider(item.value)"
+      ></v-checkbox>
       <v-row>
-        <v-col class="pr-4">
+        <v-col >
+            
           <v-slider
             :disabled="item.checked==false"
             v-model="item.weight"
@@ -23,7 +31,7 @@
             track-color="blue lighten-4"
             thumb-label="always"
             :thumb-size="27"
-            thumb-color="cyan"
+            thumb-color="blue"
             step= "0.01"
             hide-details
           >
@@ -63,6 +71,7 @@ export default {
     },
     methods:{
       disableWeight(item){
+
         this.$store.commit("proximity/disableWeight", item)
       },
       changeSlider(item){

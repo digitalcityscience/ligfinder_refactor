@@ -34,28 +34,116 @@ const proximity = {
                     i.weight=0
                 }
             }
+
+            
         },
         equalizeWeight(state){
+            let activecount = 0
+            
+            for (let i=0; i<state.parameters.length; i++)
+            {
+              if (state.parameters[i].checked==true){
+                activecount ++
+              }
+            }
+            
+            /*
             const criteriaLength = Object.keys(state.parameters).length;
             console.log(criteriaLength);
+            */
             for (let i of state.parameters){
-                i.weight = 1/criteriaLength
+                if (i.checked == true ){
+                    i.weight = 1/activecount
+                }
+                
             }
         },
         changeSlider(state, payload){
+            console.log(state.parameters)
+            let activecount = 0
+            for (let i=0; i<state.parameters.length; i++)
+            {
+              if (state.parameters[i].checked==true){
+                activecount ++
+              }
+            }
+            
+            let sum=0
+            
+            for (let i of state.parameters){
+                if(i.checked == true){
+                    sum+=i.weight
+                }
+                    
+            }
+            //console.log(sum, "3summmmmmm")
+            //console.log(state, payload)
+
+            const diff = sum - 1
+            let remainder = 0
+			//let arr=[]
+
+            for(let i of state.parameters){
+                if(i.value!= payload && i.checked==true){ //don't modify the slider which is being dragged
+                    let val = i.weight - (diff / (activecount- 1))
+                    if(val < 0){
+                        remainder += val
+                        val = 0
+                    }
+                    i.weight = val
+                    
+                }
+                
+            }
+
+            if(remainder){
+                let filteredLength = 0
+                for (let i of state.parameters) {
+                    if (i.value!= payload && i.weight>0 && i.checked==true){
+                        filteredLength ++
+                    }
+                }
+                for (let i of state.parameters) {
+                    if (i.value!= payload && i.weight>0 && i.checked==true){
+                        i.weight =remainder / filteredLength
+                    }
+                }
+                console.log(filteredLength, "filteredLength")
+                //const filteredLength = this.Sliders.filter((val, key) => val > 0 && key != slider).length
+                /*for(let i in this.Sliders){
+                    if(i != slider && this.Sliders[i] > 0){
+                        this.$set(this.Sliders, i, this.Sliders[i] + remainder / filteredLength)
+                    }
+                            
+                }*/
+      
+            }
+            console.log(state.parameters, "state.parameters")
+            console.log(remainder, "reminder")
+
+            /*let activecount = 0
+            for (let i=0; i<state.parameters.length; i++)
+            {
+              if (state.parameters[i].checked==true){
+                activecount ++
+              }
+            }
+            console.log(activecount, "activecount")
             console.log(payload)
             let sum=0
             let diff=0
             for (let i of state.parameters){
-                sum+=i.weight
+                if(i.checked == true)
+                    sum+=i.weight
             }
             diff = Number((sum-1).toFixed(2))
             console.log(sum,diff)
             let remainder =0
             for (let i of state.parameters){
-                if (i.value!=payload){
-                    let val = i.weight - diff / (4)
-                    if(i.weight - (diff / (4)) < 0){
+                if (i.value!=payload && i.checked == true ){
+                    let val = i.weight - (diff / (activecount-1))
+                    if(i.weight - (diff / (activecount -1)) < 0){
+                        console.log("here")
                         remainder += val
                         val = 0
                     }
@@ -74,18 +162,15 @@ const proximity = {
                 }
             }
             for (let i of state.parameters){
-                if(i.value!=payload && i.weight > 0){
+                if(i.value!=payload && i.weight > 0 ){
                     
                     console.log( count)
                     console.log(remainder, 'inside')
-                    i.weight +=remainder /count
+                    i.weight += remainder /(activecount)
                 }
-            }
+            }*/
             
-            console.log(remainder, "reminc")
-            for (let i of state.parameters){
-                console.log((i.weight).toFixed(2))
-            }
+            
            
         },
         
