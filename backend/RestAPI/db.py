@@ -443,6 +443,38 @@ def bivariate_classification(table, att1,  att2, gid):
   conn.close()
   return user
 
+def bivariate_class_assignment(att1,  att2, break10, break11, break20, break21, gid):
+  conn = connect()
+  cur = conn.cursor()
+  
+  cur.execute("""
+  update parcel
+      set bivariateclass =   
+      CASE  
+			  WHEN %s <= %s AND %s <= %s THEN '00' 
+			  WHEN %s > %s AND %s <= %s AND %s <= %s THEN '10'
+			  WHEN %s >= %s AND %s <= %s THEN '20'
+        WHEN %s <= %s AND %s > %s AND %s <= %s THEN '01'
+        WHEN %s > %s AND %s <= %s AND %s > %s AND %s <= %s THEN '11'
+        WHEN %s > %s AND %s > %s AND %s <= %s THEN '21'
+        WHEN %s <= %s AND %s > %s THEN '02'
+        WHEN %s > %s AND %s <= %s AND %s > %s THEN '12'
+        WHEN %s > %s AND %s > %s THEN '22'
+		  END 
+      WHERE gid in %s;
+      select json_build_object(
+        'type', 'FeatureCollection',
+        'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
+      )
+      from parcel where gid in %s
+      ;""" %(att1,break10,att2, break20, att1, break10, att1, break11, att2, break20, att1, break11, att2, break20, att1, break10, att2, break20, att2, break21, att1, break10, att1, break11,att2, break20, att2, break21, att1, break11, att2, break20, att2, break21, att1, break10, att2, break21, att1, break10, att1, break11, att2, break21, att1, break11, att2, break21, gid, gid, ))
+  user = cur.fetchall()[0][0]
+  conn.commit()
+  cur.close()
+  conn.close()
+  return user
+
+
 def criterial_filter(gid,att):
   conn = connect()
   cur = conn.cursor()
