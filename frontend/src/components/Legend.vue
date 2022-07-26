@@ -1,6 +1,6 @@
 <template>
 <div >
-    <div v-if="$store.state.legend.univariateToggle" class="legend">
+    <div v-show="$store.state.legend.univariateToggle" class="legend">
         <div>
             <i
                 class="fas fa-times mt-0" 
@@ -18,7 +18,7 @@
         <div id="class4"><span id="class4" style="background-color: #723122"></span>{{($store.state.legend.breaks[3]).toFixed(2)}} - {{($store.state.legend.breaks[4]).toFixed(2)}}</div>!-->
 
     </div>
-    <div v-if="$store.state.legend.bivariateToggle" class="bivariatelegend">
+    <div v-show="$store.state.legend.bivariateToggle" class="bivariatelegend">
        
     </div>
 </div>

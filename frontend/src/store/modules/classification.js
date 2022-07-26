@@ -18,7 +18,8 @@ const classification = {
         selectedClass:5,
         gids: [],
         selectedColorPalette: "",
-        color2: ""
+        color2: "",
+        bivariatedata: null
     },
     mutations:{
         setClassificationToggle(state){
@@ -69,18 +70,8 @@ const classification = {
         },
         classify({state, rootState}){
 
-            console.log(state.selectedLayer,
-                state.selectedChoroplethMethod,
-                state.attribute1,
-                state.attribute2,
-                state.selectedClassificationMethod, 
-                state.selectedClass,
-                state.gids,
-                state.color1,
-                state.color2
-            )
-
             if (state.selectedChoroplethMethod === "Bivariate"){
+                rootState.map.isLoading = true
                 HTTP
                 .post('bivariate-classify', {
                     selectedLayer: state.selectedLayer,
@@ -92,58 +83,105 @@ const classification = {
                     gids: state.gids
                 })
                 .then(response => {
-                    console.log(response.data)
+                    state.bivariatedata = response.data
+                    
+                })
+                .finally(()=>{
+                    const palette1 = [colorMixer(hexToRgb(state.color1), [255,255,255], 0.33), colorMixer(hexToRgb(state.color1), [255,255,255], 0.66), colorMixer(hexToRgb(state.color1), [255,255,255], 1)]
+                    const palette2 = [colorMixer(hexToRgb(state.color2), [255,255,255], 0.33), colorMixer(hexToRgb(state.color2), [255,255,255], 0.66), colorMixer(hexToRgb(state.color2), [255,255,255], 1)]
+                    const bivariatePalette = {
+                        'class00': colorMixer(palette1[0], palette2[0], 0.5),
+                        'class10': colorMixer(palette1[1], palette2[0], 0.5),
+                        'class20': colorMixer(palette1[2], palette2[0], 0.5),
+                        'class01': colorMixer(palette1[0], palette2[1], 0.5),
+                        'class11': colorMixer(palette1[1], palette2[1], 0.5),
+                        'class21': colorMixer(palette1[2], palette2[1], 0.5),
+                        'class02': colorMixer(palette1[0], palette2[2], 0.5),
+                        'class12': colorMixer(palette1[1], palette2[2], 0.5),
+                        'class22': colorMixer(palette1[2], palette2[2], 0.5),
+                    }
+                    rootState.legend.bivariatePalette = bivariatePalette
+    
+                  
+                    let legend = document.getElementsByClassName('bivariatelegend')
+                    let old_table = document.getElementById('bivariatetable')
+                    if(old_table){
+                        old_table.remove()
+                    }
+    
+                    let table = document.createElement('table')
+                    table.id = "bivariatetable"
+                    let tbody = document.createElement('tbody')
+                    for (let i=2; i>-1; i--){
+                        let tr = document.createElement('tr');
+                        for (let j=0; j<3; j++){
+                            let td = document.createElement('td');
+                            td.id = "class"+i.toString()+j.toString();
+                            
+                            let span = document.createElement('span');
+                            span.innerHTML = i.toString()+j.toString()
+                            span.style.backgroundColor = 'rgb('+ bivariatePalette['class'+i.toString()+j.toString()][0].toString() +',' + bivariatePalette['class'+i.toString()+j.toString()][1].toString()+',' + bivariatePalette['class'+i.toString()+j.toString()][2].toString()+')'
+                            span.style.width = "3vw";
+                            span.style.height = "3vw";
+                            span.style.display =  'inline-block';
+                            td.appendChild(span)
+                            tr.appendChild(td)
+                        
+                        }
+                        tbody.appendChild(tr)
+                                            
+                    }
+                     
+                    table.appendChild(tbody)
+                    legend[0].appendChild(table)
                     rootState.legend.bivariateToggle =true
                     rootState.legend.univariateToggle =false
-                })
-                const palette1 = [colorMixer(hexToRgb(state.color1), [255,255,255], 0.33), colorMixer(hexToRgb(state.color1), [255,255,255], 0.66), colorMixer(hexToRgb(state.color1), [255,255,255], 1)]
-                const palette2 = [colorMixer(hexToRgb(state.color2), [255,255,255], 0.33), colorMixer(hexToRgb(state.color2), [255,255,255], 0.66), colorMixer(hexToRgb(state.color2), [255,255,255], 1)]
-                const bivariatePalette = {
-                    'class00': colorMixer(palette1[0], palette2[0], 0.5),
-                    'class10': colorMixer(palette1[1], palette2[0], 0.5),
-                    'class20': colorMixer(palette1[2], palette2[0], 0.5),
-                    'class01': colorMixer(palette1[0], palette2[1], 0.5),
-                    'class11': colorMixer(palette1[1], palette2[1], 0.5),
-                    'class21': colorMixer(palette1[2], palette2[1], 0.5),
-                    'class02': colorMixer(palette1[0], palette2[2], 0.5),
-                    'class12': colorMixer(palette1[1], palette2[2], 0.5),
-                    'class22': colorMixer(palette1[2], palette2[2], 0.5),
-                }
-                rootState.legend.bivariatePalette = bivariatePalette
-                
-              
-                let legend = document.getElementsByClassName('bivariatelegend')
-                let old_table = document.getElementById('bivariatetable')
-                if(old_table){
-                    old_table.remove()
-                }
-
-                let table = document.createElement('table');
-                table.id = "bivariatetable";
-                let tbody = document.createElement('tbody');
-                for (let i=2; i>-1; i--){
-                    let tr = document.createElement('tr');
-                    for (let j=0; j<3; j++){
-                        let td = document.createElement('td');
-                        td.id = "class"+i.toString()+j.toString();
-                        
-                        let span = document.createElement('span');
-                        span.innerHTML = i.toString()+j.toString()
-                        span.style.backgroundColor = 'rgb('+ bivariatePalette['class'+i.toString()+j.toString()][0].toString() +',' + bivariatePalette['class'+i.toString()+j.toString()][1].toString()+',' + bivariatePalette['class'+i.toString()+j.toString()][2].toString()+')'
-                        span.style.width = "3vw";
-                        span.style.height = "3vw";
-                        span.style.display =  'inline-block';
-                        td.appendChild(span)
-                        tr.appendChild(td)
-                       
+    
+                    const mapLayer = rootState.map.map.getLayer('foi');
+                    if(typeof mapLayer !== 'undefined'){
+                        rootState.map.map.removeLayer('foi')
+                        rootState.map.map.removeSource('foi')
                     }
-                    tbody.appendChild(tr)
-                                        
-                }
-                 
-                table.appendChild(tbody)
-                legend[0].appendChild(table)
-
+                    rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': state.bivariatedata});
+                    let layerName = {
+                        'id': "foi",
+                        'type': 'fill',
+                        'source': "foi", // reference the data source
+                        'layout': {},
+                        'paint': {
+                            'fill-color': [
+                                'match',
+                                ['get', 'bivariateclass'],
+                                "00".toString(),
+                                `rgb(${bivariatePalette["class00"][0]},${bivariatePalette["class00"][1]},${bivariatePalette["class00"][2]})`,
+                                "10".toString(),
+                                `rgb(${bivariatePalette["class10"][0]},${bivariatePalette["class10"][1]},${bivariatePalette["class10"][2]})`,
+                                "20".toString(),
+                                `rgb(${bivariatePalette["class20"][0]},${bivariatePalette["class20"][1]},${bivariatePalette["class20"][2]})`,
+                                "01".toString(),
+                                `rgb(${bivariatePalette["class01"][0]},${bivariatePalette["class01"][1]},${bivariatePalette["class01"][2]})`,
+                                "11".toString(),
+                                `rgb(${bivariatePalette["class11"][0]},${bivariatePalette["class11"][1]},${bivariatePalette["class11"][2]})`,
+                                "21".toString(),
+                                `rgb(${bivariatePalette["class21"][0]},${bivariatePalette["class21"][1]},${bivariatePalette["class21"][2]})`,
+                                "02".toString(),
+                                `rgb(${bivariatePalette["class02"][0]},${bivariatePalette["class02"][1]},${bivariatePalette["class02"][2]})`,
+                                "12".toString(),
+                                `rgb(${bivariatePalette["class12"][0]},${bivariatePalette["class12"][1]},${bivariatePalette["class12"][2]})`,
+                                "22".toString(),
+                                `rgb(${bivariatePalette["class22"][0]},${bivariatePalette["class22"][1]},${bivariatePalette["class22"][2]})`,
+                                /* other */ '#ccc'
+                            ], 
+                            'fill-opacity':0.7,
+                            'fill-outline-color': '#000000',
+                        }
+                            
+                    }
+                        
+                    rootState.map.map.addLayer(layerName)
+                    rootState.map.isLoading = false
+                })
+                
             }
             else if (state.selectedChoroplethMethod === "Univariate"){
                 HTTP
