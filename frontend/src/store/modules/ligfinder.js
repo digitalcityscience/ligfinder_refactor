@@ -21,8 +21,8 @@ const ligfinder = {
     getters:{
         getFOIGid (state){
             let FOIGid = []
-            for(let i =0; i< state.FOI.features.length; i++){
-                FOIGid.push(state.FOI.features[i].properties.gid)
+            for(let i of state.FOI.features){
+                FOIGid.push(i.properties.gid)
             }
             return FOIGid
         }
