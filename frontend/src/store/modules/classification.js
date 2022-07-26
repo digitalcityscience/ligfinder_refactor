@@ -133,7 +133,14 @@ const classification = {
                     }
                      
                     table.appendChild(tbody)
+                    var tag = document.createElement("p");
+                    tag.setAttribute("style", "text-align:center; background: rgba(0, 0, 0, 0);");
+                    var text = document.createTextNode(state.attribute2);
+                    tag. appendChild(text);
+                    
                     legend[0].appendChild(table)
+                    legend[0].appendChild(tag)
+
                     rootState.legend.bivariateToggle =true
                     rootState.legend.univariateToggle =false
     
@@ -172,7 +179,7 @@ const classification = {
                                 `rgb(${bivariatePalette["class22"][0]},${bivariatePalette["class22"][1]},${bivariatePalette["class22"][2]})`,
                                 /* other */ '#ccc'
                             ], 
-                            'fill-opacity':0.7,
+                            'fill-opacity':1,
                             'fill-outline-color': '#000000',
                         }
                             
