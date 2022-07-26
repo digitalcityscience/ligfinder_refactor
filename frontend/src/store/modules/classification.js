@@ -132,14 +132,8 @@ const classification = {
                                             
                     }
                      
-                    table.appendChild(tbody)
-                    var tag = document.createElement("p");
-                    tag.setAttribute("style", "text-align:center; background: rgba(0, 0, 0, 0);");
-                    var text = document.createTextNode(state.attribute2);
-                    tag. appendChild(text);
-                    
+                    table.appendChild(tbody)                     
                     legend[0].appendChild(table)
-                    legend[0].appendChild(tag)
 
                     rootState.legend.bivariateToggle =true
                     rootState.legend.univariateToggle =false
