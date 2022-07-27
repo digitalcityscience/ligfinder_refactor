@@ -19,6 +19,12 @@
 
     </div>
     <div v-show="$store.state.legend.bivariateToggle" class="bivariatelegend">
+        <i
+                class="fas fa-times mt-0" 
+                style="cursor: pointer; position:absolute; right: 5px"
+                @click="setBivariateLegendToggle"
+            >
+        </i>
        
     </div>
 </div>
@@ -32,6 +38,9 @@ export default {
     methods: {
         setLegendToggle(){
             this.$store.commit('legend/setLegendToggle')
+        },
+        setBivariateLegendToggle(){
+            this.$store.commit('legend/setBivariateLegendToggle')
         }
     }
     

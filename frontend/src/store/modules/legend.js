@@ -12,6 +12,9 @@ const legend =  {
     mutations:{
         setLegendToggle(state){
             state.univariateToggle=false
+        },
+        setBivariateLegendToggle(state){
+            state.bivariateToggle=false
         }
     },
     actions:{
