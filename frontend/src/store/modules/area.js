@@ -1,4 +1,4 @@
-import { HTTP } from '../../utils/http-common';
+//import { HTTP } from '../../utils/http-common';
 const area = {
     namespaced: true,
     state:{
@@ -14,18 +14,67 @@ const area = {
     },
     actions:{
         
-        areaFilter({state, rootState, rootGetters, dispatch}){
+        areaFilter({state, rootState, /*rootGetters*/ dispatch}){
+            //area_fme, bgf_sum,fl_unbeb_a
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.isLoading = true
-            HTTP
+            var jsonAreaFilter = rootState.ligfinder.FOI.features.filter( d=> 
+                d.properties.area_fme>state.areaRange[0] && d.properties.area_fme<state.areaRange[1] && 
+                d.properties.bgf_sum>state.grossFloorAreaRange[0] && d.properties.bgf_sum<state.grossFloorAreaRange[1] && 
+                d.properties.fl_unbeb_a>state.unbuiltAreaRange[0] && d.properties.fl_unbeb_a<state.unbuiltAreaRange[1]
+            )
+
+            jsonAreaFilter = {
+                features: jsonAreaFilter,
+                type: 'FeatureCollection'
+            }
+            if (jsonAreaFilter!=null){
+                state.areaFilterData=jsonAreaFilter
+                
+                const foiLayer = rootState.map.map.getLayer("foi");
+                if(typeof foiLayer !== 'undefined'){
+                    rootState.map.map.removeLayer("foi")
+                    rootState.map.map.removeSource("foi")
+                }
+                const mapLayer = rootState.map.map.getLayer("areafilter");
+                if(typeof mapLayer !== 'undefined'){
+                    rootState.map.map.removeLayer("areafilter")
+                    rootState.map.map.removeSource("areafilter")
+                }
+                rootState.map.map.addSource(("areafilter"),{'type': 'geojson', 'data': jsonAreaFilter});
+                let layerName = {
+                    'id': "areafilter",
+                    'type': 'fill',
+                    'source': "areafilter", // reference the data source
+                    'layout': {},
+                    'paint': {
+                        'fill-color': '#d99ec4', 
+                        'fill-opacity':0.7,
+                        'fill-outline-color': '#000000',
+                    }
+                    
+                };
+                
+                rootState.map.map.addLayer(layerName)
+                rootState.map.isLoading = false
+            }
+            else{
+                dispatch('alert/openCloseAlarm', {text: "No feature found for the selected area. Please restart your search", background: "#FFD700"}, { root:true })
+                rootState.map.isLoading = false
+            }
+            /*HTTP
             .post('get-area-filter', {
+                
                 featureIds : rootGetters['ligfinder/getFOIGid'],
                 areaRange: state.areaRange,
                 grossFloorAreaRange: state.grossFloorAreaRange,
                 unbuiltAreaRange: state.unbuiltAreaRange
             })
             .then(response => {
+                var endTimedb = performance.now()
+                console.log(`Call to jsonfilter in API took ${endTimedb - startTimedb} milliseconds`)
+
                 if (response.data.features!=null){
                     state.areaFilterData=response.data
                     
@@ -60,7 +109,7 @@ const area = {
                     dispatch('alert/openCloseAlarm', {text: "No feature found for the selected area. Please restart your search", background: "#FFD700"}, { root:true })
                     rootState.map.isLoading = false
                 }
-            })
+            })*/
             
         },
         applyAreaFilter({state, rootState, dispatch}){
