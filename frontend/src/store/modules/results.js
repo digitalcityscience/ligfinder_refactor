@@ -1,5 +1,6 @@
 import { HTTP } from '../../utils/http-common';
 import shpwrite from "shp-write"
+import jsonexport from 'jsonexport/dist';
 
 const results = {
     namespaced: true,
@@ -9,6 +10,7 @@ const results = {
         exportItems: [
             { name: 'Shapefile', value: 'shapefile' },
             { name: 'Json', value: 'json' },
+            { name: 'CSV', value: 'csv' }
             
         ],
         saveReultsItems: [
@@ -88,6 +90,24 @@ const results = {
             }
             shpwrite.download(foi, options);
             
+        },
+        exporResultsCSV({rootState}){
+            
+            let csvarray = rootState.ligfinder.FOI.features.map(e=>Object.assign({},e))
+            csvarray.forEach(elm=>delete elm.geometry)
+            jsonexport(csvarray, function(err, csv){
+                if (err) return console.error(err)
+                
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+                const url = URL.createObjectURL(blob)
+                const filename = "results.csv"
+                const a = document.createElement('a')
+                a.href = url
+                a.download = filename || 'download'
+                a.click()
+                a.remove()
+            })
+
         },
         saveData({state, rootState, dispatch}){
             let gids = []
