@@ -20,9 +20,9 @@ const area = {
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.isLoading = true
             var jsonAreaFilter = rootState.ligfinder.FOI.features.filter( d=> 
-                d.properties.area_fme>state.areaRange[0] && d.properties.area_fme<state.areaRange[1] && 
-                d.properties.bgf_sum>state.grossFloorAreaRange[0] && d.properties.bgf_sum<state.grossFloorAreaRange[1] && 
-                d.properties.fl_unbeb_a>state.unbuiltAreaRange[0] && d.properties.fl_unbeb_a<state.unbuiltAreaRange[1]
+                d.properties.area_fme>=state.areaRange[0] && d.properties.area_fme<=state.areaRange[1] && 
+                d.properties.bgf_sum>=state.grossFloorAreaRange[0] && d.properties.bgf_sum<=state.grossFloorAreaRange[1] && 
+                d.properties.fl_unbeb_a>=state.unbuiltAreaRange[0] && d.properties.fl_unbeb_a<=state.unbuiltAreaRange[1]
             )
 
             jsonAreaFilter = {
