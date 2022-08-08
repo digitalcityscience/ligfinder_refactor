@@ -13,26 +13,26 @@
                     <div v-if="$store.state.layers[table.name+'Style']">
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
                             <label >fill color:</label>
-                            <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" value="#00FF00"  @click="changeFillColor(table.name)" >
+                            <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" v-model="$store.state.layers[table.name + 'Style'].fillColor"  @click="changeFillColor(table.name)" >
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
                             <label >outline color:</label>
-                            <input style="margin-left: 1vw" type="color" :id="table.name + 'outlinecolorslider'" :name="table.name + 'outlinecolorslider'"  value="#000000" @click="changeOutlineColor(table.name)" >
+                            <input style="margin-left: 1vw" type="color" :id="table.name + 'outlinecolorslider'" :name="table.name + 'outlinecolorslider'"  v-model="$store.state.layers[table.name + 'Style'].fillOutlineColor" @click="changeOutlineColor(table.name)" >
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
                             <label >fill opacity:</label>
-                            <input style="margin-left: 1vw" :id="table.name + 'opacityslider'"  :name="table.name + 'opacityslider'" value="1" type="range" step="0.1"  min="0" max="1"  @click="changeOpacity(table.name)" />
+                            <input style="margin-left: 1vw" :id="table.name + 'opacityslider'"  :name="table.name + 'opacityslider'" v-model="$store.state.layers[table.name + 'Style'].fillopacity" type="range" step="0.1"  min="0" max="1"  @click="changeOpacity(table.name)" />
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='circle'">
                             <label >color:</label>
-                            <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" value="#8931e0"  @click="changeCircleColor(table.name)" >
+                            <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" v-model="$store.state.layers[table.name + 'Style']['circle-color']"  @click="changeCircleColor(table.name)" >
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='circle'">
                             <label >opacity:</label>
-                            <input style="margin-left: 1vw" :id="table.name + 'opacityCircleslider'"  :name="table.name + 'opacityCircleslider'" value="1" type="range" step="0.1"  min="0" max="1"  @click="changeCircleOpacity(table.name)" />
+                            <input style="margin-left: 1vw" :id="table.name + 'opacityCircleslider'"  :name="table.name + 'opacityCircleslider'"  v-model="$store.state.layers[table.name + 'Style']['circle-opacity']" type="range" step="0.1"  min="0" max="1"  @click="changeCircleOpacity(table.name)" />
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='circle'">
@@ -131,7 +131,7 @@ export default {
         },
         changeCircleColor(t){
            document.getElementById(t+"colorslider").addEventListener('input', (e) => {
-               this.value = e.target.value
+                this.value = e.target.value
                 this.$store.state.map.map.setPaintProperty(t, "circle-color", e.target.value)
            })
                 

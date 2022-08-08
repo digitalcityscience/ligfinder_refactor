@@ -10,6 +10,7 @@ const layers = {
         tableNames: [],
         addedTableNames: [],
         addedLayers: []
+        
     },
     mutations:{
         setLayersToggle(state){
@@ -54,12 +55,12 @@ const layers = {
                     for (let i of state.tableNames) {
                         Object.assign(i, {checked:false})
                     }
-                    if (rootState.ligfinder.FOI.features.length>0){
+                    if (rootState.ligfinder.FOI.features.length>0 ){
                         state.tableNames.push({id:100, name: "foi", checked:true})
-                        let style =Object.assign({},{'type': 'fill','fillColor': '#00FF00', 'fillOutlineColor': '#000000', "fillopacity": 1 })
+                        let style =Object.assign({},{'type': 'fill','fillColor': '#d99ec4', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
                         Vue.set(state,"foiStyle", style)
                     }
-                    
+                    console.log(state)
                 })
             }
         },
