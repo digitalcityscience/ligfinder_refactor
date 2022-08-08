@@ -1,5 +1,5 @@
 <template>
-<v-scroll-x-transition mode="in" hide-on-leave="true">
+<v-scroll-x-transition>
 
     <div v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
 

@@ -1,5 +1,6 @@
 <template>
-<v-scroll-x-transition mode="in" hide-on-leave="true">
+<v-scroll-x-transition>
+    
     <table v-show="$store.state.layers.toggle" class="table table-hover">
         <tbody >
             <div v-for="table in $store.state.layers.tableNames" :key="table.id">
