@@ -1,18 +1,22 @@
 <template>
-<v-scroll-x-transition>
-    
-    <table v-show="$store.state.layers.toggle" class="table table-hover">
-        <tbody >
-            <div v-for="table in $store.state.layers.tableNames" :key="table.id">
-                <tr>
-                    <td  style="width: 10%"><input type="checkbox" class="form-check-input" :id="table.name" :checked="table.checked" @click.once="addLayer(table, $event)" @change="toggleLayerVisibility(table)" ></td>
-                    <td  style="width: 10%;"><span @click= " zoomToTable(table)"><i  class="fa fa-search-plus fa-sm" aria-hidden="true"></i></span></td>
-                    <td style="width: 80%">{{table.name}}</td>
-                    <td><span class="icon-collapse" :id="table.name+'-icon-collapse'" ></span><i @click="toggleCollapseIcon(table.name);collapse(table.name)" :id="table.name+'-icon'" class="fa fa-plus fa-sm" ></i></td>
-                </tr>
-               
-                <tr style="background-color: grey; display:none; width:100%" class="collapse" :id="table.name+'-collapse'">
-                    <div v-if="$store.state.layers[table.name+'Style']">
+
+<v-row no-gutters v-show="$store.state.layers.toggle" >
+    <v-col
+        sm="3"
+    >
+    <v-scroll-x-transition>
+        
+        <v-expansion-panels accordion focusable>
+        <v-expansion-panel
+            v-for="table in $store.state.layers.tableNames" :key="table.id"
+        >
+            <v-expansion-panel-header>{{table.name}}</v-expansion-panel-header>
+            <v-expansion-panel-content>
+                
+            visibility: <input type="checkbox" class="form-check-input" :id="table.name" :checked="table.checked" @click.once="addLayer(table, $event)" @change="toggleLayerVisibility(table)" > <br>
+            
+            <div v-if="$store.state.layers[table.name+'Style']">
+                zoom to extent: <span @click= " zoomToTable(table)"><i  class="fa fa-search-plus fa-sm" aria-hidden="true"></i></span><br>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
                             <label >fill color:</label>
                             <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" v-model="$store.state.layers[table.name + 'Style'].fillColor"  @click="changeFillColor(table.name)" >
@@ -45,17 +49,13 @@
                         
                         
                     </div>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+        </v-expansion-panels>
+        </v-scroll-x-transition>
+    </v-col>
+</v-row>
 
-             
-                </tr>
-                
-                
-            </div>
-
-        </tbody>
-        
-    </table>
-</v-scroll-x-transition>
 </template>
 
 <script>
