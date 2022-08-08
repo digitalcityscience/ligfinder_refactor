@@ -19,8 +19,9 @@ const layers = {
         layersToggle(state){
             state.toggle=false
         },
-        setTableNames(state, payload){
+        setTableNames(state, rootState, payload){
             state.tableNames = payload
+            
         },
         initLayerStyle(state, payload){
            
@@ -36,102 +37,112 @@ const layers = {
                 
             Vue.set(state,payload.name+"Style", style)
            
-        },
+        }
+        
        
     },
     actions:{
-        getTableNames({commit, state}){
+        getTableNames({state, rootState}){
             if (state.toggle==true){   /* 
                                                     to avoid sending get request when closing the panel
                                                     */
                 HTTP
                 .get('table-names')
                 .then(response => {
-                    commit('setTableNames', response.data)
+                    state.tableNames = response.data
+
+                    for (let i of state.tableNames) {
+                        Object.assign(i, {checked:false})
+                    }
+                    if (rootState.ligfinder.FOI.features.length>0){
+                        state.tableNames.push({id:100, name: "foi", checked:true})
+                        let style =Object.assign({},{'type': 'fill','fillColor': '#00FF00', 'fillOutlineColor': '#000000', "fillopacity": 1 })
+                        Vue.set(state,"foiStyle", style)
+                    }
                     
                 })
             }
         },
         addTable({state,  rootState, commit}, payload){
             const clickedTableName = payload.name;
-            rootState.map.isLoading = true
-            HTTP
-            .post('add-table', {
-                tablename : clickedTableName
-            })
-            .then(response => {
-                console.log(response.data)
-                commit('initLayerStyle', response.data)
-                let layerName = response.data.name
-                rootState.map.map.addSource(response.data.name,{'type': 'geojson', 'data': response.data});
-                if(response.data.features[0].geometry.type==="MultiLineString" || response.data.features[0].geometry.type==="LineString"){
-                    layerName = {
-                        'id': response.data.name,
-                        'type': 'line',
-                        'source': response.data.name, // reference the data source
-                        'layout': {},
-                        'paint': {
-                            'line-color': '#888',
-                            'line-width': 2
-                        }
-                        
-                    };
-                }
-                else if (response.data.features[0].geometry.type==="Point" || response.data.features[0].geometry.type==="MultiPoint"){
-                    layerName = {
-                        'id': response.data.name,
-                        'type': 'circle',
-                        'source': response.data.name, // reference the data source
-                        'layout': {},
-                        'paint': {
-                            'circle-color': '#8931e0',
-                            'circle-radius': 3,
-                        }
-                        
-                    };
-                }
-                else {
-                    layerName = {
-                        'id': response.data.name,
-                        'type': 'fill',
-                        'source': response.data.name, // reference the data source
-                        'layout': {},
-                        'paint': {
-                            'fill-color': '#00FF00', 
-                            'fill-opacity': 1,
-                            'fill-outline-color': '#000000',
-                        }
-                        
-                    };
-                }
-                
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
-                state.addedLayers.push(response.data)
-                console.log(state.addedLayers)
-                rootState.map.map.fitBounds([
-                    [response.data.left, response.data.bottom],
-                    [response.data.right, response.data.top]
-                  ],{
-                    padding: 40
-                });
-                
-                state.addedTableNames.push(layerName)
-                rootState.map.map.on('click', response.data.name, (e) => {
-                    const coordinates = [e.lngLat.lng, e.lngLat.lat]
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                    let popup = new maplibregl.Popup()
-                    popup.setLngLat(coordinates)
-                    popup.setDOMContent(createHtmlAttributes(rootState, e.lngLat.lng, e.lngLat.lat, e.features[0].properties))
-                    
-                    popup.addTo(rootState.map.map);
-        
-                })
-            })
             
-
+            if (clickedTableName!= "foi"){
+                rootState.map.isLoading = true
+                HTTP
+                .post('add-table', {
+                    tablename : clickedTableName
+                })
+                .then(response => {
+                    commit('initLayerStyle', response.data)
+                    let layerName = response.data.name
+                    rootState.map.map.addSource(response.data.name,{'type': 'geojson', 'data': response.data});
+                    if(response.data.features[0].geometry.type==="MultiLineString" || response.data.features[0].geometry.type==="LineString"){
+                        layerName = {
+                            'id': response.data.name,
+                            'type': 'line',
+                            'source': response.data.name, // reference the data source
+                            'layout': {},
+                            'paint': {
+                                'line-color': '#888',
+                                'line-width': 2
+                            }
+                            
+                        };
+                    }
+                    else if (response.data.features[0].geometry.type==="Point" || response.data.features[0].geometry.type==="MultiPoint"){
+                        layerName = {
+                            'id': response.data.name,
+                            'type': 'circle',
+                            'source': response.data.name, // reference the data source
+                            'layout': {},
+                            'paint': {
+                                'circle-color': '#8931e0',
+                                'circle-radius': 3,
+                            }
+                            
+                        };
+                    }
+                    else {
+                        layerName = {
+                            'id': response.data.name,
+                            'type': 'fill',
+                            'source': response.data.name, // reference the data source
+                            'layout': {},
+                            'paint': {
+                                'fill-color': '#00FF00', 
+                                'fill-opacity': 1,
+                                'fill-outline-color': '#000000',
+                            }
+                            
+                        };
+                    }
+                    
+                    rootState.map.map.addLayer(layerName)
+                    rootState.map.isLoading = false
+                    state.addedLayers.push(response.data)
+                    rootState.map.map.fitBounds([
+                        [response.data.left, response.data.bottom],
+                        [response.data.right, response.data.top]
+                    ],{
+                        padding: 40
+                    });
+                    
+                    state.addedTableNames.push(layerName)
+                    rootState.map.map.on('click', response.data.name, (e) => {
+                        const coordinates = [e.lngLat.lng, e.lngLat.lat]
+                        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                        }
+                        let popup = new maplibregl.Popup()
+                        popup.setLngLat(coordinates)
+                        popup.setDOMContent(createHtmlAttributes(rootState, e.lngLat.lng, e.lngLat.lat, e.features[0].properties))
+                        
+                        popup.addTo(rootState.map.map);
+            
+                    })
+                })
+            
+            }
         },
         zoomToTable({rootState, state}, payload){
             for (let i=0; i< state.addedLayers.length; i++){
@@ -148,10 +159,9 @@ const layers = {
             }
             
         },
-
+        
     },
     getters:{
-       
     }
 
 }

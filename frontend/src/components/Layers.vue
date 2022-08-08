@@ -3,10 +3,10 @@
         <tbody >
             <div v-for="table in $store.state.layers.tableNames" :key="table.id">
                 <tr>
-                    <td  style="width: 10%"><input type="checkbox" class="form-check-input" :id="table.name" :checked="false" @click.once="addLayer(table, $event)" @change="toggleLayerVisibility(table)" ></td>
+                    <td  style="width: 10%"><input type="checkbox" class="form-check-input" :id="table.name" :checked="table.checked" @click.once="addLayer(table, $event)" @change="toggleLayerVisibility(table)" ></td>
                     <td  style="width: 10%;"><span @click= " zoomToTable(table)"><i  class="fa fa-search-plus fa-sm" aria-hidden="true"></i></span></td>
                     <td style="width: 80%">{{table.name}}</td>
-                    <td><span style= ""  class="icon-collapse" :id="table.name+'-icon-collapse'" ></span><i @click="toggleCollapseIcon(table.name);collapse(table.name)" :id="table.name+'-icon'" class="fa fa-plus fa-sm" ></i></td>
+                    <td><span class="icon-collapse" :id="table.name+'-icon-collapse'" ></span><i @click="toggleCollapseIcon(table.name);collapse(table.name)" :id="table.name+'-icon'" class="fa fa-plus fa-sm" ></i></td>
                 </tr>
                
                 <tr style="background-color: grey; display:none; width:100%" class="collapse" :id="table.name+'-collapse'">
@@ -73,16 +73,27 @@ export default {
             }
         },
         toggleLayerVisibility(table){
-            for (let i=0; i< this.$store.state.layers.addedTableNames.length; i++){
-                if(this.$store.state.layers.addedTableNames[i].id === table.name) {
-                    if(document.querySelector("#"+table.name+":checked")) {
-                        this.$store.state.map.map.setLayoutProperty(table.name, 'visibility', 'visible');
-                    } 
-                    else {
-                        this.$store.state.map.map.setLayoutProperty(table.name, 'visibility', 'none');
+            if (table.name=="foi"){
+                if(document.querySelector("#"+table.name+":checked")) {
+                    this.$store.state.map.map.setLayoutProperty("foi", 'visibility', 'visible');
+                } 
+                else {
+                    this.$store.state.map.map.setLayoutProperty("foi", 'visibility', 'none');
+                }
+            }
+            else{
+                for (let i=0; i< this.$store.state.layers.addedTableNames.length; i++){
+                    if(this.$store.state.layers.addedTableNames[i].id === table.name) {
+                        if(document.querySelector("#"+table.name+":checked")) {
+                            this.$store.state.map.map.setLayoutProperty(table.name, 'visibility', 'visible');
+                        } 
+                        else {
+                            this.$store.state.map.map.setLayoutProperty(table.name, 'visibility', 'none');
+                        }
                     }
                 }
             }
+            
         },
         toggleCollapseIcon(table){
             console.log(table)
