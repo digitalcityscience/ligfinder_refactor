@@ -1,4 +1,5 @@
 <template>
+<v-scroll-x-transition mode="in" hide-on-leave="true">
     <table v-show="$store.state.layers.toggle" class="table table-hover">
         <tbody >
             <div v-for="table in $store.state.layers.tableNames" :key="table.id">
@@ -53,6 +54,7 @@
         </tbody>
         
     </table>
+</v-scroll-x-transition>
 </template>
 
 <script>

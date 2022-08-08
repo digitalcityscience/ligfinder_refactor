@@ -1,4 +1,5 @@
 <template>
+<v-scroll-x-transition mode="in" hide-on-leave="true">
     <div class="user-ui" v-show="$store.state.user.toggle" >
         <div v-if="$store.state.user.loggedIn==false">
             <v-tabs v-model="tab" show-arrows background-color="cyan accent-4" icons-and-text dark grow >
@@ -132,6 +133,7 @@
             </v-card>
         </div>
     </div>
+</v-scroll-x-transition>
 </template>
 
 <script>

@@ -1,4 +1,6 @@
 <template>
+<v-scroll-x-transition mode="in" hide-on-leave="true">
+
     <div v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
 
         <!--<div class="ligfinder-ui-header mt-4" id="ligfinder-ui-header">
@@ -51,6 +53,8 @@
            
         </div>
     </div>
+</v-scroll-x-transition>
+
 </template>
 
 <script>

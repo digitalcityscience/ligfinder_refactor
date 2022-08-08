@@ -1,4 +1,5 @@
 <template>
+<v-scroll-x-transition mode="in" hide-on-leave="true">
   <div v-show="$store.state.classification.toggle" class="classification-ui">
         <div>
             <i
@@ -144,6 +145,7 @@
         
       
   </div>
+</v-scroll-x-transition>
 </template>
 
 <script>

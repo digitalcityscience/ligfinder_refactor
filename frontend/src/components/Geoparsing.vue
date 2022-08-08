@@ -1,4 +1,6 @@
 <template>
+<v-scroll-x-transition mode="in" hide-on-leave="true">
+
     <div v-show="$store.state.geoparsing.toggle" class="geoparsing-ui">
         <div>
             <i
@@ -162,6 +164,8 @@
       </v-col>
         
     </div>
+</v-scroll-x-transition >
+
 </template>
 
 <script>
