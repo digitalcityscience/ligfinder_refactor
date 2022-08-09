@@ -29,7 +29,8 @@ const area = {
                 features: jsonAreaFilter,
                 type: 'FeatureCollection'
             }
-            if (jsonAreaFilter!=null){
+            console.log(jsonAreaFilter.features)
+            if (jsonAreaFilter.features?.length>0){
                 state.areaFilterData=jsonAreaFilter
                 
                 const foiLayer = rootState.map.map.getLayer("foi");
