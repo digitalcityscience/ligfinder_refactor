@@ -574,7 +574,7 @@ def geoparsing_date_filter():
         if data["datasetMode"]== 'parliament':
             return(get_geoparsing_date_filter('geocoded_address', 'date', data["dates"][0], data["dates"][1]))
         elif data["datasetMode"]== 'newspaper':
-            return(get_geoparsing_date_filter('elbvertiefung', 'doc_num', data["dates"][0], data["dates"][1]))
+            return(get_geoparsing_date_filter('elbvertiefung', 'date', data["dates"][0], data["dates"][1]))
 
 @app.route('/geocode-address', methods=["GET", "POST"])
 def geocode_address():
