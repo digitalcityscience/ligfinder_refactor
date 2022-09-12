@@ -23,7 +23,7 @@ export const createDuplicatePointAttributesNewspaper = (rootState, dispatch, pop
         let td1 = document.createElement('td');
         
         
-        td1.textContent = list[prop]['properties']['doc_num'];
+        td1.textContent = list[prop]['properties']['date'];
         let td2 = document.createElement('td');
         td2.textContent = list[prop]['properties']['word'];
         tr.appendChild(td1)

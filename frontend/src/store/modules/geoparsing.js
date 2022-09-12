@@ -136,7 +136,7 @@ const geoparsing = {
         computeNewspaperDateRange({state}){
             let dateArray = []
             for (let i=0; i<state.newspaperData.features.length; i++){
-                dateArray.push(state.newspaperData.features[i].properties.doc_num)
+                dateArray.push(state.newspaperData.features[i].properties.date)
             }
             let sorted = dateArray.slice()
             .sort(function(a, b) {
@@ -275,7 +275,6 @@ const geoparsing = {
             }
             else if (payload === "Point Cluster"){
                 dispatch('removeStyles');
-                
                 rootState.map.map.addSource('geocoded', {
                     type: 'geojson',
                     // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
@@ -417,7 +416,7 @@ const geoparsing = {
             let coordinates
             if (e.features.length==1){
                 coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
-                let clickedPointDate = e.features[0].properties.doc_num
+                let clickedPointDate = e.features[0].properties.date
                 HTTP
                 .post('get-word-frequency',{
                     date: clickedPointDate
@@ -476,7 +475,7 @@ const geoparsing = {
             state.duplicatedNewspaper = true
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
             console.log(selectedfeature, "selectedfeature")
-            let clickedPointDate = selectedfeature[0].properties.doc_num
+            let clickedPointDate = selectedfeature[0].properties.date
             HTTP
             .post('get-word-frequency',{
                 date: clickedPointDate
