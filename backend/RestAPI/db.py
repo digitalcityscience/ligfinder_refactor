@@ -687,3 +687,80 @@ def geoparsing_topic_filter(query):
   cur.close()
   conn.close()
   return result
+
+def create_parcel_touch_test_table(gid):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+    DROP TABLE IF EXISTS parcel_touch_test;
+    CREATE TABLE parcel_touch_test AS SELECT array[gid] ids, ST_GeometryN(geom, generate_series(1, ST_NumGeometries(geom))) AS geom  FROM parcel where gid in %s;
+      ;""" %(gid,))
+
+  conn.commit()
+  cur.close()
+  conn.close()
+  return "ok"
+
+def analyze_parcel_touch_test_table():
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+    CREATE OR REPLACE FUNCTION reduce_joined_testpoly()
+    RETURNS void
+    AS $$
+    DECLARE
+      joined_row parcel_touch_test%ROWTYPE;
+    BEGIN
+      LOOP
+        SELECT array_cat(a.ids, b.ids), st_union(a.geom, b.geom)
+            INTO joined_row 
+        FROM parcel_touch_test a INNER JOIN parcel_touch_test b
+              on a.ids != b.ids
+                  and ST_Touches(a.geom, b.geom) and a.geom && b.geom 
+                  and ST_Relate(a.geom, b.geom)='FF2F11212'
+            LIMIT 1;
+        IF NOT FOUND THEN
+              EXIT;
+        END IF;
+        INSERT INTO parcel_touch_test VALUES (joined_row.ids, joined_row.geom);
+        DELETE FROM parcel_touch_test
+            WHERE parcel_touch_test.ids <@ joined_row.ids 
+              AND parcel_touch_test.ids != joined_row.ids;
+      END LOOP;
+      RETURN;
+    END;
+    $$ LANGUAGE plpgsql;
+
+    SELECT reduce_joined_testpoly();
+
+      ;""" )
+
+  conn.commit()
+  cur.close()
+  conn.close()
+  return "ok"
+
+def get_parcel_touch_test_table(area):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  SELECT jsonb_build_object(
+  'type',     'FeatureCollection',
+  'features', jsonb_agg(feature)
+)
+FROM (
+  SELECT jsonb_build_object(
+    'type',       'Feature',
+    'geometry',   ST_AsGeoJSON(geom)::jsonb,
+    'properties', to_jsonb(inputs) - 'geom'
+  ) AS feature
+  FROM (
+    SELECT ids, st_area(geom::geography) as area, geom FROM parcel_touch_test where st_area(geom::geography)>%s
+  ) inputs
+) features;
+
+      ;""" %(area,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result
