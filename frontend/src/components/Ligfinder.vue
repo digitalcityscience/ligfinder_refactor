@@ -42,6 +42,7 @@
                 <v-tab id="results" class="" @click="setClickedMenu($event)">ERGEBNISSE
                     <v-chip color="green"> {{$store.state.ligfinder.FOI.features.length}} </v-chip>
                 </v-tab>
+                <v-tab id="joinparcels" class="" @click="setClickedMenu($event)">join parcels</v-tab>
             </v-tabs>
         </template>
         <div class="mx-4 mt-4">
@@ -50,6 +51,7 @@
             <Area v-if="clickedLigMenue==='area'" />
             <Criteria v-if="clickedLigMenue==='criteria'" />
             <Proximity v-if="clickedLigMenue==='proximity'" />
+            <JoinParcels v-if="clickedLigMenue==='joinparcels'" />
            
         </div>
     </div>
@@ -65,6 +67,7 @@ import Results from "./Results"
 import Area from "./Area"
 import Criteria from "./Criteria"
 import Proximity from "./Proximity"
+import JoinParcels from "./JoinParcels"
 export default {
     name: "Ligfinder",
     data(){
@@ -86,7 +89,8 @@ export default {
         Results,
         Area,
         Criteria,
-        Proximity
+        Proximity,
+        JoinParcels
     }
 }
 </script>

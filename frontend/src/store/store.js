@@ -25,6 +25,8 @@ import user from './modules/user'
 import savedResultsTable from './modules/savedResultsTable'
 import compareLikedParcels from './modules/compareLikedParcels'
 import geocoder from './modules/geocoder'
+import joinParcels from './modules/joinParcels'
+
 
 Vue.use(Vuex);
 
@@ -54,7 +56,8 @@ const store = new Vuex.Store({
         user,
         savedResultsTable,
         compareLikedParcels,
-        geocoder
+        geocoder,
+        joinParcels
     }
 
 })
