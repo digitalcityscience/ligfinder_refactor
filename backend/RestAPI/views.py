@@ -615,6 +615,6 @@ def get_touching_parcels():
     data = request.get_json()
     #print(tuple(data['gids']))
     create_parcel_touch_test_table(tuple(data['gids']))
-    analyze_parcel_touch_test_table()
+    analyze_parcel_touch_test_table(data['area'], data['area'])
     
     return get_parcel_touch_test_table(data['area'])

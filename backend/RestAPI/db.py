@@ -701,7 +701,7 @@ def create_parcel_touch_test_table(gid):
   conn.close()
   return "ok"
 
-def analyze_parcel_touch_test_table():
+def analyze_parcel_touch_test_table(area1, area2):
   conn = connect()
   cur = conn.cursor()
   cur.execute("""
@@ -709,7 +709,7 @@ def analyze_parcel_touch_test_table():
     RETURNS void
     AS $$
     DECLARE
-      joined_row parcel_touch_test%ROWTYPE;
+      joined_row parcel_touch_test;
     BEGIN
       LOOP
         SELECT array_cat(a.ids, b.ids), st_union(a.geom, b.geom)
@@ -717,6 +717,8 @@ def analyze_parcel_touch_test_table():
         FROM parcel_touch_test a INNER JOIN parcel_touch_test b
               on a.ids != b.ids
                   and ST_Touches(a.geom, b.geom) and a.geom && b.geom 
+                  and st_area(a.geom::geography)<%s
+                  and st_area(b.geom::geography)<%s
                   and ST_Relate(a.geom, b.geom)='FF2F11212'
             LIMIT 1;
         IF NOT FOUND THEN
@@ -733,7 +735,7 @@ def analyze_parcel_touch_test_table():
 
     SELECT reduce_joined_testpoly();
 
-      ;""" )
+      ;""" %(area1, area2,))
 
   conn.commit()
   cur.close()
