@@ -145,6 +145,7 @@ this.$store.state.map.map.on('click',  (e) => {
     '$store.state.ligfinder.FOI': function() {
       this.$store.dispatch('area/removeAreaFilterLayer')
       this.$store.dispatch('criteria/removeCriteriaFilterLayer')
+      this.$store.dispatch('joinParcels/removeTouchingParcelLayer')
       
     }
   }
