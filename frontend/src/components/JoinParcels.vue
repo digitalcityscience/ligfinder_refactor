@@ -92,11 +92,12 @@ export default {
             searching: false,
         } );
         $('#datatable').DataTable({
-        "columnDefs": [ {
-          "targets": 'no-sort',
-          "orderable": false,
-          "order": []
-    } ]
+            "ordering": false,
+            "columnDefs": [ {
+            "targets": 'no-sort',
+            "orderable": false,
+            "order": []
+        } ]
 } );
     },
     methods: {
