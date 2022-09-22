@@ -701,10 +701,13 @@ def create_parcel_touch_test_table(gid):
   conn.close()
   return "ok"
 
-def analyze_parcel_touch_test_table(area1, area2):
+def analyze_parcel_touch_test_table(gid, area1, area2,area3):
   conn = connect()
   cur = conn.cursor()
   cur.execute("""
+    DROP TABLE IF EXISTS parcel_touch_test;
+    CREATE TABLE parcel_touch_test AS SELECT array[gid] ids, ST_GeometryN(geom, generate_series(1, ST_NumGeometries(geom))) AS geom  FROM parcel where gid in %s;
+    
     CREATE OR REPLACE FUNCTION reduce_joined_testpoly()
     RETURNS void
     AS $$
@@ -735,12 +738,31 @@ def analyze_parcel_touch_test_table(area1, area2):
 
     SELECT reduce_joined_testpoly();
 
-      ;""" %(area1, area2,))
+    SELECT jsonb_build_object(
+    'type',     'FeatureCollection',
+    'features', jsonb_agg(feature)
+      )
+      FROM (
+        SELECT jsonb_build_object(
+          'type',       'Feature',
+          'geometry',   ST_AsGeoJSON(geom)::jsonb,
+          'properties', to_jsonb(inputs) - 'geom'
+        ) AS feature
+        FROM (
+          SELECT ids, st_area(geom::geography) as area, geom FROM parcel_touch_test where st_area(geom::geography)>%s
+        ) inputs
+      ) features;
 
+      ;""" %(gid, area1, area2,area3,))
+
+ 
+  
+  result = cur.fetchall()[0][0]
   conn.commit()
   cur.close()
   conn.close()
-  return "ok"
+  
+  return result
 
 def get_parcel_touch_test_table(area):
   conn = connect()

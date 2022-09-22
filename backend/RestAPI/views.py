@@ -615,7 +615,8 @@ def get_touching_parcels():
     data = request.get_json()
     area_threshould = float(data['area'])
     
-    create_parcel_touch_test_table(tuple(data['gids']))
-    analyze_parcel_touch_test_table(area_threshould, area_threshould)
-    joined_parcel_data = get_parcel_touch_test_table(area_threshould)
+    #create_parcel_touch_test_table(tuple(data['gids']))
+    #analyze_parcel_touch_test_table(area_threshould, area_threshould)
+    #joined_parcel_data = get_parcel_touch_test_table(area_threshould)
+    joined_parcel_data = analyze_parcel_touch_test_table(tuple(data['gids']), area_threshould, area_threshould, area_threshould)
     return joined_parcel_data
