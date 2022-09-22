@@ -17,11 +17,12 @@ const joinParcels = {
         getTouchedParcels({state, rootState, rootGetters, dispatch}){
             rootState.map.isLoading = true
             let gids = rootGetters['ligfinder/getFOIGid']
-            HTTP
-            .post('get-touching-parcels', {
+            let payload = {
                 gids: gids,
                 area: state.slider
-            })
+            }
+            HTTP
+            .post('get-touching-parcels', payload)
             .then(response=>{
                 state.touchingParcels=null
                 if (response.data.features){
@@ -62,7 +63,8 @@ const joinParcels = {
                     rootState.map.isLoading = false
                 }
                 
-            }).catch(error => console.error(error));
+            })
+            .catch(error => console.error(error));
         },
         removeTouchingParcelLayer({rootState}){
             const mapLayer = rootState.map.map.getLayer('touching_parcels')
