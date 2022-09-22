@@ -18,4 +18,4 @@ ENV DB_USER=postgres
 ENV DB_PASSWORD=postgres
 
 EXPOSE 3000
-CMD [ "gunicorn", "runserver:app", "-w 2", "-b 0.0.0.0:3000"]
+CMD [ "gunicorn", "runserver:app", "-w 2", "-b 0.0.0.0:3000", "--timeout 600"]
