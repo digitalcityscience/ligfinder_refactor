@@ -17,7 +17,8 @@ const joinParcels = {
         getTouchedParcels({state, rootState, rootGetters, dispatch}){
             rootState.map.isLoading = true
             let gids = rootGetters['ligfinder/getFOIGid']
-            HTTP.post('get-touching-parcels', {
+            HTTP
+            .post('get-touching-parcels', {
                 gids: gids,
                 area: state.slider
             })
