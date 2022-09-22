@@ -22,7 +22,7 @@ const joinParcels = {
                 gids: gids,
                 area: state.slider
             })
-            .then((response)=>{
+            .then(response=>{
                 state.touchingParcels=null
                 if (response.data.features){
                     response.data.features.sort(function(a, b) {
@@ -62,7 +62,7 @@ const joinParcels = {
                     rootState.map.isLoading = false
                 }
                 
-            })
+            }).catch(error => console.error(error));
         },
         removeTouchingParcelLayer({rootState}){
             const mapLayer = rootState.map.map.getLayer('touching_parcels')
