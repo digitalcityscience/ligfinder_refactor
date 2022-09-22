@@ -432,7 +432,7 @@ def set_criteria_filter():
             else:
                 i["columns"] = i["columns"].split(',')
                 for j in i["columns"]:
-                    queryString += "and" + " " + j + " " + "is" + " " + "null" + " "
+                    queryString += "and" + " " + j + " " + "<>" + " " + i["value"] + " "
     elif (operator=="OR"):
         
         for i in includeTags:
@@ -448,7 +448,7 @@ def set_criteria_filter():
             else:
                 i["columns"] = i["columns"].split(',')
                 for j in i["columns"]:
-                    queryString += "and" + " " + j + " " + "is" + " " + "null" + " "
+                    queryString += "and" + " " + j + " " + "<>" + " " + i["value"] + " "
         
         if orquery:
             orquery = orquery[:-3]
@@ -613,8 +613,9 @@ def topic_filter():
 @app.route('/get-touching-parcels', methods=["GET", "POST"])
 def get_touching_parcels():
     data = request.get_json()
+    area_threshould = data['area']
     #print(tuple(data['gids']))
     create_parcel_touch_test_table(tuple(data['gids']))
-    analyze_parcel_touch_test_table(data['area'], data['area'])
-    
-    return get_parcel_touch_test_table(data['area'])
+    analyze_parcel_touch_test_table(area_threshould, area_threshould)
+    joined_parcel_data = get_parcel_touch_test_table(area_threshould)
+    return joined_parcel_data
