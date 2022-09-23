@@ -7,6 +7,7 @@ const joinParcels = {
         max: 100000,
         slider: 1000,
         layerVisibility: true,
+        toggleSwitch: false,
         touchingParcels: null
     },
     mutations:{
@@ -26,6 +27,7 @@ const joinParcels = {
             .then(response=>{
                 state.touchingParcels=null
                 if (response.data.features){
+                    state.toggleSwitch = true
                     response.data.features.sort(function(a, b) {
                         return b.properties.area - a.properties.area;
                     });
@@ -66,9 +68,10 @@ const joinParcels = {
             })
             .catch(error => console.error(error));
         },
-        removeTouchingParcelLayer({rootState}){
+        removeTouchingParcelLayer({state,rootState}){
             const mapLayer = rootState.map.map.getLayer('touching_parcels')
             if(typeof mapLayer !== 'undefined'){
+                state.toggleSwitch = false
                 rootState.map.map.removeLayer('touching_parcels')
                 rootState.map.map.removeSource('touching_parcels')
             }

@@ -1,5 +1,5 @@
 <template>
-    <div id="joined-parcels">
+    <div id="joined-parcels" v-if="$store.state.ligfinder.FOI.features[0]">
         <v-card
             flat
             color="transparent"
@@ -30,6 +30,7 @@
                 
                 <button style="font-size: 0.8vw" class="btn btn-info mt-4" @click="getTouchedParcels" >Suche Starten</button>
                 <v-switch
+                    v-if="$store.state.joinParcels.toggleSwitch"
                     v-model="$store.state.joinParcels.layerVisibility"
                     @click="toggleJoinParcelVisibility"
                     label="toggle visibility"
@@ -40,7 +41,7 @@
             </v-card-text>
             
         </v-card>
-        <div :style="{marginBottom:'40px'}"   >
+        <div :style="{marginBottom:'40px'}"   v-if="$store.state.joinParcels.toggleSwitch">
             <table id="datatable" class="table table-hover" v-if="$store.state.joinParcels.touchingParcels">
                 <thead >
                     <tr >
@@ -69,6 +70,10 @@
         
 
     </div>
+    <div v-else class="table text-center">
+        <p>No Feature Selected</p>
+    
+    </div>
 
 </template>
 
@@ -80,25 +85,18 @@ import $ from 'jquery';
 import * as turf from 'turf'
 
 export default {
-    data () {
-      return {
-        min: 0,
-        max: 100000,
-        slider: 1000,
-      }
-    },
     mounted(){
         $.extend( $.fn.dataTable.defaults, {
             searching: false,
-        } );
+        });
         $('#datatable').DataTable({
             "ordering": false,
             "columnDefs": [ {
-            "targets": 'no-sort',
-            "orderable": false,
-            "order": []
-        } ]
-} );
+                "targets": 'no-sort',
+                "orderable": false,
+                "order": []
+            } ]
+        });
     },
     methods: {
         getTouchedParcels(){
