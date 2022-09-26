@@ -432,7 +432,7 @@ def set_criteria_filter():
             else:
                 i["columns"] = i["columns"].split(',')
                 for j in i["columns"]:
-                    queryString += "and" + " " + j + " " + "<>" + " " + i["value"] + " "
+                    queryString += "and" + " " + j + " " + "is distinct from" + " " + "'" + i["value"] + "'" + " "
     elif (operator=="OR"):
         
         for i in includeTags:
@@ -448,7 +448,7 @@ def set_criteria_filter():
             else:
                 i["columns"] = i["columns"].split(',')
                 for j in i["columns"]:
-                    queryString += "and" + " " + j + " " + "<>" + " " + i["value"] + " "
+                    queryString += "and" + " " + j + " " + "is distinct from" + " " + "'" + i["value"] + "'" + " "
         
         if orquery:
             orquery = orquery[:-3]
