@@ -15,7 +15,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-col>
+        <v-col style= "height:100%">
             <v-text-field
                 @focus="searchClosed = false"
                 @blur="searchClosed= true"
@@ -23,7 +23,7 @@
                 v-on:keyup.enter="geocodeAddress"
                 placeholder="search address"
                 prepend-inner-icon="mdi-magnify "
-                class="expanding-search mt-6 "
+                class="expanding-search"
                 :class="{ 'closed': searchClosed && !address }"
                 filled
                 dense
@@ -221,6 +221,7 @@ export default {
 
 .expanding-search.v-text-field>.v-input__control>.v-input__slot:before { border-style: none; }
 .expanding-search.v-text-field>.v-input__control>.v-input__slot:after { border-style: none; }
+.expanding-search.v-text-field>.v-input__control {margin-top:-8px}
 
 .v-input.expanding-search.closed{
 
