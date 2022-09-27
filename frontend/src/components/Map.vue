@@ -19,6 +19,7 @@
        <AddData />
        <User />
       <CompareLikedParcels />
+      <BaseMaps />
     </div>
    
   </div>
@@ -40,6 +41,7 @@ import Alert from './Alert'
 import AddData from './AddData'
 import User from './User'
 import CompareLikedParcels from './CompareLikedParcels'
+import BaseMaps from './BaseMaps'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
 //import BoxCustomLayer from "../utils/BoxCustomLayer"; 
 
@@ -58,7 +60,8 @@ export default {
     Alert,
     AddData,
     User,
-    CompareLikedParcels
+    CompareLikedParcels,
+    BaseMaps
   },
   mounted: function() {
     this.$store.state.map.map = new maplibregl.Map({
@@ -67,7 +70,7 @@ export default {
       center: [this.$store.state.map.initialLongitude,  this.$store.state.map.initialLatitude],
       zoom: this.$store.state.map.initialZoom,
       maxZoom: this.$store.state.map.maxZoom,
-      minZoom: this.$store.state.map.minZoom
+      minZoom: this.$store.state.map.minZoom,
     });
     // Add zoom and rotation controls to the map.
     const zoomControl = new maplibregl.NavigationControl()

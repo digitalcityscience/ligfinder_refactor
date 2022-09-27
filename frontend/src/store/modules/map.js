@@ -41,15 +41,53 @@ const map=  {
                 ],
                 'id': 'blank'
             },
-            satellieHybrid: 'https://api.maptiler.com/maps/hybrid/style.json?key=XgdreUwN4V3uEHHZHsWO'
+            satellieHybrid: 'https://api.maptiler.com/maps/hybrid/style.json?key=XgdreUwN4V3uEHHZHsWO',
+            dark: "https://api.maptiler.com/maps/darkmatter/style.json?key=XgdreUwN4V3uEHHZHsWO"
 
-        }
+        },
+        basemapOptionsToggle: false,
+        activatedStyle: "lightOSM"
     },
     mutations:{
-
+        toglleBasemapOptionsPanel(state){
+            state.basemapOptionsToggle =! state.basemapOptionsToggle
+        }
     },
     actions:{
-        
+        toglleBasemap({state, rootState}){
+            
+            if (state.activatedStyle=="satellieHybrid"){
+                state.map.setStyle(state.styles.satellieHybrid);
+            }
+            else if (state.activatedStyle=="lightOSM"){
+                state.map.setStyle(state.styles.lightOSM);
+            }
+            else {
+                state.map.setStyle(state.styles.dark);
+            }
+            console.log(state.map.getStyle().layers)
+            const foi = state.map.getLayer("foi");
+            if(typeof foi !== 'undefined'){
+                state.map.removeLayer("foi")
+                state.map.removeSource("foi")
+            }
+            if (rootState.ligfinder.FOI.features.length>0){
+                state.map.once('idle', () => {
+                    console.log("weee")
+                    state.map.addSource('foi',{'type': 'geojson', 'data': rootState.ligfinder.FOI});
+                    state.map.addLayer({
+                        'id': "foi",
+                        'type': 'fill',
+                        'source': "foi", 
+                        'paint': {
+                            'fill-color': '#d99ec4', 
+                            'fill-opacity':0.7,
+                            'fill-outline-color': '#000000',
+                        }
+                    });
+                })
+            }  
+        }
     },
     getters:{
 
