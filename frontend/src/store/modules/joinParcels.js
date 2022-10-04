@@ -39,6 +39,15 @@ const joinParcels = {
                         rootState.map.map.removeLayer('touching_parcels')
                         rootState.map.map.removeSource('touching_parcels')
                     }
+
+                    response.data.name = "touching_parcels"
+                    for (let i=0; i<rootState.layers.addedLayers.length; i++){
+                        if(rootState.layers.addedLayers[i].name === "touching_parcels"){
+                            rootState.layers.addedLayers.splice(i, 1);
+                        }
+                    }
+                    rootState.layers.addedLayers.push(response.data)
+
                     let layerName 
                     rootState.map.map.addSource('touching_parcels',{'type': 'geojson', 'data': response.data});
                     
@@ -74,6 +83,12 @@ const joinParcels = {
                 state.toggleSwitch = false
                 rootState.map.map.removeLayer('touching_parcels')
                 rootState.map.map.removeSource('touching_parcels')
+            }
+
+            for (let i=0; i<rootState.layers.addedLayers.length; i++){
+                if(rootState.layers.addedLayers[i].name === "touching_parcels"){
+                    rootState.layers.addedLayers.splice(i, 1);
+                }
             }
         },
         toggleJoinParcelVisibility({state, rootState}){
