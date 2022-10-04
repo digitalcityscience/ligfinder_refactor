@@ -55,7 +55,7 @@ const map=  {
     },
     actions:{
         toglleBasemap({state, rootState}){
-            
+            console.log("ok")            
             if (state.activatedStyle=="satellieHybrid"){
                 state.map.setStyle(state.styles.satellieHybrid);
             }
