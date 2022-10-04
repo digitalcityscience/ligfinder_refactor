@@ -77,9 +77,9 @@ const map=  {
                     state.map.removeSource(addedLayers[i].name)
                 }
             }
-            // TODO apply this on the geocoded data
+            // TODO apply this on the geoparsing data
             state.map.once('idle', () => {
-                
+                console.log("ok")
                 for (let i = 0; i<addedLayers.length; i++ ){
                     
                     mapLayers.forEach(layer => {
