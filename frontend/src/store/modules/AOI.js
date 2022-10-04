@@ -50,7 +50,6 @@ const AOI = {
                 AOIs : state.AOIs
             })
             .then((response)=>{
-                console.log(response.data)
                 rootState.ligfinder.FOI=response.data
                 const mapLayer = rootState.map.map.getLayer("foi");
                 if(typeof mapLayer !== 'undefined'){
@@ -78,7 +77,7 @@ const AOI = {
                         rootState.layers.addedLayers.splice(i, 1);
                     }
                 }
-                
+
                 rootState.layers.addedLayers.push(response.data)
                 // remove Geometry AOI
                 dispatch("geometryAOI/removeDrawControl",null , { root:true })
