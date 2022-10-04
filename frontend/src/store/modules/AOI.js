@@ -71,6 +71,15 @@ const AOI = {
                 };
                 rootState.map.map.addLayer(layerName)
                 rootState.map.isLoading = false
+
+                response.data.name = "foi"
+                for (let i=0; i<rootState.layers.addedLayers.length; i++){
+                    if(rootState.layers.addedLayers[i].name === "foi"){
+                        rootState.layers.addedLayers.splice(i, 1);
+                    }
+                }
+                
+                rootState.layers.addedLayers.push(response.data)
                 // remove Geometry AOI
                 dispatch("geometryAOI/removeDrawControl",null , { root:true })
 
