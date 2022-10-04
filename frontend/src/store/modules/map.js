@@ -55,6 +55,7 @@ const map=  {
     },
     actions:{
         toglleBasemap({state, rootState}){
+            console.log(rootState.layers.addedLayers)
             
             if (state.activatedStyle=="satellieHybrid"){
                 state.map.setStyle(state.styles.satellieHybrid);
@@ -65,28 +66,30 @@ const map=  {
             else {
                 state.map.setStyle(state.styles.dark);
             }
-            console.log(state.map.getStyle().layers)
-            const foi = state.map.getLayer("foi");
-            if(typeof foi !== 'undefined'){
-                state.map.removeLayer("foi")
-                state.map.removeSource("foi")
+            let mapLayers = state.map.getStyle().layers
+            let addedLayers = rootState.layers.addedLayers
+
+            for (let i = 0; i<addedLayers.length; i++ ){
+                        
+                const foi = state.map.getLayer(addedLayers[i].name);
+                if(typeof foi !== 'undefined'){
+                    state.map.removeLayer(addedLayers[i].name)
+                    state.map.removeSource(addedLayers[i].name)
+                }
             }
-            if (rootState.ligfinder.FOI.features.length>0){
-                state.map.once('idle', () => {
-                    console.log("weee")
-                    state.map.addSource('foi',{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                    state.map.addLayer({
-                        'id': "foi",
-                        'type': 'fill',
-                        'source': "foi", 
-                        'paint': {
-                            'fill-color': '#d99ec4', 
-                            'fill-opacity':0.7,
-                            'fill-outline-color': '#000000',
+            // TODO apply this on the geocoded data
+            state.map.once('idle', () => {
+                
+                for (let i = 0; i<addedLayers.length; i++ ){
+                    
+                    mapLayers.forEach(layer => {
+                        if(layer.id.includes(addedLayers[i].name)){
+                            state.map.addSource(addedLayers[i].name,{'type': 'geojson', 'data': addedLayers[i]});
+                            state.map.addLayer(layer);
                         }
                     });
-                })
-            }  
+                }
+            })
         }
     },
     getters:{
