@@ -29,7 +29,7 @@ const area = {
                 features: jsonAreaFilter,
                 type: 'FeatureCollection'
             }
-            console.log(jsonAreaFilter.features)
+            console.log("test push")
             if (jsonAreaFilter.features?.length>0){
                 state.areaFilterData=jsonAreaFilter
                 
