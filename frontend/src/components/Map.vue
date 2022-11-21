@@ -45,6 +45,8 @@ import BaseMaps from './BaseMaps'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
 //import BoxCustomLayer from "../utils/BoxCustomLayer"; 
 
+console.log('action test')
+
 export default {
   name: "Map",
   components:{
