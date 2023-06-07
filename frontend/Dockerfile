@@ -14,7 +14,8 @@ FROM nginx:alpine
 #RUN mkdir -p "/etc/ssl/private/openssl" && \
 #  openssl req -x509 -nodes -days 365 -subj "/CN=localhost" -newkey rsa:2048 -keyout /etc/ssl/private/ligfinder-nginx-selfsigned.key -out /etc/ssl/certs/ligfinder-nginx-selfsigned.crt
 
-COPY nginx/ligfinder.nginx.conf /etc/nginx/conf.d/ligfinder.conf
+COPY nginx/ligfinder.nginx.conf /etc/nginx/conf.d/default.conf
+
 
 COPY --from=build /frontend/dist /usr/share/nginx/html
 EXPOSE 80 443
