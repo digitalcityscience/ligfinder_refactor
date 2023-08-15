@@ -110,9 +110,9 @@ name: "Results",
             if (e=='json'){
                 this.$store.dispatch('results/exporResultsJson')
             }
-            else if (e=='json'){
-                this.$store.dispatch('results/exporResultsSHP')
-            }
+            // else if (e=='json'){
+            //     this.$store.dispatch('results/exporResultsSHP')
+            // }
             else {
                 this.$store.dispatch('results/exporResultsCSV')
             }

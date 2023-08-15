@@ -1,5 +1,5 @@
 import { HTTP } from '../../utils/http-common';
-import shpwrite from "shp-write"
+// import shpwrite from "shp-write"
 import jsonexport from 'jsonexport/dist';
 
 const results = {
@@ -63,34 +63,34 @@ const results = {
             a.click();
             a.remove();
         },
-        exporResultsSHP({rootState}){
+        // exporResultsSHP({rootState}){
       
 
-            let foi = null
-            for(let i=0; i<rootState.layers.addedLayers.length; i++){
-                if (rootState.layers.addedLayers[i].name === "foi"){
-                    foi = rootState.layers.addedLayers[i]
-                }
-            }
-            /*
-            convrting geom type from MultiPolygon to polygon.
-            Because the "shp-write" library does not support MultiPolygon
-            */
-            for (let i=0; i< foi["features"].length; i++){
-                foi["features"][i]["geometry"]["type"] = "Polygon"
-            }
+        //     let foi = null
+        //     for(let i=0; i<rootState.layers.addedLayers.length; i++){
+        //         if (rootState.layers.addedLayers[i].name === "foi"){
+        //             foi = rootState.layers.addedLayers[i]
+        //         }
+        //     }
+        //     /*
+        //     convrting geom type from MultiPolygon to polygon.
+        //     Because the "shp-write" library does not support MultiPolygon
+        //     */
+        //     for (let i=0; i< foi["features"].length; i++){
+        //         foi["features"][i]["geometry"]["type"] = "Polygon"
+        //     }
             
-            var options = {
-                folder: 'results',
-                types: {
-                    point: 'results',
-                    polygon: 'results',
-                    line: 'results'
-                }
-            }
-            shpwrite.download(foi, options);
+        //     var options = {
+        //         folder: 'results',
+        //         types: {
+        //             point: 'results',
+        //             polygon: 'results',
+        //             line: 'results'
+        //         }
+        //     }
+        //     shpwrite.download(foi, options);
             
-        },
+        // },
         exporResultsCSV({rootState}){
             
             let csvarray = rootState.ligfinder.FOI.features.map(e=>Object.assign({},e))
