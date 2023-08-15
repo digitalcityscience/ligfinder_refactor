@@ -19,7 +19,6 @@
     "@mdi/font": "^6.5.95",
     "@turf/transform-rotate": "^6.5.0",
     "axios": "^0.24.0",
-    "cache-loader": "^4.1.0",
     "colorbrewer": "^1.5.1",
     "core-js": "^3.6.4",
     "d3": "^7.2.1",
@@ -36,23 +35,22 @@
     "vue": "^2.6.14",
     "vue-router": "^3.5.3",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.6.2",
+    "vuetify": "^2.7.1",
     "vuetify-loader": "^1.6.0",
     "vuex": "^3.6.2",
     "wordcloud": "^1.2.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.15",
-    "@vue/cli-plugin-eslint": "~4.5.15",
-    "@vue/cli-service": "~4.5.15",
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-plugin-eslint": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.1.2",
-    "node-sass": "^6.0.0",
+    "eslint": "~7.5.0",
+    "eslint-plugin-vue": "~8.0.0",
     "sass": "^1.44.0",
     "vue-cli-plugin-vuetify": "^2.4.5",
     "vue-template-compiler": "^2.6.14",
-    "webpack": "^4"
+    "webpack": "^5"
   },
   "eslintConfig": {
     "root": true,
@@ -66,7 +64,11 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": ["error", {
+        "ignores": ["Alert","Area","Classification","Criteria","Geoparsing","Layers","Legend","Ligfinder","Map","Panel","Proximity","Results","Tools","User"]
+      }]
+    }
   },
   "browserslist": [
     "> 1%",
