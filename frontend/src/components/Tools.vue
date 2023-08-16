@@ -4,17 +4,17 @@
         <tbody>
             <tr class="tools-icon" @click="ligTool">
                 <td id="ligfinder-tool-icon " style="padding-left: 1vw;padding-right: 1vw; cursor:pointer">
-                <i class="fas fa-sort-amount-up-alt fa-lg"></i> LIG Finder
+                <i class="fas fa-sort-amount-up-alt fa-lg"></i> {{ $t('panel.tools.lig') }}
                 </td>
             </tr>
             <tr class="tools-icon" @click="geoparsingTool">
                 <td id="ligfinder-tool-icon" style="padding-left: 1vw;padding-right: 1vw; cursor:pointer">
-                <i class="fas fa-search-location fa-lg"></i> Geo-Parsing
+                <i class="fas fa-search-location fa-lg"></i> {{ $t('panel.tools.geo') }}
                 </td>
             </tr>
             <tr class="tools-icon" @click="classificationTool">
                 <td id="ligfinder-tool-icon" style="padding-left: 1vw;padding-right: 1vw; cursor:pointer">
-                <i class="fas fa-sitemap fa-lg"></i> Classification
+                <i class="fas fa-sitemap fa-lg"></i> {{ $t('panel.tools.clsf') }}
                 </td>
             </tr>
         </tbody>
