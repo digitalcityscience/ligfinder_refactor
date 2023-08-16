@@ -11,7 +11,7 @@
     >
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>LIG-Finder</v-toolbar-title>
+        <v-toolbar-title>{{ $t('panel.title') }}</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -89,7 +89,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Modules</v-list-item-title>
+              <v-list-item-title>{{ $t('panel.modules') }}</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -117,6 +117,7 @@
 
 <script>
 import $ from 'jquery'
+import $i18n from '../plugins/i18n/i18n'
 $(function() {
     $('#mouse-coordinate-icon').click(function () {
         $('#tgl-arrow').toggleClass('fa-angle-double-left fa-angle-double-right');
@@ -131,15 +132,15 @@ export default {
       drawer: false,
       group: null,
         items: [
-            { title: 'My Account', icon: 'mdi-account-outline', id:'user' },
-            { title: 'Layers', icon: 'mdi-layers-outline', id:'layers' },
-            { title: 'Add Data', icon: 'mdi-plus', id:'addData' },
+            { title: $i18n.t('panel.myAccount'), icon: 'mdi-account-outline', id:'user' },
+            { title: $i18n.t('panel.layers'), icon: 'mdi-layers-outline', id:'layers' },
+            { title: $i18n.t('panel.addData'), icon: 'mdi-plus', id:'addData' },
         ],
         mini: true,
         tools: [
-            { title: 'Ligfinder', icon: 'mdi-map-check', id:'ligfinder' },
-            { title: 'Geoparsing', icon: 'mdi-nfc-search-variant', id:'geoparsing' },
-            { title: 'Classification', icon: 'mdi-sort-descending', id:'classification' }
+            { title: $i18n.t('panel.tools.lig'), icon: 'mdi-map-check', id:'ligfinder' },
+            { title: $i18n.t('panel.tools.geo'), icon: 'mdi-nfc-search-variant', id:'geoparsing' },
+            { title: $i18n.t('panel.tools.clsf'), icon: 'mdi-sort-descending', id:'classification' }
       ],
       panels: ['user', 'layers', 'ligfinder', 'geoparsing', 'classification'],
       searchClosed: true,

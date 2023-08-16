@@ -1,5 +1,14 @@
 {
     "panel":{
-        "title":"LIGFinder"
+        "title":"LIGFinder",
+        "modules":"module",
+        "myAccount":"mein konto",
+        "layers":"lagen",
+        "addData":"daten hinzufügen",
+        "tools":{
+            "lig":"ligfinder",
+            "geo":"geoparsing",
+            "clsf":"einstufung"
+        }
     }
 }
