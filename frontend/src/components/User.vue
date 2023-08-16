@@ -14,10 +14,10 @@
                             <v-form ref="loginForm" v-model="valid" lazy-validation>
                                 <v-row>
                                     <v-col cols="12">
-                                        <v-text-field v-model="loginEmail" :rules="loginEmailRules" label="E-mail" required></v-text-field>
+                                        <v-text-field v-model="loginEmail" :rules="loginEmailRules" :label="$t('user.email')" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="loginPassword" :append-icon="show1?'mdi-eye':'mdi-eye-off'" :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
+                                        <v-text-field v-model="loginPassword" :append-icon="show1?'mdi-eye':'mdi-eye-off'" :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" :label="$t('user.password')" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
                                     </v-col>
                                     <v-col class="d-flex" cols="12" sm="6" xsm="12">
                                     </v-col>
@@ -30,7 +30,7 @@
                                                 dense
                                             >
                                                 mdi-account-arrow-left-outline
-                                            </v-icon>Login 
+                                            </v-icon>{{$t('user.login')}} 
                                         </v-btn>
                                     </v-col>
                                 </v-row>
@@ -44,19 +44,19 @@
                             <v-form ref="registerForm" v-model="valid" lazy-validation>
                                 <v-row>
                                     <v-col cols="12" sm="6" md="6">
-                                        <v-text-field v-model="firstName" :rules="[rules.required]" label="First Name" maxlength="20" required></v-text-field>
+                                        <v-text-field v-model="firstName" :rules="[rules.required]" :label="$t('user.fname')" maxlength="20" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6" md="6">
-                                        <v-text-field v-model="lastName" :rules="[rules.required]" label="Last Name" maxlength="20" required></v-text-field>
+                                        <v-text-field v-model="lastName" :rules="[rules.required]" :label="$t('user.lname')" maxlength="20" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+                                        <v-text-field v-model="email" :rules="emailRules" :label="$t('user.email')" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
+                                        <v-text-field v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1" :label="$t('user.password')" hint="At least 8 characters" counter @click:append="show1 = !show1"></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-text-field block v-model="verify" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, passwordMatch]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Confirm Password" counter @click:append="show1 = !show1"></v-text-field>
+                                        <v-text-field block v-model="verify" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, passwordMatch]" :type="show1 ? 'text' : 'password'" name="input-10-1" :label="$t('user.confirmpw')" counter @click:append="show1 = !show1"></v-text-field>
                                     </v-col>
                                     <v-spacer></v-spacer>
                                     <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
@@ -67,7 +67,7 @@
                                                 dense
                                             >
                                                 mdi-account-check-outline
-                                            </v-icon>Register
+                                            </v-icon>{{$t('user.register')}}
                                         </v-btn>
                                     </v-col>
                                 </v-row>
@@ -106,7 +106,7 @@
                     <v-expansion-panel 
                        
                     >
-                        <v-expansion-panel-header @click="loadSavedResults">History of the Saved Results</v-expansion-panel-header>
+                        <v-expansion-panel-header @click="loadSavedResults">{{$t('user.savedresults')}}</v-expansion-panel-header>
                         <v-expansion-panel-content>
                             <SavedResultsTable />
                         </v-expansion-panel-content>
@@ -126,7 +126,7 @@
                         dense
                         >
                             mdi-account-arrow-right-outline
-                        </v-icon>Logout
+                        </v-icon>{{$t('user.logout')}}
                     </v-btn>
                 </v-col>
                 
@@ -138,6 +138,7 @@
 
 <script>
 import SavedResultsTable from "./SavedResultsTable.vue" 
+import $i18n from "../plugins/i18n/i18n"
 export default {
     name: "User",
     components: {
@@ -145,7 +146,7 @@ export default {
     },
     computed: {
     passwordMatch() {
-      return () => this.password === this.verify || "Password must match";
+      return () => this.password === this.verify || $i18n.t('user.pwmatch');
     },
   },
   
@@ -175,8 +176,8 @@ export default {
     dialog: true,
     tab: 0,
     tabs: [
-        {name:"Login", icon:"mdi-account"},
-        {name:"Register", icon:"mdi-account-outline"}
+        {name:$i18n.t('user.login'), icon:"mdi-account"},
+        {name:$i18n.t('user.register'), icon:"mdi-account-outline"}
     ],
     valid: true,
     
@@ -188,18 +189,18 @@ export default {
     loginPassword: "",
     loginEmail: "",
     loginEmailRules: [
-      v => !!v || "Required",
-      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      v => !!v || $i18n.t('user.required'),
+      v => /.+@.+\..+/.test(v) || $i18n.t('user.emailValid')
     ],
     emailRules: [
-      v => !!v || "Required",
-      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
+      v => !!v || $i18n.t('user.required'),
+      v => /.+@.+\..+/.test(v) || $i18n.t('user.emailValid')
     ],
 
     show1: false,
     rules: {
-      required: value => !!value || "Required.",
-      min: v => (v && v.length >= 8) || "Min 8 characters"
+      required: value => !!value || $i18n.t('user.required'),
+      min: v => (v && v.length >= 8) || $i18n.t('user.minChar')
     }
   })
 }

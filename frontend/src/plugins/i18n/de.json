@@ -10,5 +10,32 @@
             "geo":"geoparsing",
             "clsf":"einstufung"
         }
+    },
+    "user":{
+        "email":"email",
+        "password":"password",
+        "confirmpw":"confirm password",
+        "login":"Login",
+        "register":"register",
+        "logout":"logout",
+        "fname":"first name",
+        "lname":"last name",
+        "savedresults":"history of the saved results",
+        "pwmatch":"password must match",
+        "required":"required",
+        "emailValid":"email must be valid",
+        "minChar":"min 8 characters"
+    },
+    "savedResultsTable":{
+        "deleteDialog":"Are you sure you want to delete this item?",
+        "cancel":"cancel",
+        "ok":"ok",
+        "edit":"edit",
+        "save":"save",
+        "restore":"restore",
+        "name":"name",
+        "desc":"description",
+        "actions":"actions",
+        "noHistory":"No result history"
     }
 }
