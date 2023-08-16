@@ -117,5 +117,31 @@
         "get": "get isochrone"
       }
     }
+  },
+  "geoparsing":{
+    "title":"geoparsing",
+    "results":"geoparsing results",
+    "sytlization":"sytlization",
+    "filtering":"filtering",
+    "topics":"topics",
+    "renderingStyle":"rendering style",
+    "date":"date",
+    "dateHint":"available dates: {0} ~ {1}",
+    "apply":"apply",
+    "operator":"selection operator"
+  },
+  "classification":{
+    "title":"classification",
+    "layer":"layer",
+    "choropleth":"choropleth",
+    "1stAttr":"1st attribute",
+    "2ndAttr":"2nd attribute",
+    "method":"classification method",
+    "classes":"classes",
+    "palette":"color palette",
+    "1stColor":"1st color",
+    "2ndColor":"2nd color",
+    "classify":"classify",
+    "reset":"reset"
   }
 }

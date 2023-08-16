@@ -9,11 +9,7 @@
             >
             </i>
         </div>
-         <div class="text-center mt-4 classification-title" >
-
-            Classification
-           
-        </div>
+         <div class="text-center mt-4 classification-title" >{{ $t('classification.title') }}</div>
         <v-container
             fluid
             mt-10
@@ -26,7 +22,7 @@
             >
                 <v-select
                 :items="this.addedLayersNames"
-                label="Layer"
+                :label="$t('classification.layer')"
                 v-model="$store.state.classification.selectedLayer"
                 @change="selectAttributes"
                 ></v-select>
@@ -40,7 +36,7 @@
                 <v-select
                 :items="$store.state.classification.choroplethMethod"
                 item-text="name"
-                label="Choropleth"
+                :label="$t('classification.choropleth')"
                 v-model="$store.state.classification.selectedChoroplethMethod"
                 ></v-select>
             </v-col>
@@ -54,7 +50,7 @@
                     sm="6"
                 >
                     <v-select
-                    label="1st Attribute"
+                    :label="$t('classification.1stAttr')"
                     :items="$store.state.classification.attributes"
                     v-model="$store.state.classification.attribute1"
                     ></v-select>
@@ -64,7 +60,7 @@
                     sm="6"
                 >
                     <v-select
-                    label="2nd Attribute"
+                    :label="$t('classification.2ndAttr')"
                     :items="$store.state.classification.attributes"
                     v-model="$store.state.classification.attribute2"
                     ></v-select>
@@ -76,7 +72,7 @@
                     sm="6"
                 >
                     <v-select
-                    label="1st Attribute"
+                    :label="$t('classification.1stAttr')"
                     :items="$store.state.classification.attributes"
                     v-model="$store.state.classification.attribute1"
                     ></v-select>
@@ -90,7 +86,7 @@
                     sm="6"
                 >
                     <v-select
-                    label="Classification Method"
+                    :label="$t('classification.method')"
                     :items="$store.state.classification.classificationMethod"
                     v-model="$store.state.classification.selectedClassificationMethod"
                     ></v-select>
@@ -100,7 +96,7 @@
                     sm="6"
                 >
                     <v-select
-                    label="Classes"
+                    :label="$t('classification.classes')"
                     :items="$store.state.classification.classes"
                     v-model="$store.state.classification.selectedClass"
                     ></v-select>
@@ -113,7 +109,7 @@
                     sm="6"
                 >
                     <v-select
-                    label="Color Palette"
+                    :label="$t('classification.palette')"
                     :items="this.colorBrewerItems"
                     v-model="$store.state.classification.selectedColorPalette"
                     ></v-select>
@@ -125,20 +121,20 @@
                     cols="12"
                     sm="6"
                 >
-                <span style="vertical-align: middle;">1st Color </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color1" value="#ff0000"></span>
+                <span style="vertical-align: middle;">{{$t('classification.1stColor')}} </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color1" value="#ff0000"></span>
                 </v-col>
                 
                 <v-col
                     cols="12"
                     sm="6"
                 >
-                <span style="vertical-align: middle;">2nd Color </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color2" value="#0000FF"></span>
+                <span style="vertical-align: middle;">{{$t('classification.2ndColor')}} </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color2" value="#0000FF"></span>
                 </v-col>
                 
             </v-row>
             <div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-info" @click="classify">Classify</button>
-                <button style="font-size: 0.8vw" class="btn btn-secondary ml-4" @click="resetClassification">Reset</button>
+                <button style="font-size: 0.8vw" class="btn btn-info" @click="classify">{{$t('classification.classify')}}</button>
+                <button style="font-size: 0.8vw" class="btn btn-secondary ml-4" @click="resetClassification">{{$t('classification.reset')}}</button>
             </div>
 
         </v-container>

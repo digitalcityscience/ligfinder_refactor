@@ -117,5 +117,17 @@
           "get": "get isochrone"
         }
       }
+    },
+    "geoparsing":{
+      "title":"geoparsing",
+      "results":"geoparsing results",
+      "sytlization":"sytlization",
+      "filtering":"filtering",
+      "topics":"topics",
+      "renderingStyle":"rendering style",
+      "date":"date",
+      "dateHint":"available dates: {0} ~ {1}",
+      "apply":"apply",
+      "operator":"selection operator"
     }
 }
