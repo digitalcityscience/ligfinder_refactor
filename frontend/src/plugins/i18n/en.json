@@ -1,56 +1,121 @@
 {
-    "panel":{
-        "title":"LIGFinder",
-        "modules":"modules",
-        "myAccount":"My Account",
-        "layers":"layers",
-        "addData":"add data",
-        "searchAddr":"search address",
-        "tools":{
-            "lig":"ligfinder",
-            "geo":"geoparsing",
-            "clsf":"classification"
-        }
-    },
-    "userAuth":{
-        "signinError":"Incorrect Username or Password!",
-        "signin":"Please sign in",
-        "login":"Login",
-        "username":"username",
-        "password":"password"
-    },
-    "user":{
-        "email":"email",
-        "password":"password",
-        "confirmpw":"confirm password",
-        "login":"Login",
-        "register":"register",
-        "logout":"logout",
-        "fname":"first name",
-        "lname":"last name",
-        "savedresults":"history of the saved results",
-        "pwmatch":"password must match",
-        "required":"required",
-        "emailValid":"email must be valid",
-        "minChar":"min 8 characters"
-    },
-    "savedResultsTable":{
-        "deleteDialog":"Are you sure you want to delete this item?",
-        "cancel":"cancel",
-        "ok":"ok",
-        "edit":"edit",
-        "save":"save",
-        "restore":"restore",
-        "name":"name",
-        "desc":"description",
-        "actions":"actions",
-        "noHistory":"No result history"
-    },
-    "results":{
-        "save":"save results",
-        "export":"export",
-        "desc":"description",
-        "error":"Please register or login to enable this tool",
-        "noFeature":"no feature selected"
+  "panel": {
+    "title": "LIGFinder",
+    "modules": "modules",
+    "myAccount": "My Account",
+    "layers": "layers",
+    "addData": "add data",
+    "searchAddr": "search address",
+    "tools": {
+      "lig": "ligfinder",
+      "geo": "geoparsing",
+      "clsf": "classification"
     }
+  },
+  "userAuth": {
+    "signinError": "Incorrect Username or Password!",
+    "signin": "Please sign in",
+    "login": "Login",
+    "username": "username",
+    "password": "password"
+  },
+  "user": {
+    "email": "email",
+    "password": "password",
+    "confirmpw": "confirm password",
+    "login": "Login",
+    "register": "register",
+    "logout": "logout",
+    "fname": "first name",
+    "lname": "last name",
+    "savedresults": "history of the saved results",
+    "pwmatch": "password must match",
+    "required": "required",
+    "emailValid": "email must be valid",
+    "minChar": "min 8 characters"
+  },
+  "savedResultsTable": {
+    "deleteDialog": "Are you sure you want to delete this item?",
+    "cancel": "cancel",
+    "ok": "ok",
+    "edit": "edit",
+    "save": "save",
+    "restore": "restore",
+    "name": "name",
+    "desc": "description",
+    "actions": "actions",
+    "noHistory": "No result history"
+  },
+  "ligfinder": {
+    "tabs":{
+        "searchArea":"search area",
+        "area":"area",
+        "criteria":"criteria",
+        "infra":"infrastructure",
+        "results":"results",
+        "joinParcels":"join parcels"
+    },
+    "results": {
+      "save": "save results",
+      "export": "export",
+      "desc": "description",
+      "error": "Please register or login to enable this tool",
+      "noFeature": "no feature selected"
+    },
+    "proximity": {
+      "eqWeight": "equal weight",
+      "analyze": "perform analysis",
+      "noFeature": "no feature selected"
+    },
+    "joinParcels": {
+      "minAggrArea": "minimum aggregated area:",
+      "search": "start search",
+      "toggleVis": "toggle visibility",
+      "ids": "ids",
+      "area": "area",
+      "noFeature": "no feature selected"
+    },
+    "criteria": {
+      "title": "Criteria",
+      "marked": "marked criteria",
+      "included": "included criteria",
+      "logical": "logical operator",
+      "excluded": "excluded criteria",
+      "search": "start search",
+      "apply": "apply changes",
+      "noFeature": "no feature selected"
+    },
+    "area": {
+      "landInM2": "land area in m²",
+      "grossFloorInM2": "available gross floor in m²",
+      "availableVacantLots": "available vacant lots",
+      "search": "start search",
+      "apply": "apply changes",
+      "noFeature": "no feature selected"
+    },
+    "aoi": {
+      "delete": "Are you sure you want to delete this item?",
+      "cancel": "cancel",
+      "ok": "ok",
+      "mode": "aoi mode",
+      "name": "name",
+      "action": "action",
+      "operation": "operation",
+      "search": "start search",
+      "administrative": {
+        "level": "administration level",
+        "selectByName": "select area by name"
+      },
+      "geometry": {
+        "mode": "drawing mode"
+      },
+      "isochrone": {
+        "mode": "travel mode",
+        "center": "select center",
+        "travelTime": "travel time",
+        "min": "min",
+        "get": "get isochrone"
+      }
+    }
+  }
 }

@@ -1,7 +1,7 @@
 <template>
     <div v-if="$store.state.ligfinder.FOI.features[0]">
         <v-card>
-            <v-subheader>Grundstücksfläche in m²</v-subheader>
+            <v-subheader>{{ $t('ligfinder.area.landInM2') }}</v-subheader>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -39,7 +39,7 @@
                 </v-row>
             </v-card-text>
 
-            <v-subheader>Vorhandene Bruttogeschossfläche in m² </v-subheader>
+            <v-subheader>{{ $t('ligfinder.area.grossFloorInM2') }}</v-subheader>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -77,7 +77,7 @@
                 </v-row>
             </v-card-text>
 
-            <v-subheader>Verfügbare Unbebaute</v-subheader>
+            <v-subheader>{{ $t('ligfinder.area.availableVacantLots') }}</v-subheader>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -116,13 +116,13 @@
             </v-card-text>
 
             <v-col class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">Suche Starten</button>
-                <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyAreaFilter">Änderungen übernehmen</button>
+                <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">{{ $t('ligfinder.area.search') }}</button>
+                <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyAreaFilter">{{ $t('ligfinder.area.apply') }}</button>
             </v-col>
         </v-card>
     </div>
     <div v-else class="table text-center">
-        <p>No Feature Selected</p>
+        <p>{{ $t('ligfinder.area.noFeature') }}</p>
     
     </div>
 </template>

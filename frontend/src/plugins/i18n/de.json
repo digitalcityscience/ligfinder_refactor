@@ -46,11 +46,76 @@
         "actions":"actions",
         "noHistory":"No result history"
     },
-    "results":{
-        "save":"save results",
-        "export":"export",
-        "desc":"description",
-        "error":"Please register or login to enable this tool",
-        "noFeature":"no feature selected"
+    "ligfinder": {
+      "tabs":{
+          "searchArea":"SUCHGEBIET",
+          "area":"FLÄCHE",
+          "criteria":"KRITERIEN",
+          "infra":"INFRASTRUKTUR",
+          "results":"ERGEBNISSE",
+          "joinParcels":"join parcels"
+      },
+      "results": {
+        "save": "save results",
+        "export": "export",
+        "desc": "description",
+        "error": "Please register or login to enable this tool",
+        "noFeature": "no feature selected"
+      },
+      "proximity": {
+        "eqWeight": "equal weight",
+        "analyze": "perform analysis",
+        "noFeature": "no feature selected"
+      },
+      "joinParcels": {
+        "minAggrArea": "minimum aggregated area:",
+        "search": "start search",
+        "toggleVis": "toggle visibility",
+        "ids": "ids",
+        "area": "area",
+        "noFeature": "no feature selected"
+      },
+      "criteria": {
+        "title": "Criteria",
+        "marked": "marked criteria",
+        "included": "included criteria",
+        "logical": "logical operator",
+        "excluded": "excluded criteria",
+        "search": "start search",
+        "apply": "apply changes",
+        "noFeature": "no feature selected"
+      },
+      "area":{
+          "landInM2":"Grundstücksfläche in m²",
+          "grossFloorInM2":"Vorhandene Bruttogeschossfläche in m²",
+          "availableVacantLots":"Verfügbare Unbebaute",
+          "search":"Suche Starten",
+          "apply":"Änderungen übernehmen",
+          "noFeature":"no feature selected"
+      },
+      "aoi": {
+        "delete": "Are you sure you want to delete this item?",
+        "cancel": "cancel",
+        "ok": "ok",
+        "mode": "aoi mode",
+        "name": "name",
+        "action": "action",
+        "operation": "operation",
+        "search": "start search",
+        "administrative": {
+          "level": "administration level",
+          "selectByName": "select area by name"
+        },
+        "geometry": {
+          "mode": "drawing mode"
+        },
+        "isochrone": {
+          "mode": "travel mode",
+          "center": "select center",
+          "travelTime": "travel time",
+          "min": "min",
+          "get": "get isochrone"
+        }
+      }
     }
 }

@@ -4,7 +4,7 @@
             
             <v-select
                 :items="$store.state.geometryAOI.items"
-                label="Drawing Mode"
+                :label="$t('ligfinder.aoi.geometry.mode')"
                 solo
                 item-text="name"
                 item-value="value"

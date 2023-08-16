@@ -20,7 +20,7 @@
 
         <v-select
                 :items="$store.state.results.saveReultsItems"
-                :label="$t('results.save')"
+                :label="$t('ligfinder.results.save')"
                 solo
                 item-text="name"
                 item-value="value"
@@ -35,7 +35,7 @@
                 <v-select
                         v-if="$store.state.results.saveReultsMode=='export'"
                         :items="$store.state.results.exportItems"
-                        :label="$t('results.export')"
+                        :label="$t('ligfinder.results.export')"
                         solo
                         item-text="name"
                         item-value="value"
@@ -56,7 +56,7 @@
                     filled
                     clear-icon="mdi-close-circle"
                     clearable
-                    :label="$t('results.desc')"
+                    :label="$t('ligfinder.results.desc')"
                     type="text"
                     @keyup.enter="saveData"
                     @click:append-outer="saveData"
@@ -68,13 +68,13 @@
                     outlined
                     type="error"
                 >
-                    {{$t('results.error')}}
+                    {{$t('ligfinder.results.error')}}
                 </v-alert>
             </v-col>
         </v-row>        
     </div>
     <div v-else class="text-center">
-        <p>{{$t('results.noFeature')}}</p>
+        <p>{{$t('ligfinder.results.noFeature')}}</p>
     </div>
 
 </template>

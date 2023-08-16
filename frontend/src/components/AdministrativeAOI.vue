@@ -4,7 +4,7 @@
             
             <v-select
                 :items="$store.state.administrativeAOI.items"
-                label="Verwaltungsebene"
+                :label="$t('ligfinder.aoi.administrative.level')"
                 solo
                 item-text="name"
                 item-value="value"
@@ -22,7 +22,7 @@
                 
                 >
                     <template v-slot:activator>
-                        <v-list-item-title>select area by name </v-list-item-title>
+                        <v-list-item-title>{{ $t('ligfinder.aoi.administrative.selectByName') }}</v-list-item-title>
                     </template>
                     
                     <template >
