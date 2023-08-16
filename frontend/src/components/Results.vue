@@ -20,7 +20,7 @@
 
         <v-select
                 :items="$store.state.results.saveReultsItems"
-                label="Save Results"
+                :label="$t('results.save')"
                 solo
                 item-text="name"
                 item-value="value"
@@ -35,7 +35,7 @@
                 <v-select
                         v-if="$store.state.results.saveReultsMode=='export'"
                         :items="$store.state.results.exportItems"
-                        label="Export"
+                        :label="$t('results.export')"
                         solo
                         item-text="name"
                         item-value="value"
@@ -56,7 +56,7 @@
                     filled
                     clear-icon="mdi-close-circle"
                     clearable
-                    label="Description"
+                    :label="$t('results.desc')"
                     type="text"
                     @keyup.enter="saveData"
                     @click:append-outer="saveData"
@@ -68,13 +68,13 @@
                     outlined
                     type="error"
                 >
-                    Please register or login to enable this tool
+                    {{$t('results.error')}}
                 </v-alert>
             </v-col>
         </v-row>        
     </div>
     <div v-else class="text-center">
-        <p>No Feature Selected</p>
+        <p>{{$t('results.noFeature')}}</p>
     </div>
 
 </template>

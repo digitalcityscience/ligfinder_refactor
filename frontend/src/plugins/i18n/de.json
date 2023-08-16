@@ -5,11 +5,19 @@
         "myAccount":"mein konto",
         "layers":"lagen",
         "addData":"daten hinzufügen",
+        "searchAddr":"search address",
         "tools":{
             "lig":"ligfinder",
             "geo":"geoparsing",
             "clsf":"einstufung"
         }
+    },
+    "userAuth":{
+        "signinError":"Incorrect Username or Password!",
+        "signin":"Please sign in",
+        "login":"Login",
+        "username":"username",
+        "password":"password"
     },
     "user":{
         "email":"email",
@@ -37,5 +45,12 @@
         "desc":"description",
         "actions":"actions",
         "noHistory":"No result history"
+    },
+    "results":{
+        "save":"save results",
+        "export":"export",
+        "desc":"description",
+        "error":"Please register or login to enable this tool",
+        "noFeature":"no feature selected"
     }
 }

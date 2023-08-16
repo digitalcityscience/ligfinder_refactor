@@ -5,6 +5,7 @@
         "myAccount":"My Account",
         "layers":"layers",
         "addData":"add data",
+        "searchAddr":"search address",
         "tools":{
             "lig":"ligfinder",
             "geo":"geoparsing",
@@ -44,5 +45,12 @@
         "desc":"description",
         "actions":"actions",
         "noHistory":"No result history"
+    },
+    "results":{
+        "save":"save results",
+        "export":"export",
+        "desc":"description",
+        "error":"Please register or login to enable this tool",
+        "noFeature":"no feature selected"
     }
 }

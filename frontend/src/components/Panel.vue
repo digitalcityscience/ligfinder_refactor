@@ -21,7 +21,7 @@
                 @blur="searchClosed= true"
                 v-model="address"
                 v-on:keyup.enter="geocodeAddress"
-                placeholder="search address"
+                :placeholder="$t('panel.searchAddr')"
                 prepend-inner-icon="mdi-magnify "
                 class="expanding-search"
                 :class="{ 'closed': searchClosed && !address }"
