@@ -11,9 +11,9 @@
         <table class="table table-hover">
             <thead>
                 <tr align="center" valign="center">
-                        <th>Attribute</th>
+                        <th>{{$t('compareParcels.attr')}}</th>
                         <th  v-for="i in $store.state.compareLikedParcels.likedParcelsJsonResponse.features" :key="i.properties.gid">
-                            <button @click="zoomToLikedParcel(i.properties.gid)" class="btn btn-outline-info btn-sm">zoom to</button>
+                            <button @click="zoomToLikedParcel(i.properties.gid)" class="btn btn-outline-info btn-sm">{{$t('compareParcels.zoomTo')}}</button>
                         </th>
 
                     </tr>

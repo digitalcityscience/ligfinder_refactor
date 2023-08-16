@@ -4,7 +4,7 @@
         v-model="$store.state.AOI.buildingSwitch"
         @click.once="getBuildings"
         @change="toggle3DBuilding"
-        :label="`Gebäude: ${$store.state.AOI.buildingSwitch.toString()}`"
+        :label="$t('building3d.label', {'0': $store.state.AOI.buildingSwitch.toString()})"
     ></v-switch>
 </template>
 

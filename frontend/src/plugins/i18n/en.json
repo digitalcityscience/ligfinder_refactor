@@ -143,5 +143,27 @@
     "2ndColor":"2nd color",
     "classify":"classify",
     "reset":"reset"
+  },
+  "basemap":{
+    "osm":"osm",
+    "satellite":"satellite",
+    "dark":"dark"
+  },
+  "building3d":{
+      "label":"Building: {0}"
+  },
+  "compareParcels":{
+    "attr":"attribute",
+    "zoomTo":"zoom to"
+  },
+  "layers":{
+    "visibility":"visibility",
+    "zoomToExtent":"zoom to extent",
+    "fillColor":"fill color",
+    "outlineColor":"outline color",
+    "fillOpacity":"fill opacity",
+    "color":"color",
+    "opacity":"opacity",
+    "radius":"radius"
   }
 }

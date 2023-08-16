@@ -129,5 +129,41 @@
       "dateHint":"available dates: {0} ~ {1}",
       "apply":"apply",
       "operator":"selection operator"
+    },
+    "classification":{
+      "title":"classification",
+      "layer":"layer",
+      "choropleth":"choropleth",
+      "1stAttr":"1st attribute",
+      "2ndAttr":"2nd attribute",
+      "method":"classification method",
+      "classes":"classes",
+      "palette":"color palette",
+      "1stColor":"1st color",
+      "2ndColor":"2nd color",
+      "classify":"classify",
+      "reset":"reset"
+    },
+    "basemap":{
+      "osm":"osm",
+      "satellite":"satellite",
+      "dark":"dark"
+    },
+    "building3d":{
+        "label":"Building: {0}"
+    },
+    "compareParcels":{
+      "attr":"attribute",
+      "zoomTo":"zoom to"
+    },
+    "layers":{
+      "visibility":"visibility",
+      "zoomToExtent":"zoom to extent",
+      "fillColor":"fill color",
+      "outlineColor":"outline color",
+      "fillOpacity":"fill opacity",
+      "color":"color",
+      "opacity":"opacity",
+      "radius":"radius"
     }
 }
