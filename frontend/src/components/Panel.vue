@@ -14,7 +14,7 @@
         <v-toolbar-title>{{ $t('panel.title') }}</v-toolbar-title>
 
         <v-spacer></v-spacer>
-
+        <div class="header-right d-flex">
         <v-col style= "height:100%">
             <v-text-field
                 @focus="searchClosed = false"
@@ -33,7 +33,36 @@
             >
             </v-text-field>
         </v-col>
-
+        <v-col class="translation d-flex">
+            <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn 
+                        icon
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                            <v-icon>mdi-translate</v-icon>
+                        </v-btn>
+                </template>
+                <v-list class="text-center">
+                    <v-list-item-group
+                    v-model="locale"
+                    mandatory
+                    >
+                    <v-list-item
+                    v-for="(language,index) in languages"
+                    :key="index"
+                    :value="language.code"
+                        >
+                        <v-list-item-content>
+                            <v-list-item-title v-text="language.name"></v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-menu>
+        </v-col>
+        </div>
     </v-app-bar>
 
     
@@ -118,6 +147,7 @@
 <script>
 import $ from 'jquery'
 import $i18n from '../plugins/i18n/i18n'
+import {getSupportedLocales} from '../plugins/i18n/i18n'
 $(function() {
     $('#mouse-coordinate-icon').click(function () {
         $('#tgl-arrow').toggleClass('fa-angle-double-left fa-angle-double-right');
@@ -125,9 +155,6 @@ $(function() {
 });
 export default {
     name: "Panel",
-    components:{
-        //MouseCoordinate
-    },
     data: () => ({
       drawer: false,
       group: null,
@@ -144,7 +171,8 @@ export default {
       ],
       panels: ['user', 'layers', 'ligfinder', 'geoparsing', 'classification'],
       searchClosed: true,
-      address: null
+      address: null,
+      locale:''
     }),
     methods:{
         clearGeocodedAddress(){
@@ -207,8 +235,37 @@ export default {
         },
         userToggle(){
             this.$store.commit('user/setUserToggle')
+        },
+        changeLocale(code){
+            if (this.$i18n.availableLocales.indexOf(code) > -1) {
+                this.$i18n.locale = code
+                this.items = this.$store.getters['panel/getMenuItems']
+                this.tools = this.$store.getters['panel/getMenuTools']
+            } 
+        }
+    },
+    watch:{
+        locale(n,o){
+            if(n != o && o){
+                this.changeLocale(n);
+            }
+        }
+    },
+    computed:{
+        languages(){
+            return getSupportedLocales()
+        },
+        currentLocale(){
+            return $i18n.locale
+        },
+        menuItems(){
+            return this.$store.getters.panel.getMenuItems
+        },
+        menuTools(){
+            return this.$store.getters.panel.getMenuTools
         }
     }
+    
 }
 </script>
 
@@ -238,6 +295,12 @@ export default {
     
     transition: max-width 0.3s
 }
-   
+.header-right{
+    height: 100%;
+}
+.translation{
+    flex-flow: column;
+    justify-content: center;
+}   
 
 </style>

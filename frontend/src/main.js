@@ -9,8 +9,8 @@ Vue.use(Vuex);
 
 Vue.config.productionTip = false
 new Vue({
+  i18n,
   vuetify,
   store,
   render: h => h(App),
-  i18n,
 }).$mount('#app')

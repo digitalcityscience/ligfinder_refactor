@@ -20,6 +20,18 @@ function loadLocaleMessages() {
     console.log(messages)
     return messages
 }
+//make supported locales list consumable by vue components
+import supportedLocales from './supported-locales';
+export function getSupportedLocales(){
+    let annotatedLocales = []
+    for (const code of Object.keys(supportedLocales)) {
+      annotatedLocales.push({
+        code,
+        name: supportedLocales[code]
+      })
+    }
+    return annotatedLocales
+}
 
 export default new VueI18n({
     locale: navigator.language.split('-')[0] || process.env.VUE_APP_I18N_LOCALE || 'en',
