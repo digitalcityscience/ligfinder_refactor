@@ -62,6 +62,32 @@
                 </v-list>
             </v-menu>
         </v-col>
+        <v-col class="user d-flex">
+            <template>
+                <div class="text-center">
+                    <v-menu
+                    v-model="userMenu"
+                    :close-on-content-click="false"
+                    :nudge-width="200"
+                    offset-x
+                    >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        v-bind="attrs"
+                        v-on="on"
+                        icon
+                        >
+                        <v-icon>mdi-account</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-card>
+                        <User/>
+                    </v-card>
+                    </v-menu>
+                </div>
+            </template>
+        </v-col>
         </div>
     </v-app-bar>
 
@@ -145,21 +171,19 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import $i18n from '../plugins/i18n/i18n'
 import {getSupportedLocales} from '../plugins/i18n/i18n'
-$(function() {
-    $('#mouse-coordinate-icon').click(function () {
-        $('#tgl-arrow').toggleClass('fa-angle-double-left fa-angle-double-right');
-    });
-});
+import User from './User'
 export default {
     name: "Panel",
+    components:{
+        User
+    },
     data: () => ({
+        userMenu:false,
       drawer: false,
       group: null,
         items: [
-            { title: $i18n.t('panel.myAccount'), icon: 'mdi-account-outline', id:'user' },
             { title: $i18n.t('panel.layers'), icon: 'mdi-layers-outline', id:'layers' },
             { title: $i18n.t('panel.addData'), icon: 'mdi-plus', id:'addData' },
         ],
@@ -169,7 +193,7 @@ export default {
             { title: $i18n.t('panel.tools.geo'), icon: 'mdi-nfc-search-variant', id:'geoparsing' },
             { title: $i18n.t('panel.tools.clsf'), icon: 'mdi-sort-descending', id:'classification' }
       ],
-      panels: ['user', 'layers', 'ligfinder', 'geoparsing', 'classification'],
+      panels: ['layers', 'ligfinder', 'geoparsing', 'classification'],
       searchClosed: true,
       address: null,
       locale:''
@@ -301,6 +325,13 @@ export default {
 .translation{
     flex-flow: column;
     justify-content: center;
+    padding-left: 12px;
+    padding-right: 0px;
+}
+.user{
+    flex-flow: column;
+    justify-content: center;
+    padding: 0;
 }   
 
 </style>

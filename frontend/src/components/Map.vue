@@ -17,7 +17,6 @@
        <Legend />
        <Alert />
        <AddData />
-       <User />
       <CompareLikedParcels />
       <BaseMaps />
     </div>
@@ -39,7 +38,6 @@ import Classification from './Classification'
 import Legend from './Legend'
 import Alert from './Alert'
 import AddData from './AddData'
-import User from './User'
 import CompareLikedParcels from './CompareLikedParcels'
 import BaseMaps from './BaseMaps'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
@@ -61,7 +59,6 @@ export default {
     Legend,
     Alert,
     AddData,
-    User,
     CompareLikedParcels,
     BaseMaps
   },

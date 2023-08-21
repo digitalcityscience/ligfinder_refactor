@@ -1,6 +1,6 @@
 <template>
 <v-scroll-x-transition>
-    <div class="user-ui" v-show="$store.state.user.toggle" >
+    <div class="user-ui" >
         <div v-if="$store.state.user.loggedIn==false">
             <v-tabs v-model="tab" show-arrows background-color="cyan accent-4" icons-and-text dark grow >
                 <v-tabs-slider color="purple darken-4"></v-tabs-slider>
@@ -208,12 +208,7 @@ export default {
 
 <style scoped>
     .user-ui{
-        position: absolute;
-        font-family: 'Nunito', sans-serif;
-        font-weight:800;
         background-color: rgba(255, 255, 255, 1);
-        z-index: 999;
-        
         width: 30vw;
         max-height: 100vh;
         overflow-y: scroll !important;
