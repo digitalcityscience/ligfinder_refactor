@@ -4,7 +4,7 @@
             flat
             color="transparent"
         >
-            <v-subheader>Minimum Aggregated Area: {{$store.state.joinParcels.slider}} m<sup>2</sup></v-subheader>
+            <v-subheader>{{ $t('ligfinder.joinParcels.minAggrArea') }} {{$store.state.joinParcels.slider}} m<sup>2</sup></v-subheader>
 
             <v-card-text>
             <v-row>
@@ -28,12 +28,12 @@
                     </template>
                 </v-slider>
                 
-                <button style="font-size: 0.8vw" class="btn btn-info mt-4" @click="getTouchedParcels" >Suche Starten</button>
+                <button style="font-size: 0.8vw" class="btn btn-info mt-4" @click="getTouchedParcels" >{{ $t('ligfinder.joinParcels.search') }}</button>
                 <v-switch
                     v-if="$store.state.joinParcels.toggleSwitch"
                     v-model="$store.state.joinParcels.layerVisibility"
                     @click="toggleJoinParcelVisibility"
-                    label="toggle visibility"
+                    :label="$t('ligfinder.joinParcels.toggleVis')"
                 ></v-switch>
                     
                 </v-col>
@@ -45,8 +45,8 @@
             <table id="datatable" class="table table-hover" v-if="$store.state.joinParcels.touchingParcels">
                 <thead >
                     <tr >
-                        <th >ids</th>
-                        <th >area</th>
+                        <th >{{ $t('ligfinder.joinParcels.ids') }}</th>
+                        <th >{{ $t('ligfinder.joinParcels.area') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +71,7 @@
 
     </div>
     <div v-else class="table text-center">
-        <p>No Feature Selected</p>
+        <p>{{ $t('ligfinder.joinParcels.noFeature') }}</p>
     
     </div>
 

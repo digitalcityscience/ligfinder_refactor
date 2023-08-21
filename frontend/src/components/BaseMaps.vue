@@ -15,15 +15,15 @@
             @change="toglleBasemap"
         >
             <v-radio
-                label="OSM"
+                :label="$t('basemap.osm')"
                 value="lightOSM"
             ></v-radio>
             <v-radio
-                label="Satellite"
+                :label="$t('basemap.satellite')"
                 value="satellieHybrid"
             ></v-radio>
             <v-radio
-                label="Dark"
+                :label="$t('basemap.dark')"
                 value="dark"
             ></v-radio>
         </v-radio-group>

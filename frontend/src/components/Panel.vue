@@ -11,17 +11,17 @@
     >
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>LIG-Finder</v-toolbar-title>
+        <v-toolbar-title>{{ $t('panel.title') }}</v-toolbar-title>
 
         <v-spacer></v-spacer>
-
+        <div class="header-right d-flex">
         <v-col style= "height:100%">
             <v-text-field
                 @focus="searchClosed = false"
                 @blur="searchClosed= true"
                 v-model="address"
                 v-on:keyup.enter="geocodeAddress"
-                placeholder="search address"
+                :placeholder="$t('panel.searchAddr')"
                 prepend-inner-icon="mdi-magnify "
                 class="expanding-search"
                 :class="{ 'closed': searchClosed && !address }"
@@ -33,7 +33,36 @@
             >
             </v-text-field>
         </v-col>
-
+        <v-col class="translation d-flex">
+            <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn 
+                        icon
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                            <v-icon>mdi-translate</v-icon>
+                        </v-btn>
+                </template>
+                <v-list class="text-center">
+                    <v-list-item-group
+                    v-model="locale"
+                    mandatory
+                    >
+                    <v-list-item
+                    v-for="(language,index) in languages"
+                    :key="index"
+                    :value="language.code"
+                        >
+                        <v-list-item-content>
+                            <v-list-item-title v-text="language.name"></v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-menu>
+        </v-col>
+        </div>
     </v-app-bar>
 
     
@@ -89,7 +118,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Modules</v-list-item-title>
+              <v-list-item-title>{{ $t('panel.modules') }}</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -117,6 +146,8 @@
 
 <script>
 import $ from 'jquery'
+import $i18n from '../plugins/i18n/i18n'
+import {getSupportedLocales} from '../plugins/i18n/i18n'
 $(function() {
     $('#mouse-coordinate-icon').click(function () {
         $('#tgl-arrow').toggleClass('fa-angle-double-left fa-angle-double-right');
@@ -124,26 +155,24 @@ $(function() {
 });
 export default {
     name: "Panel",
-    components:{
-        //MouseCoordinate
-    },
     data: () => ({
       drawer: false,
       group: null,
         items: [
-            { title: 'My Account', icon: 'mdi-account-outline', id:'user' },
-            { title: 'Layers', icon: 'mdi-layers-outline', id:'layers' },
-            { title: 'Add Data', icon: 'mdi-plus', id:'addData' },
+            { title: $i18n.t('panel.myAccount'), icon: 'mdi-account-outline', id:'user' },
+            { title: $i18n.t('panel.layers'), icon: 'mdi-layers-outline', id:'layers' },
+            { title: $i18n.t('panel.addData'), icon: 'mdi-plus', id:'addData' },
         ],
         mini: true,
         tools: [
-            { title: 'Ligfinder', icon: 'mdi-map-check', id:'ligfinder' },
-            { title: 'Geoparsing', icon: 'mdi-nfc-search-variant', id:'geoparsing' },
-            { title: 'Classification', icon: 'mdi-sort-descending', id:'classification' }
+            { title: $i18n.t('panel.tools.lig'), icon: 'mdi-map-check', id:'ligfinder' },
+            { title: $i18n.t('panel.tools.geo'), icon: 'mdi-nfc-search-variant', id:'geoparsing' },
+            { title: $i18n.t('panel.tools.clsf'), icon: 'mdi-sort-descending', id:'classification' }
       ],
       panels: ['user', 'layers', 'ligfinder', 'geoparsing', 'classification'],
       searchClosed: true,
-      address: null
+      address: null,
+      locale:''
     }),
     methods:{
         clearGeocodedAddress(){
@@ -206,8 +235,37 @@ export default {
         },
         userToggle(){
             this.$store.commit('user/setUserToggle')
+        },
+        changeLocale(code){
+            if (this.$i18n.availableLocales.indexOf(code) > -1) {
+                this.$i18n.locale = code
+                this.items = this.$store.getters['panel/getMenuItems']
+                this.tools = this.$store.getters['panel/getMenuTools']
+            } 
+        }
+    },
+    watch:{
+        locale(n,o){
+            if(n != o && o){
+                this.changeLocale(n);
+            }
+        }
+    },
+    computed:{
+        languages(){
+            return getSupportedLocales()
+        },
+        currentLocale(){
+            return $i18n.locale
+        },
+        menuItems(){
+            return this.$store.getters.panel.getMenuItems
+        },
+        menuTools(){
+            return this.$store.getters.panel.getMenuTools
         }
     }
+    
 }
 </script>
 
@@ -237,6 +295,12 @@ export default {
     
     transition: max-width 0.3s
 }
-   
+.header-right{
+    height: 100%;
+}
+.translation{
+    flex-flow: column;
+    justify-content: center;
+}   
 
 </style>

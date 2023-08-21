@@ -33,6 +33,7 @@
     "shp-write": "^0.3.2",
     "turf": "^3.0.14",
     "vue": "^2.6.14",
+    "vue-i18n": "^8.28.2",
     "vue-router": "^3.5.3",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.7.1",
@@ -65,9 +66,27 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "vue/multi-word-component-names": ["error", {
-        "ignores": ["Alert","Area","Classification","Criteria","Geoparsing","Layers","Legend","Ligfinder","Map","Panel","Proximity","Results","Tools","User"]
-      }]
+      "vue/multi-word-component-names": [
+        "error",
+        {
+          "ignores": [
+            "Alert",
+            "Area",
+            "Classification",
+            "Criteria",
+            "Geoparsing",
+            "Layers",
+            "Legend",
+            "Ligfinder",
+            "Map",
+            "Panel",
+            "Proximity",
+            "Results",
+            "Tools",
+            "User"
+          ]
+        }
+      ]
     }
   },
   "browserslist": [

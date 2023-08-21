@@ -79,11 +79,11 @@ export default {
     this.$store.state.map.map.addControl(zoomControl);
 
     
-    this.$store.state.map.map.on('mousemove', (e) => {
-      //console.log(JSON.stringify(e.lngLat));
-      let coords = e.lngLat
-      this.$store.commit('mouseCoordinate/setMouseCoordinate', coords);
-    });
+    // this.$store.state.map.map.on('mousemove', (e) => {
+    //   //console.log(JSON.stringify(e.lngLat));
+    //   let coords = e.lngLat
+    //   this.$store.commit('mouseCoordinate/setMouseCoordinate', coords);
+    // });
 
     
     let _this = this

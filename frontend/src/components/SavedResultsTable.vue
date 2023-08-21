@@ -2,11 +2,11 @@
 <div>
   <v-dialog v-model="deleteDialog" max-width="35vw">
           <v-card>
-            <v-card-title class="text-h6">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="text-h6">{{ $t('savedResultsTable.deleteDialog') }}</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue darken-1" text @click="closeDelete">{{ $t('savedResultsTable.cancel') }}</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm">{{ $t('savedResultsTable.ok') }}</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -14,7 +14,7 @@
   <v-dialog v-model="editDialog" max-width="35vw">
           <v-card>
             <v-card-title>
-              <span class="text-h5">Edit</span>
+              <span class="text-h5">{{ $t('savedResultsTable.edit') }}</span>
             </v-card-title>
             <v-col cols="12">
                 <v-text-field
@@ -25,8 +25,8 @@
             </v-col>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeEdit" >Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="editItemConfirm">Save</v-btn>
+              <v-btn color="blue darken-1" text @click="closeEdit" >{{ $t('savedResultsTable.cancel') }}</v-btn>
+              <v-btn color="blue darken-1" text @click="editItemConfirm">{{ $t('savedResultsTable.save') }}</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -34,10 +34,10 @@
   <table class="table table-hover" v-if="$store.state.user.userSavedResults">
       <thead>
         <tr >
-            <th class="no-sort">restore</th>
-            <th >name</th>
-            <th class="no-sort">description</th>
-            <th class="no-sort">actions</th>
+            <th class="no-sort">{{ $t('savedResultsTable.restore') }}</th>
+            <th >{{ $t('savedResultsTable.name') }}</th>
+            <th class="no-sort">{{ $t('savedResultsTable.desc') }}</th>
+            <th class="no-sort">{{ $t('savedResultsTable.actions') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +72,7 @@
      
   </table>
   <div v-else>
-    <span>No Result History</span>
+    <span>{{ $t('savedResultsTable.noHistory') }}</span>
   </div>
 
     

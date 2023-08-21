@@ -1,0 +1,169 @@
+{
+  "panel": {
+    "title": "LIGFinder",
+    "modules": "Module",
+    "myAccount": "Mein Konto",
+    "layers": "Ebenen",
+    "addData": "Daten hinzufügen",
+    "searchAddr": "Adresse suchen",
+    "tools": {
+      "lig": "LIGFinder",
+      "geo": "Geoparsing",
+      "clsf": "Klassifikation"
+    }
+  },
+  "userAuth": {
+    "signinError": "Falscher Benutzername oder Passwort!",
+    "signin": "Bitte anmelden",
+    "login": "Anmelden",
+    "username": "Benutzername",
+    "password": "Passwort"
+  },
+  "user": {
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmpw": "Passwort bestätigen",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "logout": "Abmelden",
+    "fname": "Vorname",
+    "lname": "Nachname",
+    "savedresults": "Verlauf der gespeicherten Ergebnisse",
+    "pwmatch": "Passwörter müssen übereinstimmen",
+    "required": "erforderlich",
+    "emailValid": "E-Mail muss gültig sein",
+    "minChar": "mindestens 8 Zeichen"
+  },
+  "savedResultsTable": {
+    "deleteDialog": "Sind Sie sicher, dass Sie dieses Element löschen möchten?",
+    "cancel": "Abbrechen",
+    "ok": "OK",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "restore": "Wiederherstellen",
+    "name": "Name",
+    "desc": "Beschreibung",
+    "actions": "Aktionen",
+    "noHistory": "Kein Verlauf vorhanden"
+  },
+  "ligfinder": {
+    "tabs": {
+      "searchArea": "Suchbereich",
+      "area": "Fläche",
+      "criteria": "Kriterien",
+      "infra": "Infrastruktur",
+      "results": "Ergebnisse",
+      "joinParcels": "Parzellen verbinden"
+    },
+    "results": {
+      "save": "Ergebnisse speichern",
+      "export": "Exportieren",
+      "desc": "Beschreibung",
+      "error": "Bitte registrieren oder anmelden, um dieses Tool zu aktivieren",
+      "noFeature": "Kein Element ausgewählt"
+    },
+    "proximity": {
+      "eqWeight": "Gleiches Gewicht",
+      "analyze": "Analyse durchführen",
+      "noFeature": "Kein Element ausgewählt"
+    },
+    "joinParcels": {
+      "minAggrArea": "Mindestens aggregierte Fläche:",
+      "search": "Suche starten",
+      "toggleVis": "Sichtbarkeit umschalten",
+      "ids": "IDs",
+      "area": "Fläche",
+      "noFeature": "Kein Element ausgewählt"
+    },
+    "criteria": {
+      "title": "Kriterien",
+      "marked": "Markierte Kriterien",
+      "included": "Eingeschlossene Kriterien",
+      "logical": "Logischer Operator",
+      "excluded": "Ausgeschlossene Kriterien",
+      "search": "Suche starten",
+      "apply": "Änderungen anwenden",
+      "noFeature": "Kein Element ausgewählt"
+    },
+    "area": {
+      "landInM2": "Landfläche in m²",
+      "grossFloorInM2": "Verfügbare Bruttogeschossfläche in m²",
+      "availableVacantLots": "Verfügbare unbebaute Grundstücke",
+      "search": "Suche starten",
+      "apply": "Änderungen anwenden",
+      "noFeature": "Kein Element ausgewählt"
+    },
+    "aoi": {
+      "delete": "Sind Sie sicher, dass Sie dieses Element löschen möchten?",
+      "cancel": "Abbrechen",
+      "ok": "OK",
+      "mode": "AOI-Modus",
+      "name": "Name",
+      "action": "Aktion",
+      "operation": "Operation",
+      "search": "Suche starten",
+      "administrative": {
+        "level": "Verwaltungsebene",
+        "selectByName": "Gebiet nach Namen auswählen"
+      },
+      "geometry": {
+        "mode": "Zeichenmodus"
+      },
+      "isochrone": {
+        "mode": "Reisemodus",
+        "center": "Mittelpunkt auswählen",
+        "travelTime": "Reisezeit",
+        "min": "Min",
+        "get": "Isochrone abrufen"
+      }
+    }
+  },
+  "geoparsing": {
+    "title": "Geoparsing",
+    "results": "Geoparsing-Ergebnisse",
+    "sytlization": "Stilisierung",
+    "filtering": "Filterung",
+    "topics": "Themen",
+    "renderingStyle": "Darstellungsstil",
+    "date": "Datum",
+    "dateHint": "Verfügbare Daten: {0} ~ {1}",
+    "apply": "Anwenden",
+    "operator": "Auswahloperator"
+  },
+  "classification": {
+    "title": "Klassifikation",
+    "layer": "Ebene",
+    "choropleth": "Choroplethenkarte",
+    "1stAttr": "1. Attribut",
+    "2ndAttr": "2. Attribut",
+    "method": "Klassifikationsmethode",
+    "classes": "Klassen",
+    "palette": "Farbpalette",
+    "1stColor": "1. Farbe",
+    "2ndColor": "2. Farbe",
+    "classify": "Klassifizieren",
+    "reset": "Zurücksetzen"
+  },
+  "basemap": {
+    "osm": "OSM",
+    "satellite": "Satellit",
+    "dark": "Dunkel"
+  },
+  "building3d": {
+    "label": "Gebäude: {0}"
+  },
+  "compareParcels": {
+    "attr": "Attribut",
+    "zoomTo": "Zum Zoomen"
+  },
+  "layers": {
+    "visibility": "Sichtbarkeit",
+    "zoomToExtent": "Auf Ausdehnung zoomen",
+    "fillColor": "Füllfarbe",
+    "outlineColor": "Umrissfarbe",
+    "fillOpacity": "Fülldeckkraft",
+    "color": "Farbe",
+    "opacity": "Deckkraft",
+    "radius": "Radius"
+  }
+}

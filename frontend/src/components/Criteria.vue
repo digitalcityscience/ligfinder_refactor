@@ -13,7 +13,7 @@
             :value="false"
         >
             <template v-slot:activator>
-            <v-list-item-title>Kriterien</v-list-item-title>
+            <v-list-item-title>{{ $t('ligfinder.criteria.title') }}</v-list-item-title>
             </template>
                 <v-list-group
                     :value="false"
@@ -172,7 +172,7 @@
     </v-card >
     <v-card>
         <v-container class="mt-2 addedcriteria"  >
-            <p class="mt-1 ml-1">Marked Criteria</p>
+            <p class="mt-1 ml-1">{{ $t('ligfinder.criteria.marked') }}</p>
             <template v-for="tag in $store.state.criteria.checkedTags">
                 <v-chip :draggable="true" v-if="$store.state.criteria.checkedTags.length" :key="tag.name"
                     class="ma-1"
@@ -193,11 +193,11 @@
         <v-container class="mt-2 addedcriteria" >
            
             <div @drop="onDrop($event)"  @dragenter.prevent @dragover.prevent>
-                <p class="mt-1 ml-1">Included Criteria</p>
+                <p class="mt-1 ml-1">{{ $t('ligfinder.criteria.included') }}</p>
                 <v-select
                     :items="$store.state.criteria.operators"
                     v-model="$store.state.criteria.selectedOperator"
-                    label="logical operator"
+                    :label="$t('ligfinder.criteria.logical')"
                     solo
                     class="select-operator"
                 ></v-select>
@@ -223,7 +223,7 @@
         <v-container class="mt-2 mb-2 addedcriteria" >
            
             <div @drop="onDropExcluded($event)" @dragenter.prevent @dragover.prevent>
-                <p class="mt-1 ml-1">Excluded Criteria</p>
+                <p class="mt-1 ml-1">{{ $t('ligfinder.criteria.excluded') }}</p>
                 <template v-for="tag in $store.state.criteria.excludeTags">
                 <v-chip :key="tag.name"
                     @dragstart="startDrag($event, tag)"
@@ -249,14 +249,14 @@
             @click="criteriaFilter()" 
             :disabled='$store.state.criteria.includeTags.length==0 && $store.state.criteria.excludeTags.length==0'
         >
-        Suche Starten
+        {{ $t('ligfinder.criteria.search') }}
         </button>
-        <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyCriteriaFilter">Änderungen übernehmen</button>
+        <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyCriteriaFilter">{{ $t('ligfinder.criteria.apply') }}</button>
 
     </div>
 </div>
 <div v-else class="text-center">
-    <p>No Feature Selected</p>
+    <p>{{ $t('ligfinder.criteria.noFeature') }}</p>
 
 </div>
 </template>

@@ -2,18 +2,18 @@
     <div>
         <v-dialog v-model="deleteDialog" max-width="35vw" >
           <v-card>
-            <v-card-title class="text-h6">Are you sure you want to delete this item?</v-card-title>
+            <v-card-title class="text-h6">{{ $t('ligfinder.aoi.delete') }}</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-btn color="blue darken-1" text @click="closeDelete">{{ $t('ligfinder.aoi.cancel') }}</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm">{{ $t('ligfinder.aoi.ok') }}</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
         </v-dialog>
         <v-select
           :items="$store.state.AOI.items"
-          label="AoI Mode"
+          :label="$t('ligfinder.aoi.mode')"
           outlined
           item-text="name"
           item-value="value"
@@ -29,11 +29,11 @@
             <thead>
                 <tr>
                     <th class="text-left">
-                        Name
+                        {{ $t('ligfinder.aoi.name') }}
                     </th>
                     
                     <th class="text-left">
-                        Action
+                        {{ $t('ligfinder.aoi.action') }}
                     </th>
                 </tr>
             </thead>
@@ -61,12 +61,12 @@
             <v-select
                 :items="$store.state.AOI.operators"
                 v-model="$store.state.AOI.selectedOperator"
-                label="operation"
+                :label="$t('ligfinder.aoi.operation')"
                 solo
                 class="select-operator"
             >
             </v-select>
-            <button style="font-size: 0.8vw" class="btn btn-info mb-4 mt-4" @click="getParcels()">Suche Starten</button>            
+            <button style="font-size: 0.8vw" class="btn btn-info mb-4 mt-4" @click="getParcels()">{{ $t('ligfinder.aoi.search') }}</button>            
         </div>
     </div>
 </template>

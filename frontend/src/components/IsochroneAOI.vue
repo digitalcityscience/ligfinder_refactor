@@ -2,7 +2,7 @@
     <div  class="isochrone-select">
         <div style="width:60%; margin-top: 5%">
            
-                <p>Reisemodus</p>
+                <p>{{ $t('ligfinder.aoi.isochrone.mode') }}</p>
                 <v-card>
 
                 
@@ -47,7 +47,7 @@
                 </v-card>
                 
                 <div class="isochrone-setting mt-4">
-                <p>Mitte auswählen</p>
+                <p>{{ $t('ligfinder.aoi.isochrone.center') }}</p>
                 <v-btn id="draw-point" @click="showPointDraw"
                     icon
                     outlined
@@ -61,13 +61,13 @@
                         </v-icon>
                 </v-btn>
 
-                <p class=" mt-4">Reisezeit</p>
+                <p class=" mt-4">{{ $t('ligfinder.aoi.isochrone.travelTime') }}</p>
                 <div class="input-group mt-3">
                     <span class="input-group-text"><i class="far fa-clock"></i></span>
                     <input type="text" id="time" name="time" v-model="time" class="form-control" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-text">min.</span>
+                    <span class="input-group-text">{{ $t('ligfinder.aoi.isochrone.min') }}</span>
                 </div>
-                <button style="font-size: 0.8vw" class="btn btn-info mt-3" @click="getIsochrone()" :disabled="mode==null || time==null || $store.state.isochroneAOI.center==null">Isochrone bekommen</button>
+                <button style="font-size: 0.8vw" class="btn btn-info mt-3" @click="getIsochrone()" :disabled="mode==null || time==null || $store.state.isochroneAOI.center==null">{{ $t('ligfinder.aoi.isochrone.get') }}</button>
             </div>
             
             

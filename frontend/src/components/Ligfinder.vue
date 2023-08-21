@@ -2,26 +2,6 @@
 <v-scroll-x-transition>
 
     <div v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
-
-        <!--<div class="ligfinder-ui-header mt-4" id="ligfinder-ui-header">
-            <button id="aoi" class="btn" @click="setClickedMenu($event);">
-                SUCHGEBIET
-            </button>
-            <button id="area" class="btn" @click="setClickedMenu($event);">
-                FLÄCHE
-            </button>
-            <button id="criteria" class="btn" @click="setClickedMenu($event)">
-                KRITERIEN
-            </button>
-            <button id="proximity" class="btn" @click="setClickedMenu($event)">
-                INFRASTRUKTUR
-            </button>
-            <button id="results" class="btn" @click="setClickedMenu($event)">
-                ERGEBNISSE
-                <span class="badge circle circle-md bg-dar badge-notify mt-4 ">{{$store.state.ligfinder.FOI.features.length}}</span>
-            </button>
-        </div>-->
-        
         <template >
                   <i
                 class="fas fa-times mt-1 " 
@@ -35,14 +15,14 @@
                 show-arrows
             >
                 <v-tabs-slider color="purple darken-4"></v-tabs-slider>
-                <v-tab id="aoi" class="" @click="setClickedMenu($event);" >SUCHGEBIET</v-tab>
-                <v-tab id="area" class="" @click="setClickedMenu($event);">FLÄCHE</v-tab>
-                <v-tab id="criteria" class="" @click="setClickedMenu($event)">KRITERIEN</v-tab>
-                <v-tab id="proximity" class="" @click="setClickedMenu($event)">INFRASTRUKTUR</v-tab>
-                <v-tab id="results" class="" @click="setClickedMenu($event)">ERGEBNISSE
+                <v-tab id="aoi" class="" @click="setClickedMenu($event);" >{{ $t('ligfinder.tabs.searchArea') }}</v-tab>
+                <v-tab id="area" class="" @click="setClickedMenu($event);">{{ $t('ligfinder.tabs.area') }}</v-tab>
+                <v-tab id="criteria" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.criteria') }}</v-tab>
+                <v-tab id="proximity" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.infra') }}</v-tab>
+                <v-tab id="results" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.results') }}
                     <v-chip color="green"> {{$store.state.ligfinder.FOI.features.length}} </v-chip>
                 </v-tab>
-                <v-tab id="joinparcels" class="" @click="setClickedMenu($event)">join parcels</v-tab>
+                <v-tab id="joinparcels" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.joinParcels') }}</v-tab>
             </v-tabs>
         </template>
         <div class="mx-4 mt-4">

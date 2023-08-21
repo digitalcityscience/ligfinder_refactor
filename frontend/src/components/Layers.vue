@@ -13,36 +13,36 @@
             <v-expansion-panel-header>{{table.name}}</v-expansion-panel-header>
             <v-expansion-panel-content>
                 
-            visibility: <input type="checkbox" class="form-check-input" :id="table.name" :checked="table.checked" @click.once="addLayer(table, $event)" @change="toggleLayerVisibility(table)" > <br>
+            {{$t('layers.visibility')}} <input type="checkbox" class="form-check-input" :id="table.name" :checked="table.checked" @click.once="addLayer(table, $event)" @change="toggleLayerVisibility(table)" > <br>
             
             <div v-if="$store.state.layers[table.name+'Style']">
-                zoom to extent: <span @click= " zoomToTable(table)"><i  class="fa fa-search-plus fa-sm" aria-hidden="true"></i></span><br>
+                {{$t('layers.zoomtToExtent')}} <span @click= " zoomToTable(table)"><i  class="fa fa-search-plus fa-sm" aria-hidden="true"></i></span><br>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
-                            <label >fill color:</label>
+                            <label >{{$t('layers.fillColor')}}:</label>
                             <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" v-model="$store.state.layers[table.name + 'Style'].fillColor"  @click="changeFillColor(table.name)" >
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
-                            <label >outline color:</label>
+                            <label >{{$t('layers.outlineColor')}}:</label>
                             <input style="margin-left: 1vw" type="color" :id="table.name + 'outlinecolorslider'" :name="table.name + 'outlinecolorslider'"  v-model="$store.state.layers[table.name + 'Style'].fillOutlineColor" @click="changeOutlineColor(table.name)" >
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
-                            <label >fill opacity:</label>
+                            <label >{{$t('layers.fillOpacity')}}:</label>
                             <input style="margin-left: 1vw" :id="table.name + 'opacityslider'"  :name="table.name + 'opacityslider'" v-model="$store.state.layers[table.name + 'Style'].fillopacity" type="range" step="0.1"  min="0" max="1"  @click="changeOpacity(table.name)" />
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='circle'">
-                            <label >color:</label>
+                            <label >{{$t('layers.color')}}:</label>
                             <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" v-model="$store.state.layers[table.name + 'Style']['circle-color']"  @click="changeCircleColor(table.name)" >
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='circle'">
-                            <label >opacity:</label>
+                            <label >{{$t('layers.opacity')}}:</label>
                             <input style="margin-left: 1vw" :id="table.name + 'opacityCircleslider'"  :name="table.name + 'opacityCircleslider'"  v-model="$store.state.layers[table.name + 'Style']['circle-opacity']" type="range" step="0.1"  min="0" max="1"  @click="changeCircleOpacity(table.name)" />
 
                         </div>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='circle'">
-                            <label >radius:</label>
+                            <label >{{$t('layers.radius')}}:</label>
                             <input style="margin-left: 1vw" :id="table.name + 'circleRadiusSlider'"  :name="table.name + 'circleRadiusSlider'" value="3" type="range" step="1"  min="1" max="10"  @click="changeCircleRadius(table.name)" />
 
                         </div>

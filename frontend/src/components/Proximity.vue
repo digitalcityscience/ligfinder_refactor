@@ -46,14 +46,14 @@
     </div>
     
     <v-col class="mt-4 " >
-        <button style="font-size: 0.8vw" class="btn btn-success mr-2" @click="equalizeWeight">Equal Weight</button>
+        <button style="font-size: 0.8vw" class="btn btn-success mr-2" @click="equalizeWeight">{{ $t('ligfinder.proximity.eqWeight') }}</button>
 
-        <button style="font-size: 0.8vw" class="btn btn-info" @click="proximityAnalysis">Analyse durchführen</button>
+        <button style="font-size: 0.8vw" class="btn btn-info" @click="proximityAnalysis">{{ $t('ligfinder.proximity.analyze') }}</button>
     </v-col>
   </v-card>
   </div>
   <div v-else class="table text-center">
-    <p>No Feature Selected</p>
+    <p>{{ $t('ligfinder.proximity.noFeature') }}</p>
   </div>
   
 </template>

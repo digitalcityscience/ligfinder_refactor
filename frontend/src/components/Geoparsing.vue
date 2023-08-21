@@ -10,11 +10,7 @@
             >
             </i>
         </div>
-        <div class="text-center mt-4 geoparsing-title" >
-
-            GeoParsing
-
-        </div>
+        <div class="text-center mt-4 geoparsing-title" >{{ $t('geoparsing.title') }}</div>
         <v-container
             class="px-0"
             fluid
@@ -22,7 +18,7 @@
         >
             <v-select
                 :items="$store.state.geoparsing.datasetOptions"
-                label="Geoparsing Results"
+                :label="$t('geoparsing.results')"
                 solo
                 item-text="name"
                 item-value="value"
@@ -40,18 +36,18 @@
                 grow
             >
                 <v-btn @click="setToolModeStylization" >
-                    <span>Stylization</span>
+                    <span>{{$t('geoparsing.sytlization')}}</span>
 
                     <v-icon>mdi-palette-outline</v-icon>
                 </v-btn>
 
                 <v-btn @click="setToolModeFiltering">
-                    <span>Filtering</span>
+                    <span>{{$t('geoparsing.filtering')}}</span>
 
                     <v-icon>mdi-filter-outline</v-icon>
                 </v-btn>
                 <v-btn @click="setToolModeTopic">
-                    <span>Topics</span>
+                    <span>{{$t('geoparsing.topics')}}</span>
 
                     <v-icon>mdi-order-bool-ascending-variant</v-icon>
                 </v-btn>
@@ -75,7 +71,7 @@
                 <v-select
                     v-if="$store.state.geoparsing.datasetMode == 'parliament'"
                     :items="$store.state.geoparsing.items"
-                    label="Rendering Style"
+                    :label="$t('geoparsing.renderingStyle')"
                     v-on:change="changeStyle"
                 >
                 </v-select>
@@ -97,7 +93,7 @@
                 <v-select
                     v-if="$store.state.geoparsing.datasetMode == 'newspaper'"
                     :items="$store.state.geoparsing.items"
-                    label="Rendering Style"
+                    :label="$t('geoparsing.renderingStyle')"
                     v-on:change="changeStyle"
                 
                 >
@@ -122,8 +118,8 @@
                 <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                         v-model="dateRangeText"
-                        label="Date"
-                        :hint="'available dates: ' + $store.state.geoparsing.minDate + '~' + $store.state.geoparsing.maxDate"
+                        :label="$t('geoparsing.date')"
+                        :hint="$t('geoparsing.dateHint',{'0':$store.state.geoparsing.minDate,'1':$store.state.geoparsing.maxDate})"
                         persistent-hint
                         prepend-icon="mdi-calendar"
                         v-bind="attrs"
@@ -137,7 +133,7 @@
                 ></v-date-picker>
             </v-menu>
             <v-btn small outlined color="cyan" class="mt-6" @click="dateFilter">
-                apply
+                {{$t('geoparsing.apply')}}
             </v-btn>
         </v-col>
 
@@ -148,7 +144,7 @@
         <v-combobox
           v-model="$store.state.geoparsing.topics"
           :items="$store.state.geoparsing.topicItems"
-          label="topics"
+          :label="$t('geoparsing.topics')"
           multiple
           small-chips
         ></v-combobox>
@@ -156,10 +152,10 @@
           :items="$store.state.geoparsing.topicQueryModes"
           v-model="$store.state.geoparsing.selectedTopicQueryMode"
           dense
-          label="selection operator"
+          :label="$t('geoparsing.operator')"
         ></v-select>
         <v-btn small outlined color="cyan" class="mt-6" @click="topicFilter">
-                apply
+                {{$t('geoparsing.apply')}}
         </v-btn>
       </v-col>
         
