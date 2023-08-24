@@ -6,18 +6,28 @@
     </div>
     <div class="placeholder"  id="map">
        <MouseCoordinate />
-       
-       <!--<Database />
-       <Layer />-->
-       <Layers />
+       <div class="layers-container" v-if="$store.state.layers.toggle">
+        <Layers />
+       </div>
        <Tools />
        <Ligfinder />
        <Geoparsing />
        <Classification />
        <Legend />
        <Alert />
-       <AddData />
-       <User />
+       <v-dialog
+        activator='#addDataModal'
+        v-model="$store.state.addData.toggle"
+        max-width="50vw"
+        persistent
+       >
+       <v-card>
+        <v-card-title class="d-flex flex-row-reverse"><v-btn @click="$store.commit('addData/addDataToggle')" icon ><v-icon>mdi-close</v-icon></v-btn></v-card-title>
+        <v-card-text><AddData /></v-card-text>
+       </v-card>
+        
+       </v-dialog>
+       
       <CompareLikedParcels />
       <BaseMaps />
     </div>
@@ -29,8 +39,6 @@
 
 import maplibregl from 'maplibre-gl'
 import MouseCoordinate from "./MouseCoordinate";
-//import Database from './Database'
-//import Layer from './Layer'
 import Layers from './Layers'
 import Tools from './Tools'
 import Ligfinder from './Ligfinder'
@@ -39,20 +47,17 @@ import Classification from './Classification'
 import Legend from './Legend'
 import Alert from './Alert'
 import AddData from './AddData'
-import User from './User'
 import CompareLikedParcels from './CompareLikedParcels'
 import BaseMaps from './BaseMaps'
 import { createHtmlAttributesFOI } from '../utils/createHtmlAttributesFOI';
-//import BoxCustomLayer from "../utils/BoxCustomLayer"; 
-
-console.log('action test')
+import {LayerControl} from '../utils/createLayerControl';
+import {AddDataControl} from '../utils/createAddDataControl'
+import {AddBaseMapControl} from '../utils/createBaseMapControl'
 
 export default {
   name: "Map",
   components:{
     MouseCoordinate,
-    //Database,
-    //Layer,
     Layers,
     Tools,
     Ligfinder,
@@ -61,7 +66,6 @@ export default {
     Legend,
     Alert,
     AddData,
-    User,
     CompareLikedParcels,
     BaseMaps
   },
@@ -78,15 +82,51 @@ export default {
     const zoomControl = new maplibregl.NavigationControl()
     this.$store.state.map.map.addControl(zoomControl);
 
-    
-    // this.$store.state.map.map.on('mousemove', (e) => {
-    //   //console.log(JSON.stringify(e.lngLat));
-    //   let coords = e.lngLat
-    //   this.$store.commit('mouseCoordinate/setMouseCoordinate', coords);
-    // });
-
-    
     let _this = this
+    //Add layerlist controls to the map
+    const layerControl = new LayerControl(_this,'',function(e,instance) {
+        e.preventDefault()
+        instance.$store.commit('layers/setLayersToggle')
+        if(instance.$store.state.map.basemapOptionsToggle){
+        instance.$store.commit('map/toggleBasemapOptionsPanel')
+        }
+        if(instance.$store.state.layers.tableNames.length == 0){
+          instance.$store.dispatch('layers/getTableNames')
+        }
+      }
+    )
+    this.$store.state.map.map.addControl(layerControl,'top-right');
+
+    //Add import data control to the map
+    console.log(_this)
+    const modalid = 'addDataModal'
+    const addDataControl = new AddDataControl(_this,'',modalid,function(e,modalid,instance) {
+        e.preventDefault()
+        instance.$store.commit('addData/dropAreaToggle')
+        if(instance.$store.state.layers.toggle){
+        instance.$store.commit('layers/setLayersToggle')
+        }
+        if(instance.$store.state.map.basemapOptionsToggle){
+        instance.$store.commit('map/toggleBasemapOptionsPanel')
+        }
+      }
+    )
+    this.$store.state.map.map.addControl(addDataControl,'top-right');
+    
+    //Add basemap control to the map
+    const buttonID = ''
+    const buttonClass = ''
+    console.log('adding basemap control...')
+    const addBaseMapControl = new AddBaseMapControl(_this,buttonClass,buttonID,function(e,buttonID,instance) {
+        e.preventDefault()
+        instance.$store.commit('map/toggleBasemapOptionsPanel')
+        if(instance.$store.state.layers.toggle){
+        instance.$store.commit('layers/setLayersToggle')
+        }
+      }
+    )
+    this.$store.state.map.map.addControl(addBaseMapControl,'top-right');
+    console.log(this.$store.state.map.map)
     
     this.$store.state.map.map.on('click', 'stylelayer', (e) => {
 
@@ -124,34 +164,12 @@ export default {
       }            
     })
 
-/*function makeid(length) {
-    var result           = [];
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result.push(characters.charAt(Math.floor(Math.random() * 
- charactersLength)));
-   }
-   return result.join('');
-}
-
-
-this.$store.state.map.map.on('click',  (e) => {
-  let boxLayer = new BoxCustomLayer({
-    id: makeid(5),
-    geomcenter: [e.lngLat.lng, e.lngLat.lat]
-    
-  })
-  _this.$store.state.map.map.addLayer(boxLayer);
-})*/
-
   },
   watch: {
     '$store.state.ligfinder.FOI': function() {
       this.$store.dispatch('area/removeAreaFilterLayer')
       this.$store.dispatch('criteria/removeCriteriaFilterLayer')
       this.$store.dispatch('joinParcels/removeTouchingParcelLayer')
-      
     }
   }
    
@@ -175,5 +193,21 @@ this.$store.state.map.map.on('click',  (e) => {
 .placeholder .placeholder-text {
   margin: auto;
 }
+.w-50{
+  width: 50vw;
+}
+</style>
+<style>
 
+.maplibregl-ctrl-top-right.mapboxgl-ctrl-top-right{
+  display: flex;
+  flex-direction: column;
+}
+.maplibregl-ctrl.maplibregl-ctrl-group.mapboxgl-ctrl.mapboxgl-ctrl-group:first-child{
+  order:3
+}
+.layers-container{
+  position: absolute;
+  right: 0;
+}
 </style>

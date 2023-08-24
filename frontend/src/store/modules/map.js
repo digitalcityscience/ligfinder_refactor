@@ -49,12 +49,12 @@ const map=  {
         activatedStyle: "lightOSM"
     },
     mutations:{
-        toglleBasemapOptionsPanel(state){
+        toggleBasemapOptionsPanel(state){
             state.basemapOptionsToggle =! state.basemapOptionsToggle
         }
     },
     actions:{
-        toglleBasemap({state, rootState}){
+        toggleBasemap({state, rootState}){
             console.log("deployment test")       
 
             if (state.activatedStyle=="satellieHybrid"){

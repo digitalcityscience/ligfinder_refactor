@@ -1,18 +1,11 @@
 <template>
 <div >
-    <div class="basemap">
-        <v-btn v-ripple="{ class: 'primary--text' }" @click="toglleBasemapOptionsPanel">
-            <v-icon color="primary">mdi-map-check-outline</v-icon>
-        </v-btn>
-    </div>
-    
     <v-card v-if="$store.state.map.basemapOptionsToggle" class="basemap-options">
-    
         <v-radio-group
             v-model="$store.state.map.activatedStyle"
             mandatory
             dense
-            @change="toglleBasemap"
+            @change="toggleBasemap"
         >
             <v-radio
                 :label="$t('basemap.osm')"
@@ -35,11 +28,8 @@
 export default {
     name: 'BaseMaps',
     methods:{
-        toglleBasemap() {
-            this.$store.dispatch('map/toglleBasemap')
-        },
-        toglleBasemapOptionsPanel(){
-            this.$store.commit('map/toglleBasemapOptionsPanel')
+        toggleBasemap() {
+            this.$store.dispatch('map/toggleBasemap')
         }
     }
 }
@@ -49,16 +39,16 @@ export default {
 .basemap {
     position: absolute;
     right: 10px;
-    top: 100px;
+    top: 175px;
     z-index: 999;
 }
 
 .basemap .v-btn {
-    margin-top: 5px;
+    margin-top: 10px;
     min-width: 20px;
     min-height: 25px;
-    width: 25px;
-    height: 25px;
+    width: 29px;
+    height: 29px;
 }
 /* removes grey hover effect */
 .basemap .v-btn::before{
@@ -73,8 +63,8 @@ export default {
 .basemap-options{
     position: absolute;
     right: 50px;
-    top: 105px;
-    z-index: 999;
+    top: 88px;
+    z-index: 2;
     background-color: white;
     padding-left: 10px;
     padding-right: 10px
