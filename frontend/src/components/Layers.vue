@@ -1,7 +1,7 @@
 <template>
 
 <v-row class="m-layer" no-gutters v-show="$store.state.layers.toggle" >
-    <div class="p-0" style="max-width: 20vw;">
+    <div class="p-0 layerList-container">
         <v-scroll-x-transition>
         
         <v-expansion-panels accordion focusable>
@@ -172,5 +172,8 @@ export default {
 .m-layer{
     margin-right: 50px;
     margin-top: 10px;
+}
+.layerList-container{
+    max-width: 20vw;
 }
 </style>
