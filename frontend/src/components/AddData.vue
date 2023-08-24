@@ -1,15 +1,13 @@
 <template>
    
 
-        <div v-show="$store.state.addData.toggle" class="drag-area" @dragover="onDragOver($event)" @dragleave="onDragLeave($event)" @drop="onDrop($event)"  @dragenter.prevent @dragover.prevent>
+        <div class="drag-area" @dragover="onDragOver($event)" @dragleave="onDragLeave($event)" @drop="onDrop($event)"  @dragenter.prevent @dragover.prevent>
             
             <div class="icon"><i class="fas fa-cloud-upload-alt fa-4x"></i></div>
             <header id="header1">Drag &amp; Drop Exported Parcels</header>
             <header id="header2">Supported versions: JSON, GeoJSON </header>
            
         </div>
-        
-    
 </template>
 
 <script>
@@ -60,11 +58,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    width:40vw;
-    z-index: 999;
-    left: 50%;
-    transform: translate(-50%, 50%);
     height: 50vh;
     background: rgb(243, 239, 239);
     flex-direction: column  ;

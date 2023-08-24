@@ -1,10 +1,8 @@
 <template>
 
-<v-row no-gutters v-show="$store.state.layers.toggle" >
-    <v-col
-        sm="3"
-    >
-    <v-scroll-x-transition>
+<v-row class="m-layer" no-gutters v-show="$store.state.layers.toggle" >
+    <div class="p-0" style="max-width: 20vw;">
+        <v-scroll-x-transition>
         
         <v-expansion-panels accordion focusable>
         <v-expansion-panel
@@ -16,7 +14,7 @@
             {{$t('layers.visibility')}} <input type="checkbox" class="form-check-input" :id="table.name" :checked="table.checked" @click.once="addLayer(table, $event)" @change="toggleLayerVisibility(table)" > <br>
             
             <div v-if="$store.state.layers[table.name+'Style']">
-                {{$t('layers.zoomtToExtent')}} <span @click= " zoomToTable(table)"><i  class="fa fa-search-plus fa-sm" aria-hidden="true"></i></span><br>
+                {{$t('layers.zoomToExtent')}} <span @click= " zoomToTable(table)"><i  class="fa fa-search-plus fa-sm" aria-hidden="true"></i></span><br>
                         <div v-if="$store.state.layers[table.name+'Style'].type==='fill'">
                             <label >{{$t('layers.fillColor')}}:</label>
                             <input style="margin-left: 1vw" type="color" :id="table.name + 'colorslider'" :name="table.name + 'colorslider'" v-model="$store.state.layers[table.name + 'Style'].fillColor"  @click="changeFillColor(table.name)" >
@@ -53,7 +51,7 @@
         </v-expansion-panel>
         </v-expansion-panels>
         </v-scroll-x-transition>
-    </v-col>
+    </div>
 </v-row>
 
 </template>
@@ -88,9 +86,11 @@ export default {
                 for (let i=0; i< this.$store.state.layers.addedTableNames.length; i++){
                     if(this.$store.state.layers.addedTableNames[i].id === table.name) {
                         if(document.querySelector("#"+table.name+":checked")) {
+                            this.$store.commit('layers/handleCheckboxStatus',{tableName:table.name,isChecked:true})
                             this.$store.state.map.map.setLayoutProperty(table.name, 'visibility', 'visible');
                         } 
                         else {
+                            this.$store.commit('layers/handleCheckboxStatus',{tableName:table.name,isChecked:false})
                             this.$store.state.map.map.setLayoutProperty(table.name, 'visibility', 'none');
                         }
                     }
@@ -163,10 +163,14 @@ export default {
 <style scoped>
 .table{
         position: absolute;
-        font-family: 'Nunito', sans-serif;
-        font-weight:800;
+        right: 10px;
+        top:10px;
         background-color: rgba(255, 255, 255, 0.9);
         z-index: 999;
-        width: 20vw;
+        width: 15vw;
     }
+.m-layer{
+    margin-right: 50px;
+    margin-top: 10px;
+}
 </style>

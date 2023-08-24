@@ -10,12 +10,11 @@
 
     >
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-
         <v-toolbar-title>{{ $t('panel.title') }}</v-toolbar-title>
-
         <v-spacer></v-spacer>
+        <!-- Header right panel begin -->
         <div class="header-right d-flex">
-        <v-col style= "height:100%">
+        <v-col class="searchbar">
             <v-text-field
                 @focus="searchClosed = false"
                 @blur="searchClosed= true"
@@ -88,6 +87,7 @@
                 </div>
             </template>
         </v-col>
+        <!-- Header right panel end -->
         </div>
     </v-app-bar>
 
@@ -118,24 +118,7 @@
 
         <v-divider v-if="$store.state.user.loggedIn"></v-divider>
 
-      <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-          :id="item.id"
-           @click.stop="drawer = !drawer"
-           @click="getid(item.id); closeOtherPanels(item.id)"
-        >
-          <v-list-item-icon>
-            <v-icon  >{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      
 
       <v-list-group
           :value="false"
@@ -181,39 +164,25 @@ export default {
     },
     data: () => ({
         userMenu:false,
-      drawer: false,
-      group: null,
-        items: [
-            { title: $i18n.t('panel.layers'), icon: 'mdi-layers-outline', id:'layers' },
-            { title: $i18n.t('panel.addData'), icon: 'mdi-plus', id:'addData' },
-        ],
+        drawer: false,
+        group: null,
         mini: true,
         tools: [
             { title: $i18n.t('panel.tools.lig'), icon: 'mdi-map-check', id:'ligfinder' },
             { title: $i18n.t('panel.tools.geo'), icon: 'mdi-nfc-search-variant', id:'geoparsing' },
             { title: $i18n.t('panel.tools.clsf'), icon: 'mdi-sort-descending', id:'classification' }
-      ],
-      panels: ['layers', 'ligfinder', 'geoparsing', 'classification'],
-      searchClosed: true,
-      address: null,
-      locale:''
+        ],
+        panels: ['ligfinder', 'geoparsing', 'classification'],
+        searchClosed: true,
+        address: null,
+        locale:''
     }),
     methods:{
         clearGeocodedAddress(){
             this.$store.dispatch('geocoder/clearGeocodedAddress')
         },
         getid(id){
-            if (id=="user"){
-                this.$store.commit('user/setUserToggle')
-            }
-            else if (id=="layers"){
-                this.$store.commit('layers/setLayersToggle')
-                this.$store.dispatch('layers/getTableNames')
-            }
-            else if (id=="addData"){
-                this.$store.commit('addData/dropAreaToggle')
-            }
-            else if (id=="ligfinder"){
+            if (id=="ligfinder"){
                 this.$store.commit('ligfinder/setLigfinderToggle')
             }
             else if (id=="geoparsing"){
@@ -263,7 +232,6 @@ export default {
         changeLocale(code){
             if (this.$i18n.availableLocales.indexOf(code) > -1) {
                 this.$i18n.locale = code
-                this.items = this.$store.getters['panel/getMenuItems']
                 this.tools = this.$store.getters['panel/getMenuTools']
             } 
         }
@@ -281,9 +249,6 @@ export default {
         },
         currentLocale(){
             return $i18n.locale
-        },
-        menuItems(){
-            return this.$store.getters.panel.getMenuItems
         },
         menuTools(){
             return this.$store.getters.panel.getMenuTools
@@ -332,6 +297,9 @@ export default {
     flex-flow: column;
     justify-content: center;
     padding: 0;
+}
+.searchbar{
+    height: 100%;
 }   
 
 </style>

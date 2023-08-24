@@ -13,6 +13,12 @@ const layers = {
         
     },
     mutations:{
+        handleCheckboxStatus(state,payload){
+            console.log('handling cbox status of:',payload.tableName,payload.isChecked)
+            const table = state.tableNames
+            const index = table.findIndex((e)=>{return e['name']==payload.tableName})
+            state.tableNames[index].checked = payload.isChecked
+        },
         setLayersToggle(state){
             state.toggle=!state.toggle;
             state.toggle ? state.iconColor = '#FFFFFF' :  state.iconColor = '#ababab';
@@ -50,17 +56,16 @@ const layers = {
                 HTTP
                 .get('table-names')
                 .then(response => {
-                    state.tableNames = response.data
-
-                    for (let i of state.tableNames) {
-                        Object.assign(i, {checked:false})
+                    const tableList = response.data
+                    for (let i of tableList) {
+                        i['checked'] = false
                     }
+                    state.tableNames = tableList
                     if (rootState.ligfinder.FOI.features.length>0 ){
                         state.tableNames.push({id:100, name: "foi", checked:true})
                         let style =Object.assign({},{'type': 'fill','fillColor': '#d99ec4', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
                         Vue.set(state,"foiStyle", style)
                     }
-                    console.log(state)
                 })
             }
         },
@@ -141,6 +146,7 @@ const layers = {
                         popup.addTo(rootState.map.map);
             
                     })
+                    commit('handleCheckboxStatus',{tableName:response.data.name,isChecked:true})
                 })
             
             }
