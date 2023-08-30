@@ -1,58 +1,33 @@
 <template>
 <v-scroll-x-transition>
 
-    <div v-show="$store.state.geoparsing.toggle" class="geoparsing-ui">
-        <div>
-            <i
-                class="fas fa-times mt-1 " 
-                style="cursor: pointer; position: absolute; right: 1%"
-                @click="setGeoparsingToggle"   
-            >
-            </i>
-        </div>
-        <div class="text-center mt-4 geoparsing-title" >{{ $t('geoparsing.title') }}</div>
-        <v-container
-            class="px-0"
-            fluid
-            ml-3
-        >
+    <v-card v-show="$store.state.geoparsing.toggle" class="geoparsing-ui">
+        <v-card-title>{{ $t('geoparsing.title') }}</v-card-title>
+        <v-card-text>
+        <v-container>
             <v-select
                 :items="$store.state.geoparsing.datasetOptions"
                 :label="$t('geoparsing.results')"
                 solo
                 item-text="name"
                 item-value="value"
-                style="width:50%"
                 v-model="$store.state.geoparsing.datasetMode"
-                @change="removeStyles(), getPoints(), resetDate()"
-                :style="{marginTop:'8vh'}"   
+                @change="removeStyles(), getPoints(), resetDate(), setToolModeStylization()"
+                   
             >
             </v-select>
         </v-container>
-       
+        <v-divider></v-divider>
         <v-container v-show="$store.state.geoparsing.datasetMode">
-            <v-bottom-navigation
-                color="cyan"
-                grow
-            >
-                <v-btn @click="setToolModeStylization" >
-                    <span>{{$t('geoparsing.sytlization')}}</span>
-
-                    <v-icon>mdi-palette-outline</v-icon>
-                </v-btn>
-
-                <v-btn @click="setToolModeFiltering">
-                    <span>{{$t('geoparsing.filtering')}}</span>
-
-                    <v-icon>mdi-filter-outline</v-icon>
-                </v-btn>
-                <v-btn @click="setToolModeTopic">
-                    <span>{{$t('geoparsing.topics')}}</span>
-
-                    <v-icon>mdi-order-bool-ascending-variant</v-icon>
-                </v-btn>
-
-            </v-bottom-navigation>
+            <v-tabs background-color="#003063"
+                    dark
+                    style="border-radius: 4px;"
+                    fixed-tabs
+                >
+                    <v-tab id="aoi" class="" @click="setToolModeStylization" >{{$t('geoparsing.sytlization')}}</v-tab>
+                    <v-tab id="area" class="" @click="setToolModeFiltering">{{$t('geoparsing.filtering')}}</v-tab>
+                    <v-tab id="criteria" class="" @click="setToolModeTopic">{{$t('geoparsing.topics')}}</v-tab>
+                </v-tabs>
         </v-container>
 
         <v-container
@@ -124,6 +99,7 @@
                         prepend-icon="mdi-calendar"
                         v-bind="attrs"
                         v-on="on"
+                        solo
                     ></v-text-field>
                 </template>
                 <v-date-picker
@@ -132,7 +108,7 @@
                     range
                 ></v-date-picker>
             </v-menu>
-            <v-btn small outlined color="cyan" class="mt-6" @click="dateFilter">
+            <v-btn color="#003063" dark class="mt-6" @click="dateFilter">
                 {{$t('geoparsing.apply')}}
             </v-btn>
         </v-col>
@@ -151,15 +127,14 @@
         <v-select
           :items="$store.state.geoparsing.topicQueryModes"
           v-model="$store.state.geoparsing.selectedTopicQueryMode"
-          dense
           :label="$t('geoparsing.operator')"
         ></v-select>
-        <v-btn small outlined color="cyan" class="mt-6" @click="topicFilter">
+        <v-btn color="#003063" dark class="mt-6" @click="topicFilter">
                 {{$t('geoparsing.apply')}}
         </v-btn>
       </v-col>
-        
-    </div>
+    </v-card-text>
+    </v-card>
 </v-scroll-x-transition >
 
 </template>

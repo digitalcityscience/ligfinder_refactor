@@ -14,7 +14,7 @@
         <v-select
           :items="$store.state.AOI.items"
           :label="$t('ligfinder.aoi.mode')"
-          outlined
+          solo
           item-text="name"
           item-value="value"
           

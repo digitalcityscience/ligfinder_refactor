@@ -1,16 +1,9 @@
 <template>
 <v-scroll-x-transition>
-  <div v-show="$store.state.classification.toggle" class="classification-ui">
-        <div>
-            <i
-                class="fas fa-times mt-1 " 
-                style="cursor: pointer; position: absolute; right: 1%"
-                @click="setClassificationToggle"   
-            >
-            </i>
-        </div>
-         <div class="text-center mt-4 classification-title" >{{ $t('classification.title') }}</div>
-        <v-container
+  <v-card v-show="$store.state.classification.toggle" class="classification-ui">
+        <v-card-title>{{ $t('classification.title') }}</v-card-title>
+        <v-card-text>
+            <v-container
             fluid
             mt-10
         >
@@ -138,9 +131,8 @@
             </div>
 
         </v-container>
-        
-      
-  </div>
+        </v-card-text>
+    </v-card>
 </v-scroll-x-transition>
 </template>
 

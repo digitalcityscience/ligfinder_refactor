@@ -3,11 +3,9 @@
       <Panel />
       <div class="main-container">
         <div class="modules" id="left-container">
-            <v-card style="height: 100%; padding: 10px; padding-right: 0;">
               <Ligfinder />
               <Geoparsing />
               <Classification />
-            </v-card>
         </div>
         <div class="right-container" id="right-container">
             <Map/>
@@ -24,7 +22,7 @@ import Panel from './components/Panel'
 import Ligfinder from './components/Ligfinder'
 import Geoparsing from './components/Geoparsing'
 import Classification from './components/Classification'
-import MapHelpers from './components/MapHelpers.vue'
+import MapHelpers from './components/MapHelpers'
 import AddData from './components/AddData'
 
 export default {
@@ -46,7 +44,8 @@ export default {
 
 html, body {
   margin: 0;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #app {
@@ -63,10 +62,17 @@ html, body {
   display: flex;
   flex-direction: row;
 }
+.modules {
+  background-color: rgba(0, 48, 99,0.1);
+  padding: 10px 0 10px 10px;
+}
 .modules,.right-container{
   height: 100%;
 }
 .gutter.gutter-horizontal:hover{
   cursor: col-resize;
+}
+.gutter.gutter-horizontal{
+  background-color: rgba(0, 48, 99,0.1);
 }
 </style>
