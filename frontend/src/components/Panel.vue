@@ -1,156 +1,60 @@
 <template>
-
     <div>
-        
-    <v-app-bar
-      color="#4c5b6e"
-      dense
-      dark
-      style="z-index:999;"
-
-    >
-        <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-        <v-toolbar-title>{{ $t('panel.title') }}</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <!-- Header right panel begin -->
-        <div class="header-right d-flex">
-        <v-col class="searchbar">
-            <v-text-field
-                @focus="searchClosed = false"
-                @blur="searchClosed= true"
-                v-model="address"
-                v-on:keyup.enter="geocodeAddress"
-                :placeholder="$t('panel.searchAddr')"
-                prepend-inner-icon="mdi-magnify "
-                class="expanding-search"
-                :class="{ 'closed': searchClosed && !address }"
-                filled
-                dense
-                clearable
-                style="float:right; width: 300px;"
-                @click:clear="clearGeocodedAddress"
-            >
-            </v-text-field>
-        </v-col>
-        <v-col class="translation d-flex">
-            <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn 
-                        icon
-                        v-bind="attrs"
-                        v-on="on"
-                        >
-                            <v-icon>mdi-translate</v-icon>
-                        </v-btn>
-                </template>
-                <v-list class="text-center">
-                    <v-list-item-group
-                    v-model="locale"
-                    mandatory
-                    >
-                    <v-list-item
-                    v-for="(language,index) in languages"
-                    :key="index"
-                    :value="language.code"
-                        >
-                        <v-list-item-content>
-                            <v-list-item-title v-text="language.name"></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    </v-list-item-group>
-                </v-list>
-            </v-menu>
-        </v-col>
-        <v-col class="user d-flex">
-            <template>
-                <div class="text-center">
-                    <v-menu
-                    v-model="userMenu"
-                    :close-on-content-click="false"
-                    :nudge-width="200"
-                    offset-x
-                    >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                        v-bind="attrs"
-                        v-on="on"
-                        icon
-                        >
-                        <v-icon>mdi-account</v-icon>
-                        </v-btn>
-                    </template>
-
-                    <v-card>
-                        <User/>
-                    </v-card>
+        <v-app-bar color="rgba(0, 48, 99,1)" dense dark style="z-index:999;">
+            <v-tabs>
+                <v-tab center-active dark v-for="tool in tools" :key="tool.id"
+                    @click="getid(tool.id); closeOtherPanels(tool.id)">{{ tool.title }}</v-tab>
+            </v-tabs>
+            <v-spacer></v-spacer>
+            <!-- Header right panel begin -->
+            <div class="header-right d-flex">
+                <v-col class="searchbar">
+                    <v-text-field @focus="searchClosed = false" @blur="searchClosed = true" v-model="address"
+                        v-on:keyup.enter="geocodeAddress" :placeholder="$t('panel.searchAddr')"
+                        prepend-inner-icon="mdi-magnify " class="expanding-search"
+                        :class="{ 'closed': searchClosed && !address }" filled dense clearable
+                        style="float:right; width: 300px;" @click:clear="clearGeocodedAddress">
+                    </v-text-field>
+                </v-col>
+                <v-col class="translation d-flex">
+                    <v-menu offset-y>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn icon v-bind="attrs" v-on="on">
+                                <v-icon>mdi-translate</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list class="text-center">
+                            <v-list-item-group v-model="locale" mandatory>
+                                <v-list-item v-for="(language, index) in languages" :key="index" :value="language.code">
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="language.name"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list-item-group>
+                        </v-list>
                     </v-menu>
-                </div>
-            </template>
-        </v-col>
-        <!-- Header right panel end -->
-        </div>
-    </v-app-bar>
+                </v-col>
+                <v-col class="user d-flex">
+                    <template>
+                        <div class="text-center">
+                            <v-menu v-model="userMenu" :close-on-content-click="false" :nudge-width="200" offset-x>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn v-bind="attrs" v-on="on" icon>
+                                        <v-icon>mdi-account</v-icon>
+                                    </v-btn>
+                                </template>
 
-    
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-      style="z-index:9999"
-    >
-       
-        <v-list-item v-if="$store.state.user.loggedIn" class="px-2">
-            <v-list-item-avatar color="cyan" style="top: 0.2rem; ">
-                <span class="my-span white--text">
-                    {{$store.state.user.nameAbbreviation}}
-                </span>
-            </v-list-item-avatar>
-
-            <v-list-item-title style="top: 0.6rem; ">{{$store.state.user.firstname}} {{$store.state.user.lastname}}</v-list-item-title>
-
-            <v-btn
-            icon
-            @click.stop="drawer = !drawer"
-            >
-            <v-icon>mdi-chevron-left</v-icon>
-            </v-btn>
-        </v-list-item>
-
-        <v-divider v-if="$store.state.user.loggedIn"></v-divider>
-
-      
-
-      <v-list-group
-          :value="false"
-          no-action
-          prepend-icon="mdi-cog-outline"
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t('panel.modules') }}</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="tool in tools"
-            :key="tool.id"
-            link
-            dense
-            @click.stop="drawer = !drawer"
-            @click="getid(tool.id); closeOtherPanels(tool.id)"
-          >
-            <v-list-item-title v-text="tool.title"></v-list-item-title>
-
-            <v-list-item-icon>
-              <v-icon dense v-text="tool.icon"></v-icon>
-            </v-list-item-icon>
-          </v-list-item>
-        </v-list-group>
-    </v-navigation-drawer>
+                                <v-card>
+                                    <User />
+                                </v-card>
+                            </v-menu>
+                        </div>
+                    </template>
+                </v-col>
+                <!-- Header right panel end -->
+            </div>
+        </v-app-bar>
     </div>
-
-      
-
 </template>
 
 <script>

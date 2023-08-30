@@ -1,42 +1,35 @@
 <template>
-<v-scroll-x-transition>
-
-    <div v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
-        <template >
-                  <i
-                class="fas fa-times mt-1 " 
-                style="cursor: pointer; position: absolute; right: 1%; top:0; z-index:999"
-                @click="setLigfinderToggle"   
-            >
-            </i>
-            <v-tabs background-color="cyan accent-4"
-                center-active
-                dark
-                show-arrows
-            >
-                <v-tabs-slider color="purple darken-4"></v-tabs-slider>
-                <v-tab id="aoi" class="" @click="setClickedMenu($event);" >{{ $t('ligfinder.tabs.searchArea') }}</v-tab>
-                <v-tab id="area" class="" @click="setClickedMenu($event);">{{ $t('ligfinder.tabs.area') }}</v-tab>
-                <v-tab id="criteria" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.criteria') }}</v-tab>
-                <v-tab id="proximity" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.infra') }}</v-tab>
-                <v-tab id="results" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.results') }}
-                    <v-chip color="green"> {{$store.state.ligfinder.FOI.features.length}} </v-chip>
-                </v-tab>
-                <v-tab id="joinparcels" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.joinParcels') }}</v-tab>
-            </v-tabs>
-        </template>
-        <div class="mx-4 mt-4">
-            <AOI v-if="clickedLigMenue==='aoi'" />
-            <Results v-if="clickedLigMenue==='results'" />
-            <Area v-if="clickedLigMenue==='area'" />
-            <Criteria v-if="clickedLigMenue==='criteria'" />
-            <Proximity v-if="clickedLigMenue==='proximity'" />
-            <JoinParcels v-if="clickedLigMenue==='joinparcels'" />
-           
+    <v-scroll-x-transition>
+        <v-card v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
+            <v-card-title>LIGFINDER</v-card-title>
+            <div>
+            <v-card-text >
+                <v-tabs background-color="#003063"
+                    center-active
+                    dark
+                    show-arrows
+                >
+                    <v-tab id="aoi" class="" @click="setClickedMenu($event);" >{{ $t('ligfinder.tabs.searchArea') }}</v-tab>
+                    <v-tab id="area" class="" @click="setClickedMenu($event);">{{ $t('ligfinder.tabs.area') }}</v-tab>
+                    <v-tab id="criteria" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.criteria') }}</v-tab>
+                    <v-tab id="proximity" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.infra') }}</v-tab>
+                    <v-tab id="results" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.results') }}
+                        <v-chip color="green"> {{ $store.state.ligfinder.FOI.features.length }} </v-chip>
+                    </v-tab>
+                    <v-tab id="joinparcels" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.joinParcels') }}</v-tab>
+                </v-tabs>
+            </v-card-text>
+            <div class="mx-4 mt-4">
+                <AOI v-if="clickedLigMenue === 'aoi'" />
+                <Results v-if="clickedLigMenue === 'results'" />
+                <Area v-if="clickedLigMenue === 'area'" />
+                <Criteria v-if="clickedLigMenue === 'criteria'" />
+                <Proximity v-if="clickedLigMenue === 'proximity'" />
+                <JoinParcels v-if="clickedLigMenue === 'joinparcels'" />
+            </div>
         </div>
-    </div>
-</v-scroll-x-transition>
-
+        </v-card>
+    </v-scroll-x-transition>
 </template>
 
 <script>
@@ -77,11 +70,7 @@ export default {
 
 <style scoped>
     .ligfinder-ui{
-        position: absolute;
-        font-family: 'Nunito', sans-serif;
         background-color: rgba(255, 255, 255, 1);
-        z-index: 900;
-        width: 40vw;
         height: 100%;
         overflow-y: scroll;
     }
