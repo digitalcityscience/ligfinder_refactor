@@ -1,13 +1,21 @@
 <template>
-   
+    <v-dialog activator='#addDataModal' v-model="$store.state.addData.toggle" max-width="50vw" persistent>
+        <v-card>
+            <v-card-title class="d-flex flex-row-reverse">
+                <v-btn icon @click="$store.commit('addData/dropAreaToggle')"><v-icon>mdi-close</v-icon></v-btn>
+            </v-card-title>
+            <v-card-text>
+                <div class="drag-area" @dragover="onDragOver($event)" @dragleave="onDragLeave($event)"
+                    @drop="onDrop($event)" @dragenter.prevent @dragover.prevent>
 
-        <div class="drag-area" @dragover="onDragOver($event)" @dragleave="onDragLeave($event)" @drop="onDrop($event)"  @dragenter.prevent @dragover.prevent>
-            
-            <div class="icon"><i class="fas fa-cloud-upload-alt fa-4x"></i></div>
-            <header id="header1">Drag &amp; Drop Exported Parcels</header>
-            <header id="header2">Supported versions: JSON, GeoJSON </header>
-           
-        </div>
+                    <div class="icon"><i class="fas fa-cloud-upload-alt fa-4x"></i></div>
+                    <header id="header1">Drag &amp; Drop Exported Parcels</header>
+                    <header id="header2">Supported versions: JSON, GeoJSON </header>
+
+                </div>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -36,7 +44,7 @@ export default {
                     let toBeRemove = ".json";
                     let filenName = file.name.replace(toBeRemove,'');
                     this.$store.dispatch('addData/addDroppedData', {data: json, fileName: filenName});
-                    this.$store.commit('addData/closeDropArea');
+                    // this.$store.commit('addData/closeDropArea');
                     document.querySelector(".drag-area").querySelector("#header1").textContent = "Drag & Drop Exported Parcels."
                     document.querySelector(".drag-area").querySelector("#header2").textContent = "Supported versions: JSON, GeoJSON"
                 }
