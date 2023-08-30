@@ -77,11 +77,7 @@ export default {
 
 <style scoped>
     .ligfinder-ui{
-        position: absolute;
-        font-family: 'Nunito', sans-serif;
         background-color: rgba(255, 255, 255, 1);
-        z-index: 900;
-        width: 40vw;
         height: 100%;
         overflow-y: scroll;
     }

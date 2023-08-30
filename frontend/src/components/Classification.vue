@@ -183,11 +183,7 @@ export default {
 
 <style scoped>
     .classification-ui{
-        position: absolute;
-        font-family: 'Nunito', sans-serif;
         background-color: rgba(255, 255, 255, 1);
-        z-index: 900;
-        width: 30vw;
         height: 100%;
         overflow-y: scroll;
     }

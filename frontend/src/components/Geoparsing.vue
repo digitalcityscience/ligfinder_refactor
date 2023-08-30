@@ -234,11 +234,7 @@ export default {
 
 <style scoped>
     .geoparsing-ui{
-        position: absolute;
-        font-family: 'Nunito', sans-serif;
         background-color: rgba(255, 255, 255, 1);
-        z-index: 900;
-        width: 25vw;
         height: 100vh;
     }
     .geoparsing-title{

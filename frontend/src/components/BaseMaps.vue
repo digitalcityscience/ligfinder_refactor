@@ -63,7 +63,7 @@ export default {
 .basemap-options{
     position: absolute;
     right: 50px;
-    top: 88px;
+    top: 136px;
     z-index: 2;
     background-color: white;
     padding-left: 10px;
