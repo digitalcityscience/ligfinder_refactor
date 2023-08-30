@@ -2,9 +2,9 @@ const map=  {
     namespaced: true,
     state:{
         map:null,
-        initialLongitude: 9.99,
-        initialLatitude: 53.55,
-        initialZoom:9,
+        initialLongitude: 9.993275,
+        initialLatitude: 53.552807,
+        initialZoom:10,
         maxZoom: 19,
         minZoom: 1,
         preserveDrawingBuffer: true,
