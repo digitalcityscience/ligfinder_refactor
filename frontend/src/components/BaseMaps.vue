@@ -67,7 +67,8 @@ export default {
     z-index: 2;
     background-color: white;
     padding-left: 10px;
-    padding-right: 10px
+    padding-right: 10px;
+    pointer-events:all;
 }
 
 

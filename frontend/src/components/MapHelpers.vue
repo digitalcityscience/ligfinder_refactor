@@ -53,5 +53,6 @@ export default {
 .layers-container {
     position: absolute;
     right: 0;
+    pointer-events: all;
 }
 </style>
