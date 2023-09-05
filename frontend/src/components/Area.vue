@@ -116,8 +116,8 @@
             </v-card-text>
 
             <v-col class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-info" @click="areaFilter">{{ $t('ligfinder.area.search') }}</button>
-                <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyAreaFilter">{{ $t('ligfinder.area.apply') }}</button>
+                <v-btn light color="primary" class="m-2" @click="areaFilter">{{ $t('ligfinder.area.search') }}</v-btn>
+                <v-btn light color="success" class="m-2" @click="applyAreaFilter">{{ $t('ligfinder.area.apply') }}</v-btn>
             </v-col>
         </v-card>
     </div>

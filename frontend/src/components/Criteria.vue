@@ -201,8 +201,8 @@
                     solo
                     class="select-operator"
                 ></v-select>
-                <template v-for="tag in $store.state.criteria.includeTags">
-                    <v-chip :key="tag.name"
+                <template>
+                    <v-chip  v-for="tag in $store.state.criteria.includeTags" :key="tag.name"
                         @dragstart="startDrag($event, tag)"
                         :draggable="true"
                         class="ma-1"
@@ -224,8 +224,8 @@
            
             <div @drop="onDropExcluded($event)" @dragenter.prevent @dragover.prevent>
                 <p class="mt-1 ml-1">{{ $t('ligfinder.criteria.excluded') }}</p>
-                <template v-for="tag in $store.state.criteria.excludeTags">
-                <v-chip :key="tag.name"
+                <template>
+                <v-chip  v-for="tag in $store.state.criteria.excludeTags" :key="tag.name"
                     @dragstart="startDrag($event, tag)"
                     :draggable="true"
                     class="ma-1"
@@ -243,15 +243,16 @@
         </v-container>
     </v-card>
     <div class="mt-4 mb-4" >
-        <button
-            style="font-size: 0.8vw"
-            class="btn btn-info" 
+        <v-btn
+            light
+            color="primary"
+            class="m-2" 
             @click="criteriaFilter()" 
             :disabled='$store.state.criteria.includeTags.length==0 && $store.state.criteria.excludeTags.length==0'
         >
         {{ $t('ligfinder.criteria.search') }}
-        </button>
-        <button style="font-size: 0.8vw" class="btn btn-success ml-2" @click="applyCriteriaFilter">{{ $t('ligfinder.criteria.apply') }}</button>
+    </v-btn>
+    <v-btn light color="success" class="m-2" @click="applyCriteriaFilter">{{ $t('ligfinder.criteria.apply') }}</v-btn>
 
     </div>
 </div>

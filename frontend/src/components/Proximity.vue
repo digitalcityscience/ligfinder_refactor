@@ -5,20 +5,15 @@
   >
     <div v-for="item in $store.state.proximity.parameters"  :key="item.value">
       <v-card-text class="mt-0">
-      <!--<v-checkbox
-        v-model="item.checked"
-        @click="disableWeight(item.value)"
-        :label="item.name"
-      ></v-checkbox>-->
       <v-checkbox
-        color="cyan"
+        color="primary"
         v-model="item.checked"
         :label="item.name"
         :dense="false"
         hide-details
         @mousedown="disableWeight(item.value); changeSlider(item.value)"
       ></v-checkbox>
-      <v-row>
+      <v-row class="mt-4">
         <v-col >
             
           <v-slider
@@ -28,10 +23,10 @@
             class="align-center"
             :max="$store.state.proximity.apothekeMax"
             :min="$store.state.proximity.apothekeMin"
-            track-color="blue lighten-4"
+            track-color="primary"
             thumb-label="always"
             :thumb-size="27"
-            thumb-color="blue"
+            thumb-color="primary"
             step= "0.01"
             hide-details
           >
@@ -46,9 +41,9 @@
     </div>
     
     <v-col class="mt-4 " >
-        <button style="font-size: 0.8vw" class="btn btn-success mr-2" @click="equalizeWeight">{{ $t('ligfinder.proximity.eqWeight') }}</button>
+        <v-btn light color="success" class="m-2" @click="equalizeWeight">{{ $t('ligfinder.proximity.eqWeight') }}</v-btn>
 
-        <button style="font-size: 0.8vw" class="btn btn-info" @click="proximityAnalysis">{{ $t('ligfinder.proximity.analyze') }}</button>
+        <v-btn light color="primary" class="m-2" @click="proximityAnalysis">{{ $t('ligfinder.proximity.analyze') }}</v-btn>
     </v-col>
   </v-card>
   </div>

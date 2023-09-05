@@ -28,7 +28,7 @@
                     </template>
                 </v-slider>
                 
-                <button style="font-size: 0.8vw" class="btn btn-info mt-4" @click="getTouchedParcels" >{{ $t('ligfinder.joinParcels.search') }}</button>
+                <v-btn light color="primary" class="m-2 mt-4" @click="getTouchedParcels" >{{ $t('ligfinder.joinParcels.search') }}</v-btn>
                 <v-switch
                     v-if="$store.state.joinParcels.toggleSwitch"
                     v-model="$store.state.joinParcels.layerVisibility"
