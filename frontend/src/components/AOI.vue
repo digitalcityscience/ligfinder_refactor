@@ -11,16 +11,22 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-select
-          :items="$store.state.AOI.items"
-          :label="$t('ligfinder.aoi.mode')"
-          solo
-          item-text="name"
-          item-value="value"
+        <v-card class="input-group">
+            <v-card-title class="text-subtitle-1">AOI Mode</v-card-title>
+            <v-card-text>
+                <v-select
+                  :items="$store.state.AOI.items"
+                  :label="$t('ligfinder.aoi.mode')"
+                  solo
+                  item-text="name"
+                  item-value="value"
           
-          v-model="$store.state.AOI.selectMode"
-          @change="toggleAOIModes"
-        ></v-select>
+                  v-model="$store.state.AOI.selectMode"
+                  @change="toggleAOIModes"
+                ></v-select>
+            </v-card-text>
+        </v-card>
+        
         <AdministrativeAOI v-if="$store.state.AOI.selectMode==='administrative'" />
         <GeometryAOI v-if="$store.state.AOI.selectMode==='geometry'" />
         <IsochroneAOI v-if="$store.state.AOI.selectMode==='isochrone'" />
@@ -130,5 +136,7 @@ export default {
 </script>
 
 <style scoped>
-
+.v-card.input-group{
+    box-shadow: none;
+}
 </style>
