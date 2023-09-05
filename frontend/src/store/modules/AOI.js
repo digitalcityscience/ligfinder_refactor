@@ -26,7 +26,7 @@ const AOI = {
     },
     actions:{
         addAdminAreaToAOIList({state, rootState}){
-            state.AOIs[0].data= rootState.administrativeAOI.selectedFeatures
+            state.AOIs[0].data= rootState.administrativeAOI.pickedStates
         },
         addGeomDrawAreaToAOIList({state, rootState}){
             state.AOIs[1].data=rootState.geometryAOI.AOI
@@ -95,9 +95,7 @@ const AOI = {
                 const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
                 if(typeof adminastrativeLayer !== 'undefined'){
                     rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
-                    rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea+"line")
                     rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
-                    rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea+"line")
                 }
 
                 // remove selectedfeatures layer
@@ -156,9 +154,7 @@ const AOI = {
                     const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
                     if(typeof adminastrativeLayer !== 'undefined'){
                         rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
-                        rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea+"line")
                         rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
-                        rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea+"line")
                     }
 
                     // remove selectedfeatures layer
@@ -189,9 +185,7 @@ const AOI = {
                     const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
                     if(typeof adminastrativeLayer !== 'undefined'){
                         rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
-                        rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea+"line")
                         rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
-                        rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea+"line")
                     }
 
                     // remove selectedfeatures layer
