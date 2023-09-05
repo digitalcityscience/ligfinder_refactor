@@ -19,7 +19,7 @@
         </v-container>
         <v-divider></v-divider>
         <v-container v-show="$store.state.geoparsing.datasetMode">
-            <v-tabs background-color="#003063"
+            <v-tabs background-color="primary"
                     dark
                     style="border-radius: 4px;"
                     fixed-tabs
@@ -108,7 +108,7 @@
                     range
                 ></v-date-picker>
             </v-menu>
-            <v-btn color="#003063" dark class="mt-6" @click="dateFilter">
+            <v-btn color="primary" class="mt-6" @click="dateFilter">
                 {{$t('geoparsing.apply')}}
             </v-btn>
         </v-col>
@@ -129,7 +129,7 @@
           v-model="$store.state.geoparsing.selectedTopicQueryMode"
           :label="$t('geoparsing.operator')"
         ></v-select>
-        <v-btn color="#003063" dark class="mt-6" @click="topicFilter">
+        <v-btn color="primary"  class="mt-6" @click="topicFilter">
                 {{$t('geoparsing.apply')}}
         </v-btn>
       </v-col>

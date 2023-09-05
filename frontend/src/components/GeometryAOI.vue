@@ -1,7 +1,9 @@
 <template>
-    <div  class="geometry-select">
-        <div style="width:60%; margin-top: 5%">
-            
+    <v-card  class="geometry-select">
+        <v-card-subtitle>
+            Geometry AOI Selection
+        </v-card-subtitle>
+        <v-card-text>
             <v-select
                 :items="$store.state.geometryAOI.items"
                 :label="$t('ligfinder.aoi.geometry.mode')"
@@ -12,42 +14,25 @@
                 v-model="$store.state.geometryAOI.selectMode"
                 @change="getGeomArea"
             ></v-select>
-            <!--<div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-info" @click="getSelectedFeatures" :disabled="$store.state.geometryAOI.AOI==null">Suche Starten</button>
-                <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" @click="resetSelectedFeatures()" :disabled="$store.state.ligfinder.FOI.features.length==0">Filter Zurücksetzen </button>
-            </div>-->
             <v-btn
-                class="mx-2 mt-3"
-                fab
                 dark
-                x-small
-                outlined
                 color="green"
                 @click="addToAOIList"
                 :disabled="$store.state.geometryAOI.AOI==null"
             >
-            
-                <v-icon dark>
-                  mdi-plus
-                </v-icon>
+            Add to List
             </v-btn>
             <v-btn
-                class="mx-2 mt-3"
-                fab
+                class="ml-2"
                 dark
-                x-small
-                outlined
                 color="red"
                 @click="deleteDrawnGeom"
                 :disabled="$store.state.geometryAOI.AOI==null"
             >
-                <v-icon dark>
-                    mdi-minus
-                </v-icon>
+            Remove Selection
             </v-btn>
-            
-        </div>
-    </div>
+        </v-card-text>
+    </v-card>
 </template>
 
 <script>
