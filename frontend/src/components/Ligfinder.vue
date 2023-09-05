@@ -10,8 +10,8 @@
                     show-arrows
                 >
                     <v-tab id="aoi" class="" @click="setClickedMenu($event);" >{{ $t('ligfinder.tabs.searchArea') }}</v-tab>
-                    <v-tab id="area" class="" @click="setClickedMenu($event);">{{ $t('ligfinder.tabs.area') }}</v-tab>
                     <v-tab id="criteria" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.criteria') }}</v-tab>
+                    <v-tab id="area" class="" @click="setClickedMenu($event);">{{ $t('ligfinder.tabs.area') }}</v-tab>
                     <v-tab id="proximity" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.infra') }}</v-tab>
                     <v-tab id="results" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.results') }}
                         <v-chip color="green"> {{ $store.state.ligfinder.FOI.features.length }} </v-chip>
