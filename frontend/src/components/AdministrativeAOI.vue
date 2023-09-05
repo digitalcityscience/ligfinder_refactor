@@ -15,11 +15,11 @@
                     :placeholder="$t('ligfinder.aoi.administrative.selectByName')"></v-autocomplete>
             
 
-            <v-btn class="mx-2 mt-3"  dark color="green" @click="addToAOIList"
+            <v-btn dark color="green" @click="addToAOIList"
                 :disabled="$store.state.administrativeAOI.pickedStates.length == 0">
                 Add to List
             </v-btn>
-            <v-btn class="mx-2 mt-3"  dark  color="red" @click="deleteSelectedFeatures"
+            <v-btn class="ml-2" dark color="red" @click="deleteSelectedFeatures"
                 :disabled="$store.state.administrativeAOI.pickedStates.length == 0">
                 Remove Selection
             </v-btn>
