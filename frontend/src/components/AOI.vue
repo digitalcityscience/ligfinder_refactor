@@ -75,7 +75,7 @@
                 class="select-operator"
             >
             </v-select>
-            <button style="font-size: 0.8vw" class="btn btn-info mb-4 mt-4" @click="getParcels()">{{ $t('ligfinder.aoi.search') }}</button>            
+            <v-btn light color="primary" class="m-2 mt-4" @click="getParcels()">{{ $t('ligfinder.aoi.search') }}</v-btn>            
         </div>
     </div>
 </template>
