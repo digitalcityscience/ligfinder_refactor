@@ -1,111 +1,83 @@
 <template>
-    <div  class="isochrone-select">
-        <div style="width:60%; margin-top: 5%">
-           
-                <p>{{ $t('ligfinder.aoi.isochrone.mode') }}</p>
-                <v-card>
-
-                
-                <v-btn-toggle
+    <v-card  class="isochrone-select">
+        <v-card-subtitle>{{ $t('ligfinder.aoi.isochrone.mode') }}</v-card-subtitle>
+        <v-card-text>
+                    <v-btn-toggle
                     v-model="mode"
                     tile
-                    color="blue accent-3"
                     group
                 >
-                    <v-btn value="walk_network" >
+                    <v-btn outlined value="walk_network" >
                         <v-icon
-                            large
-                            color="blue darken-2"
-                            small
+                            color="primary"
                         >
                             mdi-walk
                         </v-icon>
                     </v-btn>
-
                     <v-btn value="bike_network">
                     <v-icon
-                            large
-                            color="blue darken-2"
-                            small
+                            color="primary"
                         >
                             mdi-bike
                         </v-icon>
                     </v-btn>
-
                     <v-btn value="drive_network">
                     <v-icon
-                            large
-                            color="blue darken-2"
-                            small
+                            color="primary"
                         >
                             mdi-car
                         </v-icon>
                     </v-btn>
-
-       
                 </v-btn-toggle>
-                </v-card>
-                
                 <div class="isochrone-setting mt-4">
                 <p>{{ $t('ligfinder.aoi.isochrone.center') }}</p>
                 <v-btn id="draw-point" @click="showPointDraw"
                     icon
-                    outlined
-                    color="indigo"
                 >
                     <v-icon
-                            color="blue darken-2"
-                            small
+                            color="primary"
                         >
                             mdi-map-marker-radius
                         </v-icon>
                 </v-btn>
-
                 <p class=" mt-4">{{ $t('ligfinder.aoi.isochrone.travelTime') }}</p>
-                <div class="input-group mt-3">
-                    <span class="input-group-text"><i class="far fa-clock"></i></span>
-                    <input type="text" id="time" name="time" v-model="time" class="form-control" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-text">{{ $t('ligfinder.aoi.isochrone.min') }}</span>
-                </div>
-                <button style="font-size: 0.8vw" class="btn btn-info mt-3" @click="getIsochrone()" :disabled="mode==null || time==null || $store.state.isochroneAOI.center==null">{{ $t('ligfinder.aoi.isochrone.get') }}</button>
+                <v-text-field
+                    type="number"
+                    v-model="time"
+                    id="time"
+                    name="time"
+                    :suffix="$t('ligfinder.aoi.isochrone.min')"
+                    prepend-icon="mdi-clock-outline"
+                    solo
+                ></v-text-field>
+                
+                <v-btn color="primary" light class="mt-3" @click="getIsochrone()" :disabled="mode==null || time==null || $store.state.isochroneAOI.center==null">{{ $t('ligfinder.aoi.isochrone.get') }}</v-btn>
             </div>
             
             
-            <!--<div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-info" @click="getParcels()">Suche Starten</button>
-                <button  style="font-size: 0.8vw" class="btn btn-secondary mx-3" @click="reset()" :disabled="$store.state.ligfinder.FOI.features.length==0">Filter Zurücksetzen </button>
-            </div>-->
+            
+        </v-card-text>
+        <v-card-actions class="pb-4">
             <v-btn
-                class="mx-2 mt-3"
-                fab
                 dark
-                x-small
-                outlined
+                class="ml-2"
                 color="green"
                 @click="addToAOIList"
                 :disabled="$store.state.isochroneAOI.AOI==null"
             >
-                <v-icon dark>
-                    mdi-plus
-                </v-icon>
+            Add to List
             </v-btn>
             <v-btn
-                class="mx-2 mt-3"
-                fab
                 dark
-                x-small
-                outlined
+                class="ml-2"
                 color="red"
                 @click="deleteIsochroneAOI"
                 :disabled="$store.state.isochroneAOI.AOI==null"
             >
-                <v-icon dark>
-                    mdi-minus
-                </v-icon>
+            Remove Selection
             </v-btn>
-            
-        </div>
-    </div>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script>
