@@ -48,7 +48,10 @@
                 v-for="item in $store.state.AOI.AOIs"
                 :key="item.name"
                 >
-                    <td v-if="item.data!=null">{{ item.name }}</td>
+                    <td v-if="item.data!=null">
+                        <p class="text-body-1 mb-0">{{ item.name }}</p>
+                        <p class="text-caption" v-if="item.value == 'administrative'">{{ concatNames(item.data) }}</p>
+                    </td>
                     <td v-if="item.data!=null">
                         
                         <v-icon
@@ -129,6 +132,13 @@ export default {
         deleteItemConfirm(){
             this.deleteDialog=false
             this.$store.dispatch("AOI/deleteItemConfirm", this.deleteItemValue)
+        },
+        concatNames(data){
+            let concat = []
+            data.forEach((item)=>{
+                concat.push(item.name)
+            })
+            return concat.join(', ')
         }
         
     }
