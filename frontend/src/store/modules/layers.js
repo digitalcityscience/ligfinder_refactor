@@ -9,12 +9,12 @@ const layers = {
         toggle: false,
         tableNames: [],
         addedTableNames: [],
-        addedLayers: []
+        addedLayers: [],
+        gotList : false
         
     },
     mutations:{
         handleCheckboxStatus(state,payload){
-            console.log('handling cbox status of:',payload.tableName,payload.isChecked)
             const table = state.tableNames
             const index = table.findIndex((e)=>{return e['name']==payload.tableName})
             state.tableNames[index].checked = payload.isChecked
@@ -60,19 +60,20 @@ const layers = {
                     for (let i of tableList) {
                         i['checked'] = false
                     }
-                    state.tableNames = tableList
+                    state.tableNames = [...tableList,...state.tableNames]
                     if (rootState.ligfinder.FOI.features.length>0 ){
                         state.tableNames.push({id:100, name: "foi", checked:true})
                         let style =Object.assign({},{'type': 'fill','fillColor': '#d99ec4', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
                         Vue.set(state,"foiStyle", style)
                     }
+                    state.gotList = true
                 })
             }
         },
         addTable({state,  rootState, commit}, payload){
             const clickedTableName = payload.name;
             
-            if (clickedTableName!= "foi"){
+            if (clickedTableName!= "foi" && payload.id != 'geocoded'){
                 rootState.map.isLoading = true
                 HTTP
                 .post('add-table', {
@@ -166,9 +167,44 @@ const layers = {
             }
             
         },
+        addGeoparsingLayer({state,rootState},layerName){
+            const isLayerOnMap = rootState.map.map.getLayer('geocoded') == 'undefined' ? false : true
+            const isLayerOnList = state.tableNames.findIndex((layer)=>{return layer.id == 'geocoded'}) < 0 ? false : true
+            if(isLayerOnMap){
+                if (isLayerOnList) {
+                    const listedLayer = state.tableNames.find((layer)=>{return layer.id == 'geocoded'})
+                    if(listedLayer.name != layerName){
+                        state.tableNames[state.tableNames.findIndex((layer)=>{return layer.id == 'geocoded'})].name = layerName
+                        state.tableNames[state.tableNames.findIndex((layer)=>{return layer.id == 'geocoded'})].checked = true
+                    }
+                } else {
+                  const visibility = rootState.map.map.getLayoutProperty(
+                    "geocoded",
+                    "visibility"
+                  );
+                  let isVisible = true;
+                  if (visibility == undefined || visibility == "visible") {
+                    isVisible = true;
+                  } else {
+                    isVisible = false;
+                  }
+                  state.tableNames.push({
+                    id: "geocoded",
+                    name: layerName,
+                    checked: isVisible,
+                  });
+                }
+                
+                
+            }
+        }
+
         
     },
     getters:{
+        getGeocodedLayerName(state){
+            return state.tableNames.filter((layer)=>{return layer.id == 'geocoded'})
+        }
     }
 
 }

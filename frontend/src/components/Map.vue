@@ -46,7 +46,7 @@ export default {
         if(instance.$store.state.map.basemapOptionsToggle){
         instance.$store.commit('map/toggleBasemapOptionsPanel')
         }
-        if(instance.$store.state.layers.tableNames.length == 0){
+        if(!instance.$store.state.layers.gotList){
           instance.$store.dispatch('layers/getTableNames')
         }
       }
@@ -58,14 +58,11 @@ export default {
     const addDataControl = new AddDataControl(_this,'',modalid,function(e,modalid,instance) {
         e.stopImmediatePropagation()
         e.preventDefault()
-        console.log('opening modal,')
         instance.$store.commit('addData/dropAreaToggle')
         if(instance.$store.state.layers.toggle){
-        console.log('closing layer panel')
         instance.$store.commit('layers/setLayersToggle')
         }
         if(instance.$store.state.map.basemapOptionsToggle){
-        console.log('closing basemap panel')
         instance.$store.commit('map/toggleBasemapOptionsPanel')
         }
       }
@@ -75,7 +72,6 @@ export default {
     //Add basemap control to the map
     const buttonID = ''
     const buttonClass = ''
-    console.log('adding basemap control...')
     const addBaseMapControl = new AddBaseMapControl(_this,buttonClass,buttonID,function(e,buttonID,instance) {
         e.preventDefault()
         instance.$store.commit('map/toggleBasemapOptionsPanel')
@@ -93,7 +89,6 @@ export default {
     })
     this.$store.state.map.map.on('click', 'foi', (e) => {
       let clickedParcel = e.features[0].properties.gid
-      console.log(clickedParcel)
       const coordinates = [e.lngLat.lng, e.lngLat.lat]
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -121,9 +116,6 @@ export default {
         this.$store.dispatch('geoparsing/parliamentPopup',e)
       }            
     })
-    this.$store.state.map.map.on('resize', () => {
-console.log('A resize event occurred.');
-});
   },
   watch: {
     '$store.state.ligfinder.FOI': function() {

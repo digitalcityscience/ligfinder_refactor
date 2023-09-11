@@ -13,11 +13,8 @@ const geoparsing = {
     state:{
         toggle: false,
         items: ['Circle', 'Heat Map', 'Point Cluster', '2D Hexagon', '3D Hexagon', 'No Style'],
-        switch1: false,
-        switch2: false,
         geocodedData: null,
         newspaperData: null,
-        hexagonVisible: true,
         datasetOptions: [
             { name: 'Parliament Database', value: 'parliament' },
             { name: 'News Paper', value: 'newspaper' },
@@ -62,7 +59,6 @@ const geoparsing = {
     },
     mutations:{
         setGeoparsingToggle(state){
-            console.log(state.toggle)
             state.toggle=!state.toggle;
         },
         geoparsingToggle(state){
@@ -84,23 +80,47 @@ const geoparsing = {
     },
     actions:{
         getGeocodedPoints({state, rootState, dispatch}){
-            dispatch('removeStyles');
-            HTTP
-            .get('get-geocoded-points')
-            .then(response => {
-                state.geocodedData = response.data
-                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
-                rootState.map.map.addLayer({
-                    'id': 'geocoded',
-                    'type': 'circle',
-                    'source': 'geocoded',
-                    'paint': {
-                        'circle-color': '#8931e0'
-                    }
+            dispatch("removeStyles").then(() => {
+              if (state.geocodedData) {
+                rootState.map.map.addSource("geocoded", {
+                  type: "geojson",
+                  data: state.geocodedData,
                 });
-                dispatch('computeParliamentDateRange')
-                
-            })
+                rootState.map.map.addLayer({
+                  id: "geocoded",
+                  type: "circle",
+                  source: "geocoded",
+                  paint: {
+                    "circle-color": "#8931e0",
+                  },
+                });
+                dispatch("computeParliamentDateRange");
+                dispatch("layers/addGeoparsingLayer", "parliament", {
+                  root: true,
+                });
+              } else {
+                HTTP.get("get-geocoded-points").then((response) => {
+                  state.geocodedData = response.data;
+                  rootState.map.map.addSource("geocoded", {
+                    type: "geojson",
+                    data: response.data,
+                  });
+                  rootState.map.map.addLayer({
+                    id: "geocoded",
+                    type: "circle",
+                    source: "geocoded",
+                    paint: {
+                      "circle-color": "#8931e0",
+                    },
+                  });
+                  dispatch("computeParliamentDateRange");
+                  dispatch("layers/addGeoparsingLayer", "parliament", {
+                    root: true,
+                  });
+                });
+              }
+            });
+            
         },
         computeParliamentDateRange({state}){
             let dateArray = []
@@ -115,23 +135,28 @@ const geoparsing = {
             state.minDate = sorted.shift()
         },
         getNewspaperPoints({state, rootState, dispatch}){
-            dispatch('removeStyles');
-            HTTP
-            .get('get-geocoded-newspaper-points')
-            .then(response => {
-                state.newspaperData = response.data
-                rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
-                rootState.map.map.addLayer({
-                    'id': 'geocoded',
-                    'type': 'circle',
-                    'source': 'geocoded',
-                    'paint': {
-                        'circle-color': '#8931e0'
-                    }
+            dispatch("removeStyles").then(() => {
+              HTTP.get("get-geocoded-newspaper-points").then((response) => {
+                state.newspaperData = response.data;
+                rootState.map.map.addSource("geocoded", {
+                  type: "geojson",
+                  data: response.data,
                 });
-                dispatch('computeNewspaperDateRange')
-                
-            })
+                rootState.map.map.addLayer({
+                  id: "geocoded",
+                  type: "circle",
+                  source: "geocoded",
+                  paint: {
+                    "circle-color": "#8931e0",
+                  },
+                });
+                dispatch("computeNewspaperDateRange");
+                dispatch("layers/addGeoparsingLayer", "newspaper", {
+                  root: true,
+                });
+              });
+            });
+            
         },
         computeNewspaperDateRange({state}){
             let dateArray = []
@@ -172,8 +197,7 @@ const geoparsing = {
 
             }
             
-        },
-                
+        },     
         changeStyle({state, rootState, dispatch}, payload){
             let points =null
             if (state.datasetMode=='parliament'){
@@ -344,7 +368,7 @@ const geoparsing = {
                     data: points.features,
                     getPosition: f => f.geometry.coordinates,
                     pickable: true,
-                    visible: state.hexagonVisible,
+                    visible: true,
                     radius: 1000,
                     elevationScale: 10,
                     extruded: false,
@@ -352,7 +376,6 @@ const geoparsing = {
                     upperPercentile: 100,
                     autoHighlight: true,
                     elevationRange: [0, 3000],
-                    //getRadius: d => d.size,
                     getColor: [255, 0, 0]
                 });
                 rootState.map.map.addLayer(myDeckLayer);
@@ -366,7 +389,7 @@ const geoparsing = {
                     data: points.features,
                     getPosition: f => f.geometry.coordinates,
                     pickable: true,
-                    visible: state.hexagonVisible,
+                    visible: true,
                     radius: 1000,
                     elevationScale: 10,
                     extruded: true,
@@ -374,7 +397,6 @@ const geoparsing = {
                     upperPercentile: 100,
                     autoHighlight: true,
                     elevationRange: [0, 3000],
-                    //getRadius: d => d.size,
                     getColor: [255, 0, 0]
                 });
                 rootState.map.map.addLayer(myDeckLayer);
@@ -474,7 +496,6 @@ const geoparsing = {
 
             state.duplicatedNewspaper = true
             var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
-            console.log(selectedfeature, "selectedfeature")
             let clickedPointDate = selectedfeature[0].properties.date
             HTTP
             .post('get-word-frequency',{
@@ -484,8 +505,6 @@ const geoparsing = {
                 for (let i in response.data) {
                     rootState.geoparsing.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
                 }
-                //state.wordFrequency= response.data
-                console.log(response.data)
             })
 
             let pdflink = selectedfeature[0].properties.url
@@ -494,12 +513,7 @@ const geoparsing = {
 
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
-
-            /*if (selectedfeature[0].properties['URL']){
-                delete selectedfeature[0].properties['URL']
-            }*/
-            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState,dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicatedNewspaper, popup))
-            
+            popup.setDOMContent(createHtmlAttributesNewspaperDataset(rootState,dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicatedNewspaper, popup))          
             popup.addTo(rootState.map.map);
         },
         parliamentPopup({state, rootState, dispatch}, e){
@@ -513,8 +527,6 @@ const geoparsing = {
                     docNum: clickedDocNum
                 })
                 .then((response)=>{
-                    console.log(response.data)
-                    
                     for (let i in response.data) {
                         state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
                     }
@@ -573,7 +585,6 @@ const geoparsing = {
                     docNum: clickedDocNum
                 })
                 .then((response)=>{
-                    console.log(response.data , 'response')
                     for (let i in response.data) {
                         state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
                 }
@@ -584,24 +595,17 @@ const geoparsing = {
 
             let popup = new maplibregl.Popup()
             popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
-            //delete selectedfeature[0].properties['hyperlink'];
             popup.setDOMContent(createHtmlAttributesParliamentDataset(rootState, dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicatedParliament, popup))
             
             popup.addTo(rootState.map.map);
         },
         dateFilter({state, rootState, dispatch}){
-            /*let result = state.geocodedData.features.filter(function (item) {
-                var itemTime = new Date(item.properties.date).getTime()
-                return itemTime > new Date(state.dates[0]) && itemTime < new Date(state.dates[1]); 
-            })
-            console.log(result, "date json filter")*/
             HTTP
             .post('geoparsing-date-filter',{
                 dates: state.dates,
                 datasetMode: state.datasetMode
             })
             .then(response=>{
-                console.log(response.data, "date SQL filter")
                 if (state.datasetMode=='parliament'){
                     if (response.data.features!=null){
                         dispatch('removeStyles')
@@ -653,7 +657,6 @@ const geoparsing = {
                 topicQueryMode: state.selectedTopicQueryMode
             })
             .then((response)=>{
-                console.log(response.data)
                 if (response.data.features!=null){
                     dispatch('removeStyles')
                     state.geocodedData = response.data
@@ -674,11 +677,21 @@ const geoparsing = {
                 }
 
             })
+        },
+        hideGeoparsingLayer({state,rootState,rootGetters,commit},id){
+            const mapLayer = rootState.map.map.getLayer('geocoded')
+            const geoparsingLayer = rootGetters['layers/getGeocodedLayerName']
+            if (mapLayer != 'undefined' && id != 'geoparsing' && geoparsingLayer.length 
+                && geoparsingLayer[0].checked == true) {
+                    rootState.map.map.setLayoutProperty("geocoded", 'visibility', 'none')
+                    commit('layers/handleCheckboxStatus',{tableName:state.datasetMode,isChecked:false},{root:true})
+            }   
         }
-       
     },
     getters:{
-
+        datasetMode(state){
+            return state.datasetMode
+        }
     }
 
 }
