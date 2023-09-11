@@ -67,7 +67,6 @@ export default {
     methods:{
         
         addLayer(p, e){
-            console.log(p)
             if (e.target.checked) {
                 this.$store.dispatch('layers/addTable', p)
                document.getElementById(p.name+'-icon-collapse').style.display = "block";
@@ -80,6 +79,16 @@ export default {
                 } 
                 else {
                     this.$store.state.map.map.setLayoutProperty("foi", 'visibility', 'none');
+                }
+            }
+            else if (table.name=="parliament" || table.name=="newspaper"){
+                if(document.querySelector("#"+table.name+":checked")) {
+                this.$store.commit('layers/handleCheckboxStatus',{tableName:table.name,isChecked:true})
+                this.$store.state.map.map.setLayoutProperty("geocoded", 'visibility', 'visible');
+                } 
+                else {
+                this.$store.commit('layers/handleCheckboxStatus',{tableName:table.name,isChecked:false})
+                this.$store.state.map.map.setLayoutProperty("geocoded", 'visibility', 'none');
                 }
             }
             else{
@@ -99,7 +108,6 @@ export default {
             
         },
         toggleCollapseIcon(table){
-            console.log(table)
             $('#'+table+'-icon').toggleClass('fa-plus fa-minus');
         },
         collapse(table){

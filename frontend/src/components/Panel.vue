@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-app-bar color="rgba(0, 48, 99,1)" dense dark style="z-index:999;">
-            <v-tabs>
+            <v-tabs v-model="tab">
                 <v-tab center-active dark v-for="tool in tools" :key="tool.id"
                     @click="getid(tool.id); closeOtherPanels(tool.id)">{{ tool.title }}</v-tab>
             </v-tabs>
@@ -67,6 +67,7 @@ export default {
         User
     },
     data: () => ({
+        tab:0,
         userMenu:false,
         drawer: false,
         group: null,
@@ -86,17 +87,22 @@ export default {
             this.$store.dispatch('geocoder/clearGeocodedAddress')
         },
         getid(id){
-            if (id=="ligfinder"){
+            const currentTabID =this.tools[this.tab].id
+            if (id=="ligfinder" && id != currentTabID){
                 this.$store.commit('ligfinder/setLigfinderToggle')
+                if (currentTabID == 'geoparsing') {
+                    this.$store.dispatch('geoparsing/hideGeoparsingLayer',id)
+                }
             }
-            else if (id=="geoparsing"){
+            else if (id=="geoparsing" && id != currentTabID){
                 this.$store.commit('geoparsing/setGeoparsingToggle')
             }
-            else if (id=="classification"){
+            else if (id=="classification" && id != currentTabID){
                 this.$store.commit('classification/setClassificationToggle')
-            }
-            
-            
+                if (currentTabID == 'geoparsing') {
+                    this.$store.dispatch('geoparsing/hideGeoparsingLayer',id)
+                }
+            } 
         },
         closeOtherPanels(id){
             for (let i=0; i<this.panels.length; i++){

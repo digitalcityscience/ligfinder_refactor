@@ -12,7 +12,7 @@
                 item-text="name"
                 item-value="value"
                 v-model="$store.state.geoparsing.datasetMode"
-                @change="removeStyles(), getPoints(), resetDate(), setToolModeStylization()"
+                @change="getPoints(), resetDate(), setToolModeStylization()"
                    
             >
             </v-select>
