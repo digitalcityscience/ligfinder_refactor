@@ -79,33 +79,7 @@ const AOI = {
                 }
 
                 rootState.layers.addedLayers.push(response.data)
-                // remove Geometry AOI
-                dispatch("geometryAOI/removeDrawControl",null , { root:true })
-
-                // remove isochrone AOI
-
-                const isochroneLayer = rootState.map.map.getLayer("isochrone");
-                if(typeof isochroneLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("isochrone")
-                    rootState.map.map.removeSource("isochrone")
-                }
-
-                // remove adminastrative layer
-
-                const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
-                if(typeof adminastrativeLayer !== 'undefined'){
-                    rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
-                    rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
-                }
-
-                // remove selectedfeatures layer
-                for(let i=0; i<rootState.administrativeAOI.selectedFeatures.length; i++){
-                    const selectedfeaturesLayer = rootState.map.map.getLayer(rootState.administrativeAOI.selectedFeatures[i].id);
-                    if(typeof selectedfeaturesLayer !== 'undefined'){
-                        rootState.map.map.removeLayer(rootState.administrativeAOI.selectedFeatures[i].id)
-                        rootState.map.map.removeSource(rootState.administrativeAOI.selectedFeatures[i].id)
-                    }
-                }
+                this.removeSearchHelpers()
                 
             })            
             
@@ -138,64 +112,12 @@ const AOI = {
                     };
                     rootState.map.map.addLayer(layerName)
                     rootState.map.isLoading = false
-                    // remove Geometry AOI
-                    dispatch("geometryAOI/removeDrawControl",null , { root:true })
-
-                    // remove isochrone AOI
-
-                    const isochroneLayer = rootState.map.map.getLayer("isochrone");
-                    if(typeof isochroneLayer !== 'undefined'){
-                        rootState.map.map.removeLayer("isochrone")
-                        rootState.map.map.removeSource("isochrone")
-                    }
-
-                    // remove adminastrative layer
-
-                    const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
-                    if(typeof adminastrativeLayer !== 'undefined'){
-                        rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
-                        rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
-                    }
-
-                    // remove selectedfeatures layer
-                    for(let i=0; i<rootState.administrativeAOI.selectedFeatures.length; i++){
-                        const selectedfeaturesLayer = rootState.map.map.getLayer(rootState.administrativeAOI.selectedFeatures[i].id);
-                        if(typeof selectedfeaturesLayer !== 'undefined'){
-                            rootState.map.map.removeLayer(rootState.administrativeAOI.selectedFeatures[i].id)
-                            rootState.map.map.removeSource(rootState.administrativeAOI.selectedFeatures[i].id)
-                        }
-                    }
+                    this.removeSearchHelpers()
                 }
                 else{
                     dispatch('alert/openCloseAlarm', {text: "The selected geometries are not intersected!", background: "#FFD700"}, { root:true })
                     rootState.map.isLoading = false
-                    // remove Geometry AOI
-                    dispatch("geometryAOI/removeDrawControl",null , { root:true })
-
-                    // remove isochrone AOI
-
-                    const isochroneLayer = rootState.map.map.getLayer("isochrone");
-                    if(typeof isochroneLayer !== 'undefined'){
-                        rootState.map.map.removeLayer("isochrone")
-                        rootState.map.map.removeSource("isochrone")
-                    }
-
-                    // remove adminastrative layer
-
-                    const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
-                    if(typeof adminastrativeLayer !== 'undefined'){
-                        rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
-                        rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
-                    }
-
-                    // remove selectedfeatures layer
-                    for(let i=0; i<rootState.administrativeAOI.selectedFeatures.length; i++){
-                        const selectedfeaturesLayer = rootState.map.map.getLayer(rootState.administrativeAOI.selectedFeatures[i].id);
-                        if(typeof selectedfeaturesLayer !== 'undefined'){
-                            rootState.map.map.removeLayer(rootState.administrativeAOI.selectedFeatures[i].id)
-                            rootState.map.map.removeSource(rootState.administrativeAOI.selectedFeatures[i].id)
-                        }
-                    }               
+                    this.removeSearchHelpers()          
                 }
             })
         },
@@ -214,6 +136,35 @@ const AOI = {
                     rootState.map.map.removeSource("isochrone")
                 }
             }
+        },
+        removeSearchHelpers({rootState,dispatch}){
+            // remove Geometry AOI
+            dispatch("geometryAOI/removeDrawControl",null , { root:true })
+
+            // remove isochrone AOI
+
+            const isochroneLayer = rootState.map.map.getLayer("isochrone");
+            if(typeof isochroneLayer !== 'undefined'){
+                rootState.map.map.removeLayer("isochrone")
+                rootState.map.map.removeSource("isochrone")
+            }
+
+            // remove adminastrative layer
+
+            const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
+            if(typeof adminastrativeLayer !== 'undefined'){
+                rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
+                rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
+            }
+
+            // remove selectedfeatures layer
+            for(let i=0; i<rootState.administrativeAOI.selectedFeatures.length; i++){
+                const selectedfeaturesLayer = rootState.map.map.getLayer(rootState.administrativeAOI.selectedFeatures[i].id);
+                if(typeof selectedfeaturesLayer !== 'undefined'){
+                    rootState.map.map.removeLayer(rootState.administrativeAOI.selectedFeatures[i].id)
+                    rootState.map.map.removeSource(rootState.administrativeAOI.selectedFeatures[i].id)
+                }
+            } 
         }
     },
     getters:{
