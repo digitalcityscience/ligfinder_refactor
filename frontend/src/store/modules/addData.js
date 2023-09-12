@@ -76,8 +76,6 @@ const addData = {
            
             rootState.map.map.addLayer(layerName)
             
-            //payload.data.name = filenName
-            //rootState.layers.addedLayers.push(payload.data)
             rootState.ligfinder.FOI = payload.data
             rootState.layers.addedLayers.push(payload.data)
             rootState.map.isLoading = false
