@@ -59,7 +59,8 @@ const administrativeAOI = {
             // delete FOI if the user click on reset filter button
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
-                rootState.ligfinder.FOI = {'features':[]}
+                commit('ligfinder/updateFOIData',{'features':[]},{root:true})
+                commit('layers/removeFOIfromLayerList',null,{root:true})
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }
@@ -93,8 +94,8 @@ const administrativeAOI = {
                     'layout': {},
                     'paint': {
                         'fill-antialias':true,
-                        'fill-color': 'rgba(0, 48, 99,1)',
-                        'fill-outline-color':'#6a0dad', 
+                        'fill-color': 'rgba(0, 48, 99,0.3)',
+                        'fill-outline-color':'rgba(0, 48, 99,1)', 
                     }    
                 });
 
@@ -121,7 +122,7 @@ const administrativeAOI = {
             })
             
         },
-        getSelectedFeatures({state, rootState, commit}){
+        getSelectedFeatures({state, rootState, commit,dispatch,rootGetters}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             const selectedFeaturesMap = [...new Map(state.pickedStates.map((x) => [x["id"], x])).values()]
@@ -132,38 +133,18 @@ const administrativeAOI = {
             })
             .then(response => {
                 // updating the FOI (features of interest) in the ligfinder base module
-                rootState.ligfinder.FOI = response.data
-                response.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-                rootState.layers.addedLayers.push(response.data)
+                commit('layers/updateFOI',{data:response.data},{root:true})
                 //update the result table
-                
-                const mapLayer = rootState.map.map.getLayer("foi");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi", // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',{sourceData},{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                    commit('layers/addFOI2LayerList',null,{root:true})
                     }
-                    
-                };
+                })
                 
                 // to remove the AOI Layer (area of interest)
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
                 commit('deleteSelectedFeatures')
                 let bounds = turf.bbox(response.data);
                 rootState.map.map.fitBounds(bounds);
@@ -208,8 +189,7 @@ const administrativeAOI = {
                         'source': String(response.data.features[0].properties.gid), // reference the data source
                         'layout': {},
                         'paint': {
-                            'fill-color': '#6a0dad', 
-                            'fill-opacity':0.7,
+                            'fill-color': 'rgba(0, 48, 99,1)',
                         }
                         
                     };

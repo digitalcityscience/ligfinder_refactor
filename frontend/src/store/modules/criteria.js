@@ -69,40 +69,23 @@ const criteria = {
             })
             
         },
-        applyCriteriaFilter({state, rootState, dispatch}){
+        applyCriteriaFilter({state, rootState, dispatch, commit,rootGetters}){
             if (state.criteriaFilterData){
-                rootState.ligfinder.FOI = state.criteriaFilterData
-
+                commit('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
                 state.criteriaFilterData.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-                rootState.layers.addedLayers.push(state.criteriaFilterData)
+                commit('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
                 
-                const foiLayer = rootState.map.map.getLayer("foi");
-                if(typeof foiLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi",
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
-                    }
-                };
-                
-                rootState.map.map.addLayer(layerName)
-                
-                dispatch('alert/openCloseAlarm', {text: "The Criteria Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
 
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                        commit('layers/addFOI2LayerList',null,{root:true})
+                    }
+                }).then(()=>{
+                    dispatch('alert/openCloseAlarm', {text: "The Criteria Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
+                })
             }
         },
         removeCriteriaFilterLayer({rootState}){

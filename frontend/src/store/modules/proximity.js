@@ -176,7 +176,7 @@ const proximity = {
         
     },
     actions:{
-        proximityAnalysis({rootState, state}){
+        proximityAnalysis({rootState, state, commit}){
             console.log(state)
             let parcelGid = []
             for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
@@ -195,17 +195,11 @@ const proximity = {
                  array every time to analysis is updated
                 */
                 response.data.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-                rootState.layers.addedLayers.push(response.data.data)
-                console.log(rootState.layers.addedLayers)
+                commit('layers/updateFOI',{data:response.data.data},{root:true})
 
                 const lowerbound = response.data.lowerbound
                 const breaks = response.data.breaks
-                rootState.ligfinder.FOI = response.data.data
+                commit('ligfinder/updateFOIData',response.data.data,{root:true})
                 const mapLayer = rootState.map.map.getLayer("foi");
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer("foi")

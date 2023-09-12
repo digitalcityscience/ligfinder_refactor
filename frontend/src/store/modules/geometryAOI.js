@@ -39,7 +39,7 @@ const geometryAOI = {
                     
             }
         },
-        getSelectedFeatures({state, rootState}){
+        getSelectedFeatures({state, rootState,commit,dispatch,rootGetters}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             state.selectMode=null
@@ -55,44 +55,25 @@ const geometryAOI = {
                 console.log(response)
                 rootState.ligfinder.FOI= response.data
                 response.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
+                commit('layers/updateFOI',{data:response.data},{root:true})
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                        commit('layers/addFOI2LayerList',null,{root:true})
                     }
-                }
-                rootState.layers.addedLayers.push(response.data)
-                
-                const mapLayer = rootState.map.map.getLayer("foi");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi", // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
-                    }
-                    
-                };
-                
-                // to remove the AOI Layer (area of interest)
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
+                })
             })
             
         },
-        resetSelectedLayers({state, rootState}){
+        resetSelectedLayers({state, rootState,commit}){
             state.selectMode=null
             // delete FOI if the user click on reset filter button
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
-                rootState.ligfinder.FOI = {'features':[]}
+                commit('ligfinder/updateFOIData',{'features':[]},{root:true})
+                commit('layers/removeFOIfromLayerList',null,{root:true})
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }

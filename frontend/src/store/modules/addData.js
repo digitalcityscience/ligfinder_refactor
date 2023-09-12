@@ -22,7 +22,7 @@ const addData = {
         }
     },
     actions:{
-        addDroppedData({rootState, state}, payload){
+        addDroppedData({rootState, state,commit}, payload){
             console.log(state, payload)
             rootState.map.isLoading = true
             const mapLayer = rootState.map.map.getLayer(payload.data.name)
@@ -75,10 +75,7 @@ const addData = {
             
            
             rootState.map.map.addLayer(layerName)
-            
-            //payload.data.name = filenName
-            //rootState.layers.addedLayers.push(payload.data)
-            rootState.ligfinder.FOI = payload.data
+            commit('ligfinder/updateFOIData',payload.data,{root:true})
             rootState.layers.addedLayers.push(payload.data)
             rootState.map.isLoading = false
             

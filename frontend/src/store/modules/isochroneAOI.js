@@ -123,7 +123,7 @@ const isochroneAOI = {
                 rootState.map.isLoading = false
             })
         },
-        getParcels({state, rootState}, payload){
+        getParcels({state, rootState,commit,dispatch,rootGetters}, payload){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.map.removeControl(state.draw);
@@ -141,62 +141,24 @@ const isochroneAOI = {
             .then(response => {
                 rootState.ligfinder.FOI= response.data
                 response.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
+                commit('layers/updateFOI',{data:response.data},{root:true})
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                        commit('layers/addFOI2LayerList',null,{root:true})
                     }
-                }
-                rootState.layers.addedLayers.push(response.data)
-                /*
-                const mapLayer = rootState.map.map.getLayer("isochrone-parcel");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("isochrone-parcel")
-                    rootState.map.map.removeSource("isochrone-parcel")
-                }
-                rootState.map.map.addSource("isochrone-parcel",{'type': 'geojson', 'data': response.data});
-                let layerName = {
-                    'id': "isochrone-parcel",
-                    'type': 'fill',
-                    'source': 'isochrone-parcel', // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#00FF00', 
-                        'fill-opacity': 0.8,
-                        'fill-outline-color': '#000000',
-                    }
-                    
-                };
-                rootState.map.map.addLayer(layerName)*/
-                const mapLayer = rootState.map.map.getLayer("foi");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi", // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
-                    }
-                    
-                };
-                
-                // to remove the AOI Layer (area of interest)
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
+                })
             })
            
         },
-        reset({rootState}){
+        reset({rootState,commit}){
             // delete FOI if the user click on reset filter button
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
-                rootState.ligfinder.FOI = {'features':[]}
+                commit('ligfinder/updateFOIData',{'features':[]},{root:true})
+                commit('layers/removeFOIfromLayerList',null,{root:true})
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }

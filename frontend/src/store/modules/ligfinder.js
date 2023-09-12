@@ -12,11 +12,13 @@ const ligfinder = {
         },
         ligfinderToggle(state){
             state.toggle=false
+        },
+        updateFOIData(state,data){
+            state.FOI = data
         }
         
     },
     actions:{
-        
     },
     getters:{
         getFOIGid (state){

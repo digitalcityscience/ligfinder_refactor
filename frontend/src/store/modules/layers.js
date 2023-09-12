@@ -44,12 +44,32 @@ const layers = {
                 
             Vue.set(state,payload.name+"Style", style)
            
+        },
+        updateFOI(state,payload){
+            if(state.addedLayers.length>0){
+                for (let i=0; i<state.addedLayers.length; i++){
+                    if(state.addedLayers[i].name === "foi"){
+                        state.addedLayers.splice(i, 1);
+                    }
+                }
+            }
+            state.addedLayers.push(payload.data)
+        },
+        addFOI2LayerList(state){
+            state.tableNames.push({id:100, name: "foi", checked:true})
+            let style =Object.assign({},{'type': 'fill','fillColor': '#d99ec4', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
+            Vue.set(state,"foiStyle", style)
+        },
+        removeFOIfromLayerList(state){
+            if(state.tableNames.filter((layer)=>{return layer.id == 100}).length > 0){
+                state.tableNames.splice(state.tableNames.findIndex((element)=>{return element.id ==100},1))
+            }
         }
         
        
     },
     actions:{
-        getTableNames({state, rootState}){
+        getTableNames({state, rootGetters,commit}){
             if (state.toggle==true){   /* 
                                                     to avoid sending get request when closing the panel
                                                     */
@@ -61,10 +81,11 @@ const layers = {
                         i['checked'] = false
                     }
                     state.tableNames = [...tableList,...state.tableNames]
-                    if (rootState.ligfinder.FOI.features.length>0 ){
-                        state.tableNames.push({id:100, name: "foi", checked:true})
-                        let style =Object.assign({},{'type': 'fill','fillColor': '#d99ec4', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
-                        Vue.set(state,"foiStyle", style)
+                    
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                    commit('addFOI2LayerList')
                     }
                     state.gotList = true
                 })
@@ -204,6 +225,9 @@ const layers = {
     getters:{
         getGeocodedLayerName(state){
             return state.tableNames.filter((layer)=>{return layer.id == 'geocoded'})
+        },
+        isFOIonLayerList(state){
+            return state.tableNames.filter((layer)=>{return layer.id == 100}).length > 0 ? true : false
         }
     }
 
