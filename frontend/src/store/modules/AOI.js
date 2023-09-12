@@ -43,7 +43,7 @@ const AOI = {
             state.AOIs[1].data=null
             rootState.geometryAOI.draw.deleteAll() 
         },
-        getUnionParcels({state, rootState, dispatch}){
+        getUnionParcels({state, rootState,dispatch}){
             rootState.map.isLoading = true
             HTTP
             .post('get-aois', {
@@ -79,7 +79,7 @@ const AOI = {
                 }
 
                 rootState.layers.addedLayers.push(response.data)
-                this.removeSearchHelpers()
+                dispatch('removeSearchHelpers')
                 
             })            
             
@@ -112,12 +112,12 @@ const AOI = {
                     };
                     rootState.map.map.addLayer(layerName)
                     rootState.map.isLoading = false
-                    this.removeSearchHelpers()
+                    dispatch('removeSearchHelpers')
                 }
                 else{
                     dispatch('alert/openCloseAlarm', {text: "The selected geometries are not intersected!", background: "#FFD700"}, { root:true })
                     rootState.map.isLoading = false
-                    this.removeSearchHelpers()          
+                    dispatch('removeSearchHelpers')         
                 }
             })
         },
