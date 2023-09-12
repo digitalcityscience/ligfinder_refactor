@@ -64,7 +64,7 @@ const layers = {
        
     },
     actions:{
-        getTableNames({state, rootState,commit}){
+        getTableNames({state, rootGetters,commit}){
             if (state.toggle==true){   /* 
                                                     to avoid sending get request when closing the panel
                                                     */
@@ -76,8 +76,11 @@ const layers = {
                         i['checked'] = false
                     }
                     state.tableNames = [...tableList,...state.tableNames]
-                    if (rootState.ligfinder.FOI.features.length>0 ){
-                        commit('addFOI2LayerList')
+                    
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                    commit('addFOI2LayerList')
                     }
                     state.gotList = true
                 })

@@ -115,7 +115,9 @@ const map=  {
         }
     },
     getters:{
-
+        isFOIonMap(state){
+            return typeof state.map.getLayer("foi") != 'undefined' ? true : false
+        }
     }
 }
 

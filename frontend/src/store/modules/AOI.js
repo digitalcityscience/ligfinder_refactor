@@ -43,7 +43,7 @@ const AOI = {
             state.AOIs[1].data=null
             rootState.geometryAOI.draw.deleteAll() 
         },
-        getUnionParcels({state, rootState,dispatch,commit}){
+        getUnionParcels({state, rootState,dispatch,commit,rootGetters}){
             rootState.map.isLoading = true
             HTTP
             .post('get-aois', {
@@ -52,7 +52,13 @@ const AOI = {
             .then((response)=>{
                 rootState.ligfinder.FOI=response.data
                 const sourceData = response.data
-                dispatch('map/addFOI2Map',sourceData,{root:true})
+                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                        commit('layers/addFOI2LayerList',null,{root:true})
+                    }
+                })
 
                 response.data.name = "foi"
                 commit('layers/updateFOI',{data:response.data},{root:true})
@@ -61,7 +67,7 @@ const AOI = {
             })            
             
         },
-        getIntersectParcels({state, rootState, dispatch}){
+        getIntersectParcels({state, rootState, dispatch,rootGetters,commit}){
             rootState.map.isLoading = true
             HTTP
             .post('get-intersect_aois', {
@@ -71,7 +77,13 @@ const AOI = {
                 if (response.data.features!=null){
                     rootState.ligfinder.FOI=response.data
                     const sourceData = response.data
-                    dispatch('map/addFOI2Map',sourceData,{root:true})
+                    dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                        const isFOIonMap = rootGetters['map/isFOIonMap']
+                        const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                        if (isFOIonMap && !isFOIonLayerList){
+                            commit('layers/addFOI2LayerList',null,{root:true})
+                        }
+                    })
                     
                     dispatch('removeSearchHelpers')
                 }

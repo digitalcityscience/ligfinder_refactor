@@ -121,7 +121,7 @@ const administrativeAOI = {
             })
             
         },
-        getSelectedFeatures({state, rootState, commit,dispatch}){
+        getSelectedFeatures({state, rootState, commit,dispatch,rootGetters}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             const selectedFeaturesMap = [...new Map(state.pickedStates.map((x) => [x["id"], x])).values()]
@@ -136,8 +136,10 @@ const administrativeAOI = {
                 //update the result table
                 const sourceData = rootState.ligfinder.FOI
                 dispatch('map/addFOI2Map',{sourceData},{root:true}).then(()=>{
-                    if (rootState.ligfinder.FOI.features.length>0 ){
-                    commit('layers/addFOI2LayerList')
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                    commit('layers/addFOI2LayerList',null,{root:true})
                     }
                 })
                 

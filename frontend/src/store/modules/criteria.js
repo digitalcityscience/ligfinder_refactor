@@ -69,7 +69,7 @@ const criteria = {
             })
             
         },
-        applyCriteriaFilter({state, rootState, dispatch, commit}){
+        applyCriteriaFilter({state, rootState, dispatch, commit,rootGetters}){
             if (state.criteriaFilterData){
                 commit('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
                 state.criteriaFilterData.name = "foi"
@@ -78,6 +78,12 @@ const criteria = {
 
                 const sourceData = rootState.ligfinder.FOI
                 dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                        commit('layers/addFOI2LayerList',null,{root:true})
+                    }
+                }).then(()=>{
                     dispatch('alert/openCloseAlarm', {text: "The Criteria Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
                 })
             }

@@ -39,7 +39,7 @@ const geometryAOI = {
                     
             }
         },
-        getSelectedFeatures({state, rootState,commit,dispatch}){
+        getSelectedFeatures({state, rootState,commit,dispatch,rootGetters}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             state.selectMode=null
@@ -57,7 +57,13 @@ const geometryAOI = {
                 response.data.name = "foi"
                 commit('layers/updateFOI',{data:response.data},{root:true})
                 const sourceData = rootState.ligfinder.FOI
-                dispatch('map/addFOI2Map',sourceData,{root:true})
+                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                        commit('layers/addFOI2LayerList',null,{root:true})
+                    }
+                })
             })
             
         },

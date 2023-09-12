@@ -63,13 +63,19 @@ const area = {
                 rootState.map.isLoading = false
             }
         },
-        applyAreaFilter({state, rootState, dispatch,commit}){
+        applyAreaFilter({state, rootState, dispatch,commit,rootGetters}){
             if (state.areaFilterData){
                 commit('ligfinder/updateFOIData',state.areaFilterData,{root:true})
                 state.areaFilterData.name = "foi"
                 commit('layers/updateFOI',{data:state.areaFilterData},{root:true})
                 const sourceData = rootState.ligfinder.FOI
                 dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
+                    if (isFOIonMap && !isFOIonLayerList){
+                        commit('layers/addFOI2LayerList',null,{root:true})
+                    }
+                }).then(()=>{
                     dispatch('alert/openCloseAlarm', {text: "The Area Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
                 })
             }
