@@ -43,7 +43,7 @@ const AOI = {
             state.AOIs[1].data=null
             rootState.geometryAOI.draw.deleteAll() 
         },
-        getUnionParcels({state, rootState,dispatch}){
+        getUnionParcels({state, rootState,dispatch,commit}){
             rootState.map.isLoading = true
             HTTP
             .post('get-aois', {
@@ -72,7 +72,7 @@ const AOI = {
                 rootState.map.isLoading = false
 
                 response.data.name = "foi"
-                dispatch('layers/updateFOI',{data:response.data},{root:true})
+                commit('layers/updateFOI',{data:response.data},{root:true})
                 dispatch('removeSearchHelpers')
                 
             })            

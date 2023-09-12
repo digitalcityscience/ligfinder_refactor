@@ -123,7 +123,7 @@ const isochroneAOI = {
                 rootState.map.isLoading = false
             })
         },
-        getParcels({state, rootState,dispatch}, payload){
+        getParcels({state, rootState,commit}, payload){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.map.removeControl(state.draw);
@@ -141,7 +141,7 @@ const isochroneAOI = {
             .then(response => {
                 rootState.ligfinder.FOI= response.data
                 response.data.name = "foi"
-                dispatch('layers/updateFOI',{data:response.data},{root:true})
+                commit('layers/updateFOI',{data:response.data},{root:true})
                 
                 const mapLayer = rootState.map.map.getLayer("foi");
                 if(typeof mapLayer !== 'undefined'){

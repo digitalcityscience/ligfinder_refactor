@@ -176,7 +176,7 @@ const proximity = {
         
     },
     actions:{
-        proximityAnalysis({rootState, state,dispatch}){
+        proximityAnalysis({rootState, state,dispatch, commit}){
             console.log(state)
             let parcelGid = []
             for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
@@ -195,7 +195,7 @@ const proximity = {
                  array every time to analysis is updated
                 */
                 response.data.data.name = "foi"
-                dispatch('layers/updateFOI',{data:response.data.data},{root:true})
+                commit('layers/updateFOI',{data:response.data.data},{root:true})
 
                 const lowerbound = response.data.lowerbound
                 const breaks = response.data.breaks

@@ -44,6 +44,14 @@ const layers = {
                 
             Vue.set(state,payload.name+"Style", style)
            
+        },
+        updateFOI({state},payload){
+            for (let i=0; i<state.addedLayers.length; i++){
+                if(state.addedLayers[i].name === "foi"){
+                    state.addedLayers.splice(i, 1);
+                }
+            }
+            state.addedLayers.push(payload.data)
         }
         
        
@@ -197,14 +205,6 @@ const layers = {
                 
                 
             }
-        },
-        updateFOI({state,},payload){
-            for (let i=0; i<state.addedLayers.length; i++){
-                if(state.addedLayers[i].name === "foi"){
-                    state.addedLayers.splice(i, 1);
-                }
-            }
-            state.addedLayers.push(payload.data)
         }
 
         

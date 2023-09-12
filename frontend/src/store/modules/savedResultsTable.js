@@ -10,7 +10,7 @@ const savedResultsTable = {
        
     },
     actions:{
-        getSavedParcelInstances({state, rootState,dispatch}, payload){
+        getSavedParcelInstances({state, rootState,dispatch,commit}, payload){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             console.log(state)
@@ -53,7 +53,7 @@ const savedResultsTable = {
                 rootState.map.map.fitBounds(bounds);
                 
                 response.data.name = "foi"
-                dispatch('layers/updateFOI',{data:response.data},{root:true})
+                commit('layers/updateFOI',{data:response.data},{root:true})
 
             })
             

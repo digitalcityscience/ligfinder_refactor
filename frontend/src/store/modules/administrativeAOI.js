@@ -121,7 +121,7 @@ const administrativeAOI = {
             })
             
         },
-        getSelectedFeatures({state, rootState, commit,dispatch}){
+        getSelectedFeatures({state, rootState, commit}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             const selectedFeaturesMap = [...new Map(state.pickedStates.map((x) => [x["id"], x])).values()]
@@ -132,7 +132,7 @@ const administrativeAOI = {
             })
             .then(response => {
                 // updating the FOI (features of interest) in the ligfinder base module
-                dispatch('layers/updateFOI',{data:response.data},{root:true})
+                commit('layers/updateFOI',{data:response.data},{root:true})
                 //update the result table
                 
                 const mapLayer = rootState.map.map.getLayer("foi");

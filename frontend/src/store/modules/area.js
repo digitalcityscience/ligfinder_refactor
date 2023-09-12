@@ -63,11 +63,11 @@ const area = {
                 rootState.map.isLoading = false
             }
         },
-        applyAreaFilter({state, rootState, dispatch}){
+        applyAreaFilter({state, rootState, dispatch,commit}){
             if (state.areaFilterData){
                 dispatch('ligfinder/updateFOIData',state.areaFilterData,{root:true})
                 state.areaFilterData.name = "foi"
-                dispatch('layers/updateFOI',{data:state.areaFilterData},{root:true})
+                commit('layers/updateFOI',{data:state.areaFilterData},{root:true})
                 
                 const foiLayer = rootState.map.map.getLayer("foi");
                 if(typeof foiLayer !== 'undefined'){

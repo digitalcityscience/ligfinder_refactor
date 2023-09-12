@@ -69,11 +69,11 @@ const criteria = {
             })
             
         },
-        applyCriteriaFilter({state, rootState, dispatch}){
+        applyCriteriaFilter({state, rootState, dispatch, commit}){
             if (state.criteriaFilterData){
                 dispatch('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
                 state.criteriaFilterData.name = "foi"
-                dispatch('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
+                commit('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
                 
                 const foiLayer = rootState.map.map.getLayer("foi");
                 if(typeof foiLayer !== 'undefined'){
