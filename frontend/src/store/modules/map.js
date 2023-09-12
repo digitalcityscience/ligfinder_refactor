@@ -90,6 +90,28 @@ const map=  {
                     });
                 }
             })
+        },
+        addFOI2Map({state},sourceData){
+            const mapLayer = state.map.getLayer("foi");
+                if(typeof mapLayer !== 'undefined'){
+                    state.map.removeLayer("foi")
+                    state.map.removeSource("foi")
+                }
+            state.map.addSource(("foi"),{'type': 'geojson', 'data': sourceData});
+                let layerName = {
+                    'id': "foi",
+                    'type': 'fill',
+                    'source': "foi", // reference the data source
+                    'layout': {},
+                    'paint': {
+                        'fill-color': '#d99ec4', 
+                        'fill-opacity':0.7,
+                        'fill-outline-color': '#000000',
+                    }
+                    
+                }
+            state.map.addLayer(layerName)
+            state.isLoading = false
         }
     },
     getters:{

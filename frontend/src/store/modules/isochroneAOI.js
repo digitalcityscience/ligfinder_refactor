@@ -123,7 +123,7 @@ const isochroneAOI = {
                 rootState.map.isLoading = false
             })
         },
-        getParcels({state, rootState,commit}, payload){
+        getParcels({state, rootState,commit,dispatch}, payload){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.map.removeControl(state.draw);
@@ -142,29 +142,8 @@ const isochroneAOI = {
                 rootState.ligfinder.FOI= response.data
                 response.data.name = "foi"
                 commit('layers/updateFOI',{data:response.data},{root:true})
-                
-                const mapLayer = rootState.map.map.getLayer("foi");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi", // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
-                    }
-                    
-                };
-                
-                // to remove the AOI Layer (area of interest)
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',sourceData,{root:true})
             })
            
         },

@@ -68,29 +68,10 @@ const area = {
                 commit('ligfinder/updateFOIData',state.areaFilterData,{root:true})
                 state.areaFilterData.name = "foi"
                 commit('layers/updateFOI',{data:state.areaFilterData},{root:true})
-                
-                const foiLayer = rootState.map.map.getLayer("foi");
-                if(typeof foiLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi", // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
-                    }
-                };
-                
-                rootState.map.map.addLayer(layerName)
-                
-                dispatch('alert/openCloseAlarm', {text: "The Area Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
-
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    dispatch('alert/openCloseAlarm', {text: "The Area Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
+                })
             }
             
         },

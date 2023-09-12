@@ -51,25 +51,8 @@ const AOI = {
             })
             .then((response)=>{
                 rootState.ligfinder.FOI=response.data
-                const mapLayer = rootState.map.map.getLayer("foi");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': response.data});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi",
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
-                    }
-                    
-                };
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
+                const sourceData = response.data
+                dispatch('map/addFOI2Map',sourceData,{root:true})
 
                 response.data.name = "foi"
                 commit('layers/updateFOI',{data:response.data},{root:true})
@@ -87,25 +70,9 @@ const AOI = {
             .then((response)=>{
                 if (response.data.features!=null){
                     rootState.ligfinder.FOI=response.data
-                    const mapLayer = rootState.map.map.getLayer("foi");
-                    if(typeof mapLayer !== 'undefined'){
-                        rootState.map.map.removeLayer("foi")
-                        rootState.map.map.removeSource("foi")
-                    }
-                    rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': response.data});
-                    let layerName = {
-                        'id': "foi",
-                        'type': 'fill',
-                        'source': "foi",
-                        'paint': {
-                            'fill-color': '#d99ec4', 
-                            'fill-opacity':0.7,
-                            'fill-outline-color': '#000000',
-                        }
-                        
-                    };
-                    rootState.map.map.addLayer(layerName)
-                    rootState.map.isLoading = false
+                    const sourceData = response.data
+                    dispatch('map/addFOI2Map',sourceData,{root:true})
+                    
                     dispatch('removeSearchHelpers')
                 }
                 else{

@@ -121,7 +121,7 @@ const administrativeAOI = {
             })
             
         },
-        getSelectedFeatures({state, rootState, commit}){
+        getSelectedFeatures({state, rootState, commit,dispatch}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             const selectedFeaturesMap = [...new Map(state.pickedStates.map((x) => [x["id"], x])).values()]
@@ -134,29 +134,14 @@ const administrativeAOI = {
                 // updating the FOI (features of interest) in the ligfinder base module
                 commit('layers/updateFOI',{data:response.data},{root:true})
                 //update the result table
-                
-                const mapLayer = rootState.map.map.getLayer("foi");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi", // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',{sourceData},{root:true}).then(()=>{
+                    if (rootState.ligfinder.FOI.features.length>0 ){
+                    commit('layers/addFOI2LayerList')
                     }
-                    
-                };
+                })
                 
                 // to remove the AOI Layer (area of interest)
-                rootState.map.map.addLayer(layerName)
-                rootState.map.isLoading = false
                 commit('deleteSelectedFeatures')
                 let bounds = turf.bbox(response.data);
                 rootState.map.map.fitBounds(bounds);

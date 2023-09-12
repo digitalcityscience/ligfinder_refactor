@@ -75,28 +75,11 @@ const criteria = {
                 state.criteriaFilterData.name = "foi"
                 commit('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
                 
-                const foiLayer = rootState.map.map.getLayer("foi");
-                if(typeof foiLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("foi")
-                    rootState.map.map.removeSource("foi")
-                }
-                rootState.map.map.addSource(("foi"),{'type': 'geojson', 'data': rootState.ligfinder.FOI});
-                let layerName = {
-                    'id': "foi",
-                    'type': 'fill',
-                    'source': "foi",
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
-                        'fill-outline-color': '#000000',
-                    }
-                };
-                
-                rootState.map.map.addLayer(layerName)
-                
-                dispatch('alert/openCloseAlarm', {text: "The Criteria Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
 
+                const sourceData = rootState.ligfinder.FOI
+                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                    dispatch('alert/openCloseAlarm', {text: "The Criteria Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
+                })
             }
         },
         removeCriteriaFilterLayer({rootState}){
