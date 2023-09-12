@@ -198,13 +198,13 @@ const layers = {
                 
             }
         },
-        updateFOI({state,},data){
+        updateFOI({state,},payload){
             for (let i=0; i<state.addedLayers.length; i++){
                 if(state.addedLayers[i].name === "foi"){
                     state.addedLayers.splice(i, 1);
                 }
             }
-            state.addedLayers.push(data)
+            state.addedLayers.push(payload.data)
         }
 
         
