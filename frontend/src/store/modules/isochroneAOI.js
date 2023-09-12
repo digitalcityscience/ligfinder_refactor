@@ -168,11 +168,11 @@ const isochroneAOI = {
             })
            
         },
-        reset({rootState}){
+        reset({rootState,dispatch}){
             // delete FOI if the user click on reset filter button
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
-                rootState.ligfinder.FOI = {'features':[]}
+                dispatch('ligfinder/updateFOIData',{'features':[]},{root:true})
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }

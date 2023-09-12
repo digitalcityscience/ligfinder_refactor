@@ -65,8 +65,7 @@ const area = {
         },
         applyAreaFilter({state, rootState, dispatch}){
             if (state.areaFilterData){
-                rootState.ligfinder.FOI = state.areaFilterData
-
+                dispatch('ligfinder/updateFOIData',state.areaFilterData,{root:true})
                 state.areaFilterData.name = "foi"
                 dispatch('layers/updateFOI',{data:state.areaFilterData},{root:true})
                 

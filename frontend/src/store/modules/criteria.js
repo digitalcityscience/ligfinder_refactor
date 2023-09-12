@@ -71,8 +71,7 @@ const criteria = {
         },
         applyCriteriaFilter({state, rootState, dispatch}){
             if (state.criteriaFilterData){
-                rootState.ligfinder.FOI = state.criteriaFilterData
-
+                dispatch('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
                 state.criteriaFilterData.name = "foi"
                 dispatch('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
                 

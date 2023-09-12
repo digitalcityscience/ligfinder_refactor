@@ -16,7 +16,9 @@ const ligfinder = {
         
     },
     actions:{
-        
+        updateFOIData({state},data){
+            state.FOI = data
+        }
     },
     getters:{
         getFOIGid (state){

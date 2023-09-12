@@ -44,8 +44,10 @@ const savedResultsTable = {
                 };
             
                 rootState.map.map.addLayer(layerName)
-                rootState.ligfinder.FOI = response.data
-                rootState.map.isLoading = false
+                dispatch('ligfinder/updateFOIData',response.data,{root:true}).then(()=>{
+                    rootState.map.isLoading = false
+                })
+                
             
                 let bounds = turf.bbox(response.data);
                 rootState.map.map.fitBounds(bounds);

@@ -199,7 +199,7 @@ const proximity = {
 
                 const lowerbound = response.data.lowerbound
                 const breaks = response.data.breaks
-                rootState.ligfinder.FOI = response.data.data
+                dispatch('ligfinder/updateFOIData',response.data.data,{root:true})
                 const mapLayer = rootState.map.map.getLayer("foi");
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer("foi")

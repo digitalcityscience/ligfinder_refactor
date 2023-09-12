@@ -54,12 +54,12 @@ const administrativeAOI = {
             }
             state.pickedStates =[]
         },
-        resetSelectedLayers({rootState, commit}){
+        resetSelectedLayers({rootState, commit,dispatch}){
             commit('deleteSelectedFeatures',rootState)
             // delete FOI if the user click on reset filter button
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
-                rootState.ligfinder.FOI = {'features':[]}
+                dispatch('ligfinder/updateFOIData',{'features':[]},{root:true})
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }

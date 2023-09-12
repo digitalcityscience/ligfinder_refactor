@@ -22,7 +22,7 @@ const addData = {
         }
     },
     actions:{
-        addDroppedData({rootState, state}, payload){
+        addDroppedData({rootState, state,dispatch}, payload){
             console.log(state, payload)
             rootState.map.isLoading = true
             const mapLayer = rootState.map.map.getLayer(payload.data.name)
@@ -75,10 +75,11 @@ const addData = {
             
            
             rootState.map.map.addLayer(layerName)
+            dispatch('ligfinder/updateFOIData',payload.data,{root:true}).then(()=>{
+                rootState.layers.addedLayers.push(payload.data)
+                rootState.map.isLoading = false
+            })
             
-            rootState.ligfinder.FOI = payload.data
-            rootState.layers.addedLayers.push(payload.data)
-            rootState.map.isLoading = false
             
             let bounds = turf.bbox(payload.data);
             rootState.map.map.fitBounds(bounds);
