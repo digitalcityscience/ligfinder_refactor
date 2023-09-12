@@ -68,11 +68,12 @@ const user = {
             dispatch('alert/openCloseAlarm', {text: "You are logged out", background: "#FFD700"}, { root:true })
 
         },
-        clearSearchResult({rootState}){
+        clearSearchResult({rootState,commit}){
             const mapLayer = rootState.map.map.getLayer("foi")
             if(typeof mapLayer !== 'undefined'){
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
+                commit('layers/removeFOIfromLayerList',null,{root:true})
             }
             rootState.ligfinder.FOI= {'features':[]}
             rootState.criteria.includeTags= []

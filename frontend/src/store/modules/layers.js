@@ -59,6 +59,11 @@ const layers = {
             state.tableNames.push({id:100, name: "foi", checked:true})
             let style =Object.assign({},{'type': 'fill','fillColor': '#d99ec4', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
             Vue.set(state,"foiStyle", style)
+        },
+        removeFOIfromLayerList(state){
+            if(state.tableNames.filter((layer)=>{return layer.id == 100}).length > 0){
+                state.tableNames.splice(state.tableNames.findIndex((element)=>{return element.id ==100},1))
+            }
         }
         
        

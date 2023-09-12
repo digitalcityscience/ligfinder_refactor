@@ -158,6 +158,7 @@ const isochroneAOI = {
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
                 commit('ligfinder/updateFOIData',{'features':[]},{root:true})
+                commit('layers/removeFOIfromLayerList',null,{root:true})
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
             }
