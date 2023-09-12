@@ -176,7 +176,7 @@ const proximity = {
         
     },
     actions:{
-        proximityAnalysis({rootState, state,dispatch, commit}){
+        proximityAnalysis({rootState, state, commit}){
             console.log(state)
             let parcelGid = []
             for(let i =0; i< rootState.ligfinder.FOI.features.length; i++){
@@ -199,7 +199,7 @@ const proximity = {
 
                 const lowerbound = response.data.lowerbound
                 const breaks = response.data.breaks
-                dispatch('ligfinder/updateFOIData',response.data.data,{root:true})
+                commit('ligfinder/updateFOIData',response.data.data,{root:true})
                 const mapLayer = rootState.map.map.getLayer("foi");
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer("foi")

@@ -71,7 +71,7 @@ const criteria = {
         },
         applyCriteriaFilter({state, rootState, dispatch, commit}){
             if (state.criteriaFilterData){
-                dispatch('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
+                commit('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
                 state.criteriaFilterData.name = "foi"
                 commit('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
                 

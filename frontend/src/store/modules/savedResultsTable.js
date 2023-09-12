@@ -10,7 +10,7 @@ const savedResultsTable = {
        
     },
     actions:{
-        getSavedParcelInstances({state, rootState,dispatch,commit}, payload){
+        getSavedParcelInstances({state, rootState,commit}, payload){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             console.log(state)
@@ -44,11 +44,9 @@ const savedResultsTable = {
                 };
             
                 rootState.map.map.addLayer(layerName)
-                dispatch('ligfinder/updateFOIData',response.data,{root:true}).then(()=>{
-                    rootState.map.isLoading = false
-                })
+                commit('ligfinder/updateFOIData',response.data,{root:true})
+                rootState.map.isLoading = false
                 
-            
                 let bounds = turf.bbox(response.data);
                 rootState.map.map.fitBounds(bounds);
                 
