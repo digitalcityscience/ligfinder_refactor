@@ -93,8 +93,8 @@ const administrativeAOI = {
                     'layout': {},
                     'paint': {
                         'fill-antialias':true,
-                        'fill-color': 'rgba(0, 48, 99,1)',
-                        'fill-outline-color':'#6a0dad', 
+                        'fill-color': 'rgba(0, 48, 99,0.3)',
+                        'fill-outline-color':'rgba(0, 48, 99,1)', 
                     }    
                 });
 
@@ -188,8 +188,7 @@ const administrativeAOI = {
                         'source': String(response.data.features[0].properties.gid), // reference the data source
                         'layout': {},
                         'paint': {
-                            'fill-color': '#6a0dad', 
-                            'fill-opacity':0.7,
+                            'fill-color': 'rgba(0, 48, 99,1)',
                         }
                         
                     };
