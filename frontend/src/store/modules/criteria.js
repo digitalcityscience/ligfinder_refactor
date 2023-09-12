@@ -74,12 +74,7 @@ const criteria = {
                 rootState.ligfinder.FOI = state.criteriaFilterData
 
                 state.criteriaFilterData.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-                rootState.layers.addedLayers.push(state.criteriaFilterData)
+                dispatch('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
                 
                 const foiLayer = rootState.map.map.getLayer("foi");
                 if(typeof foiLayer !== 'undefined'){

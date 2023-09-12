@@ -118,12 +118,7 @@ const area = {
                 rootState.ligfinder.FOI = state.areaFilterData
 
                 state.areaFilterData.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-                rootState.layers.addedLayers.push(state.areaFilterData)
+                dispatch('layers/updateFOI',{data:state.areaFilterData},{root:true})
                 
                 const foiLayer = rootState.map.map.getLayer("foi");
                 if(typeof foiLayer !== 'undefined'){

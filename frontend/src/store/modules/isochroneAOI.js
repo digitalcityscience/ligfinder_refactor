@@ -123,7 +123,7 @@ const isochroneAOI = {
                 rootState.map.isLoading = false
             })
         },
-        getParcels({state, rootState}, payload){
+        getParcels({state, rootState,dispatch}, payload){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.map.removeControl(state.draw);
@@ -141,32 +141,8 @@ const isochroneAOI = {
             .then(response => {
                 rootState.ligfinder.FOI= response.data
                 response.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-                rootState.layers.addedLayers.push(response.data)
-                /*
-                const mapLayer = rootState.map.map.getLayer("isochrone-parcel");
-                if(typeof mapLayer !== 'undefined'){
-                    rootState.map.map.removeLayer("isochrone-parcel")
-                    rootState.map.map.removeSource("isochrone-parcel")
-                }
-                rootState.map.map.addSource("isochrone-parcel",{'type': 'geojson', 'data': response.data});
-                let layerName = {
-                    'id': "isochrone-parcel",
-                    'type': 'fill',
-                    'source': 'isochrone-parcel', // reference the data source
-                    'layout': {},
-                    'paint': {
-                        'fill-color': '#00FF00', 
-                        'fill-opacity': 0.8,
-                        'fill-outline-color': '#000000',
-                    }
-                    
-                };
-                rootState.map.map.addLayer(layerName)*/
+                dispatch('layers/updateFOI',{data:response.data},{root:true})
+                
                 const mapLayer = rootState.map.map.getLayer("foi");
                 if(typeof mapLayer !== 'undefined'){
                     rootState.map.map.removeLayer("foi")

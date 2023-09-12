@@ -72,13 +72,7 @@ const AOI = {
                 rootState.map.isLoading = false
 
                 response.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-
-                rootState.layers.addedLayers.push(response.data)
+                dispatch('layers/updateFOI',{data:response.data},{root:true})
                 dispatch('removeSearchHelpers')
                 
             })            

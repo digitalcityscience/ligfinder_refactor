@@ -39,7 +39,7 @@ const geometryAOI = {
                     
             }
         },
-        getSelectedFeatures({state, rootState}){
+        getSelectedFeatures({state, rootState,dispatch}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             state.selectMode=null
@@ -55,12 +55,7 @@ const geometryAOI = {
                 console.log(response)
                 rootState.ligfinder.FOI= response.data
                 response.data.name = "foi"
-                for (let i=0; i<rootState.layers.addedLayers.length; i++){
-                    if(rootState.layers.addedLayers[i].name === "foi"){
-                        rootState.layers.addedLayers.splice(i, 1);
-                    }
-                }
-                rootState.layers.addedLayers.push(response.data)
+                dispatch('layers/updateFOI',{data:response.data},{root:true})
                 
                 const mapLayer = rootState.map.map.getLayer("foi");
                 if(typeof mapLayer !== 'undefined'){
