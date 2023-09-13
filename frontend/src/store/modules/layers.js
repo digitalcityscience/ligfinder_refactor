@@ -69,7 +69,7 @@ const layers = {
        
     },
     actions:{
-        getTableNames({state, rootGetters,commit}){
+        getTableNames({state,rootState,rootGetters,commit}){
             if (state.toggle==true){   /* 
                                                     to avoid sending get request when closing the panel
                                                     */
@@ -82,7 +82,7 @@ const layers = {
                     }
                     state.tableNames = [...tableList,...state.tableNames]
                     
-                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonMap = typeof rootState.map.map.getLayer("foi") != 'undefined' ? true : false
                     const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
                     if (isFOIonMap && !isFOIonLayerList){
                     commit('addFOI2LayerList')

@@ -58,7 +58,7 @@ const geometryAOI = {
                 commit('layers/updateFOI',{data:response.data},{root:true})
                 const sourceData = rootState.ligfinder.FOI
                 dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
-                    const isFOIonMap = rootGetters['map/isFOIonMap']
+                    const isFOIonMap = typeof rootState.map.map.getLayer("foi") != 'undefined' ? true : false
                     const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
                     if (isFOIonMap && !isFOIonLayerList){
                         commit('layers/addFOI2LayerList',null,{root:true})
