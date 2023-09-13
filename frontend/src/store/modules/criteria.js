@@ -72,6 +72,7 @@ const criteria = {
         applyCriteriaFilter({state, rootState, dispatch, commit,rootGetters}){
             if (state.criteriaFilterData){
                 commit('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
+                commit('ligfinder/createResultTable',null,{root:true})
                 state.criteriaFilterData.name = "foi"
                 commit('layers/updateFOI',{data:state.criteriaFilterData},{root:true})
                 
