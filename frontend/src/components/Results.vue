@@ -1,22 +1,15 @@
 <template>
     
     <div v-if="$store.state.ligfinder.FOI.features[0]" class= "table-responsive">
-        <table id="datatable" class="table table-hover ">
-            <thead >
-                <tr >
-                    <th v-for="i in Object.keys($store.state.ligfinder.FOI.features[0].properties)" :key="i.afl">{{i}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="i in $store.state.ligfinder.FOI.features" :key="i.gid" @click="zoomToSelectedFeature(i.properties.gid)">
-                    <td v-for="j in Object.keys($store.state.ligfinder.FOI.features[0].properties)" :key="j.afl">
-                        {{i.properties[j]}}
-                    </td>
-                </tr>
-                
-            </tbody>
-        </table>
-
+        <v-data-table
+            :headers="$store.state.ligfinder.resultHeaders"
+            :items="$store.state.ligfinder.resultItems"
+            item-key="afl"
+            :disable-filtering="true"
+            :disable-sort="true"
+            :items-per-page="10"
+            @click:row="zoomToSelectedFeature"
+        ></v-data-table>
 
         <v-select
                 :items="$store.state.results.saveReultsItems"
@@ -83,7 +76,6 @@
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'; 
 
 export default {
 name: "Results",
@@ -93,18 +85,13 @@ name: "Results",
             iconIndex: 0,
         }
     },
-    mounted(){
-        $.extend( $.fn.dataTable.defaults, {
-            searching: false,
-        } );
-        $('#datatable').DataTable();
-    },
     computed: {
       
     },
     methods:{
-        zoomToSelectedFeature(gid){
-            this.$store.dispatch('results/zoomToSelectedFeature', gid)
+        zoomToSelectedFeature(row)
+        {
+            this.$store.dispatch('results/zoomToSelectedFeature', row.gid)
         },
         exportResult(e){
             if (e=='json'){
@@ -136,21 +123,10 @@ name: "Results",
 </script>
 
 <style scoped>
-.table{
-    display: block !important;
-    overflow-x: auto !important;
-    overflow-y: auto !important;
-    width: 100% !important;
-    max-height:70vh;
-    font-size: 0.6vw;
-}
-.table tr {
+
+.table tr:hover {
     cursor: pointer;
 }
-table.dataTable tbody td {
-    border-bottom: 1px solid rgba(0, 0, 0, .2);
-}
-
 
 
 </style>
