@@ -51,6 +51,7 @@ const AOI = {
             })
             .then((response)=>{
                 rootState.ligfinder.FOI=response.data
+                commit('ligfinder/createResultTable',null,{root:true})
                 const sourceData = response.data
                 dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
                     const isFOIonMap = typeof rootState.map.map.getLayer("foi") != 'undefined' ? true : false
@@ -76,6 +77,7 @@ const AOI = {
             .then((response)=>{
                 if (response.data.features!=null){
                     rootState.ligfinder.FOI=response.data
+                    commit('ligfinder/createResultTable',null,{root:true})
                     const sourceData = response.data
                     dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
                         const isFOIonMap = typeof rootState.map.map.getLayer("foi") != 'undefined' ? true : false

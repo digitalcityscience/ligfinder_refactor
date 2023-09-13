@@ -76,6 +76,7 @@ const addData = {
            
             rootState.map.map.addLayer(layerName)
             commit('ligfinder/updateFOIData',payload.data,{root:true})
+            commit('ligfinder/createResultTable',null,{root:true})
             rootState.layers.addedLayers.push(payload.data)
             rootState.map.isLoading = false
             

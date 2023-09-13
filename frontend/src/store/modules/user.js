@@ -76,6 +76,7 @@ const user = {
                 commit('layers/removeFOIfromLayerList',null,{root:true})
             }
             rootState.ligfinder.FOI= {'features':[]}
+            commit('ligfinder/createResultTable',null,{root:true})
             rootState.criteria.includeTags= []
             rootState.criteria.excludeTags= []
             // zoom to the extent of Hamburg

@@ -66,6 +66,7 @@ const area = {
         applyAreaFilter({state, rootState, dispatch,commit,rootGetters}){
             if (state.areaFilterData){
                 commit('ligfinder/updateFOIData',state.areaFilterData,{root:true})
+                commit('ligfinder/createResultTable',null,{root:true})
                 state.areaFilterData.name = "foi"
                 commit('layers/updateFOI',{data:state.areaFilterData},{root:true})
                 const sourceData = rootState.ligfinder.FOI

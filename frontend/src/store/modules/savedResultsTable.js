@@ -45,6 +45,7 @@ const savedResultsTable = {
             
                 rootState.map.map.addLayer(layerName)
                 commit('ligfinder/updateFOIData',response.data,{root:true})
+                commit('ligfinder/createResultTable',null,{root:true})
                 rootState.map.isLoading = false
                 
                 let bounds = turf.bbox(response.data);

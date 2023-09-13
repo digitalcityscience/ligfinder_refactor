@@ -54,6 +54,7 @@ const geometryAOI = {
             .then(response => {
                 console.log(response)
                 rootState.ligfinder.FOI= response.data
+                commit('ligfinder/createResultTable',null,{root:true})
                 response.data.name = "foi"
                 commit('layers/updateFOI',{data:response.data},{root:true})
                 const sourceData = rootState.ligfinder.FOI
@@ -73,6 +74,7 @@ const geometryAOI = {
             const foi = rootState.map.map.getLayer("foi");
             if(typeof foi !== 'undefined'){
                 commit('ligfinder/updateFOIData',{'features':[]},{root:true})
+                commit('ligfinder/createResultTable',null,{root:true})
                 commit('layers/removeFOIfromLayerList',null,{root:true})
                 rootState.map.map.removeLayer("foi")
                 rootState.map.map.removeSource("foi")
