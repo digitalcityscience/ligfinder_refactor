@@ -1,22 +1,22 @@
 ﻿# LIGFinder
- 
+
 Interactive and multi-criteria web-GIS application for finding parcels inside the city of Hamburg, Germany.
 
 ## Setup
 
 ### For users
 
-Please make sure you have installed docker desktop in your system. 
+Please make sure you have installed docker desktop in your system.
 To install the app, clone the project and navigate to the root directory. Then execute the following command:
 
 ```
  docker-compose up
 ```
 
-This command builds a container with  frontend, backend and database images.
-
+This command builds a container with frontend, backend and database images.
 
 To initially load the dabase dump into the dockerized databse run:
+
 ```
  docker exec db_ligfinder pg_restore -U postgres -d ligfinder /var/lib/postgresql/dumps/ligbackup.dump
 ```
@@ -25,34 +25,30 @@ The database dump can be provided over request.
 
 ### For Developers
 
+Using docker environment for development purose, you can use below command to run the app:
+
+docker compose -f docker-compose-dev.yaml up
+
+or
+
 After cloning the project, navigate to the root directory.
 To install the required packages and start the frontend, navigate to the "frontend" directory and run the following commands:
 
-``
- 	npm install
-``
-and then, 
-``
- 	npm run serve
-``
+` 	npm install`
+and then,
+` 	npm run serve`
 
 Then frontend app is runned and can be accessed at the following address:
 
-
- http://localhost:8080/
-
+http://localhost:8080/
 
 Navigate to the "backend" directory and install the packages inside the requirements.txt file:
 
-``
-pip install -r requirements.txt
-``
+`pip install -r requirements.txt`
 
 To run the backend, execute the following command:
 
-``
- python runserver.py
-``
+` python runserver.py`
 
 Then, the backend Flak application will be run at the following address:
 
@@ -62,8 +58,6 @@ In the next step, you can create a local database named "ligfinder" with postgis
 
 You can specify your database configuration by modifying the following line:
 
-``
-backend/RestAPI/db.py#L5
-``
+`backend/RestAPI/db.py#L5`
 \
 Test
