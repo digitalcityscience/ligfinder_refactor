@@ -11,7 +11,7 @@ To install the app, clone the project and navigate to the root directory. Then e
 
 ```
  - Create .env file from .env.production
- - docker compose -f docker-compose.yaml up
+ - docker compose -f docker-compose.yaml up -d
 ```
 
 This command builds a container with frontend, backend and database images.
