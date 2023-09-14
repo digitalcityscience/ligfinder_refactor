@@ -4,7 +4,12 @@ import base64
 import mapclassify
 from geopy.geocoders import Nominatim
 from RestAPI import app
-from .db import get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel,area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, bivariate_classification, bivariate_class_assignment, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_word_cloud_parliament, get_liked_parcels, get_single_liked_parcel, spatial_union, get_union_features, spatial_intersection, get_geoparsing_date_filter, geoparsing_topic_filter, create_parcel_touch_test_table, analyze_parcel_touch_test_table, get_parcel_touch_test_table
+from .db import (get_buildings, get_table_names, get_table, get_feature,get_selected_featuress,get_selected_feature,get_geom_aoi,get_iso_aoi,get_iso_parcel, 
+                 area_filter,get_selected_feature_bound, get_geocoded_points, get_geocoded_newspaper_points, get_building, proximity_analysis, classification, 
+                 bivariate_classification, bivariate_class_assignment, proximity_scoring, criterial_filter, validate_user, register_user, save_results_json, 
+                 saved_user_results, delete_item_user_history, update_user_history_item_description,get_saved_parcels, get_word_cloud, get_word_cloud_parliament, 
+                 get_liked_parcels, get_single_liked_parcel, spatial_union, get_union_features, spatial_intersection, get_geoparsing_date_filter, geoparsing_topic_filter, 
+                 create_parcel_touch_test_table, analyze_parcel_touch_test_table, get_parcel_touch_test_table)
 
 @app.route('/', methods=["GET", "POST"])
 def home():
@@ -264,19 +269,6 @@ def get_feature_bbox():
         data = request.get_json()
         featureGid = int(data['featureGid'])
     return get_selected_feature_bound(featureGid)
-
-
-@app.route('/get-geocoded-points', methods=["GET", "POST"])
-def get_geocode_points():
-    if request.method=='GET':
-        
-        return get_geocoded_points()
-
-@app.route('/get-geocoded-newspaper-points', methods=["GET", "POST"])
-def get_geocode_newspaper_points():
-    if request.method=='GET':
-        
-        return get_geocoded_newspaper_points()
 
 @app.route('/get-proximity-analysis-result', methods=["GET", "POST"])
 def get_proximity_analysis():
@@ -587,7 +579,18 @@ def geocode_address():
             return({"location": [location.longitude, location.latitude], "address": location.address, 'status': 'success'})
         else:
             return jsonify({'text':"No location found for the address", 'status': 'failure'})
+        
+@app.route('/get-geocoded-points', methods=["GET", "POST"])
+def get_geocode_points():
+    if request.method=='GET':
+        
+        return get_geocoded_points()
 
+@app.route('/get-geocoded-newspaper-points', methods=["GET", "POST"])
+def get_geocode_newspaper_points():
+    if request.method=='GET':
+        
+        return get_geocoded_newspaper_points()
 
 @app.route('/geoparsing-topic-filter', methods=["GET", "POST"])
 def topic_filter():
