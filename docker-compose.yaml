@@ -26,14 +26,14 @@ services:
       - ligfinder
 
   frontend:
-    container_name: frontend_ligfinder
+    container_name: frontend_ligfinder-prod
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     environment:
       - VUE_APP_API_BASE_URL = "/api/"
     ports:
-      - 9000:80
+      - 8080:80
     networks:
       - ligfinder
 

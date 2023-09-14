@@ -10,7 +10,8 @@ Please make sure you have installed docker desktop in your system.
 To install the app, clone the project and navigate to the root directory. Then execute the following command:
 
 ```
- docker-compose up
+ - Create .env file from .env.production
+ - docker compose -f docker-compose.yaml up
 ```
 
 This command builds a container with frontend, backend and database images.
@@ -27,7 +28,10 @@ The database dump can be provided over request.
 
 Using docker environment for development purose, you can use below command to run the app:
 
-docker compose -f docker-compose-dev.yaml up
+```
+ - Create .env file from .env.development
+ - docker compose -f docker-compose-dev.yaml up
+```
 
 or
 
@@ -59,5 +63,3 @@ In the next step, you can create a local database named "ligfinder" with postgis
 You can specify your database configuration by modifying the following line:
 
 `backend/RestAPI/db.py#L5`
-\
-Test

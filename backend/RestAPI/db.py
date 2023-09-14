@@ -51,8 +51,7 @@ def get_table(tableName):
   cur = conn.cursor()
   
   cur.execute("""select json_build_object(
-'name', '%s', 'oid', 
-              (SELECT '%s'::regclass::oid), 'left', (select min(ST_XMin(geom)) from %s), 'bottom', (select min(ST_YMin(geom)) from %s), 'right', (select max(ST_XMax(geom)) from %s), 'top', (select max(ST_YMax(geom)) from %s),
+'name', '%s', 'oid', (SELECT '%s'::regclass::oid), 'left', (select min(ST_XMin(geom)) from %s), 'bottom', (select min(ST_YMin(geom)) from %s), 'right', (select max(ST_XMax(geom)) from %s), 'top', (select max(ST_YMax(geom)) from %s),
     'type', 'FeatureCollection',
     'features', json_agg(ST_AsGeoJSON(t.*)::json)
     )
@@ -765,28 +764,27 @@ def analyze_parcel_touch_test_table(gid, area1, area2,area3):
   
   return result
 
-#below is unused function
-# def get_parcel_touch_test_table(area):
-#   conn = connect()
-#   cur = conn.cursor()
-#   cur.execute("""
-#   SELECT jsonb_build_object(
-#   'type',     'FeatureCollection',
-#   'features', jsonb_agg(feature)
-# )
-# FROM (
-#   SELECT jsonb_build_object(
-#     'type',       'Feature',
-#     'geometry',   ST_AsGeoJSON(geom)::jsonb,
-#     'properties', to_jsonb(inputs) - 'geom'
-#   ) AS feature
-#   FROM (
-#     SELECT ids, st_area(geom::geography) as area, geom FROM parcel_touch_test where st_area(geom::geography)>%s
-#   ) inputs
-# ) features;
+def get_parcel_touch_test_table(area):
+  conn = connect()
+  cur = conn.cursor()
+  cur.execute("""
+  SELECT jsonb_build_object(
+  'type',     'FeatureCollection',
+  'features', jsonb_agg(feature)
+)
+FROM (
+  SELECT jsonb_build_object(
+    'type',       'Feature',
+    'geometry',   ST_AsGeoJSON(geom)::jsonb,
+    'properties', to_jsonb(inputs) - 'geom'
+  ) AS feature
+  FROM (
+    SELECT ids, st_area(geom::geography) as area, geom FROM parcel_touch_test where st_area(geom::geography)>%s
+  ) inputs
+) features;
 
-#       ;""" %(area,))
-#   result = cur.fetchall()[0][0]
-#   cur.close()
-#   conn.close()
-#   return result
+      ;""" %(area,))
+  result = cur.fetchall()[0][0]
+  cur.close()
+  conn.close()
+  return result
