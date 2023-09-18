@@ -110,6 +110,9 @@
         "rmSelection": "Auswahl entfernen"
       },
       "geometry": {
+        "title":"Geometrie AOI Auswahl",
+        "add2List":"Zur Liste hinzufügen",
+        "rmSelection":"Auswahl entfernen",
         "mode": "Zeichenmodus"
       },
       "isochrone": {

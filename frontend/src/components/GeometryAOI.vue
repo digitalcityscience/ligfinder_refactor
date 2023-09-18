@@ -1,7 +1,7 @@
 <template>
     <v-card  class="geometry-select">
         <v-card-subtitle>
-            Geometry AOI Selection
+            {{$t('ligfinder.aoi.geometry.title')}}
         </v-card-subtitle>
         <v-card-text>
             <v-select
@@ -14,23 +14,28 @@
                 v-model="$store.state.geometryAOI.selectMode"
                 @change="getGeomArea"
             ></v-select>
-            <v-btn
-                dark
-                color="green"
-                @click="addToAOIList"
-                :disabled="$store.state.geometryAOI.AOI==null"
-            >
-            Add to List
-            </v-btn>
-            <v-btn
-                class="ml-2"
-                dark
-                color="red"
-                @click="deleteDrawnGeom"
-                :disabled="$store.state.geometryAOI.AOI==null"
-            >
-            Remove Selection
-            </v-btn>
+            <div class="d-flex flex-wrap justify-space-around">
+                <v-btn
+                    dark
+                    color="green"
+                    @click="addToAOIList"
+                    :disabled="$store.state.geometryAOI.AOI == null"
+                    class="m-1 flex-grow-1"
+                >
+                {{ $t('ligfinder.aoi.geometry.add2List') }}
+                </v-btn>
+                <v-btn
+                    class="m-1 flex-grow-1"
+                    dark
+                    color="red"
+                    @click="deleteDrawnGeom"
+                    :disabled="$store.state.geometryAOI.AOI == null"
+                    
+                >
+                {{ $t('ligfinder.aoi.geometry.rmSelection') }}
+                </v-btn>
+            </div>
+            
         </v-card-text>
     </v-card>
 </template>
