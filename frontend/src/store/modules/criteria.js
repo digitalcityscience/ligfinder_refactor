@@ -14,9 +14,63 @@ const criteria = {
         criteriaFilterData: null
     },
     mutations:{
-        
+        add2IncludeTags(state,item){
+            state.includeTags.push(item)
+            console.log('add2incl',item)
+        },
+        add2ExcludeTags(state,item){
+            state.excludeTags.push(item)
+            console.log('add2excl',item)
+        },
+        removeFromIncludeTags(state,item){
+            state.includeTags.splice(state.includeTags.findIndex((el)=>{return el.name == item.name}),1)
+            console.log('rmf incl',item)
+        },
+        removeFromExcludeTags(state,item){
+            state.excludeTags.splice(state.excludeTags.findIndex((el)=>{return el.name == item.name}),1)
+            console.log('rmf excl',item)}
     },
     actions:{
+        add2IncludeTags({state,commit},item){
+            console.log('add2incldispatcher',item)
+            let isAlreadyIncluded = state.includeTags.findIndex((el)=>{return el.name == item.name}) >= 0 ? true : false
+            let isAlreadyExcluded = state.excludeTags.findIndex((el)=>{return el.name == item.name}) >= 0 ? true : false
+            if(!isAlreadyIncluded){
+                if(!isAlreadyExcluded){
+                    commit('add2IncludeTags',item)
+                } else {
+                    commit('removeFromExcludeTags',item)
+                    commit('add2IncludeTags',item)
+                }
+            }
+        },
+        add2ExcludeTags({state,commit},item){
+            console.log('add2excldispatcher',item)
+            let isAlreadyIncluded = state.includeTags.findIndex((el)=>{return el.name == item.name}) >= 0 ? true : false
+            let isAlreadyExcluded = state.excludeTags.findIndex((el)=>{return el.name == item.name}) >= 0 ? true : false
+            if(!isAlreadyExcluded){
+                if(!isAlreadyIncluded){
+                    commit('add2ExcludeTags',item)
+                } else {
+                    commit('removeFromIncludeTags',item)
+                    commit('add2ExcludeTags',item)
+                }
+            }
+        },
+        removeFromIncludeTags({state,commit},item){
+            console.log('rmf incl dispatcher',item)
+            let isAlreadyIncluded = state.includeTags.findIndex((el)=>{return el.name == item.name}) >= 0 ? true : false
+            if(isAlreadyIncluded){
+                commit('removeFromIncludeTags',item)
+            }
+        },
+        removeFromExcludeTags({state,commit},item){
+            console.log('rmf excl dispatcher',item)
+            let isAlreadyExcluded = state.excludeTags.findIndex((el)=>{return el.name == item.name}) >= 0 ? true : false
+            if (isAlreadyExcluded) {
+                commit('removeFromExcludeTags',item)
+            }
+        },
         criteriaFilter({rootState, rootGetters, state, dispatch}){
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
