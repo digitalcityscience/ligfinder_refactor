@@ -116,6 +116,9 @@
         "mode": "drawing mode"
       },
       "isochrone": {
+        "title":"Isochrone AOI Selection",
+        "add2List":"Add to list",
+        "rmSelection":"Remove selection",
         "mode": "travel mode",
         "center": "select center",
         "travelTime": "travel time",

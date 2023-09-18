@@ -116,6 +116,9 @@
         "mode": "Zeichenmodus"
       },
       "isochrone": {
+        "title":"Isochrone AOI Auswahl",
+        "add2List":"Zur Liste hinzufügen",
+        "rmSelection":"Auswahl entfernen",
         "mode": "Reisemodus",
         "center": "Mittelpunkt auswählen",
         "travelTime": "Reisezeit",
