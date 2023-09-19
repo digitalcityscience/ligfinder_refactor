@@ -41,38 +41,21 @@
             </v-card-text>
             
         </v-card>
-        <div :style="{marginBottom:'40px'}"   v-if="$store.state.joinParcels.toggleSwitch">
-            <table id="datatable" class="table table-hover" v-if="$store.state.joinParcels.touchingParcels">
-                <thead >
-                    <tr >
-                        <th >{{ $t('ligfinder.joinParcels.ids') }}</th>
-                        <th >{{ $t('ligfinder.joinParcels.area') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    <tr v-for="i in $store.state.joinParcels.touchingParcels.features" :key="i.properties.ids[0]" @click="zoomToSelectedFeature(i)">
-                        <td>
-                            {{i.properties.ids}}
-                        </td>
-                        <td>
-                            {{parseFloat(i.properties.area).toFixed(2)}} m<sup>2</sup>
-                            
-                        </td>
-                        
-                    </tr>
-                    
-                    
-                </tbody>
-            </table>
+        <div v-if="$store.state.joinParcels.toggleSwitch">
+            <v-data-table
+            :headers="headers"
+            :items="$store.state.joinParcels.tableData"
+            :disable-filtering="true"
+            :disable-sort="true"
+            :items-per-page="10"
+            @click:row="zoomToSelectedFeature"
+        ></v-data-table>
+        <v-divider></v-divider>
+
         </div>
         
         
 
-    </div>
-    <div v-else class="table text-center">
-        <p>{{ $t('ligfinder.joinParcels.noFeature') }}</p>
-    
     </div>
 
 </template>
@@ -81,22 +64,16 @@
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from 'jquery'; 
 import * as turf from 'turf'
 
 export default {
+    data() {
+        return {
+            headers: [{text:"ids",value:"ids"},{text:"area",value:"area"}],
+        }
+    },
     mounted(){
-        $.extend( $.fn.dataTable.defaults, {
-            searching: false,
-        });
-        $('#datatable').DataTable({
-            "ordering": false,
-            "columnDefs": [ {
-                "targets": 'no-sort',
-                "orderable": false,
-                "order": []
-            } ]
-        });
+        
     },
     methods: {
         getTouchedParcels(){
@@ -106,9 +83,9 @@ export default {
             this.$store.dispatch('joinParcels/toggleJoinParcelVisibility')
             //this.$store.map.map.setLayoutProperty()
         },
-        zoomToSelectedFeature(clickedFeature){
-            console.log(clickedFeature)
-            let bounds = turf.bbox(clickedFeature);
+        zoomToSelectedFeature(row){
+            console.log(row)
+            let bounds = turf.bbox(row.data.geometry);
             this.$store.state.map.map.fitBounds(bounds);
         }
     }
