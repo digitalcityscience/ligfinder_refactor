@@ -132,12 +132,12 @@ const AOI = {
                 rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
             }
 
-            // remove selectedfeatures layer
-            for(let i=0; i<rootState.administrativeAOI.selectedFeatures.length; i++){
-                const selectedfeaturesLayer = rootState.map.map.getLayer(rootState.administrativeAOI.selectedFeatures[i].id);
-                if(typeof selectedfeaturesLayer !== 'undefined'){
-                    rootState.map.map.removeLayer(rootState.administrativeAOI.selectedFeatures[i].id)
-                    rootState.map.map.removeSource(rootState.administrativeAOI.selectedFeatures[i].id)
+            // remove pickedStates layer
+            for(let i=0; i<rootState.administrativeAOI.pickedStates.length; i++){
+                const pickedStatesLayer = rootState.map.map.getLayer(String(rootState.administrativeAOI.pickedStates[i].id));
+                if(typeof pickedStatesLayer !== 'undefined'){
+                    rootState.map.map.removeLayer(String(rootState.administrativeAOI.pickedStates[i].id))
+                    rootState.map.map.removeSource(String(rootState.administrativeAOI.pickedStates[i].id))
                 }
             } 
         }

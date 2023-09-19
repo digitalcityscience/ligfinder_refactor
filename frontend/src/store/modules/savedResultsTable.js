@@ -36,7 +36,7 @@ const savedResultsTable = {
                     'source': 'foi', // reference the data source
                     'layout': {},
                     'paint': {
-                        'fill-color': '#d99ec4', 
+                        'fill-color': '#f21b7f', 
                         'fill-opacity':0.7,
                         'fill-outline-color': '#000000',
                     }

@@ -103,13 +103,22 @@
       "operation": "Operation",
       "search": "Suche starten",
       "administrative": {
+        "title": "Verwaltung AOI Auswahl",
         "level": "Verwaltungsebene",
-        "selectByName": "Gebiet nach Namen auswählen"
+        "selectByName": "Nach Namen auswählen",
+        "add2List": "Zur Liste hinzufügen",
+        "rmSelection": "Auswahl entfernen"
       },
       "geometry": {
+        "title":"Geometrie AOI Auswahl",
+        "add2List":"Zur Liste hinzufügen",
+        "rmSelection":"Auswahl entfernen",
         "mode": "Zeichenmodus"
       },
       "isochrone": {
+        "title":"Isochrone AOI Auswahl",
+        "add2List":"Zur Liste hinzufügen",
+        "rmSelection":"Auswahl entfernen",
         "mode": "Reisemodus",
         "center": "Mittelpunkt auswählen",
         "travelTime": "Reisezeit",

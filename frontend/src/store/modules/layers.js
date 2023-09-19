@@ -57,7 +57,7 @@ const layers = {
         },
         addFOI2LayerList(state){
             state.tableNames.push({id:100, name: "foi", checked:true})
-            let style =Object.assign({},{'type': 'fill','fillColor': '#d99ec4', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
+            let style =Object.assign({},{'type': 'fill','fillColor': '#f21b7f', 'fillOutlineColor': '#000000', "fillopacity": 0.7 })
             Vue.set(state,"foiStyle", style)
         },
         removeFOIfromLayerList(state){

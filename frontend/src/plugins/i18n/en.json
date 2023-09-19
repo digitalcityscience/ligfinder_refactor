@@ -103,13 +103,22 @@
       "operation": "operation",
       "search": "start search",
       "administrative": {
+        "title":"Administrative AOI Selection",
         "level": "administration level",
-        "selectByName": "select area by name"
+        "selectByName": "select area by name",
+        "add2List": "Add to list",
+        "rmSelection":"Remove selection"
       },
       "geometry": {
+        "title":"Geometry AOI Selection",
+        "add2List":"Add to list",
+        "rmSelection":"Remove selection",
         "mode": "drawing mode"
       },
       "isochrone": {
+        "title":"Isochrone AOI Selection",
+        "add2List":"Add to list",
+        "rmSelection":"Remove selection",
         "mode": "travel mode",
         "center": "select center",
         "travelTime": "travel time",

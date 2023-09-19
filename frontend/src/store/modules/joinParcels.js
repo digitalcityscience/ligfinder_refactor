@@ -8,7 +8,8 @@ const joinParcels = {
         slider: 1000,
         layerVisibility: true,
         toggleSwitch: false,
-        touchingParcels: null
+        touchingParcels: null,
+        tableData:[]
     },
     mutations:{
        
@@ -33,7 +34,7 @@ const joinParcels = {
                     });
                     console.log(response.data)
                     state.touchingParcels=response.data
-                    
+                    response.data.features.forEach((joined)=>{state.tableData.push({"ids":joined.properties.ids.toString(),"area":joined.properties.area,"data":joined})})
                     const mapLayer = rootState.map.map.getLayer('touching_parcels')
                     if(typeof mapLayer !== 'undefined'){
                         rootState.map.map.removeLayer('touching_parcels')
@@ -58,8 +59,8 @@ const joinParcels = {
                         'source': 'touching_parcels', // reference the data source
                         'layout': {},
                         'paint': {
-                            'line-color': 'rgba(250, 0, 0, 1)',
-                            'line-width': 2
+                            'line-color': 'rgba(0, 255, 0, 1)',
+                            'line-width': 3
                         }
                         
                     };

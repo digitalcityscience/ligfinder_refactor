@@ -2,7 +2,6 @@
     <v-scroll-x-transition>
         <v-card v-show="$store.state.ligfinder.toggle"  class="ligfinder-ui">
             <v-card-title>LIGFINDER</v-card-title>
-            <div>
             <v-card-text >
                 <v-tabs background-color="#003063"
                     center-active
@@ -18,16 +17,15 @@
                     </v-tab>
                     <v-tab id="joinparcels" class="" @click="setClickedMenu($event)">{{ $t('ligfinder.tabs.joinParcels') }}</v-tab>
                 </v-tabs>
+                <div class="mx-4 mt-4">
+                    <AOI v-if="clickedLigMenue === 'aoi'" />
+                    <Results v-if="clickedLigMenue === 'results'" />
+                    <Area v-if="clickedLigMenue === 'area'" />
+                    <Criteria v-if="clickedLigMenue === 'criteria'" />
+                    <Proximity v-if="clickedLigMenue === 'proximity'" />
+                    <JoinParcels v-if="clickedLigMenue === 'joinparcels'" />
+                </div>
             </v-card-text>
-            <div class="mx-4 mt-4">
-                <AOI v-if="clickedLigMenue === 'aoi'" />
-                <Results v-if="clickedLigMenue === 'results'" />
-                <Area v-if="clickedLigMenue === 'area'" />
-                <Criteria v-if="clickedLigMenue === 'criteria'" />
-                <Proximity v-if="clickedLigMenue === 'proximity'" />
-                <JoinParcels v-if="clickedLigMenue === 'joinparcels'" />
-            </div>
-        </div>
         </v-card>
     </v-scroll-x-transition>
 </template>

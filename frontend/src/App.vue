@@ -58,7 +58,7 @@ html, body {
   
 }
 .main-container {
-  height: 100vh;
+  height: calc(100vh - 48px);
   display: flex;
   flex-direction: row;
 }

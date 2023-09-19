@@ -30,53 +30,55 @@
         <AdministrativeAOI v-if="$store.state.AOI.selectMode==='administrative'" />
         <GeometryAOI v-if="$store.state.AOI.selectMode==='geometry'" />
         <IsochroneAOI v-if="$store.state.AOI.selectMode==='isochrone'" />
-        <v-simple-table class="mb-4 mt-4" v-if="$store.state.AOI.AOIs[0].data!==null || $store.state.AOI.AOIs[1].data!==null || $store.state.AOI.AOIs[2].data!==null">
-            <template v-slot:default>
-            <thead>
-                <tr>
-                    <th class="text-left">
-                        {{ $t('ligfinder.aoi.name') }}
-                    </th>
+        <v-card class="mt-lg-2 mt-xl-3" v-if="$store.state.AOI.AOIs[0].data !== null || $store.state.AOI.AOIs[1].data !== null || $store.state.AOI.AOIs[2].data !== null">
+            <v-card-text>
+                <v-simple-table class="mb-4 mt-4" >
+                <template v-slot:default>
+                <thead>
+                    <tr>
+                        <th class="text-left text-capitalize">
+                            {{ $t('ligfinder.aoi.name') }}
+                        </th>
                     
-                    <th class="text-left">
-                        {{ $t('ligfinder.aoi.action') }}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                v-for="item in $store.state.AOI.AOIs"
-                :key="item.name"
+                        <th class="text-left text-capitalize">
+                            {{ $t('ligfinder.aoi.action') }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                    v-for="item in $store.state.AOI.AOIs"
+                    :key="item.name"
+                    >
+                        <td v-if="item.data != null">
+                            <p class="text-body-1 mb-0">{{ item.name }}</p>
+                            <p class="text-caption" v-if="item.value == 'administrative'">{{ concatNames(item.data) }}</p>
+                        </td>
+                        <td v-if="item.data != null">
+                            <v-icon
+                                small
+                                @click="deleteItem(item.value)"
+                            >
+                            mdi-delete
+                            </v-icon>
+                        </td>
+                    </tr>
+                </tbody>
+                </template>
+            </v-simple-table>
+            <div class="d-flex flex-column">
+                <v-select
+                    :items="$store.state.AOI.operators"
+                    v-model="$store.state.AOI.selectedOperator"
+                    :label="$t('ligfinder.aoi.operation')"
+                    solo
+                    class="select-operator"
                 >
-                    <td v-if="item.data!=null">
-                        <p class="text-body-1 mb-0">{{ item.name }}</p>
-                        <p class="text-caption" v-if="item.value == 'administrative'">{{ concatNames(item.data) }}</p>
-                    </td>
-                    <td v-if="item.data!=null">
-                        
-                        <v-icon
-                            small
-                            @click="deleteItem(item.value)"
-                        >
-                        mdi-delete
-                        </v-icon>
-                    </td>
-                </tr>
-            </tbody>
-            </template>
-        </v-simple-table>
-        <div v-if="$store.state.AOI.AOIs[0].data!=null || $store.state.AOI.AOIs[1].data!=null || $store.state.AOI.AOIs[2].data!=null">
-
-            <v-select
-                :items="$store.state.AOI.operators"
-                v-model="$store.state.AOI.selectedOperator"
-                :label="$t('ligfinder.aoi.operation')"
-                solo
-                class="select-operator"
-            >
-            </v-select>
-            <v-btn light color="primary" class="m-2 mt-4" @click="getParcels()">{{ $t('ligfinder.aoi.search') }}</v-btn>            
-        </div>
+                </v-select>
+                <v-btn light color="primary" class="mt-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="getParcels()">{{ $t('ligfinder.aoi.search') }}</v-btn>            
+            </div>
+            </v-card-text>
+        </v-card>
     </div>
 </template>
 
