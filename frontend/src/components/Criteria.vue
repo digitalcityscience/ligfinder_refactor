@@ -2,7 +2,7 @@
 
 <div v-if="$store.state.ligfinder.FOI.features[0]" class="criteria-container">
     <v-card max-height="35vh">
-        <v-sheet class="pa-4 primary lighten-2">
+        <v-sheet class="pa-4 primary">
         <v-text-field
             v-model="search"
             label="Search criteria"
