@@ -104,8 +104,7 @@ const map=  {
                     'source': "foi", // reference the data source
                     'layout': {},
                     'paint': {
-                        'fill-color': '#d99ec4', 
-                        'fill-opacity':0.7,
+                        'fill-color': '#F21B7F', 
                         'fill-outline-color': '#000000',
                     }
                     

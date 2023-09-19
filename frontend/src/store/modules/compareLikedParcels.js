@@ -39,14 +39,14 @@ const compareLikedParcels = {
             if (state.likedParcels.length==0){
                 rootState.map.map.setPaintProperty(
                     'foi', 
-                    'fill-color', '#d99ec4'
+                    'fill-color', '#f21b7f'
                 )
             }
             else{
                 rootState.map.map.setPaintProperty(
                     'foi', 
                     'fill-color', 
-                    ['match', ['get', 'gid'], state.likedParcels, '#FFD700' , '#d99ec4']
+                    ['match', ['get', 'gid'], state.likedParcels, '#FFD700' , '#f21b7f']
                 )
             }
             if (state.likedParcels.length>1){
