@@ -4,14 +4,10 @@ const administrativeAOI = {
     namespaced: true,
     state: {
         toggle: false,
-        isDisabled: true,
         currentAdminArea : null,
-        selectedFeatures: [],
-        selectedLyers: [],
         administrativeLayerName: null,
         adminStates: [],
         pickedStates:[],
-        downloadedAdministrativeAreas:[],
         selectMode: null,
         items: [
             { name: 'Bezirke', value: 'bezirke' },
@@ -167,6 +163,19 @@ const administrativeAOI = {
                 rootState.map.map.removeLayer(state.administrativeLayerName)
                 rootState.map.map.removeSource(state.administrativeLayerName)
             }
+            // remove pickedStates layer
+            for(let i=0; i<rootState.administrativeAOI.pickedStates.length; i++){
+                const pickedStatesLayer = rootState.map.map.getLayer(String(rootState.administrativeAOI.pickedStates[i].id));
+                if(typeof pickedStatesLayer !== 'undefined'){
+                    rootState.map.map.removeLayer(String(rootState.administrativeAOI.pickedStates[i].id))
+                    rootState.map.map.removeSource(String(rootState.administrativeAOI.pickedStates[i].id))
+                }
+            } 
+            state.adminStates=[]
+            state.pickedStates=[]
+            state.selectMode=null
+            state.currentAdminArea = null
+            state.administrativeLayerName = null
         },
         addCheckedAdmin({rootState,commit,getters},item){
             HTTP

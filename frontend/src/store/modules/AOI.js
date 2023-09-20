@@ -124,22 +124,8 @@ const AOI = {
                 rootState.map.map.removeSource("isochrone")
             }
 
-            // remove adminastrative layer
-
-            const adminastrativeLayer = rootState.map.map.getLayer(rootState.administrativeAOI.currentAdminArea);
-            if(typeof adminastrativeLayer !== 'undefined'){
-                rootState.map.map.removeLayer(rootState.administrativeAOI.currentAdminArea)
-                rootState.map.map.removeSource(rootState.administrativeAOI.currentAdminArea)
-            }
-
-            // remove pickedStates layer
-            for(let i=0; i<rootState.administrativeAOI.pickedStates.length; i++){
-                const pickedStatesLayer = rootState.map.map.getLayer(String(rootState.administrativeAOI.pickedStates[i].id));
-                if(typeof pickedStatesLayer !== 'undefined'){
-                    rootState.map.map.removeLayer(String(rootState.administrativeAOI.pickedStates[i].id))
-                    rootState.map.map.removeSource(String(rootState.administrativeAOI.pickedStates[i].id))
-                }
-            } 
+            // reset adminastrative layer
+            dispatch("administrativeAOI/resetAdminLayers",null,{root:true})
         }
     },
     getters:{
