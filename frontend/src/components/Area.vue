@@ -1,7 +1,7 @@
 <template>
     <div v-if="$store.state.ligfinder.FOI.features[0]">
-        <v-card>
-            <v-subheader>{{ $t('ligfinder.area.landInM2') }}</v-subheader>
+        <v-card class="area-filter">
+            <v-card-subtitle class="text-subtitle-1 text-capitalize">{{ $t('ligfinder.area.landInM2') }}</v-card-subtitle>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -18,9 +18,8 @@
                             @change="$set($store.state.area.areaRange, 0, $event)"
                             class="mt-0 pt-0"
                             hide-details
-                            single-line
+                            label="min"
                             type="number"
-                            style="font-size: 0.8vw; width: 5vw"
                             ></v-text-field>
                         </template>
                         <template v-slot:append>
@@ -29,9 +28,8 @@
                             @change="$set($store.state.area.areaRange, 1, $event)"
                             class="mt-0 pt-0"
                             hide-details
-                            single-line
+                            label="max"
                             type="number"
-                            style="font-size: 0.8vw; width: 5vw"
                             ></v-text-field>
                         </template>
                         </v-range-slider>
@@ -39,7 +37,7 @@
                 </v-row>
             </v-card-text>
 
-            <v-subheader>{{ $t('ligfinder.area.grossFloorInM2') }}</v-subheader>
+            <v-card-subtitle class="text-subtitle-1 text-capitalize">{{ $t('ligfinder.area.grossFloorInM2') }}</v-card-subtitle>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -56,9 +54,8 @@
                             @change="$set($store.state.area.grossFloorAreaRange, 0, $event)"
                             class="mt-0 pt-0"
                             hide-details
-                            single-line
                             type="number"
-                            style="font-size: 0.8vw; width: 5vw"
+                            label="min"
                             ></v-text-field>
                         </template>
                         <template v-slot:append>
@@ -67,9 +64,8 @@
                             @change="$set($store.state.area.grossFloorAreaRange, 1, $event)"
                             class="mt-0 pt-0"
                             hide-details
-                            single-line
                             type="number"
-                            style="font-size: 0.8vw; width: 5vw"
+                            label="max"
                             ></v-text-field>
                         </template>
                         </v-range-slider>
@@ -77,7 +73,7 @@
                 </v-row>
             </v-card-text>
 
-            <v-subheader>{{ $t('ligfinder.area.availableVacantLots') }}</v-subheader>
+            <v-card-subtitle class="text-subtitle-1 text-capitalize">{{ $t('ligfinder.area.availableVacantLots') }}</v-card-subtitle>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -94,9 +90,8 @@
                             @change="$set($store.state.area.unbuiltAreaRange, 0, $event)"
                             class="mt-0 pt-0"
                             hide-details
-                            single-line
+                            label="min"
                             type="number"
-                            style="font-size: 0.8vw; width: 5vw"
                             ></v-text-field>
                         </template>
                         <template v-slot:append>
@@ -105,9 +100,8 @@
                             @change="$set($store.state.area.unbuiltAreaRange, 1, $event)"
                             class="mt-0 pt-0"
                             hide-details
-                            single-line
+                            label="max"
                             type="number"
-                            style="font-size: 0.8vw; width: 5vw"
                             ></v-text-field>
                         </template>
                         </v-range-slider>
@@ -168,12 +162,8 @@ export default {
 </script>
 
 <style scoped>
-
-.form-range{
-    width:80%
-}
-.rr {
-  display: inline-block;
+.area-filter::v-deep .v-input__slider > .v-input__control{
+    display: none;
 }
 
 
