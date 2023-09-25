@@ -66,19 +66,25 @@ def get_feature(tableName, featureid):
         'features', json_agg(ST_AsGeoJSON(t.*)::json)
         ) from %s as t where gid = %s;""" % (tableName, tableName, featureid))
         result = cur.fetchone()
+        # print(result["json_build_object"])
+        print("*******************")
         return result["json_build_object"]
+        # return None
     except Exception as error:
-        logging.error(f"!!! Error : {error}")
+        logging.error(f"!!! Error from db.py: {error}")
         return None  # done
 
 
 def get_union_features(tableName, featureid):
     try:
-        cur.execute("""select st_asgeojson(st_union(geom)) from %s where gid in %s
-      ;""" % (tableName, featureid))
+        cur.execute("""
+                    select st_asgeojson(st_union(geom)) from %s where gid in %s
+                    ;""" % (tableName, featureid))
         # result = cur.fetchall() # it might give error when there is more than 1
         result = cur.fetchone()
-        return result["json_build_object"]
+        # print(result['st_asgeojson'])
+
+        return result['st_asgeojson']
     except Exception as error:
         logging.error(f"!!! Error : {error}")
         return None

@@ -38,13 +38,8 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-def root():
-    return {"message": "Hello World"}
-
-
 @app.get('/table-names', status_code=status.HTTP_200_OK)
-def table_names():
+async def table_names():
     table_names = get_table_names()
     if not table_names:
         raise HTTPException(
@@ -59,7 +54,7 @@ def table_names():
 
 
 @app.post('/add-table', status_code=status.HTTP_200_OK)
-def add_table(payload: schema.TableNamePayload):
+async def add_table(payload: schema.TableNamePayload):
     layer = {}
     tableName = payload.tablename
     layer = get_table(tableName)
@@ -70,18 +65,19 @@ def add_table(payload: schema.TableNamePayload):
 
 
 @app.post('/add-feature', status_code=status.HTTP_200_OK)
-def add_feature(data: schema.FeatureIdPayload):
+async def add_feature(data: schema.FeatureIdPayload):
+    print(data)
     tableName = data.tablename
     featureId = data.featureid
     layer = get_feature(tableName, featureId)
     if not layer:
         raise HTTPException(
-            status_code=404, detail=f"Feature with id {featureId} not found")
+            status_code=500, detail=f"Feature with id {featureId} not found")
     return layer  # done
 
 
 @app.post('/get-isochrone-aoi', status_code=status.HTTP_200_OK)
-def get_isochrone_aoi(data: dict):
+async def get_isochrone_aoi(data: dict):
     time = float(data["payload"]["time"])*60
     center = data["payload"]["center"]
     lng = float(center["lng"])
@@ -91,106 +87,115 @@ def get_isochrone_aoi(data: dict):
 
 
 @app.post('/get-aois', status_code=status.HTTP_200_OK)
-def get_aois(data: dict):
-    nonEmptyData = []
-    for i in range(len(data["AOIs"])):
-        if (data["AOIs"][i]["data"] is not None):
-            nonEmptyData.append(i)
-    adminLayer = None
-    adminUnionLayer = None
-    if data["AOIs"][0]["data"] is not None:
-        featureid = []
-        tablename = data["AOIs"][0]["data"][0]['table']
-        for i in data["AOIs"][0]["data"]:
-            featureid.append(int(i['id']))
-        featureid = tuple(featureid)
-        if (len(featureid) == 1):
+async def get_aois(data: dict):
+    try:
+        nonEmptyData = []
+        for i in range(len(data["AOIs"])):
+            if (data["AOIs"][i]["data"] is not None):
+                nonEmptyData.append(i)
+        adminLayer = None
+        adminUnionLayer = None
+        if data["AOIs"][0]["data"] is not None:
+            featureid = []
+            tablename = data["AOIs"][0]["data"][0]['table']
+            for i in data["AOIs"][0]["data"]:
+                featureid.append(int(i['id']))
+            featureid = tuple(featureid)
+            print(featureid)
+            if (len(featureid) == 1):
+                adminLayer = get_feature(tablename, featureid[0])
+                print(adminLayer)
+            else:
+                adminUnionLayer = get_union_features(tablename, featureid)
+                print('from else blog')
+        if len(nonEmptyData) == 3:
+            if adminLayer is not None:
+                union = spatial_union(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(
+                    data["AOIs"][2]["data"]["features"][0]["geometry"]))
+                final_union = spatial_union(json.dumps(union["features"][0]["geometry"]), json.dumps(
+                    adminLayer["features"][0]["geometry"]))
+                result = get_geom_aoi(json.dumps(
+                    final_union["features"][0]["geometry"]))
 
-            adminLayer = get_feature(tablename, featureid[0])
-        else:
-            adminUnionLayer = get_union_features(tablename, featureid)
-    if len(nonEmptyData) == 3:
-        if adminLayer is not None:
-            union = spatial_union(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(
-                data["AOIs"][2]["data"]["features"][0]["geometry"]))
-            final_union = spatial_union(json.dumps(union["features"][0]["geometry"]), json.dumps(
-                adminLayer["features"][0]["geometry"]))
-            result = get_geom_aoi(json.dumps(
-                final_union["features"][0]["geometry"]))
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
+            elif adminUnionLayer is not None:
+                union = spatial_union(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(
+                    data["AOIs"][2]["data"]["features"][0]["geometry"]))
+                final_union = spatial_union(json.dumps(
+                    union["features"][0]["geometry"]), adminUnionLayer)
+                result = get_geom_aoi(json.dumps(
+                    final_union["features"][0]["geometry"]))
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
 
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
-        elif adminUnionLayer is not None:
-            union = spatial_union(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(
-                data["AOIs"][2]["data"]["features"][0]["geometry"]))
-            final_union = spatial_union(json.dumps(
-                union["features"][0]["geometry"]), adminUnionLayer)
-            result = get_geom_aoi(json.dumps(
-                final_union["features"][0]["geometry"]))
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
+        elif len(nonEmptyData) == 2:
+            if adminLayer is not None:
+                union = spatial_union(json.dumps(adminLayer["features"][0]["geometry"]), json.dumps(
+                    data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+                result = get_geom_aoi(json.dumps(
+                    union["features"][0]["geometry"]))
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
 
-    elif len(nonEmptyData) == 2:
-        if adminLayer is not None:
-            union = spatial_union(json.dumps(adminLayer["features"][0]["geometry"]), json.dumps(
-                data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
-            result = get_geom_aoi(json.dumps(union["features"][0]["geometry"]))
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
+            elif adminUnionLayer is not None:
+                union = spatial_union(adminUnionLayer, json.dumps(
+                    data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+                result = get_geom_aoi(json.dumps(
+                    union["features"][0]["geometry"]))
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
 
-        elif adminUnionLayer is not None:
-            union = spatial_union(adminUnionLayer, json.dumps(
-                data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
-            result = get_geom_aoi(json.dumps(union["features"][0]["geometry"]))
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
+            else:
+                union = spatial_union(json.dumps(data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"]), json.dumps(
+                    data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
+                result = get_geom_aoi(json.dumps(
+                    union["features"][0]["geometry"]))
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
 
-        else:
-            union = spatial_union(json.dumps(data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"]), json.dumps(
-                data["AOIs"][nonEmptyData[1]]["data"]["features"][0]["geometry"]))
-            result = get_geom_aoi(json.dumps(union["features"][0]["geometry"]))
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
+        elif len(nonEmptyData) == 1:
+            if adminLayer is not None:
+                result = get_geom_aoi(json.dumps(
+                    adminLayer["features"][0]["geometry"]))
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
 
-    elif len(nonEmptyData) == 1:
-        if adminLayer is not None:
-            result = get_geom_aoi(json.dumps(
-                adminLayer["features"][0]["geometry"]))
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
+            elif adminUnionLayer is not None:
+                result = get_geom_aoi(adminUnionLayer)
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
 
-        elif adminUnionLayer is not None:
-            result = get_geom_aoi(adminUnionLayer)
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
-
-        else:
-            result = get_geom_aoi(json.dumps(
-                data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"]))
-            if result is None:
-                raise HTTPException(
-                    status_code=404, detail=f"AOI not found")
-            return result
+            else:
+                result = get_geom_aoi(json.dumps(
+                    data["AOIs"][nonEmptyData[0]]["data"]["features"][0]["geometry"]))
+                if result is None:
+                    raise HTTPException(
+                        status_code=404, detail=f"AOI not found")
+                return result
+    except Exception as error:
+        raise HTTPException(
+            status_code=500, detail=f"Exception {error.__cause__}")
 
 # done
 
 
 @app.post('/get-intersect_aois', status_code=status.HTTP_200_OK)
-def get_intersect_aois(data: dict):
+async def get_intersect_aois(data: dict):
     nonEmptyData = []
     for i in range(len(data["AOIs"])):
         if (data["AOIs"][i]["data"] is not None):
@@ -304,7 +309,7 @@ def get_intersect_aois(data: dict):
 
 
 @app.post('/get-selected-feature-bound', status_code=status.HTTP_200_OK)
-def get_feature_bbox(data: dict):
+async def get_feature_bbox(data: dict):
     featureGid = int(data['featureGid'])
     result = get_selected_feature_bound(featureGid)
     if result is None:
@@ -314,7 +319,7 @@ def get_feature_bbox(data: dict):
 
 
 @app.post('/get-proximity-scoring-result', status_code=status.HTTP_200_OK)
-def get_proximity_score(data: dict):
+async def get_proximity_score(data: dict):
     supermarketWeight = data['parameters'][0]['weight']
     metroWeight = data['parameters'][1]['weight']
     apothekeWeight = data['parameters'][2]['weight']
@@ -343,7 +348,7 @@ def get_proximity_score(data: dict):
 
 
 @app.post('/classify', status_code=status.HTTP_200_OK)
-def classify(data: dict):
+async def classify(data: dict):
     if data["selectedChoroplethMethod"] == "Univariate":
         try:
             featureIds = data['gids']
@@ -393,7 +398,7 @@ def classify(data: dict):
 
 
 @app.post('/bivariate-classify', status_code=status.HTTP_200_OK)
-def bivariate_classify(data: dict):
+async def bivariate_classify(data: dict):
     if data["selectedChoroplethMethod"] == "Bivariate":
         try:
             featureIds = data['gids']
@@ -453,7 +458,7 @@ def bivariate_classify(data: dict):
 
 
 @app.post('/set-criteria-filter', status_code=status.HTTP_200_OK)
-def set_criteria_filter(data: dict):
+async def set_criteria_filter(data: dict):
     try:
         excludeTags = data["excludeTags"]
         includeTags = data["includeTags"]
@@ -521,7 +526,7 @@ def set_criteria_filter(data: dict):
 
 
 @app.post('/get-liked-parcels', status_code=status.HTTP_200_OK)
-def get_liked_parcel(data: dict):
+async def get_liked_parcel(data: dict):
     featureIds = data['gids']
     featureid = []
     for gid in featureIds:
@@ -544,7 +549,7 @@ def get_liked_parcel(data: dict):
 
 
 @app.post('/get-touching-parcels', status_code=status.HTTP_200_OK)
-def get_touching_parcels(data: dict):
+async def get_touching_parcels(data: dict):
     try:
         area_threshould = float(data['area'])
         joined_parcel_data = analyze_parcel_touch_test_table(
@@ -561,7 +566,7 @@ def get_touching_parcels(data: dict):
 
 
 @app.get('/get-geocoded-points', status_code=status.HTTP_200_OK)
-def get_geocode_points():
+async def get_geocode_points():
     try:
         result = get_geocoded_points()
         if result is None:
@@ -574,7 +579,7 @@ def get_geocode_points():
 
 
 @app.get('/get-geocoded-newspaper-points', status_code=status.HTTP_200_OK)
-def get_geocode_newspaper_points():
+async def get_geocode_newspaper_points():
     try:
         result = get_geocoded_newspaper_points()
         if result is None:
@@ -587,7 +592,7 @@ def get_geocode_newspaper_points():
 
 
 @app.post('/get-word-frequency', status_code=status.HTTP_200_OK)
-def get_word_cloudd(data: dict):
+async def get_word_cloudd(data: dict):
     try:
         result = get_word_cloud(data["date"])
         if result is None:
@@ -600,7 +605,7 @@ def get_word_cloudd(data: dict):
 
 
 @app.post('/get-word-frequency-parliament', status_code=status.HTTP_200_OK)
-def get_word_cloudd(data: dict):
+async def get_word_cloudd(data: dict):
     try:
         result = get_word_cloud_parliament(data["docNum"])
         if result is None:
@@ -613,7 +618,7 @@ def get_word_cloudd(data: dict):
 
 
 @app.post('/geoparsing-topic-filter', status_code=status.HTTP_200_OK)
-def topic_filter(data: dict):
+async def topic_filter(data: dict):
     try:
         whereClause = ""
         for i in data["topics"]:
@@ -635,7 +640,7 @@ def topic_filter(data: dict):
 
 
 @app.post('/geoparsing-date-filter', status_code=status.HTTP_200_OK)
-def geoparsing_date_filter(data: dict):
+async def geoparsing_date_filter(data: dict):
     try:
         if data["datasetMode"] == 'parliament':
             return (get_geoparsing_date_filter('geocoded_address', 'date', data["dates"][0], data["dates"][1]))
