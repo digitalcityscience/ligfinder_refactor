@@ -1,29 +1,29 @@
 <template>
-  <div v-if="$store.state.compareLikedParcels.toggle" class="compare">
-        <div class=" mb-2 mt-1 mr-2">
-            <i
-                class="fas fa-times" 
-                style="cursor: pointer; position: absolute; left: 1%"
-                @click="closeCompareTable"   
+  <v-card v-if="$store.state.compareLikedParcels.toggle" class="compare">
+    <v-card-title>
+            <v-btn
+                icon
+                @click="closeCompareTable"
             >
-            </i>
-        </div>
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+    </v-card-title>
+    <v-card-text>
         <table class="table table-hover">
             <thead>
-                <tr align="center" valign="center">
-                        <th>{{$t('compareParcels.attr')}}</th>
+                <tr valign="center">
+                        <th class="text-capitalize">{{$t('compareParcels.attr')}}</th>
                         <th  v-for="i in $store.state.compareLikedParcels.likedParcelsJsonResponse.features" :key="i.properties.gid">
-                            <button @click="zoomToLikedParcel(i.properties.gid)" class="btn btn-outline-info btn-sm">{{$t('compareParcels.zoomTo')}}</button>
+                            <v-btn @click="zoomToLikedParcel(i.properties.gid)" color="primary" dark>{{$t('compareParcels.zoomTo')}}</v-btn>
                         </th>
 
-                    </tr>
+                </tr>
             </thead>
         
             <tbody>
-            
-                <tr align="center" valign="center" v-for="i in Object.keys($store.state.compareLikedParcels.likedParcelsJsonResponse.features[0].properties)" :key="i.afl">
-                    {{i}}
-                    <th v-for="j in ($store.state.compareLikedParcels.likedParcelsJsonResponse.features)" :key="j.afl">
+                <tr valign="center" class="data-row" v-for="i in Object.keys($store.state.compareLikedParcels.likedParcelsJsonResponse.features[0].properties)" :key="i.afl">
+                    <th class="attrs">{{i}}</th>
+                    <th class="values" v-for="j in ($store.state.compareLikedParcels.likedParcelsJsonResponse.features)" :key="j.afl">
                     {{j.properties[i]}}
                     </th>
                 </tr>
@@ -31,7 +31,9 @@
             </tbody>
         </table>
        
-  </div>
+    </v-card-text>
+        
+    </v-card>
 </template>
 
 <script>
@@ -50,17 +52,29 @@ export default {
 
 <style scoped>
 .compare{
-        position: absolute;
-        font-family: 'Nunito', sans-serif;
-        font-weight:800;
         background-color: rgba(255, 255, 255, 1);
-        z-index: 999;
-        right:0;
+        margin-left:auto;
         height: 100%;
         max-width:30vw;
-        overflow: auto;
+        overflow-y: auto;
+        pointer-events: all;
     }
-    
+.data-row{
+    line-height: 1.375rem;
+    height: 45px;
+}
+.data-row>.values{
+    font-weight: 400;
+}
+@media screen and (max-width: 1600px ) {
+    .compare{
+        max-width:50vw;
+    }
+    .data-row{
+        line-height: 1rem;
+        height: 36px;
+    }
+}
     .table{
         margin-left: 5px;
         margin-right: 5px
