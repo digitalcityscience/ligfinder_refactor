@@ -135,17 +135,15 @@ export default {
   height: 100%;
   width: 100%;
 }
-</style>
-<style>
 
-.maplibregl-ctrl-top-right.mapboxgl-ctrl-top-right{
+.map-container::v-deep .maplibregl-ctrl-top-right.mapboxgl-ctrl-top-right{
   display: flex;
   flex-direction: column;
 }
-.maplibregl-ctrl.maplibregl-ctrl-group.mapboxgl-ctrl.mapboxgl-ctrl-group:first-child{
+.map-container::v-deep .maplibregl-ctrl.maplibregl-ctrl-group.mapboxgl-ctrl.mapboxgl-ctrl-group:first-child{
   order:3
 }
-.maplibregl-popup-close-button.mapboxgl-popup-close-button {
+.map-container::v-deep .maplibregl-popup-close-button.mapboxgl-popup-close-button {
     font-size: 2rem;
     background-color: white;
     overflow: hidden;
