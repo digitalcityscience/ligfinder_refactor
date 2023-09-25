@@ -96,11 +96,17 @@ export default {
             }
             else if (id=="geoparsing" && id != currentTabID){
                 this.$store.commit('geoparsing/setGeoparsingToggle')
+                if (currentTabID == 'ligfinder') {
+                    this.$store.dispatch('administrativeAOI/resetAdminLayers',id)
+                }
             }
             else if (id=="classification" && id != currentTabID){
                 this.$store.commit('classification/setClassificationToggle')
                 if (currentTabID == 'geoparsing') {
                     this.$store.dispatch('geoparsing/hideGeoparsingLayer',id)
+                }
+                if (currentTabID == 'ligfinder') {
+                    this.$store.dispatch('administrativeAOI/resetAdminLayers',id)
                 }
             } 
         },
