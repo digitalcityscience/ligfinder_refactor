@@ -3,6 +3,7 @@
 export const createHtmlAttributesFOI = (rootState, store, likedParcel, zoomLng, zoomLat, list) =>{
     
     const parentDiv = document.createElement('div');
+    parentDiv.setAttribute('class','parcel-detail')
     const tableDiv = document.createElement('div');
     tableDiv.style.cssText = 'max-height: 25vh;overflow: scroll;'
     const table = document.createElement('table');
@@ -24,12 +25,12 @@ export const createHtmlAttributesFOI = (rootState, store, likedParcel, zoomLng, 
     parentDiv.appendChild(tableDiv)
     const zoomDiv = document.createElement('div');
     const btn = document.createElement('button');
-    btn.setAttribute('class', 'btn btn-outline-primary btn-sm');
+    btn.setAttribute('class', 'v-btn v-btn--has-bg v-size--small primary');
     btn.textContent = 'Zoom To';
     zoomDiv.appendChild(btn)
 
     const compareBtn = document.createElement('button');
-    compareBtn.setAttribute('class', 'btn btn-outline-success btn-sm');
+    compareBtn.setAttribute('class', 'v-btn v-btn--has-bg v-size--small success');
     compareBtn.setAttribute('id', 'compare-btn');
     //compareBtn.disabled = true;
     if (rootState.compareLikedParcels.likedParcels.length>1){

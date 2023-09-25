@@ -145,4 +145,14 @@ export default {
 .maplibregl-ctrl.maplibregl-ctrl-group.mapboxgl-ctrl.mapboxgl-ctrl-group:first-child{
   order:3
 }
+.maplibregl-popup-close-button.mapboxgl-popup-close-button {
+    font-size: 2rem;
+    background-color: white;
+    overflow: hidden;
+    height: 30px;
+    display: flex;
+    width: 30px;
+    align-content: center;
+    justify-content: center;
+}
 </style>
