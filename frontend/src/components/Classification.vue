@@ -1,43 +1,37 @@
 <template>
 <v-scroll-x-transition>
   <v-card v-show="$store.state.classification.toggle" class="classification-ui">
-        <v-card-title>{{ $t('classification.title') }}</v-card-title>
+        <v-card-title class="text-uppercase">{{ $t('classification.title') }}</v-card-title>
         <v-card-text>
             <v-container
             fluid
             mt-10
         >
-            <v-row align="center">
-
-            <v-col
-                cols="12"
-                sm="6"
-            >
-                <v-select
-                :items="this.addedLayersNames"
-                :label="$t('classification.layer')"
-                v-model="$store.state.classification.selectedLayer"
-                @change="selectAttributes"
-                ></v-select>
-            </v-col>
-            <v-col
-                
-                cols="12"
-                sm="6"
-                
-            >
-                <v-select
-                :items="$store.state.classification.choroplethMethod"
-                item-text="name"
-                :label="$t('classification.choropleth')"
-                v-model="$store.state.classification.selectedChoroplethMethod"
-                ></v-select>
-            </v-col>
-            
-
+            <v-row>
+                <v-col
+                    cols="12"
+                    sm="6"
+                >
+                    <v-select
+                    :items="this.addedLayersNames"
+                    :label="$t('classification.layer')"
+                    v-model="$store.state.classification.selectedLayer"
+                    @change="selectAttributes"
+                    ></v-select>
+                </v-col>
+                <v-col
+                    cols="12"
+                    sm="6"
+                >
+                    <v-select
+                    :items="$store.state.classification.choroplethMethod"
+                    item-text="name"
+                    :label="$t('classification.choropleth')"
+                    v-model="$store.state.classification.selectedChoroplethMethod"
+                    ></v-select>
+                </v-col>
             </v-row>
-
-            <v-row v-if="$store.state.classification.selectedChoroplethMethod === 'Bivariate'" align="center">
+            <v-row v-if="$store.state.classification.selectedChoroplethMethod === 'Bivariate'">
                 <v-col
                     cols="12"
                     sm="6"
@@ -59,7 +53,7 @@
                     ></v-select>
                 </v-col>
             </v-row>
-            <v-row v-else align="center">
+            <v-row v-else>
                 <v-col
                     cols="12"
                     sm="6"
@@ -70,10 +64,8 @@
                     v-model="$store.state.classification.attribute1"
                     ></v-select>
                 </v-col>
-                
             </v-row>
-
-            <v-row align="center">
+            <v-row >
                 <v-col
                     cols="12"
                     sm="6"
@@ -94,9 +86,8 @@
                     v-model="$store.state.classification.selectedClass"
                     ></v-select>
                 </v-col>
-                
             </v-row>
-            <v-row v-if="$store.state.classification.selectedChoroplethMethod==='Univariate'" align="center">
+            <v-row v-if="$store.state.classification.selectedChoroplethMethod==='Univariate'">
                 <v-col
                     cols="12"
                     sm="6"
@@ -109,27 +100,26 @@
                 </v-col>
                 
             </v-row>
-            <v-row v-if="$store.state.classification.selectedChoroplethMethod==='Bivariate'" align="center">
+            <v-row v-if="$store.state.classification.selectedChoroplethMethod==='Bivariate'">
                 <v-col
                     cols="12"
                     sm="6"
                 >
-                <span style="vertical-align: middle;">{{$t('classification.1stColor')}} </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color1" value="#ff0000"></span>
+                <span style="vertical-align: middle;">{{$t('classification.1stColor')}} </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color1"></span>
                 </v-col>
                 
                 <v-col
                     cols="12"
                     sm="6"
                 >
-                <span style="vertical-align: middle;">{{$t('classification.2ndColor')}} </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color2" value="#0000FF"></span>
+                <span style="vertical-align: middle;">{{$t('classification.2ndColor')}} </span>  <span style="vertical-align: middle;"><input type="color" v-model="$store.state.classification.color2"></span>
                 </v-col>
                 
             </v-row>
-            <div class="mt-4" >
-                <button style="font-size: 0.8vw" class="btn btn-info" @click="classify">{{$t('classification.classify')}}</button>
-                <button style="font-size: 0.8vw" class="btn btn-secondary ml-4" @click="resetClassification">{{$t('classification.reset')}}</button>
+            <div class="d-flex flex-wrap justify-space-around mt-2">
+                <v-btn class="m-1 flex-grow-1" dark color="primary" @click="classify">{{$t('classification.classify')}}</v-btn>
+                <v-btn class="m-1 flex-grow-1" dark color="red" @click="resetClassification">{{$t('classification.reset')}}</v-btn>
             </div>
-
         </v-container>
         </v-card-text>
     </v-card>
@@ -187,5 +177,7 @@ export default {
         position:absolute;
         right: 2vw
     }
-    
+    .classification-ui::v-deep .v-text-field .v-label{
+        text-transform: capitalize;
+    }
 </style>
