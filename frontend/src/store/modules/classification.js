@@ -18,7 +18,8 @@ const classification = {
         selectedClass:5,
         gids: [],
         selectedColorPalette: "",
-        color2: "",
+        color1:"#ff0000",
+        color2:"#00ff00",
         bivariatedata: null
     },
     mutations:{
@@ -268,7 +269,7 @@ const classification = {
             
         },
         resetClassification({state, rootState}){
-            rootState.map.map.setPaintProperty(state.selectedLayer,'fill-color', "#00FF00", 'fill-opacity', 1)
+            rootState.map.map.setPaintProperty(state.selectedLayer,'fill-color', "#f21b7f", 'fill-opacity', 1)
             console.log(rootState.legend.univariateToggle)
             rootState.legend.univariateToggle =false
             
