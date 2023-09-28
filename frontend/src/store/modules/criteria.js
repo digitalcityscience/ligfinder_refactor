@@ -5,8 +5,6 @@ const criteria = {
     state:{
         criteria: config,
         active: false,
-        checkedCriteria: [],
-        checkedTags: [],
         includeTags:[],
         excludeTags:[],
         operators: ['AND', 'OR'],

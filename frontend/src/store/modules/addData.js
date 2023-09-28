@@ -83,8 +83,6 @@ const addData = {
             let bounds = turf.bbox(payload.data);
             rootState.map.map.fitBounds(bounds);
 
-            rootState.criteria.checkedCriteria= []
-            rootState.criteria.checkedTags= []
             rootState.criteria.includeTags= []
             rootState.criteria.excludeTags= []
 
