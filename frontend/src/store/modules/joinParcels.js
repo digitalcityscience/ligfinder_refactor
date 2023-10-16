@@ -34,7 +34,7 @@ const joinParcels = {
                     });
                     console.log(response.data)
                     state.touchingParcels=response.data
-                    response.data.features.forEach((joined)=>{state.tableData.push({"ids":joined.properties.ids.toString(),"area":joined.properties.area,"data":joined})})
+                    response.data.features.forEach((joined)=>{state.tableData.push({"ids":joined.properties.ids.toString(),"area":parseFloat(joined.properties.area).toFixed(2),"data":joined})})
                     const mapLayer = rootState.map.map.getLayer('touching_parcels')
                     if(typeof mapLayer !== 'undefined'){
                         rootState.map.map.removeLayer('touching_parcels')
