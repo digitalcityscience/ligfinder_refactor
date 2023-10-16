@@ -14,8 +14,7 @@
                         >
                         <template v-slot:prepend >
                             <v-text-field
-                            :value="$store.state.area.areaRange[0]"
-                            @change="$set($store.state.area.areaRange, 0, $event)"
+                            v-model.number="$store.state.area.arMin"
                             class="mt-0 pt-0"
                             hide-details
                             label="min"
@@ -24,8 +23,7 @@
                         </template>
                         <template v-slot:append>
                             <v-text-field
-                            :value="$store.state.area.areaRange[1]"
-                            @change="$set($store.state.area.areaRange, 1, $event)"
+                            v-model.number="$store.state.area.arMax"
                             class="mt-0 pt-0"
                             hide-details
                             label="max"
@@ -50,8 +48,7 @@
                         >
                         <template v-slot:prepend>
                             <v-text-field
-                            :value="$store.state.area.grossFloorAreaRange[0]"
-                            @change="$set($store.state.area.grossFloorAreaRange, 0, $event)"
+                            v-model.number="$store.state.area.grossFloorMin"
                             class="mt-0 pt-0"
                             hide-details
                             type="number"
@@ -60,8 +57,7 @@
                         </template>
                         <template v-slot:append>
                             <v-text-field
-                            :value="$store.state.area.grossFloorAreaRange[1]"
-                            @change="$set($store.state.area.grossFloorAreaRange, 1, $event)"
+                            v-model.number="$store.state.area.grossFloorMax"
                             class="mt-0 pt-0"
                             hide-details
                             type="number"
@@ -86,8 +82,7 @@
                         >
                         <template v-slot:prepend>
                             <v-text-field
-                            :value="$store.state.area.unbuiltAreaRange[0]"
-                            @change="$set($store.state.area.unbuiltAreaRange, 0, $event)"
+                            v-model.number="$store.state.area.unbuiltAreaMin"
                             class="mt-0 pt-0"
                             hide-details
                             label="min"
@@ -96,8 +91,7 @@
                         </template>
                         <template v-slot:append>
                             <v-text-field
-                            :value="$store.state.area.unbuiltAreaRange[1]"
-                            @change="$set($store.state.area.unbuiltAreaRange, 1, $event)"
+                            v-model.number="$store.state.area.unbuiltAreaMax"
                             class="mt-0 pt-0"
                             hide-details
                             label="max"
@@ -110,8 +104,7 @@
             </v-card-text>
 
             <v-col class="mt-4" >
-                <v-btn light color="primary" class="m-2" @click="areaFilter">{{ $t('ligfinder.area.search') }}</v-btn>
-                <v-btn light color="success" class="m-2" @click="applyAreaFilter">{{ $t('ligfinder.area.apply') }}</v-btn>
+                <v-btn light color="primary" class="mt-4 col-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">Filter</v-btn>
             </v-col>
         </v-card>
     </div>
