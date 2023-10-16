@@ -27,6 +27,7 @@ import compareLikedParcels from './modules/compareLikedParcels'
 import geocoder from './modules/geocoder'
 import joinParcels from './modules/joinParcels'
 import panel from './modules/panel'
+import filtering from './modules/filtering'
 
 
 Vue.use(Vuex);
@@ -59,7 +60,8 @@ const store = new Vuex.Store({
         compareLikedParcels,
         geocoder,
         joinParcels,
-        panel
+        panel,
+        filtering
     }
 
 })
