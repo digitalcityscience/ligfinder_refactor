@@ -3,6 +3,8 @@ const ligfinder = {
     state:{
         toggle: true,
         FOI: {'features':[]},
+        aoiResult: {'features':[]},
+        criteriaResult: {'features':[]},
         resultHeaders:[],
         resultItems:[],
         FOIGid: [],
@@ -31,6 +33,12 @@ const ligfinder = {
                 state.resultHeaders = []
                 state.resultItems = []
             }
+        },
+        saveAoiResult(state,data){
+            state.aoiResult = data
+        },
+        saveCriteriaResult(state,data){
+            state.criteriaResult = data
         }
         
     },

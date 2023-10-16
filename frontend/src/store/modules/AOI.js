@@ -43,9 +43,10 @@ const AOI = {
             state.AOIs[1].data=null
             rootState.geometryAOI.draw.deleteAll() 
         },
-        getUnionParcels({state, rootState,dispatch,commit,rootGetters}){
+        async getUnionParcels({state, rootState,dispatch,commit,rootGetters}){
             rootState.map.isLoading = true
-            HTTP
+            console.log('getting union parsels')
+            await HTTP
             .post('get-aois', {
                 AOIs : state.AOIs
             })
@@ -64,12 +65,15 @@ const AOI = {
                 response.data.name = "foi"
                 commit('layers/updateFOI',{data:response.data},{root:true})
                 dispatch('removeSearchHelpers')
+                console.log('got union parsels')
+                commit('filtering/saveLastAOIFilter',state.AOIs,{root:true})
                 
             })            
             
         },
         getIntersectParcels({state, rootState, dispatch,rootGetters,commit}){
             rootState.map.isLoading = true
+            console.log('getting intersecting parsels')
             HTTP
             .post('get-intersect_aois', {
                 AOIs : state.AOIs
@@ -88,11 +92,14 @@ const AOI = {
                     })
                     
                     dispatch('removeSearchHelpers')
+                    console.log('got intersecting parsels')
+                    commit('filtering/saveLastAOIFilter',state.AOIs,{root:true})
                 }
                 else{
                     dispatch('alert/openCloseAlarm', {text: "The selected geometries are not intersected!", background: "#FFD700"}, { root:true })
                     rootState.map.isLoading = false
-                    dispatch('removeSearchHelpers')         
+                    dispatch('removeSearchHelpers')     
+                    console.log('got intersecting parsels')    
                 }
             })
         },

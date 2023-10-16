@@ -3,8 +3,14 @@ const area = {
     state:{
         landAreaMin:0,
         landAreaMax:100,
+        arMin:0,
+        arMax:4073828,
         areaRange: [0,4073828],
+        grossFloorMin:0,
+        grossFloorMax:4073828,
         grossFloorAreaRange: [0,4073828],
+        unbuiltAreaMin:0,
+        unbuiltAreaMax:4073828,
         unbuiltAreaRange: [0,4073828],
         areaFilterData: null
     },
@@ -13,21 +19,21 @@ const area = {
     },
     actions:{
         
-        areaFilter({state, rootState, dispatch}){
+        async areaFilter({state, rootState, dispatch}){
+            console.log('applying area filter')
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.isLoading = true
             let jsonAreaFilter = rootState.ligfinder.FOI.features.filter( d=> 
-                d.properties.area_fme>=state.areaRange[0] && d.properties.area_fme<=(state.areaRange[1]+1) && 
-                d.properties.bgf_sum>=state.grossFloorAreaRange[0] && d.properties.bgf_sum<=(state.grossFloorAreaRange[1]+1) && 
-                d.properties.fl_unbeb_a>=state.unbuiltAreaRange[0] && d.properties.fl_unbeb_a<=(state.unbuiltAreaRange[1]+1)
+                d.properties.area_fme>=state.arMin && d.properties.area_fme<=(state.arMax+1) && 
+                d.properties.bgf_sum>=state.grossFloorMin && d.properties.bgf_sum<=(state.grossFloorMax+1) && 
+                d.properties.fl_unbeb_a>=state.unbuiltAreaMin && d.properties.fl_unbeb_a<=(state.unbuiltAreaMax+1)
             )
 
             jsonAreaFilter = {
                 features: jsonAreaFilter,
                 type: 'FeatureCollection'
             }
-            console.log("test push")
             if (jsonAreaFilter.features?.length>0){
                 state.areaFilterData=jsonAreaFilter
                 
@@ -57,13 +63,17 @@ const area = {
                 
                 rootState.map.map.addLayer(layerName)
                 rootState.map.isLoading = false
+
+            console.log('area filtered')
             }
             else{
                 dispatch('alert/openCloseAlarm', {text: "No feature found for the selected area. Please restart your search", background: "#FFD700"}, { root:true })
                 rootState.map.isLoading = false
+                console.log('area filter has no result')
             }
+            return Promise.resolve()
         },
-        applyAreaFilter({state, rootState, dispatch,commit,rootGetters}){
+        async applyAreaFilter({state, rootState, dispatch,commit,rootGetters}){
             if (state.areaFilterData){
                 commit('ligfinder/updateFOIData',state.areaFilterData,{root:true})
                 commit('ligfinder/createResultTable',null,{root:true})
@@ -78,9 +88,22 @@ const area = {
                     }
                 }).then(()=>{
                     dispatch('alert/openCloseAlarm', {text: "The Area Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
+                    console.log('area filter applied')
+                    commit(
+                      "filtering/saveLastAreaFilter",
+                      [
+                        state.arMin,
+                        state.arMax,
+                        state.grossFloorMin,
+                        state.grossFloorMax,
+                        state.unbuiltAreaMin,
+                        state.unbuiltAreaMax,
+                      ].toString(),
+                      { root: true }
+                    );
                 })
             }
-            
+            return Promise.resolve()
         },
         removeAreaFilterLayer({rootState}){
             const mapLayer = rootState.map.map.getLayer("areafilter");
@@ -106,16 +129,13 @@ const area = {
                 fl_unbeb_a.push(i.properties.fl_unbeb_a)
             }
 
-            const minAreaFme = Math.min(...area_fme)
-            const maxAreaFme = Math.max(...area_fme)
-            const minBgfSum = Math.min(...bgf_sum)
-            const maxBgfSum = Math.max(...bgf_sum)
-            const minfl_unbeb_a = Math.min(...fl_unbeb_a)
-            const maxfl_unbeb_a = Math.max(...fl_unbeb_a)
+            const minAreaFme = Math.floor(Math.min(...area_fme))
+            const maxAreaFme = Math.ceil(Math.max(...area_fme))
+            const minBgfSum = Math.floor(Math.min(...bgf_sum))
+            const maxBgfSum = Math.ceil(Math.max(...bgf_sum))
+            const minfl_unbeb_a = Math.floor(Math.min(...fl_unbeb_a))
+            const maxfl_unbeb_a = Math.ceil(Math.max(...fl_unbeb_a))
             const areaRange = [minAreaFme, maxAreaFme, minBgfSum, maxBgfSum, minfl_unbeb_a, maxfl_unbeb_a]
-            state.areaRange = [minAreaFme, maxAreaFme]
-            state.grossFloorAreaRange= [minBgfSum, maxBgfSum]
-            state.unbuiltAreaRange=[minfl_unbeb_a, maxfl_unbeb_a]
             return areaRange
         }
     }
