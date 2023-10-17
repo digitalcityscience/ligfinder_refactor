@@ -5,7 +5,15 @@ const ligfinder = {
         FOI: {'features':[]},
         aoiResult: {'features':[]},
         criteriaResult: {'features':[]},
-        resultHeaders:[],
+        resultHeaders:[
+            { "text": "Parcen Number", "value": "flurst_hh" },
+            { "text": "Bezirk", "value": "bezname" },
+            { "text": "Stadtteil", "value": "stadtteil" },
+            { "text": "Gebäudegrundfläche", "value": "geb_grf_a" },
+            { "text": "Unbebaute Fläche", "value": "fl_unbeb_a" },
+            { "text": "alkis_grz", "value": "alkis_grz" },
+            { "text": "bplan_grz", "value": "bplan_grz" },
+          ],
         resultItems:[],
         FOIGid: [],
         hamburgBbox: [9.730130859, 53.395010847, 10.325276797, 53.739437304]
@@ -22,15 +30,11 @@ const ligfinder = {
         },
         createResultTable(state){
             if (state.FOI.features.length > 0) {
-                let arr = []
-                Object.keys(state.FOI.features[0].properties).forEach((attr)=> arr.push({'text':attr,'value':attr}))
-                state.resultHeaders = arr
                 let items =[]
                 state.FOI.features.forEach((feature)=>{items.push(feature.properties)})
                 state.resultItems = items
 
             } else {
-                state.resultHeaders = []
                 state.resultItems = []
             }
         },
