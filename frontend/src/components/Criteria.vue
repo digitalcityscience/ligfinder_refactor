@@ -82,17 +82,7 @@
         </v-card-text>
     </v-card>
     <div class="mt-4 mb-4" >
-        <v-btn
-            light
-            color="primary"
-            class="m-2" 
-            @click="criteriaFilter()" 
-            :disabled='$store.state.criteria.includeTags.length==0 && $store.state.criteria.excludeTags.length==0'
-        >
-        {{ $t('ligfinder.criteria.search') }}
-    </v-btn>
-    <v-btn light color="success" class="m-2" @click="applyCriteriaFilter">{{ $t('ligfinder.criteria.apply') }}</v-btn>
-
+        <v-btn light color="primary" class="mt-4 col-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">Filter</v-btn>
     </div>
 </div>
 <div v-else class="text-center">

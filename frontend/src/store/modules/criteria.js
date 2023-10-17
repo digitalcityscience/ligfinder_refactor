@@ -5,8 +5,6 @@ const criteria = {
     state:{
         criteria: config,
         active: false,
-        checkedCriteria: [],
-        checkedTags: [],
         includeTags:[],
         excludeTags:[],
         operators: ['AND', 'OR'],
@@ -71,11 +69,12 @@ const criteria = {
                 commit('removeFromExcludeTags',item)
             }
         },
-        criteriaFilter({rootState, rootGetters, state, dispatch}){
+        async criteriaFilter({rootState, rootGetters, state, dispatch}){
+            console.log('getting criteria filter')
             rootState.compareLikedParcels.likedParcels= []
             rootState.compareLikedParcels.likedParcelsJsonResponse= null
             rootState.map.isLoading = true
-            HTTP
+            await HTTP
             .post('set-criteria-filter', {
                 featureIds : rootGetters['ligfinder/getFOIGid'],
                 excludeTags: state.excludeTags,
@@ -113,17 +112,20 @@ const criteria = {
                     
                     rootState.map.map.addLayer(layerName)
                     rootState.map.isLoading = false
+                    console.log('got criteria filter results')
 
                 }
                 else{
                     dispatch('alert/openCloseAlarm', {text: "No feature found for the selected criteria. Please restart your search", background: "#FFD700"}, { root:true })
                     rootState.map.isLoading = false
+                    console.log('no criteria filter result')
                 }
             
             })
             
         },
-        applyCriteriaFilter({state, rootState, dispatch, commit,rootGetters}){
+        async applyCriteriaFilter({state, rootState, dispatch, commit,rootGetters}){
+            console.log('applying criteria filter')
             if (state.criteriaFilterData){
                 commit('ligfinder/updateFOIData',state.criteriaFilterData,{root:true})
                 commit('ligfinder/createResultTable',null,{root:true})
@@ -132,7 +134,7 @@ const criteria = {
                 
 
                 const sourceData = rootState.ligfinder.FOI
-                dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
+                await dispatch('map/addFOI2Map',sourceData,{root:true}).then(()=>{
                     const isFOIonMap = typeof rootState.map.map.getLayer("foi") != 'undefined' ? true : false
                     const isFOIonLayerList = rootGetters['layers/isFOIonLayerList']
                     if (isFOIonMap && !isFOIonLayerList){
@@ -140,8 +142,15 @@ const criteria = {
                     }
                 }).then(()=>{
                     dispatch('alert/openCloseAlarm', {text: "The Criteria Filter Was Successfully Applied", background: "#00FF00"}, { root:true })
+                    commit('filtering/saveLastCriteriaFilter',
+                            JSON.stringify({includeTags:state.includeTags,
+                                excludeTags:state.excludeTags,
+                                operator:state.selectedOperator}),
+                            {root:true})
+            console.log('criteria filter applied')
                 })
             }
+            return Promise.resolve()
         },
         removeCriteriaFilterLayer({rootState}){
             const mapLayer = rootState.map.map.getLayer("criteriafilter");
@@ -149,10 +158,17 @@ const criteria = {
                 rootState.map.map.removeLayer("criteriafilter")
                 rootState.map.map.removeSource("criteriafilter")
             }
-        }
+        },
+        async filterByCriteria(){}
     },
     getters:{
-
+        getFilterData(state){
+            return {
+                includeTags : state.includeTags,
+                excludeTags : state.excludeTags,
+                selectedOperator : state.selectedOperator
+            }
+        }
     }
 
 }
