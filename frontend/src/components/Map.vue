@@ -114,7 +114,10 @@ export default {
       }
       else if (_this.$store.state.geoparsing.datasetMode == 'parliament'){
         this.$store.dispatch('geoparsing/parliamentPopup',e)
-      }            
+      } 
+      else if (_this.$store.state.geoparsing.datasetMode == 'elbe'){
+        this.$store.dispatch('geoparsing/elbePopup',e)
+      }             
     })
   },
   watch: {
@@ -152,5 +155,8 @@ export default {
     width: 30px;
     align-content: center;
     justify-content: center;
-}
+  }
+  .map-container::v-deep .maplibregl-popup-content.mapboxgl-popup-content {
+    padding-top: 30px;
+  }
 </style>
