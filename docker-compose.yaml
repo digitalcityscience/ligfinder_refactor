@@ -1,13 +1,15 @@
 version: "3.0"
 services:
   backend:
+    container_name: ligfinder-api-dev
     build: ./backend
-    environment:
-      - DB_PASSWORD=XXX_POSTGRES_PASSWORD_XXX
-      - DB_HOST=database
-      - DB_NAME=ligfinder
+    command: uvicorn app.main:app --reload --workers 4 --host 0.0.0.0 --port 3000
+    volumes:
+      - ./backend:/usr/src/
     expose:
       - 3000
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
     networks:
       - ligfinder
 

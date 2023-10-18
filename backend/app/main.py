@@ -66,7 +66,6 @@ async def add_table(payload: schema.TableNamePayload):
 
 @app.post('/add-feature', status_code=status.HTTP_200_OK)
 async def add_feature(data: schema.FeatureIdPayload):
-    print(data)
     tableName = data.tablename
     featureId = data.featureid
     layer = get_feature(tableName, featureId)
@@ -101,13 +100,10 @@ async def get_aois(data: dict):
             for i in data["AOIs"][0]["data"]:
                 featureid.append(int(i['id']))
             featureid = tuple(featureid)
-            print(featureid)
             if (len(featureid) == 1):
                 adminLayer = get_feature(tablename, featureid[0])
-                print(adminLayer)
             else:
                 adminUnionLayer = get_union_features(tablename, featureid)
-                print('from else blog')
         if len(nonEmptyData) == 3:
             if adminLayer is not None:
                 union = spatial_union(json.dumps(data["AOIs"][1]["data"]["features"][0]["geometry"]), json.dumps(
@@ -656,7 +652,6 @@ async def topic_filter(data: dict):
         query = whereClause.split()
         # remove first word and join the remaning words
         query = " ".join(query[1:])
-        print(query)
         result = geoparsing_topic_filter(query)
         if result is None:
             raise HTTPException(
@@ -669,7 +664,6 @@ async def topic_filter(data: dict):
 
 @app.post('/elbe-topic-filter', status_code=status.HTTP_200_OK)
 async def elbe_topic_filter_func(data: dict):
-    # print(data)
     try:
         whereClause = ""
         for i in data["topics"]:
@@ -681,7 +675,6 @@ async def elbe_topic_filter_func(data: dict):
         query = whereClause.split()
         # remove first word and join the remaning words
         query = " ".join(query[1:])
-        print(query)
         result = elbe_topic_filter(query)
         if result is None:
             raise HTTPException(
