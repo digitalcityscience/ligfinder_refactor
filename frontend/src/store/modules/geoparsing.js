@@ -6,6 +6,8 @@ import { createHtmlAttributesNewspaperDataset } from '../../utils/createHtmlAttr
 import { createDuplicatePointAttributesNewspaper } from '../../utils/createDuplicatePointAttributesNewspaper';
 import { createHtmlAttributesParliamentDataset } from '../../utils/createHtmlAttributesParliamentDataset';
 import { createDuplicatePointAttributesParliament } from '../../utils/createDuplicatePointAttributesParliament';
+import { createHtmlAttributesElbeDataset } from '../../utils/createHtmlAttributesElbeDataset';
+import { createDuplicatePointAttributesElbe } from '../../utils/createDuplicatePointAttributesElbe';
 
 
 const geoparsing = {
@@ -15,10 +17,11 @@ const geoparsing = {
         items: ['Circle', 'Heat Map', 'Point Cluster', '2D Hexagon', '3D Hexagon', 'No Style'],
         geocodedData: null,
         newspaperData: null,
+        elbeData:null,
         datasetOptions: [
             { name: 'Parliament Database', value: 'parliament' },
             { name: 'News Paper', value: 'newspaper' },
-            
+            { name: 'Elbewochenblat', value: 'elbe'}
         ],
         datasetMode: null,
         parliamentPdfLink: null,
@@ -54,8 +57,36 @@ const geoparsing = {
             "Finanzbehörde",
             "Fernwärme"
         ],
+        elbeTopics:[
+            "Pandemie",
+            "Gesundheit und Soziales",
+            "Mobilität",
+            "Sport",
+            "Politik",
+            "Schulen & Bildung",
+            "Wohnen",
+            "Konzerte & Events",
+            "Porträts aus der Nachbarschaft",
+            "Zivilgesellschaft",
+            "Nicht zugeordnet",
+        ],
+        elbeTopicItems:[
+            "Pandemie",
+            "Gesundheit und Soziales",
+            "Mobilität",
+            "Sport",
+            "Politik",
+            "Schulen & Bildung",
+            "Wohnen",
+            "Konzerte & Events",
+            "Porträts aus der Nachbarschaft",
+            "Zivilgesellschaft",
+            "Nicht zugeordnet",
+        ],
         topicQueryModes:["AND", "OR"],
+        elbeTopicQueryModes:["AND", "OR"],
         selectedTopicQueryMode: "OR",
+        elbeSelectedTopicQueryMode:"OR",
         duplicatedNewspaper:false,
         duplicatedNewspaperData:{
             coordiates: null,
@@ -64,6 +95,11 @@ const geoparsing = {
         duplicatedParliament:false,
         duplicatedParliamentData:{
             coordiates: null,
+            list:null
+        },
+        duplicatedElbe:false,
+        duplicatedElbeData:{
+            coordiates:null,
             list:null
         }
     },
@@ -180,6 +216,60 @@ const geoparsing = {
             state.maxDate = sorted.pop()
             state.minDate = sorted.shift()
         },
+        getElbePoints({state,rootState,dispatch}){
+            dispatch("removeStyles").then(() => {
+                if (state.elbeData) {
+                  rootState.map.map.addSource("geocoded", {
+                    type: "geojson",
+                    data: state.elbeData,
+                  });
+                  rootState.map.map.addLayer({
+                    id: "geocoded",
+                    type: "circle",
+                    source: "geocoded",
+                    paint: {
+                      "circle-color": "#8931e0",
+                    },
+                  });
+                  dispatch("computeElbeDateRange");
+                  dispatch("layers/addGeoparsingLayer", "elbe", {
+                    root: true,
+                  });
+                } else {
+                  HTTP.get("get-geocoded-elbe-points").then((response) => {
+                    state.elbeData = response.data;
+                    rootState.map.map.addSource("geocoded", {
+                      type: "geojson",
+                      data: response.data,
+                    });
+                    rootState.map.map.addLayer({
+                      id: "geocoded",
+                      type: "circle",
+                      source: "geocoded",
+                      paint: {
+                        "circle-color": "#8931e0",
+                      },
+                    });
+                    dispatch("computeElbeDateRange");
+                    dispatch("layers/addGeoparsingLayer", "elbe", {
+                      root: true,
+                    });
+                  });
+                }
+              });
+        },
+        computeElbeDateRange({state}){
+            let dateArray = []
+            for (let i=0; i<state.elbeData.features.length; i++){
+                dateArray.push(state.elbeData.features[i].properties.date)
+            }
+            let sorted = dateArray.slice()
+            .sort(function(a, b) {
+                return new Date(a) - new Date(b);
+            });
+            state.maxDate = sorted.pop()
+            state.minDate = sorted.shift()
+        },
         removeStyles({rootState}){
 
             const mapLayer = rootState.map.map.getLayer('geocoded');
@@ -213,8 +303,11 @@ const geoparsing = {
             if (state.datasetMode=='parliament'){
                 points = state.geocodedData
             }
-            else{
+            else if (state.datasetMode=='newspaper'){
                 points = state.newspaperData
+            }
+            else {
+                points = state.elbeData
             }
             if (payload === "Circle"){
                 dispatch('removeStyles');
@@ -421,8 +514,11 @@ const geoparsing = {
             if (state.datasetMode == 'parliament') {
                 clusterDataset = state.geocodedData
             }
-            else {
+            else if(state.datasetMode == 'newspaper') {
                 clusterDataset = state.newspaperData
+            }
+            else {
+                clusterDataset = state.elbeData
             }
 			if (cluster[0]) {
                 var pointsInCluster = clusterDataset.features.filter(function(f){
@@ -436,8 +532,11 @@ const geoparsing = {
                 if (state.datasetMode == 'parliament') {
                     dispatch('parliamentPopup', {features: pointsInCluster, clusterCenterCoordinate: clickedMouseCoordinate})
                 }
-                else {
+                else if (state.datasetMode == 'newspaper') {
                     dispatch('newspaperPopup', {features: pointsInCluster, clusterCenterCoordinate: clickedMouseCoordinate})
+                }
+                else if (state.datasetMode == 'elbe') {
+                    dispatch('elbePopup', {features: pointsInCluster, clusterCenterCoordinate: clickedMouseCoordinate})
                 }
                 
         
@@ -609,6 +708,88 @@ const geoparsing = {
             
             popup.addTo(rootState.map.map);
         },
+        elbePopup({state, rootState, dispatch}, e){
+            state.wordFrequency = []
+            let coordinates 
+            if (e.features.length==1){
+                coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                let clickedDocNum = e.features[0].properties.row_num
+                HTTP
+                .post('get-word-frequency-elbe',{
+                    docNum: clickedDocNum
+                })
+                .then((response)=>{
+                    for (let i in response.data) {
+                        state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                    }
+                }).catch(()=>{
+                    dispatch('alert/openCloseAlarm', {text: "The selected point has no wordcloud!", background: "#FFD700"}, { root:true })
+                })
+
+                let popup = new maplibregl.Popup()
+                popup.setLngLat(coordinates)
+                delete e.features[0].properties['hyperlink'];
+                popup.setDOMContent(createHtmlAttributesElbeDataset(rootState, dispatch, coordinates[0], coordinates[1], e.features[0].properties, state.wordFrequency, state.duplicatedElbe, popup))
+                
+                popup.addTo(rootState.map.map);
+
+            }
+            else{
+                if (e.clusterCenterCoordinate){
+                    coordinates = [e.clusterCenterCoordinate.lng, e.clusterCenterCoordinate.lat]
+                }
+                else {
+                    coordinates = [e.features[0].geometry.coordinates[0], e.features[0].geometry.coordinates[1]]
+                }
+
+                let list = e.features
+                state.duplicatedElbeData.coordiates=coordinates
+                state.duplicatedElbeData.list=list
+                let popup = new maplibregl.Popup()
+                popup.setLngLat(coordinates)
+                popup.setDOMContent(createDuplicatePointAttributesElbe(rootState,dispatch, popup, list))
+                
+                popup.addTo(rootState.map.map);
+            
+            }
+            
+        },
+        backtoDuplicatedListElbe({state, rootState, dispatch}){
+            let coordinates = state.duplicatedElbeData.coordiates
+
+            let list = state.duplicatedElbeData.list
+            
+            let popup = new maplibregl.Popup()
+            popup.setLngLat(coordinates)
+            popup.setDOMContent(createDuplicatePointAttributesElbe(rootState,dispatch, popup, list))
+            
+            popup.addTo(rootState.map.map);
+            
+        },
+        addSelectedDuplicatePointElbe({state,rootState, dispatch}, payload){
+            state.duplicatedElbe = true
+            var selectedfeature = payload.list.filter(a => a.properties.id == payload.id);
+            state.wordFrequency = []
+            let clickedDocNum = selectedfeature[0].properties.row_num
+            console.info('selectedFEature: ',selectedfeature)
+            console.info('clickedDocNum: ',clickedDocNum)
+            HTTP
+                .post('get-word-frequency-elbe',{
+                    row_num: clickedDocNum
+                })
+                .then((response)=>{
+                    for (let i in response.data) {
+                        state.wordFrequency.push([response.data[i]["word"], response.data[i]["frequency"]])
+                }}).catch(()=>{
+                    dispatch('alert/openCloseAlarm', {text: "The selected point has no wordcloud!", background: "#FFD700"}, { root:true })
+                })
+
+            let popup = new maplibregl.Popup()
+            popup.setLngLat([selectedfeature[0].properties.lon, selectedfeature[0].properties.lat])
+            popup.setDOMContent(createHtmlAttributesElbeDataset(rootState, dispatch, selectedfeature[0].properties.lon, selectedfeature[0].properties.lat, selectedfeature[0].properties, rootState.geoparsing.wordFrequency, state.duplicatedElbe, popup))
+            
+            popup.addTo(rootState.map.map);
+        },
         dateFilter({state, rootState, dispatch}){
             HTTP
             .post('geoparsing-date-filter',{
@@ -637,6 +818,27 @@ const geoparsing = {
                     
                 }
                 else if (state.datasetMode=='newspaper'){
+                    if (response.data.features!=null){
+                        dispatch('removeStyles')
+                        state.newspaperData = response.data
+                        rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                        rootState.map.map.addLayer({
+                            'id': 'geocoded',
+                            'type': 'circle',
+                            'source': 'geocoded',
+                            'paint': {
+                                'circle-color': '#8931e0'
+                            }
+                        });
+                    }
+                    else{
+
+                        dispatch('alert/openCloseAlarm', {text: "No feature found for the selected dates", background: "#FFD700"}, { root:true })
+
+                    }
+                    
+                }
+                else if (state.datasetMode=='elbe'){
                     if (response.data.features!=null){
                         dispatch('removeStyles')
                         state.newspaperData = response.data
@@ -686,6 +888,31 @@ const geoparsing = {
 
                 }
 
+            })
+        },
+        elbeTopicFilter({state, rootState, dispatch}){
+            HTTP
+            .post('elbe-topic-filter',{
+                topics: state.elbeTopics.map(topic => topic.toLowerCase()),
+                topicQueryMode: state.elbeSelectedTopicQueryMode
+            })
+            .then((response)=>{
+                if (response.data.features!=null){
+                    dispatch('removeStyles')
+                    state.elbeData = response.data
+                    rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                    rootState.map.map.addLayer({
+                        'id': 'geocoded',
+                        'type': 'circle',
+                        'source': 'geocoded',
+                        'paint': {
+                            'circle-color': '#8931e0'
+                        }
+                    });
+                }
+                else{
+                    dispatch('alert/openCloseAlarm', {text: "No feature found for the selected topics", background: "#FFD700"}, { root:true })
+                }
             })
         },
         hideGeoparsingLayer({state,rootState,rootGetters,commit},id){
