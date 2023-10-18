@@ -18,7 +18,7 @@ services:
     container_name: db_ligfinder_prod
     volumes:
       - ./database/dumps:/var/lib/postgresql/dumps
-      - pgdata:/var/lib/postgresql/data
+      - pgdata-prod:/var/lib/postgresql/data
     ports:
       - 5432:5432
     environment:
@@ -40,7 +40,7 @@ services:
       - ligfinder
 
 volumes:
-  pgdata:
+  pgdata-prod:
 
 networks:
   ligfinder:
