@@ -838,6 +838,27 @@ const geoparsing = {
                     }
                     
                 }
+                else if (state.datasetMode=='elbe'){
+                    if (response.data.features!=null){
+                        dispatch('removeStyles')
+                        state.newspaperData = response.data
+                        rootState.map.map.addSource('geocoded',{'type': 'geojson', 'data': response.data});
+                        rootState.map.map.addLayer({
+                            'id': 'geocoded',
+                            'type': 'circle',
+                            'source': 'geocoded',
+                            'paint': {
+                                'circle-color': '#8931e0'
+                            }
+                        });
+                    }
+                    else{
+
+                        dispatch('alert/openCloseAlarm', {text: "No feature found for the selected dates", background: "#FFD700"}, { root:true })
+
+                    }
+                    
+                }
             })
         },
         topicFilter({state, rootState, dispatch}){
