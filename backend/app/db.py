@@ -535,7 +535,6 @@ def analyze_parcel_touch_test_table(gid, area1, area2, area3):
     except Exception as error:
         logging.error(f"!!! Error : {error}")
         return None
-## --------------------------------------- UNUSED FUNCTIONS BELOW --------------------------------------- ##
 
 
 def get_geocoded_points():
@@ -566,6 +565,23 @@ def get_geocoded_newspaper_points():
           'features', json_agg(ST_AsGeoJSON(elbvertiefung.*)::json)
           )
         from elbvertiefung
+            ;""")
+        result = cur.fetchone()
+        return result["json_build_object"]
+    except Exception as error:
+        logging.error(f"!!! Error : {error}")
+        return None
+# done
+
+
+def get_geocoded_elbe_points():
+    try:
+        cur.execute("""
+        select json_build_object(
+          'type', 'FeatureCollection',
+          'features', json_agg(ST_AsGeoJSON(geocoded_elbewochenblat.*)::json)
+          )
+        from geocoded_elbewochenblat
             ;""")
         result = cur.fetchone()
         return result["json_build_object"]
@@ -609,6 +625,24 @@ def get_word_cloud_parliament(doc_num):
         return None
 
 
+def get_word_cloud_elbe(doc_num):
+    try:
+        print(doc_num)
+        cur.execute("""
+        SELECT json_agg(json_build_object(
+                'word', word,
+                'frequency', frequency::INTEGER
+                )
+                )
+        from elbewochenblatt_top20_keywords where row_num = %s;
+        """, (doc_num,))
+        result = cur.fetchone()
+        return result["json_agg"]
+    except Exception as error:
+        logging.error(f"!!! Error : {error}")
+        return None
+
+
 def geoparsing_topic_filter(query):
     try:
         cur.execute("""
@@ -618,6 +652,24 @@ def geoparsing_topic_filter(query):
           )
         from geocoded_address WHERE %s 
             ;""" % (query))
+        result = cur.fetchone()
+        return result["json_build_object"]
+    except Exception as error:
+        logging.error(f"!!! Error : {error}")
+        return None
+
+
+def elbe_topic_filter(query):
+    try:
+        print(query)
+        db_query = """
+        select json_build_object(
+          'type', 'FeatureCollection',
+          'features', json_agg(ST_AsGeoJSON(geocoded_elbewochenblat.*)::json)
+          )
+        from geocoded_elbewochenblat WHERE %s 
+            ;""" % (query)
+        cur.execute(db_query)
         result = cur.fetchone()
         return result["json_build_object"]
     except Exception as error:
@@ -641,6 +693,7 @@ def get_geoparsing_date_filter(table, fieldname, date1, date2):
         return None
 
 
+## --------------------------------------- UNUSED FUNCTIONS BELOW --------------------------------------- ##
 # below unimplemented functions are not used by view.py
 def get_building(gid):
     cur.execute("""

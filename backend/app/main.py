@@ -13,7 +13,7 @@ from app.db import (get_buildings, get_table_names, get_table, get_feature, get_
                     proximity_analysis, classification, bivariate_classification, bivariate_class_assignment, proximity_scoring, criterial_filter, validate_user, register_user,
                     save_results_json, saved_user_results, delete_item_user_history, update_user_history_item_description, get_saved_parcels, get_word_cloud, get_word_cloud_parliament,
                     get_liked_parcels, get_single_liked_parcel, spatial_union, get_union_features, spatial_intersection, get_geoparsing_date_filter, geoparsing_topic_filter,
-                    create_parcel_touch_test_table, analyze_parcel_touch_test_table)
+                    create_parcel_touch_test_table, analyze_parcel_touch_test_table, get_geocoded_elbe_points, get_word_cloud_elbe, elbe_topic_filter)
 """
 deleted functions: get_selected_features, get_parcel_touch_test_table
 """
@@ -591,6 +591,19 @@ async def get_geocode_newspaper_points():
             status_code=404, detail=f"Exception {error.__cause__}")
 
 
+@app.get('/get-geocoded-elbe-points', status_code=status.HTTP_200_OK)
+async def get_geocode_newspaper_points():
+    try:
+        result = get_geocoded_elbe_points()
+        if result is None:
+            raise HTTPException(
+                status_code=404, detail=f"DB query returns None")
+        return result
+    except Exception as error:
+        raise HTTPException(
+            status_code=404, detail=f"Exception {error.__cause__}")
+
+
 @app.post('/get-word-frequency', status_code=status.HTTP_200_OK)
 async def get_word_cloudd(data: dict):
     try:
@@ -617,11 +630,25 @@ async def get_word_cloudd(data: dict):
             status_code=404, detail=f"Exception {error.__cause__}")
 
 
+@app.post('/get-word-frequency-elbe', status_code=status.HTTP_200_OK)
+async def get_word_cloudd(data: dict):
+    try:
+        result = get_word_cloud_elbe(data["row_num"])
+        if result is None:
+            raise HTTPException(
+                status_code=404, detail=f"DB query returns None")
+        return result
+    except Exception as error:
+        raise HTTPException(
+            status_code=404, detail=f"Exception {error.__cause__}")
+
+
 @app.post('/geoparsing-topic-filter', status_code=status.HTTP_200_OK)
 async def topic_filter(data: dict):
     try:
         whereClause = ""
         for i in data["topics"]:
+            i = i.lower()
             if data["topicQueryMode"] == "AND":
                 whereClause += 'and' + ' ' + '"' + i + '"' + ' ' + "is" + ' ' + "true" + ' '
             elif data["topicQueryMode"] == "OR":
@@ -629,7 +656,33 @@ async def topic_filter(data: dict):
         query = whereClause.split()
         # remove first word and join the remaning words
         query = " ".join(query[1:])
+        print(query)
         result = geoparsing_topic_filter(query)
+        if result is None:
+            raise HTTPException(
+                status_code=404, detail=f"DB query returns None")
+        return result
+    except Exception as error:
+        raise HTTPException(
+            status_code=404, detail=f"Exception {error.__cause__}")
+
+
+@app.post('/elbe-topic-filter', status_code=status.HTTP_200_OK)
+async def elbe_topic_filter_func(data: dict):
+    # print(data)
+    try:
+        whereClause = ""
+        for i in data["topics"]:
+            i = i.lower()
+            if data["topicQueryMode"] == "AND":
+                whereClause += f"and LOWER(topic_name) LIKE '%{i}%' "
+            elif data["topicQueryMode"] == "OR":
+                whereClause += f"or LOWER(topic_name) LIKE '%{i}%' "
+        query = whereClause.split()
+        # remove first word and join the remaning words
+        query = " ".join(query[1:])
+        print(query)
+        result = elbe_topic_filter(query)
         if result is None:
             raise HTTPException(
                 status_code=404, detail=f"DB query returns None")
@@ -646,6 +699,8 @@ async def geoparsing_date_filter(data: dict):
             return (get_geoparsing_date_filter('geocoded_address', 'date', data["dates"][0], data["dates"][1]))
         elif data["datasetMode"] == 'newspaper':
             return (get_geoparsing_date_filter('elbvertiefung', 'date', data["dates"][0], data["dates"][1]))
+        elif data["datasetMode"] == 'elbe':
+            return (get_geoparsing_date_filter('geocoded_elbewochenblat', 'date', data["dates"][0], data["dates"][1]))
     except Exception as error:
         raise HTTPException(
             status_code=404, detail=f"Exception {error.__cause__}")
