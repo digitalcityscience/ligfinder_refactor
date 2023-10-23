@@ -73,9 +73,6 @@
 </template>
 
 <script>
-import 'jquery/dist/jquery.min.js';
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
 
 export default {
 name: "Results",
