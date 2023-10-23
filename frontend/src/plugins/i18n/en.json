@@ -47,6 +47,7 @@
     "noHistory": "No result history"
   },
   "ligfinder": {
+    "filter":"Filter",
     "tabs":{
         "searchArea":"search area",
         "area":"area",

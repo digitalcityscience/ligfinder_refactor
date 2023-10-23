@@ -47,6 +47,7 @@
     "noHistory": "Kein Verlauf vorhanden"
   },
   "ligfinder": {
+    "filter":"Filter",
     "tabs": {
       "searchArea": "Suchbereich",
       "area": "Fläche",

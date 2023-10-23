@@ -81,7 +81,7 @@
         </v-card-text>
     </v-card>
     <div class="mt-4 mb-4" >
-        <v-btn light color="primary" class="mt-4 col-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">Filter</v-btn>
+        <v-btn light color="primary" class="mt-4 col-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">{{ $t('ligfinder.filter') }}</v-btn>
     </div>
 </div>
 <div v-else class="text-center">
