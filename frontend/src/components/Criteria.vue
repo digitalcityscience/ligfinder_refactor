@@ -5,7 +5,7 @@
         <v-sheet class="pa-4 primary">
         <v-text-field
             v-model="search"
-            label="Search criteria"
+            :label="$t('ligfinder.criteria.filterPlaceholder')"
             dark
             flat
             solo-inverted

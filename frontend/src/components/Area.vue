@@ -1,7 +1,7 @@
 <template>
     <div v-if="$store.state.ligfinder.FOI.features[0]">
         <v-card class="area-filter">
-            <v-card-subtitle class="text-subtitle-1 text-capitalize">{{ $t('ligfinder.area.landInM2') }}</v-card-subtitle>
+            <v-card-subtitle class="text-subtitle-1">{{ $t('ligfinder.area.landInM2') }}</v-card-subtitle>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -35,7 +35,7 @@
                 </v-row>
             </v-card-text>
 
-            <v-card-subtitle class="text-subtitle-1 text-capitalize">{{ $t('ligfinder.area.grossFloorInM2') }}</v-card-subtitle>
+            <v-card-subtitle class="text-subtitle-1">{{ $t('ligfinder.area.grossFloorInM2') }}</v-card-subtitle>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">
@@ -69,7 +69,7 @@
                 </v-row>
             </v-card-text>
 
-            <v-card-subtitle class="text-subtitle-1 text-capitalize">{{ $t('ligfinder.area.availableVacantLots') }}</v-card-subtitle>
+            <v-card-subtitle class="text-subtitle-1">{{ $t('ligfinder.area.availableVacantLots') }}</v-card-subtitle>
             <v-card-text>
                 <v-row>
                     <v-col class="px-4">

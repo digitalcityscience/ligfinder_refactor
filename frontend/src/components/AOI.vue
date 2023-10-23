@@ -12,7 +12,7 @@
           </v-card>
         </v-dialog>
         <v-card class="input-group">
-            <v-card-title class="text-subtitle-1">AOI Mode</v-card-title>
+            <v-card-title class="text-subtitle-1">{{ $t('ligfinder.aoi.title') }}</v-card-title>
             <v-card-text>
                 <v-select
                   :items="$store.state.AOI.items"

@@ -1,5 +1,6 @@
 import { HTTP } from '../../utils/http-common';
 import * as turf from 'turf'
+import VueI18n from '@/plugins/i18n/i18n';
 
 const AOI = {
     namespaced: true,
@@ -7,15 +8,15 @@ const AOI = {
         selectMode: null,
         buildingSwitch: false,
         items: [
-            { name: 'Verwaltungsgebiet', value: 'administrative' },
-            { name: 'Geometrie', value: 'geometry' },
-            { name: 'Umkreis/Isochrone', value: 'isochrone' },
+            { name: VueI18n.t('ligfinder.aoi.list.administrative'), value: 'administrative' },
+            { name: VueI18n.t('ligfinder.aoi.list.geometry'), value: 'geometry' },
+            { name: VueI18n.t('ligfinder.aoi.list.isochrone'), value: 'isochrone' },
             
         ],
         AOIs: [
-            { name: 'Verwaltungsgebiet', value: 'administrative', area: null, data: null },
-            { name: 'Geometrie', value: 'geometry', area: null,  data: null },
-            { name: 'Umkreis/Isochrone', value: 'isochrone', area: null, data: null },
+            { name: VueI18n.t('ligfinder.aoi.list.administrative'), value: 'administrative', area: null, data: null },
+            { name: VueI18n.t('ligfinder.aoi.list.geometry'), value: 'geometry', area: null,  data: null },
+            { name: VueI18n.t('ligfinder.aoi.list.isochrone'), value: 'isochrone', area: null, data: null },
         ],
         operators: ['Union', 'Intersection'],
         selectedOperator: 'Union',
