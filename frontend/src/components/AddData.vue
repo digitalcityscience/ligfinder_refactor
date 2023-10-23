@@ -43,7 +43,7 @@ export default {
                     document.querySelector(".drag-area").classList.remove("active")
                     let toBeRemove = ".json";
                     let filenName = file.name.replace(toBeRemove,'');
-                    this.$store.dispatch('addData/addDroppedData', {data: json, fileName: filenName});
+                    this.$store.dispatch('addData/addDroppedData', {data: json, name: filenName});
                     // this.$store.commit('addData/closeDropArea');
                     document.querySelector(".drag-area").querySelector("#header1").textContent = "Drag & Drop Exported Parcels."
                     document.querySelector(".drag-area").querySelector("#header2").textContent = "Supported versions: JSON, GeoJSON"
