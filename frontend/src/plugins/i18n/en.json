@@ -47,6 +47,7 @@
     "noHistory": "No result history"
   },
   "ligfinder": {
+    "filter":"Filter",
     "tabs":{
         "searchArea":"search area",
         "area":"area",
@@ -60,12 +61,19 @@
       "export": "export",
       "desc": "description",
       "error": "Please register or login to enable this tool",
-      "noFeature": "no feature selected"
+      "noFeature": "No feature selected"
     },
     "proximity": {
       "eqWeight": "equal weight",
       "analyze": "perform analysis",
-      "noFeature": "no feature selected"
+      "noFeature": "No feature selected",
+      "parameters":{
+        "supermarket":"Supermarket",
+        "metro":"Metro Station",
+        "pharmacy":"Pharmacy",
+        "hospital":"Hospital",
+        "kita":"Kita"
+      }
     },
     "joinParcels": {
       "minAggrArea": "minimum aggregated area:",
@@ -73,9 +81,10 @@
       "toggleVis": "toggle visibility",
       "ids": "ids",
       "area": "area",
-      "noFeature": "no feature selected"
+      "noFeature": "No feature selected"
     },
     "criteria": {
+      "filterPlaceholder":"Search Criteria",
       "title": "Criteria",
       "marked": "marked criteria",
       "included": "included criteria",
@@ -83,17 +92,18 @@
       "excluded": "excluded criteria",
       "search": "start search",
       "apply": "apply changes",
-      "noFeature": "no feature selected"
+      "noFeature": "No feature selected"
     },
     "area": {
-      "landInM2": "land area in m²",
-      "grossFloorInM2": "available gross floor in m²",
-      "availableVacantLots": "available vacant lots",
+      "landInM2": "Land Area in m²",
+      "grossFloorInM2": "Available Gross Floor in m²",
+      "availableVacantLots": "Available Vacant Lots",
       "search": "start search",
       "apply": "apply changes",
-      "noFeature": "no feature selected"
+      "noFeature": "No feature selected"
     },
     "aoi": {
+      "title":"AOI Mode",
       "delete": "Are you sure you want to delete this item?",
       "cancel": "cancel",
       "ok": "ok",
@@ -102,6 +112,11 @@
       "action": "action",
       "operation": "operation",
       "search": "start search",
+      "list":{
+        "administrative":"Administrative",
+        "geometry":"Geometry",
+        "isochrone":"Isochrone"
+      },
       "administrative": {
         "title":"Administrative AOI Selection",
         "level": "administration level",

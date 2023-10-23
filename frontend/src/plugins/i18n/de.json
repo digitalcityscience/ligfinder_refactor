@@ -47,6 +47,7 @@
     "noHistory": "Kein Verlauf vorhanden"
   },
   "ligfinder": {
+    "filter":"Filter",
     "tabs": {
       "searchArea": "Suchbereich",
       "area": "Fläche",
@@ -60,12 +61,19 @@
       "export": "Exportieren",
       "desc": "Beschreibung",
       "error": "Bitte registrieren oder anmelden, um dieses Tool zu aktivieren",
-      "noFeature": "Kein Element ausgewählt"
+      "noFeature": "Kein element ausgewählt"
     },
     "proximity": {
       "eqWeight": "Gleiches Gewicht",
       "analyze": "Analyse durchführen",
-      "noFeature": "Kein Element ausgewählt"
+      "noFeature": "Kein element ausgewählt",
+      "parameters":{
+        "supermarket":"Supermarkt",
+        "metro":"Schnellbahn-Station",
+        "pharmacy":"Apotheke",
+        "hospital":"Krankenhaus",
+        "kita":"Kindertagesstatte"
+      }
     },
     "joinParcels": {
       "minAggrArea": "Mindestens aggregierte Fläche:",
@@ -73,9 +81,10 @@
       "toggleVis": "Sichtbarkeit umschalten",
       "ids": "IDs",
       "area": "Fläche",
-      "noFeature": "Kein Element ausgewählt"
+      "noFeature": "Kein element ausgewählt"
     },
     "criteria": {
+      "filterPlaceholder":"Kriteriensuche",
       "title": "Kriterien",
       "marked": "Markierte Kriterien",
       "included": "Eingeschlossene Kriterien",
@@ -83,7 +92,7 @@
       "excluded": "Ausgeschlossene Kriterien",
       "search": "Suche starten",
       "apply": "Änderungen anwenden",
-      "noFeature": "Kein Element ausgewählt"
+      "noFeature": "Kein element ausgewählt"
     },
     "area": {
       "landInM2": "Landfläche in m²",
@@ -91,26 +100,32 @@
       "availableVacantLots": "Verfügbare unbebaute Grundstücke",
       "search": "Suche starten",
       "apply": "Änderungen anwenden",
-      "noFeature": "Kein Element ausgewählt"
+      "noFeature": "Kein element ausgewählt"
     },
     "aoi": {
+      "title":"Auswahl der Suchbereiche",
       "delete": "Sind Sie sicher, dass Sie dieses Element löschen möchten?",
       "cancel": "Abbrechen",
       "ok": "OK",
-      "mode": "AOI-Modus",
+      "mode": "Auswahl",
       "name": "Name",
       "action": "Aktion",
       "operation": "Operation",
       "search": "Suche starten",
+      "list":{
+        "administrative":"Verwaltungsgebiet",
+        "geometry":"Geometrie",
+        "isochrone":"Umkreis"
+      },
       "administrative": {
-        "title": "Verwaltung AOI Auswahl",
+        "title": "Auswahl Verwaltung",
         "level": "Verwaltungsebene",
         "selectByName": "Nach Namen auswählen",
         "add2List": "Zur Liste hinzufügen",
         "rmSelection": "Auswahl entfernen"
       },
       "geometry": {
-        "title":"Geometrie AOI Auswahl",
+        "title":"Auswahl Geometrietyp",
         "add2List":"Zur Liste hinzufügen",
         "rmSelection":"Auswahl entfernen",
         "mode": "Zeichenmodus"

@@ -1,5 +1,6 @@
 import { HTTP } from '../../utils/http-common';
 import colorbrewer from "colorbrewer"
+import VueI18n from '@/plugins/i18n/i18n';
 
 const proximity = {
     namespaced: true,
@@ -19,11 +20,11 @@ const proximity = {
         apothekenCHeckbox: true,
         numberOfCheckedItems:3,
         parameters: [
-            { name: 'Supermarket', value: 'supermarket', weight: 0.2, checked: true },
-            { name: 'Metro Station', value: 'metro', weight: 0.2, checked: true },
-            { name: 'Apotheken', value: 'apotheken', weight: 0.2, checked: true },
-            { name: 'Krankenhaus', value: 'krankenhaus', weight: 0.2, checked: true },
-            { name: 'Kita', value: 'kita', weight: 0.2, checked: true },
+            { name: VueI18n.t('ligfinder.proximity.parameters.supermarket'), value: 'supermarket', weight: 0.2, checked: true },
+            { name: VueI18n.t('ligfinder.proximity.parameters.metro'), value: 'metro', weight: 0.2, checked: true },
+            { name: VueI18n.t('ligfinder.proximity.parameters.pharmacy'), value: 'apotheken', weight: 0.2, checked: true },
+            { name: VueI18n.t('ligfinder.proximity.parameters.hospital'), value: 'krankenhaus', weight: 0.2, checked: true },
+            { name: VueI18n.t('ligfinder.proximity.parameters.kita'), value: 'kita', weight: 0.2, checked: true },
             
         ],
     },
@@ -34,8 +35,6 @@ const proximity = {
                     i.weight=0
                 }
             }
-
-            
         },
         equalizeWeight(state){
             let activecount = 0
@@ -46,11 +45,6 @@ const proximity = {
                 activecount ++
               }
             }
-            
-            /*
-            const criteriaLength = Object.keys(state.parameters).length;
-            console.log(criteriaLength);
-            */
             for (let i of state.parameters){
                 if (i.checked == true ){
                     i.weight = 1/activecount
@@ -108,70 +102,7 @@ const proximity = {
                         i.weight =remainder / filteredLength
                     }
                 }
-                console.log(filteredLength, "filteredLength")
-                //const filteredLength = this.Sliders.filter((val, key) => val > 0 && key != slider).length
-                /*for(let i in this.Sliders){
-                    if(i != slider && this.Sliders[i] > 0){
-                        this.$set(this.Sliders, i, this.Sliders[i] + remainder / filteredLength)
-                    }
-                            
-                }*/
-      
             }
-            console.log(state.parameters, "state.parameters")
-            console.log(remainder, "reminder")
-
-            /*let activecount = 0
-            for (let i=0; i<state.parameters.length; i++)
-            {
-              if (state.parameters[i].checked==true){
-                activecount ++
-              }
-            }
-            console.log(activecount, "activecount")
-            console.log(payload)
-            let sum=0
-            let diff=0
-            for (let i of state.parameters){
-                if(i.checked == true)
-                    sum+=i.weight
-            }
-            diff = Number((sum-1).toFixed(2))
-            console.log(sum,diff)
-            let remainder =0
-            for (let i of state.parameters){
-                if (i.value!=payload && i.checked == true ){
-                    let val = i.weight - (diff / (activecount-1))
-                    if(i.weight - (diff / (activecount -1)) < 0){
-                        console.log("here")
-                        remainder += val
-                        val = 0
-                    }
-                    
-                    i.weight = val
-                
-                }
-                
-            }
-            let count =0
-            for (let i of state.parameters){
-                if(i.value!=payload && i.weight > 0){
-                    if (i){
-                        count++
-                    }
-                }
-            }
-            for (let i of state.parameters){
-                if(i.value!=payload && i.weight > 0 ){
-                    
-                    console.log( count)
-                    console.log(remainder, 'inside')
-                    i.weight += remainder /(activecount)
-                }
-            }*/
-            
-            
-           
         },
         
     },

@@ -25,18 +25,19 @@ const addData = {
         addDroppedData({rootState, state,commit}, payload){
             console.log(state, payload)
             rootState.map.isLoading = true
-            const mapLayer = rootState.map.map.getLayer(payload.data.name)
+            console.log('added file:',payload)
+            const mapLayer = rootState.map.map.getLayer(payload.name)
             if(typeof mapLayer !== 'undefined'){
-                rootState.map.map.removeLayer(payload.data.name)
-                rootState.map.map.removeSource(payload.data.name)
+                rootState.map.map.removeLayer(payload.name)
+                rootState.map.map.removeSource(payload.name)
             }
             let layerName 
-            rootState.map.map.addSource(payload.data.name,{'type': 'geojson', 'data': payload.data});
+            rootState.map.map.addSource(payload.name,{'type': 'geojson', 'data': payload.data});
             if(payload.data.features[0].geometry.type==="MultiLineString" || payload.data.features[0].geometry.type==="LineString"){
                 layerName = {
-                    'id': payload.data.name,
+                    'id': payload.name,
                     'type': 'line',
-                    'source': payload.data.name, // reference the data source
+                    'source': payload.name, // reference the data source
                     'layout': {},
                     'paint': {
                         'line-color': '#888',
@@ -47,9 +48,9 @@ const addData = {
             }
             else if (payload.data.features[0].geometry.type==="Point"){
                 layerName = {
-                    'id': payload.data.name,
+                    'id': payload.name,
                     'type': 'circle',
-                    'source': payload.data.name, // reference the data source
+                    'source': payload.name, // reference the data source
                     'layout': {},
                     'paint': {
                         'circle-color': '#8931e0',
@@ -60,9 +61,9 @@ const addData = {
             }
             else {
                 layerName = {
-                    'id': payload.data.name,
+                    'id': payload.name,
                     'type': 'fill',
-                    'source': payload.data.name, // reference the data source
+                    'source': payload.name, // reference the data source
                     'layout': {},
                     'paint': {
                         'fill-color': '#f21b7f', 

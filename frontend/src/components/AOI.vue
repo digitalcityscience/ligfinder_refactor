@@ -12,7 +12,7 @@
           </v-card>
         </v-dialog>
         <v-card class="input-group">
-            <v-card-title class="text-subtitle-1">AOI Mode</v-card-title>
+            <v-card-title class="text-subtitle-1">{{ $t('ligfinder.aoi.title') }}</v-card-title>
             <v-card-text>
                 <v-select
                   :items="$store.state.AOI.items"
@@ -76,7 +76,7 @@
                 >
                 </v-select>
                 <v-btn v-if="!$store.state.filtering.appliedAOIFilter" light color="primary" class="mt-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="getParcels()">{{ $t('ligfinder.aoi.search') }}</v-btn>     
-                <v-btn v-else light color="primary" class="mt-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">Filter</v-btn>       
+                <v-btn v-else light color="primary" class="mt-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">{{ $t('ligfinder.filter') }}</v-btn>       
             </div>
             </v-card-text>
         </v-card>

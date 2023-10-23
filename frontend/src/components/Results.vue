@@ -10,21 +10,22 @@
             :items-per-page="10"
             @click:row="zoomToSelectedFeature"
         ></v-data-table>
-
-        <v-select
+        <v-row class="px-1 mt-2">
+           <div class="column text-capitalize">
+            <v-select
                 :items="$store.state.results.saveReultsItems"
                 :label="$t('ligfinder.results.save')"
                 solo
                 item-text="name"
                 item-value="value"
-                style="width:40%"
                 v-model="$store.state.results.saveReultsMode"
-                
-                :style="{marginTop:'8vh'}"   
+                class="mt-2"  
         >
         </v-select>
-        <v-row>
-            <v-col cols="12">
+        </div> 
+        </v-row>
+        <v-row class="px-1">
+            <div class="column text-capitalize">
                 <v-select
                         v-if="$store.state.results.saveReultsMode=='export'"
                         :items="$store.state.results.exportItems"
@@ -32,16 +33,14 @@
                         solo
                         item-text="name"
                         item-value="value"
-                        style="width:50%"
                         v-model="$store.state.results.exportMode"
-                        @change="exportResult"
-                                  
+                        @change="exportResult"     
                 >
                 </v-select>
-            </v-col>
+            </div>
         </v-row>
-        <v-row>
-            <v-col cols="12" v-if="$store.state.results.saveReultsMode=='save'">
+        <v-row class="px-1">
+            <div class="column" v-if="$store.state.results.saveReultsMode=='save'">
                 <v-text-field
                     v-if="$store.state.user.loggedIn"
                     v-model="$store.state.results.description"
@@ -63,7 +62,7 @@
                 >
                     {{$t('ligfinder.results.error')}}
                 </v-alert>
-            </v-col>
+            </div>
         </v-row>        
     </div>
     <div v-else class="text-center">
@@ -73,9 +72,6 @@
 </template>
 
 <script>
-import 'jquery/dist/jquery.min.js';
-import "datatables.net-dt/js/dataTables.dataTables"
-import "datatables.net-dt/css/jquery.dataTables.min.css"
 
 export default {
 name: "Results",
@@ -127,6 +123,14 @@ name: "Results",
 .table tr:hover {
     cursor: pointer;
 }
-
-
+@media screen and (min-width: 1500px) {
+   .column{
+    width: 50%;
+   }
+}
+@media screen and (max-width: 1499px) {
+   .column{
+    width: 100%;
+   }
+}
 </style>

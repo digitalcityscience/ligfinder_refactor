@@ -1,11 +1,11 @@
 <template>
 
 <div v-if="$store.state.ligfinder.FOI.features[0]" class="criteria-container">
-    <v-card max-height="35vh">
+    <v-card class="criteria-list-card">
         <v-sheet class="pa-4 primary">
         <v-text-field
             v-model="search"
-            label="Search criteria"
+            :label="$t('ligfinder.criteria.filterPlaceholder')"
             dark
             flat
             solo-inverted
@@ -50,7 +50,6 @@
                 v-model="$store.state.criteria.selectedOperator"
                 :label="$t('ligfinder.criteria.logical')"
                 solo
-                class="select-operator"
             ></v-select>
             <template>
                 <v-chip  v-for="tag in $store.state.criteria.includeTags" :key="tag.name"
@@ -82,7 +81,7 @@
         </v-card-text>
     </v-card>
     <div class="mt-4 mb-4" >
-        <v-btn light color="primary" class="mt-4 col-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">Filter</v-btn>
+        <v-btn light color="primary" class="mt-4 col-4 flex-lg-grow-1 align-self-lg-auto align-self-xl-start" @click="$store.dispatch('filtering/filterHandler')">{{ $t('ligfinder.filter') }}</v-btn>
     </div>
 </div>
 <div v-else class="text-center">
@@ -153,9 +152,15 @@ export default {
 .addedcriteria::-webkit-scrollbar {
   display: none;
 }
-.select-operator{
-    width: 5vw;
-    font-size: 0.8vw;
+@media screen and (min-width: 1500px) {
+    .criteria-list-card{
+        max-height: 35vh;
+}
+}
+@media screen and (max-width: 1499px) {
+    .criteria-list-card{
+        max-height: 50vh;
+}
 }
 
 </style>
