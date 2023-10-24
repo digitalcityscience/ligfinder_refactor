@@ -72,10 +72,10 @@ const AOI = {
             })            
             
         },
-        getIntersectParcels({state, rootState, dispatch,rootGetters,commit}){
+        async getIntersectParcels({state, rootState, dispatch,rootGetters,commit}){
             rootState.map.isLoading = true
             console.log('getting intersecting parsels')
-            HTTP
+            await HTTP
             .post('get-intersect_aois', {
                 AOIs : state.AOIs
             })
