@@ -1,7 +1,7 @@
 version: "3.0"
 services:
   api:
-    container_name: ligfinder-api-dev
+    container_name: ligfinder_api_dev
     build: ./backend
     command: uvicorn app.main:app --reload --workers 2 --host 0.0.0.0 --port 3000
     volumes:
@@ -30,7 +30,7 @@ services:
       - ligfinder
 
   frontend:
-    container_name: frontend_ligfinder-dev
+    container_name: frontend_ligfinder_dev
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
