@@ -47,7 +47,7 @@ def get_table(tableName):
                 'right', (select max(ST_XMax(geom)) from %s), 
                 'top', (select max(ST_YMax(geom)) from %s),
         'type', 'FeatureCollection',
-        'features', json_agg(ST_AsGeoJSON(t.*)::json)
+        'features', json_agg(ST_AsGeoJSON(t.*)::json ORDER BY t.name ASC )
         )
         from %s
         as t;""" % (tableName, tableName, tableName, tableName, tableName, tableName, tableName))
