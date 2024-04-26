@@ -23,7 +23,6 @@ from fastapi.responses import JSONResponse
 
 app = FastAPI()
 # app.include_router(auth.router)
-# TODO replace origin
 origins = [
     "http://localhost",
     "http://localhost:8080",
@@ -481,7 +480,6 @@ async def set_criteria_filter(data: dict):
                             "is distinct from" + " " + \
                             "'" + i["value"] + "'" + " "
         elif (operator == "OR"):
-
             for i in includeTags:
                 if i["filterType"] == "prozent":
                     orquery += i["columns"] + ">" + "0" + " " + "or" + " "
@@ -491,6 +489,7 @@ async def set_criteria_filter(data: dict):
                         orquery += j + " " + "in" + \
                             "(" + "'" + i["value"] + "'" + ")" + \
                             " " + "or" + " "
+                        print(orquery)
             for i in excludeTags:
                 if i["filterType"] == "prozent":
                     queryString += "and" + " " + \
@@ -501,7 +500,7 @@ async def set_criteria_filter(data: dict):
                         queryString += "and" + " " + j + " " + \
                             "is distinct from" + " " + \
                             "'" + i["value"] + "'" + " "
-
+                    print(queryString)
             if orquery:
                 orquery = orquery[:-3]
                 queryString += "and" + " " + "("+orquery+")"

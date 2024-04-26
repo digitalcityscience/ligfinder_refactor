@@ -7,8 +7,8 @@ import logging
 while True:
     try:
         # host,database,username,password
-        conn = psycopg2.connect(host="database", database="ligfinder",
-                                user="postgres", password="XXX_POSTGRES_PASSWORD_XXX", port=5432, cursor_factory=RealDictCursor)
+        conn = psycopg2.connect(host="database", database="agora",
+                                user="agora", password="agora", port=5432, cursor_factory=RealDictCursor)
         cur = conn.cursor()
         print(" YEYYYYYY Connected to the database")
         break
@@ -128,6 +128,7 @@ def get_geom_aoi(geom):
           )
         from parcel where ST_Intersects(parcel.geom, ST_GeomFromGeoJSON('%s'))
             ;""" % (geom))
+        
         aoi_geom = cur.fetchone()
         return aoi_geom["json_build_object"]
     except Exception as error:
@@ -186,6 +187,7 @@ def spatial_intersection(geom1, geom2):
 
         from (select ST_Intersection(ST_GeomFromGeoJSON('%s'), ST_GeomFromGeoJSON('%s'))) AS intersected
             ;""" % (geom1, geom2))
+        
         result = cur.fetchone()
         return result["json_build_object"]
         # user = cur.fetchall()[0][0]
@@ -428,6 +430,13 @@ def bivariate_class_assignment(att1,  att2, break10, break11, break20, break21, 
 
 def criterial_filter(gid, att):
     try:
+        print("""
+        select json_build_object(
+          'type', 'FeatureCollection',
+          'features', json_agg(ST_AsGeoJSON(parcel.*)::json)
+          )
+        from parcel where gid in %s %s 
+            ;""" % (gid, att))
         cur.execute("""
         select json_build_object(
           'type', 'FeatureCollection',

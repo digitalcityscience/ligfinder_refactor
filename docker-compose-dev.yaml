@@ -1,33 +1,36 @@
 version: "3.0"
 services:
   api:
-    container_name: ligfinder_api_dev
-    build: ./backend
-    command: uvicorn app.main:app --reload --workers 2 --host 0.0.0.0 --port 3000
+    # container_name: ligfinder_api_dev
+    # build: ./backend
+    image: orttak/ligfinder_api_prod
+    command: uvicorn app.main:app --reload --workers 4 --host 0.0.0.0 --port 3000
     volumes:
       - ./backend:/usr/src/
-    expose:
-      - 3000
+    # expose:
+    #   - 3000
     ports:
       - 3000:3000
     environment:
       - WATCHFILES_FORCE_POLLING=true
     networks:
-      - ligfinder
+      - ligfinder_v2
 
   database:
-    image: pgrouting/pgrouting
+    image: kartoza/postgis:15-3.3
     container_name: db_ligfinder
     volumes:
       - ./database/dumps:/var/lib/postgresql/dumps
       - pgdata:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
-      - POSTGRES_PASSWORD=XXX_POSTGRES_PASSWORD_XXX
-      - POSTGRES_DB=ligfinder
+      - POSTGRES_DB=agora
+      - POSTGRES_USER=agora
+      - POSTGRES_PASS=agora
+      - FORCE_SSL=FALSE
     networks:
-      - ligfinder
+      - ligfinder_v2
 
   frontend:
     container_name: frontend_ligfinder_dev
@@ -39,11 +42,11 @@ services:
     ports:
       - 8080:8080
     networks:
-      - ligfinder
+      - ligfinder_v2
 
 volumes:
   pgdata:
 
 networks:
-  ligfinder:
+  ligfinder_v2:
     driver: bridge

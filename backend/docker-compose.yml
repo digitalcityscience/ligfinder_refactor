@@ -2,10 +2,10 @@ version: "3.3"
 
 services:
   api:
-    container_name: fastapi-ligfinder-2
+    container_name: fastapi-ligfinder-3
     # image: lig-fastapi_api
     build: .
-    command: uvicorn main:app --reload --workers 4 --host 0.0.0.0 --port 3000
+    command: uvicorn app.main:app --reload --workers 4 --host 0.0.0.0 --port 3000
     volumes:
       - .:/usr/src/
     expose:

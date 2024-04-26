@@ -19,7 +19,7 @@ This command builds a container with frontend, backend and database images.
 To initially load the dabase dump into the dockerized databse run:
 
 ```
- docker exec db_ligfinder pg_restore -U postgres -d ligfinder /var/lib/postgresql/dumps/ligbackup.dump
+ docker exec db_ligfinder_dev pg_restore -U postgres -d ligfinder /var/lib/postgresql/dumps/ligbackup.dump
 ```
 
 The database dump can be provided over request.

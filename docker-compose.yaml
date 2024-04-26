@@ -20,7 +20,7 @@ services:
       - ./database/dumps:/var/lib/postgresql/dumps
       - pgdata-prod:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5435:5432
     environment:
       - POSTGRES_PASSWORD=XXX_POSTGRES_PASSWORD_XXX
       - POSTGRES_DB=ligfinder
